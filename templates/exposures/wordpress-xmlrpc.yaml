@@ -1,0 +1,15 @@
+id: wp-xmlrpc
+name: "WordPress XML-RPC Enabled"
+severity: medium
+description: "WordPress XML-RPC interface is enabled allowing brute force and DDoS amplification."
+reference: CWE-16
+requests:
+  - method: GET
+    path: "/xmlrpc.php"
+    matchers:
+      - type: body
+        words:
+          - "XML-RPC server accepts POST requests only"
+      - type: status
+        status: [405]
+    condition: and

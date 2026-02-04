@@ -1,0 +1,15 @@
+id: phpmyadmin-exposed
+name: "phpMyAdmin Exposed"
+severity: high
+description: "phpMyAdmin is publicly accessible."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/phpmyadmin/"
+    matchers:
+      - type: body
+        words:
+          - "phpMyAdmin"
+      - type: status
+        status: [200]
+    condition: and

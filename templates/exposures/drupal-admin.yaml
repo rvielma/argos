@@ -1,0 +1,15 @@
+id: drupal-admin
+name: "Drupal Login Panel"
+severity: info
+description: "Drupal login panel detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/user/login"
+    matchers:
+      - type: body
+        words:
+          - "Drupal"
+      - type: status
+        status: [200]
+    condition: and

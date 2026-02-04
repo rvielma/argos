@@ -1,0 +1,14 @@
+id: tech-rails
+name: "Ruby on Rails Detected"
+severity: info
+description: "Ruby on Rails framework detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: header
+        header: "x-powered-by"
+        words:
+          - "Phusion Passenger"
+    condition: and

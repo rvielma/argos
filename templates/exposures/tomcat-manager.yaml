@@ -1,0 +1,16 @@
+id: tomcat-manager
+name: "Apache Tomcat Manager"
+severity: high
+description: "Apache Tomcat Manager interface is accessible."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/manager/html"
+    matchers:
+      - type: status
+        status: [401, 200]
+      - type: body
+        words:
+          - "Tomcat"
+          - "Apache"
+    condition: and

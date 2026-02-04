@@ -1,0 +1,16 @@
+id: kibana-exposed
+name: "Kibana Exposed"
+severity: high
+description: "Kibana dashboard is publicly accessible."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/api/status"
+    matchers:
+      - type: body
+        words:
+          - "status"
+          - "name"
+      - type: status
+        status: [200]
+    condition: and

@@ -1,0 +1,17 @@
+id: healthcare-api-no-auth
+name: "Healthcare API Accessible Without Authentication"
+severity: critical
+confidence: confirmed
+description: "Healthcare-related API endpoint is accessible without authentication. May expose patient data."
+reference: CWE-306
+requests:
+  - method: GET
+    path: "/api/patients"
+    matchers:
+      - type: status
+        status: [200]
+      - type: body
+        words:
+          - "patient"
+          - "name"
+    condition: and

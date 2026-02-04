@@ -1,0 +1,21 @@
+id: phi-error-disclosure
+name: "PHI Disclosed in Error Pages"
+severity: critical
+confidence: confirmed
+description: "Protected Health Information (PHI) patterns detected in error pages. Names, MRN, SSN, or medical terms may be exposed in stack traces or debug output."
+reference: CWE-209
+requests:
+  - method: GET
+    path: "/nonexistent-page-argos-test"
+    matchers:
+      - type: status
+        status: [500, 404]
+      - type: body
+        regex:
+          - "\\b\\d{3}-\\d{2}-\\d{4}\\b"
+          - "patient.*name"
+          - "medical.*record"
+          - "\\bMRN\\b"
+          - "\\bSSN\\b"
+          - "date.*birth"
+    condition: and

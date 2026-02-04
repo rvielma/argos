@@ -1,0 +1,15 @@
+id: gitlab-explore
+name: "GitLab Public Explore"
+severity: info
+description: "GitLab instance allows public project exploration."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/explore"
+    matchers:
+      - type: body
+        words:
+          - "GitLab"
+      - type: status
+        status: [200]
+    condition: and

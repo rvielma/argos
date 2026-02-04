@@ -1,0 +1,13 @@
+id: tech-nextjs
+name: "Next.js Detected"
+severity: info
+description: "Next.js React framework detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "__NEXT_DATA__"
+    condition: and

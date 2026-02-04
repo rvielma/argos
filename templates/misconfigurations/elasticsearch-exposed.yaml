@@ -1,0 +1,16 @@
+id: elasticsearch-exposed
+name: "Elasticsearch Exposed"
+severity: high
+description: "Elasticsearch instance is publicly accessible without authentication."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "cluster_name"
+          - "You Know, for Search"
+      - type: status
+        status: [200]
+    condition: and

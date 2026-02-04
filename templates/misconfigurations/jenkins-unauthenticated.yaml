@@ -1,0 +1,16 @@
+id: jenkins-unauth
+name: "Jenkins Unauthenticated Access"
+severity: high
+description: "Jenkins dashboard is accessible without authentication."
+reference: CWE-306
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "Jenkins"
+          - "Dashboard"
+      - type: status
+        status: [200]
+    condition: and

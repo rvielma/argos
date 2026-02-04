@@ -1,0 +1,15 @@
+id: debug-mode
+name: "Debug Mode Enabled"
+severity: medium
+description: "Application is running in debug mode exposing sensitive information."
+reference: CWE-215
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "DEBUG = True"
+          - "Traceback"
+          - "DJANGO_SETTINGS_MODULE"
+    condition: or

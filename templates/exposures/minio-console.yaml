@@ -1,0 +1,15 @@
+id: minio-console
+name: "MinIO Console Exposed"
+severity: medium
+description: "MinIO object storage console is publicly accessible."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/minio/login"
+    matchers:
+      - type: body
+        words:
+          - "MinIO"
+      - type: status
+        status: [200]
+    condition: and

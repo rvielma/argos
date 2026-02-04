@@ -1,0 +1,15 @@
+id: minio-default-creds
+name: "MinIO Default Credentials"
+severity: critical
+description: "MinIO object storage with potential default credentials."
+reference: CWE-1393
+requests:
+  - method: GET
+    path: "/minio/login"
+    matchers:
+      - type: body
+        words:
+          - "MinIO"
+      - type: status
+        status: [200]
+    condition: and

@@ -1,0 +1,16 @@
+id: wp-user-enum
+name: "WordPress User Enumeration"
+severity: medium
+description: "WordPress REST API exposes user information."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/wp-json/wp/v2/users"
+    matchers:
+      - type: body
+        words:
+          - "slug"
+          - "name"
+      - type: status
+        status: [200]
+    condition: and

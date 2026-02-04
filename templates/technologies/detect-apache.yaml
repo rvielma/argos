@@ -1,0 +1,14 @@
+id: tech-apache
+name: "Apache Detected"
+severity: info
+description: "Apache HTTP Server detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: header
+        header: "server"
+        words:
+          - "Apache"
+    condition: and

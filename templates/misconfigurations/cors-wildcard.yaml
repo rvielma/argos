@@ -1,0 +1,17 @@
+id: cors-wildcard
+name: "CORS Wildcard Configuration"
+severity: medium
+description: "CORS is configured with wildcard origin allowing any domain."
+reference: CWE-942
+requests:
+  - method: GET
+    path: "/"
+    headers:
+      Origin: "https://evil.attacker.com"
+    matchers:
+      - type: header
+        header: "access-control-allow-origin"
+        words:
+          - "*"
+          - "evil.attacker.com"
+    condition: or

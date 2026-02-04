@@ -1,0 +1,23 @@
+[scan]
+threads = 10
+timeout_secs = 30
+user_agent = "Argos-Scanner/0.1.0"
+follow_redirects = true
+max_depth = 3
+rate_limit = 10
+concurrent = false
+
+[modules]
+enabled = ["headers", "ssl", "cookies", "cors", "info_disclosure", "discovery", "injection", "api", "templates", "waf", "websocket"]
+
+[output]
+format = "html"
+report_path = "argos_report.html"
+
+[proxy]
+# url = "http://127.0.0.1:8080"
+
+[ai]
+enabled = false
+ollama_endpoint = "http://localhost:11434"
+model = "llama3"

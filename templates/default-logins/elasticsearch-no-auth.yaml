@@ -1,0 +1,16 @@
+id: elasticsearch-no-auth
+name: "Elasticsearch No Authentication"
+severity: critical
+description: "Elasticsearch cluster is accessible without authentication."
+reference: CWE-306
+requests:
+  - method: GET
+    path: "/_cluster/health"
+    matchers:
+      - type: body
+        words:
+          - "cluster_name"
+          - "status"
+      - type: status
+        status: [200]
+    condition: and

@@ -1,0 +1,26 @@
+id: fhir-patient-data
+name: "FHIR Patient Endpoint Accessible Without Auth"
+severity: critical
+confidence: confirmed
+description: "FHIR Patient resource endpoint is accessible without authentication. Direct HIPAA violation - patient data (PHI) may be exposed."
+reference: CWE-306
+requests:
+  - method: GET
+    path: "/metadata"
+    matchers:
+      - type: status
+        status: [200]
+      - type: body
+        words:
+          - "CapabilityStatement"
+    condition: and
+  - method: GET
+    path: "/Patient"
+    matchers:
+      - type: status
+        status: [200]
+      - type: body
+        words:
+          - "Bundle"
+          - "Patient"
+    condition: and

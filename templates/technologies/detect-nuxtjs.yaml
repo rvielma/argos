@@ -1,0 +1,13 @@
+id: tech-nuxtjs
+name: "Nuxt.js Detected"
+severity: info
+description: "Nuxt.js Vue framework detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "__NUXT__"
+    condition: and

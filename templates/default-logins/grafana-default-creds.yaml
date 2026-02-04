@@ -1,0 +1,18 @@
+id: grafana-default-creds
+name: "Grafana Default Credentials"
+severity: critical
+description: "Grafana is accessible with default credentials (admin:admin)."
+reference: CWE-1393
+requests:
+  - method: GET
+    path: "/api/org"
+    headers:
+      Authorization: "Basic YWRtaW46YWRtaW4="
+    matchers:
+      - type: body
+        words:
+          - "name"
+          - "id"
+      - type: status
+        status: [200]
+    condition: and

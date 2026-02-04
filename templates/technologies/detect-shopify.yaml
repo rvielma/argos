@@ -1,0 +1,13 @@
+id: tech-shopify
+name: "Shopify Detected"
+severity: info
+description: "Shopify e-commerce platform detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "cdn.shopify.com"
+    condition: and

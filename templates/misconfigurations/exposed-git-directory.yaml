@@ -1,0 +1,15 @@
+id: exposed-git
+name: "Exposed Git Directory"
+severity: high
+description: "Git repository directory is publicly accessible exposing source code."
+reference: CWE-538
+requests:
+  - method: GET
+    path: "/.git/config"
+    matchers:
+      - type: body
+        words:
+          - "[core]"
+      - type: status
+        status: [200]
+    condition: and

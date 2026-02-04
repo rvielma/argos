@@ -1,0 +1,18 @@
+id: hipaa-audit-log
+name: "HIPAA Audit Log Publicly Accessible"
+severity: critical
+confidence: confirmed
+description: "HIPAA audit log endpoint is accessible without authentication, exposing access records to protected health information."
+reference: CWE-532
+requests:
+  - method: GET
+    path: "/api/audit"
+    matchers:
+      - type: status
+        status: [200]
+      - type: body
+        words:
+          - "audit"
+          - "access"
+          - "patient"
+    condition: and

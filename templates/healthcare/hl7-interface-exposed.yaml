@@ -1,0 +1,18 @@
+id: hl7-interface-exposed
+name: "HL7v2 Integration Engine Web Interface Exposed"
+severity: high
+confidence: tentative
+description: "HL7v2 integration engine management interface (Mirth Connect, Rhapsody, etc.) is publicly accessible."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: status
+        status: [200]
+      - type: body
+        words:
+          - "Mirth Connect"
+          - "NextGen Connect"
+          - "Rhapsody"
+    condition: and

@@ -1,0 +1,16 @@
+id: docker-api-exposed
+name: "Docker API Exposed"
+severity: critical
+description: "Docker daemon API is publicly accessible without authentication."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/version"
+    matchers:
+      - type: body
+        words:
+          - "ApiVersion"
+          - "Os"
+      - type: status
+        status: [200]
+    condition: and

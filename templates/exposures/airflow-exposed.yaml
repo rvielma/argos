@@ -1,0 +1,15 @@
+id: airflow-exposed
+name: "Apache Airflow Web UI Exposed"
+severity: high
+description: "Apache Airflow web interface is publicly accessible."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/login/"
+    matchers:
+      - type: body
+        words:
+          - "Airflow"
+      - type: status
+        status: [200]
+    condition: and

@@ -1,0 +1,15 @@
+id: joomla-admin
+name: "Joomla Admin Panel"
+severity: info
+description: "Joomla administrator panel detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/administrator/"
+    matchers:
+      - type: body
+        words:
+          - "Joomla"
+      - type: status
+        status: [200]
+    condition: and

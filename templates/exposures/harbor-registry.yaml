@@ -1,0 +1,15 @@
+id: harbor-registry
+name: "Harbor Registry Exposed"
+severity: medium
+description: "Harbor container registry API is publicly accessible."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/api/v2.0/projects"
+    matchers:
+      - type: body
+        words:
+          - "project_id"
+      - type: status
+        status: [200]
+    condition: and

@@ -1,0 +1,15 @@
+id: pgadmin-exposed
+name: "pgAdmin Exposed"
+severity: high
+description: "pgAdmin PostgreSQL management is publicly accessible."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/login"
+    matchers:
+      - type: body
+        words:
+          - "pgAdmin"
+      - type: status
+        status: [200]
+    condition: and

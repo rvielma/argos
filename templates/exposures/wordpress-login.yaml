@@ -1,0 +1,15 @@
+id: wp-login
+name: "WordPress Login Panel"
+severity: info
+description: "WordPress login panel detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/wp-login.php"
+    matchers:
+      - type: body
+        words:
+          - "WordPress"
+      - type: status
+        status: [200]
+    condition: and

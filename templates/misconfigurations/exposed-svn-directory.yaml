@@ -1,0 +1,15 @@
+id: exposed-svn
+name: "Exposed SVN Directory"
+severity: high
+description: "SVN repository metadata is publicly accessible."
+reference: CWE-538
+requests:
+  - method: GET
+    path: "/.svn/entries"
+    matchers:
+      - type: status
+        status: [200]
+      - type: body
+        words:
+          - "dir"
+    condition: and

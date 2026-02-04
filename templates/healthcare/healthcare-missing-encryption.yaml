@@ -1,0 +1,21 @@
+id: healthcare-missing-encryption
+name: "Healthcare Application Missing Transport Encryption Headers"
+severity: high
+confidence: confirmed
+description: "Healthcare application lacks HSTS header. HIPAA requires encryption of PHI in transit. Without HSTS, browsers may connect via unencrypted HTTP."
+reference: CWE-319
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: status
+        status: [200]
+      - type: body
+        words:
+          - "patient"
+          - "health"
+          - "medical"
+          - "clinical"
+          - "EHR"
+          - "EMR"
+    condition: and

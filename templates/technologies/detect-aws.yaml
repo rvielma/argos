@@ -1,0 +1,14 @@
+id: tech-aws
+name: "AWS Infrastructure Detected"
+severity: info
+description: "AWS CloudFront or services detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: header
+        header: "x-amz-cf-id"
+        words:
+          - ""
+    condition: and

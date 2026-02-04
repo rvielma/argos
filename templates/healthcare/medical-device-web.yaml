@@ -1,0 +1,21 @@
+id: medical-device-web
+name: "Medical Device Web Interface Exposed"
+severity: high
+confidence: tentative
+description: "Web interface of a medical device (infusion pump, patient monitor, etc.) is publicly accessible."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: status
+        status: [200]
+      - type: body
+        words:
+          - "infusion"
+          - "patient monitor"
+          - "ventilator"
+          - "Philips"
+          - "GE Healthcare"
+          - "Siemens Healthineers"
+    condition: and

@@ -1,0 +1,24 @@
+id: directory-listing
+name: "Directory Listing Enabled"
+severity: low
+description: "Web server directory listing is enabled exposing file structure."
+reference: CWE-548
+requests:
+  - method: GET
+    path: "/icons/"
+    matchers:
+      - type: body
+        words:
+          - "Index of"
+      - type: status
+        status: [200]
+    condition: and
+  - method: GET
+    path: "/images/"
+    matchers:
+      - type: body
+        words:
+          - "Index of"
+      - type: status
+        status: [200]
+    condition: and

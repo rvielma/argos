@@ -1,0 +1,16 @@
+id: zabbix-default-creds
+name: "Zabbix Default Credentials"
+severity: critical
+description: "Zabbix monitoring with potential default credentials."
+reference: CWE-1393
+requests:
+  - method: GET
+    path: "/index.php"
+    matchers:
+      - type: body
+        words:
+          - "Zabbix"
+          - "sign in"
+      - type: status
+        status: [200]
+    condition: and

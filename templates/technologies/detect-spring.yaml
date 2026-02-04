@@ -1,0 +1,15 @@
+id: tech-spring
+name: "Spring Framework Detected"
+severity: info
+description: "Spring/Spring Boot framework detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/actuator"
+    matchers:
+      - type: body
+        words:
+          - "_links"
+      - type: status
+        status: [200]
+    condition: and

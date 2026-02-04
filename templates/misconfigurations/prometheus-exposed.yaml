@@ -1,0 +1,15 @@
+id: prometheus-exposed
+name: "Prometheus Exposed"
+severity: medium
+description: "Prometheus monitoring is publicly accessible."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/api/v1/targets"
+    matchers:
+      - type: body
+        words:
+          - "activeTargets"
+      - type: status
+        status: [200]
+    condition: and

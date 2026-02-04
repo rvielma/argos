@@ -1,0 +1,15 @@
+id: redis-commander-exposed
+name: "Redis Commander Exposed"
+severity: critical
+description: "Redis Commander web UI is publicly accessible."
+reference: CWE-306
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "Redis Commander"
+      - type: status
+        status: [200]
+    condition: and

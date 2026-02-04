@@ -1,0 +1,17 @@
+id: tomcat-default-creds
+name: "Tomcat Default Credentials"
+severity: critical
+description: "Apache Tomcat Manager is accessible with default credentials (tomcat:tomcat)."
+reference: CWE-1393
+requests:
+  - method: GET
+    path: "/manager/html"
+    headers:
+      Authorization: "Basic dG9tY2F0OnRvbWNhdA=="
+    matchers:
+      - type: body
+        words:
+          - "Tomcat Web Application Manager"
+      - type: status
+        status: [200]
+    condition: and

@@ -1,0 +1,17 @@
+id: openemr-exposed
+name: "OpenEMR Electronic Health Records Exposed"
+severity: high
+confidence: tentative
+description: "OpenEMR electronic health records system login page is publicly accessible."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/interface/login/login.php"
+    matchers:
+      - type: status
+        status: [200]
+      - type: body
+        words:
+          - "OpenEMR"
+          - "login"
+    condition: and

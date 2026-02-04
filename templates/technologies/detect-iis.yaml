@@ -1,0 +1,14 @@
+id: tech-iis
+name: "Microsoft IIS Detected"
+severity: info
+description: "Microsoft IIS web server detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: header
+        header: "server"
+        words:
+          - "Microsoft-IIS"
+    condition: and

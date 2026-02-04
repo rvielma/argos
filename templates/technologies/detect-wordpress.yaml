@@ -1,0 +1,14 @@
+id: tech-wordpress
+name: "WordPress Detected"
+severity: info
+description: "WordPress CMS detected on the target."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "wp-content"
+          - "wp-includes"
+    condition: or

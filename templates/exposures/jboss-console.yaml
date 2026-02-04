@@ -1,0 +1,15 @@
+id: jboss-console
+name: "JBoss JMX Console Exposed"
+severity: high
+description: "JBoss JMX Console is publicly accessible without authentication."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/jmx-console/"
+    matchers:
+      - type: body
+        words:
+          - "JBoss"
+      - type: status
+        status: [200]
+    condition: and

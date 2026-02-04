@@ -1,0 +1,19 @@
+id: graphql-introspection
+name: "GraphQL Introspection Enabled"
+severity: medium
+description: "GraphQL introspection is enabled allowing full schema enumeration."
+reference: CWE-200
+requests:
+  - method: POST
+    path: "/graphql"
+    headers:
+      Content-Type: "application/json"
+    body: '{"query":"{__schema{types{name}}}"}'
+    matchers:
+      - type: body
+        words:
+          - "__schema"
+          - "types"
+      - type: status
+        status: [200]
+    condition: and

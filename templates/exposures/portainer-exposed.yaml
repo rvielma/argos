@@ -1,0 +1,15 @@
+id: portainer-exposed
+name: "Portainer Container Management Exposed"
+severity: high
+description: "Portainer container management interface is publicly accessible."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/api/status"
+    matchers:
+      - type: body
+        words:
+          - "Version"
+      - type: status
+        status: [200]
+    condition: and

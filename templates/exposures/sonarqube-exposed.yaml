@@ -1,0 +1,16 @@
+id: sonarqube-exposed
+name: "SonarQube Exposed"
+severity: medium
+description: "SonarQube code quality platform is publicly accessible."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/api/system/status"
+    matchers:
+      - type: body
+        words:
+          - "UP"
+          - "status"
+      - type: status
+        status: [200]
+    condition: and

@@ -1,0 +1,29 @@
+id: sensitive-backups
+name: "Sensitive Backup Files Exposed"
+severity: high
+description: "Backup files are publicly accessible."
+reference: CWE-538
+requests:
+  - method: GET
+    path: "/backup.zip"
+    matchers:
+      - type: status
+        status: [200]
+      - type: header
+        header: "content-type"
+        words:
+          - "application/zip"
+          - "application/octet-stream"
+    condition: and
+  - method: GET
+    path: "/backup.tar.gz"
+    matchers:
+      - type: status
+        status: [200]
+      - type: header
+        header: "content-type"
+        words:
+          - "application/gzip"
+          - "application/x-gzip"
+          - "application/octet-stream"
+    condition: and

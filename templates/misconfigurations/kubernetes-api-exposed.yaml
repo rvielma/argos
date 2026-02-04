@@ -1,0 +1,15 @@
+id: k8s-api-exposed
+name: "Kubernetes API Exposed"
+severity: critical
+description: "Kubernetes API server is publicly accessible."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/api"
+    matchers:
+      - type: body
+        words:
+          - "APIVersions"
+      - type: status
+        status: [200]
+    condition: and

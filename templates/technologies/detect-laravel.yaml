@@ -1,0 +1,13 @@
+id: tech-laravel
+name: "Laravel Detected"
+severity: info
+description: "Laravel PHP framework detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "laravel"
+    condition: and

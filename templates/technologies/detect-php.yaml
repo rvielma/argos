@@ -1,0 +1,14 @@
+id: tech-php
+name: "PHP Detected"
+severity: info
+description: "PHP runtime detected on the server."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: header
+        header: "x-powered-by"
+        words:
+          - "PHP"
+    condition: and

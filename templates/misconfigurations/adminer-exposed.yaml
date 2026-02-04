@@ -1,0 +1,16 @@
+id: adminer-exposed
+name: "Adminer Database Manager Exposed"
+severity: high
+description: "Adminer database management tool is publicly accessible."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/adminer.php"
+    matchers:
+      - type: body
+        words:
+          - "Adminer"
+          - "Login"
+      - type: status
+        status: [200]
+    condition: and

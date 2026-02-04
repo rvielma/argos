@@ -1,0 +1,15 @@
+id: nginx-status
+name: "Nginx Status Page Exposed"
+severity: low
+description: "Nginx status page is publicly accessible revealing server metrics."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/nginx_status"
+    matchers:
+      - type: body
+        words:
+          - "Active connections"
+      - type: status
+        status: [200]
+    condition: and

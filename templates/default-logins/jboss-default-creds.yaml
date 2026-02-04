@@ -1,0 +1,16 @@
+id: jboss-default-creds
+name: "JBoss No Authentication"
+severity: critical
+description: "JBoss JMX Console is accessible without authentication."
+reference: CWE-306
+requests:
+  - method: GET
+    path: "/jmx-console/"
+    matchers:
+      - type: body
+        words:
+          - "JBoss"
+          - "JMX"
+      - type: status
+        status: [200]
+    condition: and

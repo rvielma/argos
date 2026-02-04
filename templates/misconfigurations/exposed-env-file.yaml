@@ -1,0 +1,17 @@
+id: exposed-env
+name: "Exposed Environment File"
+severity: critical
+description: "Environment configuration file is publicly accessible with credentials."
+reference: CWE-538
+requests:
+  - method: GET
+    path: "/.env"
+    matchers:
+      - type: body
+        words:
+          - "DB_PASSWORD"
+          - "APP_KEY"
+          - "SECRET"
+      - type: status
+        status: [200]
+    condition: and

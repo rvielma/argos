@@ -1,0 +1,17 @@
+id: dicom-web-exposed
+name: "DICOM Web (DICOMweb) Server Exposed"
+severity: critical
+confidence: confirmed
+description: "DICOM Web server is publicly accessible. Medical imaging data (X-rays, MRIs, CT scans) may be exposed. Direct HIPAA violation."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/dicom-web/studies"
+    matchers:
+      - type: status
+        status: [200]
+      - type: body
+        words:
+          - "StudyInstanceUID"
+          - "DICOM"
+    condition: and

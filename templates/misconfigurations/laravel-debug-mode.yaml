@@ -1,0 +1,14 @@
+id: laravel-debug
+name: "Laravel Debug Mode Enabled"
+severity: high
+description: "Laravel application is running in debug mode exposing sensitive data."
+reference: CWE-215
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "Whoops"
+          - "Laravel"
+    condition: or

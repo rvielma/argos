@@ -1,0 +1,14 @@
+id: tech-tomcat
+name: "Apache Tomcat Detected"
+severity: info
+description: "Apache Tomcat application server detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: header
+        header: "server"
+        words:
+          - "Apache-Coyote"
+    condition: and

@@ -1,0 +1,15 @@
+id: portainer-default
+name: "Portainer Exposed"
+severity: critical
+description: "Portainer container management is publicly accessible."
+reference: CWE-306
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "Portainer"
+      - type: status
+        status: [200]
+    condition: and

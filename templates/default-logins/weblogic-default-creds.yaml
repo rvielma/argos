@@ -1,0 +1,15 @@
+id: weblogic-default-creds
+name: "WebLogic Default Credentials"
+severity: critical
+description: "Oracle WebLogic console detected with potential default credentials."
+reference: CWE-1393
+requests:
+  - method: GET
+    path: "/console/login/LoginForm.jsp"
+    matchers:
+      - type: body
+        words:
+          - "WebLogic"
+      - type: status
+        status: [200]
+    condition: and

@@ -1,0 +1,15 @@
+id: wp-debug-log
+name: "WordPress Debug Log Exposed"
+severity: high
+description: "WordPress debug log is publicly accessible revealing internal errors."
+reference: CWE-532
+requests:
+  - method: GET
+    path: "/wp-content/debug.log"
+    matchers:
+      - type: body
+        words:
+          - "PHP"
+      - type: status
+        status: [200]
+    condition: and

@@ -1,0 +1,14 @@
+id: tech-joomla
+name: "Joomla Detected"
+severity: info
+description: "Joomla CMS detected on the target."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "/media/jui/"
+          - "Joomla"
+    condition: or

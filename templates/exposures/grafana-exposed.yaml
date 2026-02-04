@@ -1,0 +1,15 @@
+id: grafana-exposed
+name: "Grafana Dashboard Exposed"
+severity: medium
+description: "Grafana monitoring dashboard is publicly accessible."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/login"
+    matchers:
+      - type: body
+        words:
+          - "Grafana"
+      - type: status
+        status: [200]
+    condition: and

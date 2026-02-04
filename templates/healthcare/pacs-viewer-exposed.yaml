@@ -1,0 +1,17 @@
+id: pacs-viewer-exposed
+name: "PACS Web Viewer Publicly Accessible"
+severity: critical
+confidence: confirmed
+description: "Picture Archiving and Communication System (PACS) web viewer is publicly accessible. Medical images may be viewable without authentication."
+reference: CWE-306
+requests:
+  - method: GET
+    path: "/viewer"
+    matchers:
+      - type: status
+        status: [200]
+      - type: body
+        words:
+          - "DICOM"
+          - "viewer"
+    condition: and

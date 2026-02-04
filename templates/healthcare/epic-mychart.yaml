@@ -1,0 +1,17 @@
+id: epic-mychart
+name: "Epic MyChart Patient Portal Detected"
+severity: info
+confidence: informational
+description: "Epic MyChart patient portal detected. Verify authentication and session management are properly configured."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/MyChart/"
+    matchers:
+      - type: status
+        status: [200, 302]
+      - type: body
+        words:
+          - "MyChart"
+          - "Epic"
+    condition: and

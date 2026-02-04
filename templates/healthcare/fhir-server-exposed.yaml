@@ -1,0 +1,17 @@
+id: fhir-server-exposed
+name: "HL7 FHIR Server Exposed"
+severity: high
+confidence: confirmed
+description: "HL7 FHIR (Fast Healthcare Interoperability Resources) server is publicly accessible. May expose patient health data (PHI)."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/metadata"
+    matchers:
+      - type: status
+        status: [200]
+      - type: body
+        words:
+          - "CapabilityStatement"
+          - "fhir"
+    condition: and

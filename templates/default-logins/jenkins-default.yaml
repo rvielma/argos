@@ -1,0 +1,16 @@
+id: jenkins-default
+name: "Jenkins No Authentication"
+severity: critical
+description: "Jenkins is accessible without any authentication."
+reference: CWE-306
+requests:
+  - method: GET
+    path: "/manage"
+    matchers:
+      - type: body
+        words:
+          - "Jenkins"
+          - "Manage Jenkins"
+      - type: status
+        status: [200]
+    condition: and

@@ -1,0 +1,16 @@
+id: airflow-default-creds
+name: "Apache Airflow Default Credentials"
+severity: critical
+description: "Apache Airflow with default credentials (airflow:airflow)."
+reference: CWE-1393
+requests:
+  - method: GET
+    path: "/login/"
+    matchers:
+      - type: body
+        words:
+          - "Airflow"
+          - "Sign In"
+      - type: status
+        status: [200]
+    condition: and

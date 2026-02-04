@@ -1,0 +1,14 @@
+id: tech-drupal
+name: "Drupal Detected"
+severity: info
+description: "Drupal CMS detected on the target."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "Drupal"
+          - "/sites/default/"
+    condition: or

@@ -1,0 +1,17 @@
+id: cerner-portal
+name: "Cerner Patient Portal Detected"
+severity: info
+confidence: informational
+description: "Cerner/Oracle Health patient portal detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: status
+        status: [200]
+      - type: body
+        words:
+          - "Cerner"
+          - "HealtheLife"
+    condition: and

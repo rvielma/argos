@@ -1,0 +1,16 @@
+id: openmrs-exposed
+name: "OpenMRS Medical Records System Exposed"
+severity: high
+confidence: tentative
+description: "OpenMRS medical records system is publicly accessible."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/openmrs/login.htm"
+    matchers:
+      - type: status
+        status: [200]
+      - type: body
+        words:
+          - "OpenMRS"
+    condition: and

@@ -1,0 +1,14 @@
+id: tech-nginx
+name: "Nginx Detected"
+severity: info
+description: "Nginx web server detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: header
+        header: "server"
+        words:
+          - "nginx"
+    condition: and

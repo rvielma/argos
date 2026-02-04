@@ -1,0 +1,15 @@
+id: sonarqube-default-creds
+name: "SonarQube Default Credentials"
+severity: critical
+description: "SonarQube with default credentials (admin:admin)."
+reference: CWE-1393
+requests:
+  - method: GET
+    path: "/api/system/status"
+    matchers:
+      - type: body
+        words:
+          - "UP"
+      - type: status
+        status: [200]
+    condition: and
