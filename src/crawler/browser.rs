@@ -4,11 +4,13 @@
 //! the final DOM content. Only available with the `browser` feature.
 
 #[cfg(feature = "browser")]
-use chromiumoxide::{Browser, BrowserConfig, Page};
+use chromiumoxide::{Browser, BrowserConfig};
+#[cfg(feature = "browser")]
+use futures::StreamExt;
 #[cfg(feature = "browser")]
 use std::sync::Arc;
 #[cfg(feature = "browser")]
-use tracing::{debug, info, warn};
+use tracing::{debug, info};
 
 /// Rendered page content
 #[derive(Debug, Clone)]
@@ -44,9 +46,7 @@ impl BrowserRenderer {
 
         // Spawn handler as background task
         tokio::spawn(async move {
-            while let Some(event) = handler.next().await {
-                // Process browser events
-            }
+            while handler.next().await.is_some() {}
         });
 
         info!("Browser renderer initialized");

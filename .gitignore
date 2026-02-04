@@ -1,2 +1,6 @@
 /target
 .claude/
+.idea/
+argos_*.html
+argos_*.json
+argos_report.*
