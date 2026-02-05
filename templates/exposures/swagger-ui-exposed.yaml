@@ -9,7 +9,8 @@ requests:
     matchers:
       - type: body
         words:
-          - "swagger"
+          - "swagger-ui"
+          - "api-docs"
       - type: status
         status: [200]
     condition: and
@@ -18,7 +19,8 @@ requests:
     matchers:
       - type: body
         words:
-          - "swagger"
+          - "swagger-ui"
+          - "Swagger UI"
       - type: status
         status: [200]
     condition: and

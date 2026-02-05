@@ -10,6 +10,8 @@ requests:
       - type: body
         words:
           - "graphiql"
+          - "GraphQL"
+          - "query"
       - type: status
         status: [200]
     condition: and

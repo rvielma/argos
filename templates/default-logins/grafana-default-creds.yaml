@@ -11,8 +11,13 @@ requests:
     matchers:
       - type: body
         words:
-          - "name"
-          - "id"
+          - "\"name\""
+          - "\"id\""
+          - "\"address\""
       - type: status
         status: [200]
+      - type: header
+        header: "content-type"
+        words:
+          - "application/json"
     condition: and
