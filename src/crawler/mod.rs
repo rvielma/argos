@@ -115,13 +115,14 @@ impl<'a> Crawler<'a> {
 
             // Collect results from all concurrent fetches
             let mut next_layer = Vec::new();
+            let mut limit_reached = false;
             while let Some(urls) = rx.recv().await {
                 let mut v = visited.lock().await;
                 let mut d = discovered.lock().await;
 
                 for url in urls {
                     if d.len() >= self.max_urls {
-                        info!("Crawler reached max URL limit ({})", self.max_urls);
+                        limit_reached = true;
                         break;
                     }
                     let normalized = normalize_url(&url);
@@ -131,6 +132,10 @@ impl<'a> Crawler<'a> {
                         next_layer.push(url);
                     }
                 }
+            }
+            if limit_reached {
+                info!("Crawler reached max URL limit ({})", self.max_urls);
+                break;
             }
 
             // Wait for all spawned tasks
