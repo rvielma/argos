@@ -174,7 +174,7 @@
                             <td><a href="#finding-{{ loop.index }}">{{ finding.title }}</a></td>
                             <td><span class="tag">{{ finding.category }}</span></td>
                             <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{ finding.url }}</td>
-                            <td>{% if finding.cwe_id %}CWE-{{ finding.cwe_id }}{% endif %}</td>
+                            <td>{% if finding.cwe_id %}{{ finding.cwe_id }}{% endif %}</td>
                         </tr>
                         {% endfor %}
                     </tbody>
@@ -206,7 +206,7 @@
                         </div>
                         <div class="tags">
                             <span class="tag">{{ finding.category }}</span>
-                            {% if finding.cwe_id %}<span class="tag">CWE-{{ finding.cwe_id }}</span>{% endif %}
+                            {% if finding.cwe_id %}<span class="tag">{{ finding.cwe_id }}</span>{% endif %}
                             {% if finding.owasp_category %}<span class="tag">{{ finding.owasp_category }}</span>{% endif %}
                         </div>
                         {% if finding.evidence %}
