@@ -1,0 +1,18 @@
+id: graphql-field-suggestions
+name: "GraphQL Field Suggestions Enabled"
+severity: low
+description: "GraphQL endpoint provides field suggestions on invalid queries, enabling schema enumeration without introspection."
+reference: CWE-200
+requests:
+  - method: POST
+    path: "/graphql"
+    headers:
+      Content-Type: "application/json"
+    body: '{"query":"{ __typo }"}'
+    matchers:
+      - type: body
+        words:
+          - "Did you mean"
+      - type: status
+        status: [200]
+    condition: and

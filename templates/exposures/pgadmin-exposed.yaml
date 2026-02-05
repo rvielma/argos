@@ -1,0 +1,15 @@
+id: pgadmin-exposed
+name: "pgAdmin Panel Exposed"
+severity: high
+description: "pgAdmin database management interface is publicly accessible."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/browser/"
+    matchers:
+      - type: body
+        words:
+          - "pgAdmin"
+      - type: status
+        status: [200]
+    condition: and

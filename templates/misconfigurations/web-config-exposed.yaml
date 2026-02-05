@@ -1,0 +1,16 @@
+id: web-config-exposed
+name: "Web.config File Exposed"
+severity: critical
+description: "ASP.NET web.config file is publicly accessible potentially exposing connection strings and application settings."
+reference: CWE-538
+requests:
+  - method: GET
+    path: "/web.config"
+    matchers:
+      - type: body
+        words:
+          - "configuration"
+          - "connectionStrings"
+      - type: status
+        status: [200]
+    condition: and

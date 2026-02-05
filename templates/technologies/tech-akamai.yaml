@@ -1,0 +1,18 @@
+id: tech-akamai
+name: "Akamai CDN Detected"
+severity: info
+description: "Akamai CDN detected via headers."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: header
+        header: "x-akamai-transformed"
+        words:
+          - "-"
+      - type: header
+        header: "server"
+        words:
+          - "AkamaiGHost"
+    condition: or

@@ -1,0 +1,16 @@
+id: rails-debug-mode
+name: "Rails Debug Mode Enabled"
+severity: high
+description: "Ruby on Rails application is running in debug mode exposing stack traces and application internals."
+reference: CWE-215
+requests:
+  - method: GET
+    path: "/nonexistent-argos-test"
+    matchers:
+      - type: body
+        words:
+          - "Action Controller"
+          - "Exception"
+      - type: status
+        status: [200, 400, 404, 500]
+    condition: and

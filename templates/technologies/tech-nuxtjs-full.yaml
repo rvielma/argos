@@ -1,0 +1,16 @@
+id: tech-nuxtjs-full
+name: "Nuxt.js Framework Detected"
+severity: info
+description: "Nuxt.js Vue framework detected via body fingerprint."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "__NUXT__"
+      - type: body
+        words:
+          - "_nuxt"
+    condition: or

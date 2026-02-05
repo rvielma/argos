@@ -1,0 +1,16 @@
+id: fhir-immunization
+name: "FHIR Immunization Endpoint Exposed"
+severity: high
+description: "HL7 FHIR Immunization endpoint is publicly accessible, potentially exposing patient vaccination records."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/fhir/Immunization"
+    matchers:
+      - type: body
+        words:
+          - "Immunization"
+          - "resourceType"
+      - type: status
+        status: [200]
+    condition: and

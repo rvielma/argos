@@ -1,0 +1,16 @@
+id: phpinfo-alt-exposed
+name: "PHP Info Alternative Path Exposed"
+severity: medium
+description: "PHP phpinfo() page is accessible at alternative path revealing server configuration and environment."
+reference: CWE-215
+requests:
+  - method: GET
+    path: "/info.php"
+    matchers:
+      - type: body
+        words:
+          - "PHP Version"
+          - "Configuration"
+      - type: status
+        status: [200]
+    condition: and

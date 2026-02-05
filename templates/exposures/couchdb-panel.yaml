@@ -1,0 +1,15 @@
+id: couchdb-panel
+name: "CouchDB Fauxton UI Exposed"
+severity: high
+description: "CouchDB Fauxton web interface is publicly accessible."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/_utils/"
+    matchers:
+      - type: body
+        words:
+          - "CouchDB"
+      - type: status
+        status: [200]
+    condition: and

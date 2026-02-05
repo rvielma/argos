@@ -1,0 +1,16 @@
+id: symfony-debug-profiler
+name: "Symfony Debug Profiler Exposed"
+severity: high
+description: "Symfony web profiler is publicly accessible exposing application internals and debug information."
+reference: CWE-215
+requests:
+  - method: GET
+    path: "/_profiler"
+    matchers:
+      - type: body
+        words:
+          - "Symfony"
+          - "Profiler"
+      - type: status
+        status: [200]
+    condition: and

@@ -1,0 +1,16 @@
+id: fhir-diagnosticreport
+name: "FHIR DiagnosticReport Endpoint Exposed"
+severity: high
+description: "HL7 FHIR DiagnosticReport endpoint is publicly accessible, potentially exposing patient diagnostic data."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/fhir/DiagnosticReport"
+    matchers:
+      - type: body
+        words:
+          - "DiagnosticReport"
+          - "resourceType"
+      - type: status
+        status: [200]
+    condition: and

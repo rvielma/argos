@@ -1,0 +1,15 @@
+id: spark-ui-exposed
+name: "Apache Spark UI Exposed"
+severity: medium
+description: "Apache Spark web UI is publicly accessible."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "Spark"
+      - type: status
+        status: [200]
+    condition: and

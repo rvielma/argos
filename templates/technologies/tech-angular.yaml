@@ -1,0 +1,16 @@
+id: tech-angular
+name: "Angular Detected"
+severity: info
+description: "Angular framework detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "ng-version"
+      - type: body
+        words:
+          - "ng-app"
+    condition: or

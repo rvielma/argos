@@ -1,0 +1,15 @@
+id: neo4j-browser
+name: "Neo4j Browser Exposed"
+severity: medium
+description: "Neo4j graph database browser interface is publicly accessible."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/browser/"
+    matchers:
+      - type: body
+        words:
+          - "Neo4j"
+      - type: status
+        status: [200]
+    condition: and

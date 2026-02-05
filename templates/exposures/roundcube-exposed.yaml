@@ -1,0 +1,15 @@
+id: roundcube-exposed
+name: "Roundcube Webmail Exposed"
+severity: medium
+description: "Roundcube webmail interface is publicly accessible."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/?_task=login"
+    matchers:
+      - type: body
+        words:
+          - "Roundcube"
+      - type: status
+        status: [200]
+    condition: and

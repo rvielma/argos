@@ -1,0 +1,16 @@
+id: clientaccesspolicy-xml
+name: "Silverlight Client Access Policy Exposed"
+severity: medium
+description: "Silverlight clientaccesspolicy.xml is present with cross-domain access rules that may be overly permissive."
+reference: CWE-942
+requests:
+  - method: GET
+    path: "/clientaccesspolicy.xml"
+    matchers:
+      - type: body
+        words:
+          - "cross-domain-access"
+          - "allow-from"
+      - type: status
+        status: [200]
+    condition: and

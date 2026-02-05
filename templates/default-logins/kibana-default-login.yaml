@@ -1,0 +1,17 @@
+id: kibana-default-login
+name: "Kibana Default Login"
+severity: critical
+description: "Kibana accepts default credentials elastic:changeme."
+reference: CWE-1393
+requests:
+  - method: GET
+    path: "/api/status"
+    headers:
+      Authorization: "Basic ZWxhc3RpYzpjaGFuZ2VtZQ=="
+    matchers:
+      - type: body
+        words:
+          - "status"
+      - type: status
+        status: [200]
+    condition: and

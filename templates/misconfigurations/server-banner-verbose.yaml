@@ -1,0 +1,17 @@
+id: server-banner-verbose
+name: "Verbose Server Banner"
+severity: info
+description: "Server header exposes detailed version information that can aid attackers in identifying vulnerabilities."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: header
+        words:
+          - "Apache/"
+          - "nginx/"
+          - "Microsoft-IIS/"
+      - type: status
+        status: [200]
+    condition: and

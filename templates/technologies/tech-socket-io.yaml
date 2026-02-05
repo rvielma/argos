@@ -1,0 +1,20 @@
+id: tech-socket-io
+name: "Socket.IO Detected"
+severity: info
+description: "Socket.IO real-time communication library detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "socket.io"
+    condition: and
+  - method: GET
+    path: "/socket.io/"
+    matchers:
+      - type: body
+        words:
+          - "socket.io"
+    condition: and

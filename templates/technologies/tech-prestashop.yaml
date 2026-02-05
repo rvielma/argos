@@ -1,0 +1,16 @@
+id: tech-prestashop
+name: "PrestaShop Detected"
+severity: info
+description: "PrestaShop e-commerce platform detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "PrestaShop"
+      - type: body
+        words:
+          - "prestashop"
+    condition: or

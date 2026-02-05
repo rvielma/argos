@@ -1,0 +1,13 @@
+id: tech-directus
+name: "Directus Detected"
+severity: info
+description: "Directus headless CMS detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/admin"
+    matchers:
+      - type: body
+        words:
+          - "Directus"
+    condition: and

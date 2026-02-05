@@ -1,0 +1,16 @@
+id: etcd-exposed
+name: "etcd API Exposed"
+severity: critical
+description: "etcd key-value store API is publicly accessible, potentially exposing Kubernetes secrets and cluster state."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/version"
+    matchers:
+      - type: body
+        words:
+          - "etcdserver"
+          - "etcdcluster"
+      - type: status
+        status: [200]
+    condition: and

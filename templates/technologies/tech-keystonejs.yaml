@@ -1,0 +1,16 @@
+id: tech-keystonejs
+name: "KeystoneJS Detected"
+severity: info
+description: "KeystoneJS headless CMS detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "keystonejs"
+      - type: body
+        words:
+          - "keystone-app"
+    condition: or

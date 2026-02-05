@@ -1,0 +1,15 @@
+id: solr-exposed
+name: "Apache Solr Admin Exposed"
+severity: medium
+description: "Apache Solr admin interface is publicly accessible."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/solr/admin/"
+    matchers:
+      - type: body
+        words:
+          - "Solr"
+      - type: status
+        status: [200]
+    condition: and

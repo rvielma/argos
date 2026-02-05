@@ -1,0 +1,16 @@
+id: elasticsearch-exposed
+name: "Elasticsearch Cluster Exposed"
+severity: high
+description: "Elasticsearch cluster information is publicly accessible without authentication."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "cluster_name"
+          - "version"
+      - type: status
+        status: [200]
+    condition: and

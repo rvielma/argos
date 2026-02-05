@@ -1,0 +1,19 @@
+id: tech-magento
+name: "Magento Detected"
+severity: info
+description: "Magento e-commerce platform detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "Magento"
+      - type: body
+        words:
+          - "/static/version"
+      - type: body
+        words:
+          - "mage-init"
+    condition: or

@@ -1,0 +1,16 @@
+id: tech-vite
+name: "Vite Detected"
+severity: info
+description: "Vite build tool detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "/@vite/"
+      - type: body
+        words:
+          - "vite/modulepreload-polyfill"
+    condition: or

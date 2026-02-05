@@ -1,0 +1,17 @@
+id: gcp-metadata-exposed
+name: "GCP Metadata Service Accessible"
+severity: critical
+description: "Google Cloud Platform instance metadata service is accessible, indicating potential SSRF vulnerability."
+reference: CWE-918
+requests:
+  - method: GET
+    path: "/computeMetadata/v1/"
+    headers:
+      Metadata-Flavor: "Google"
+    matchers:
+      - type: body
+        words:
+          - "project"
+      - type: status
+        status: [200]
+    condition: and

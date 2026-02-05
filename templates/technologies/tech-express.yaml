@@ -1,0 +1,14 @@
+id: tech-express
+name: "Express.js Detected"
+severity: info
+description: "Express.js Node.js framework detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: header
+        header: "x-powered-by"
+        words:
+          - "Express"
+    condition: and

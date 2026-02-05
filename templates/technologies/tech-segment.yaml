@@ -1,0 +1,16 @@
+id: tech-segment
+name: "Segment Detected"
+severity: info
+description: "Segment customer data platform detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "cdn.segment.com"
+      - type: body
+        words:
+          - "analytics.min.js"
+    condition: or

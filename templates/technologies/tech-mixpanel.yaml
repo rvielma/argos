@@ -1,0 +1,13 @@
+id: tech-mixpanel
+name: "Mixpanel Detected"
+severity: info
+description: "Mixpanel analytics platform detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "mixpanel"
+    condition: and

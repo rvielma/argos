@@ -1,0 +1,17 @@
+id: elastic-default-login
+name: "Elasticsearch Default Login"
+severity: critical
+description: "Elasticsearch accepts default credentials elastic:changeme."
+reference: CWE-1393
+requests:
+  - method: GET
+    path: "/"
+    headers:
+      Authorization: "Basic ZWxhc3RpYzpjaGFuZ2VtZQ=="
+    matchers:
+      - type: body
+        words:
+          - "cluster_name"
+      - type: status
+        status: [200]
+    condition: and

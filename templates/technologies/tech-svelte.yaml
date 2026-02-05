@@ -1,0 +1,16 @@
+id: tech-svelte
+name: "Svelte Detected"
+severity: info
+description: "Svelte JavaScript framework detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "svelte"
+      - type: body
+        words:
+          - "__svelte"
+    condition: or

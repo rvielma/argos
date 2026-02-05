@@ -1,0 +1,15 @@
+id: jenkins-dashboard
+name: "Jenkins Dashboard Exposed"
+severity: high
+description: "Jenkins CI/CD dashboard login page is publicly accessible."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/login"
+    matchers:
+      - type: body
+        words:
+          - "Jenkins"
+      - type: status
+        status: [200]
+    condition: and

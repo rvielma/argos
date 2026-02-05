@@ -1,0 +1,18 @@
+id: graphql-batch-enabled
+name: "GraphQL Batch Queries Enabled"
+severity: low
+description: "GraphQL endpoint accepts batched queries, which could be abused for denial-of-service or brute-force attacks."
+reference: CWE-400
+requests:
+  - method: POST
+    path: "/graphql"
+    headers:
+      Content-Type: "application/json"
+    body: '[{"query":"{ __typename }"},{"query":"{ __typename }"}]'
+    matchers:
+      - type: body
+        words:
+          - "__typename"
+      - type: status
+        status: [200]
+    condition: and

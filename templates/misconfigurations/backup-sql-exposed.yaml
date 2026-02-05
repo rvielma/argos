@@ -1,0 +1,16 @@
+id: backup-sql-exposed
+name: "SQL Backup File Exposed"
+severity: critical
+description: "SQL backup file is publicly accessible potentially exposing entire database contents."
+reference: CWE-530
+requests:
+  - method: GET
+    path: "/backup.sql"
+    matchers:
+      - type: body
+        words:
+          - "CREATE TABLE"
+          - "INSERT INTO"
+      - type: status
+        status: [200]
+    condition: and

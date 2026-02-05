@@ -1,0 +1,18 @@
+id: minio-default-login
+name: "MinIO Default Login"
+severity: critical
+description: "MinIO accepts default credentials minioadmin:minioadmin."
+reference: CWE-1393
+requests:
+  - method: POST
+    path: "/minio/login"
+    headers:
+      Content-Type: "application/json"
+    body: '{"accessKey":"minioadmin","secretKey":"minioadmin"}'
+    matchers:
+      - type: body
+        words:
+          - "token"
+      - type: status
+        status: [200]
+    condition: and

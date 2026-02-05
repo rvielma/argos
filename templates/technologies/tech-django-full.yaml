@@ -1,0 +1,16 @@
+id: tech-django-full
+name: "Django Detected"
+severity: info
+description: "Django Python web framework detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "csrfmiddlewaretoken"
+      - type: body
+        words:
+          - "django"
+    condition: or

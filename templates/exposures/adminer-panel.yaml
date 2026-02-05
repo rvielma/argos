@@ -1,0 +1,15 @@
+id: adminer-panel
+name: "Adminer Database Panel Exposed"
+severity: high
+description: "Adminer database management panel is publicly accessible."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/adminer.php"
+    matchers:
+      - type: body
+        words:
+          - "Adminer"
+      - type: status
+        status: [200]
+    condition: and

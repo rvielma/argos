@@ -1,0 +1,16 @@
+id: elmah-exposed
+name: "ELMAH Error Log Exposed"
+severity: high
+description: "ELMAH error logging handler is publicly accessible exposing application errors and stack traces."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/elmah.axd"
+    matchers:
+      - type: body
+        words:
+          - "Error Log"
+          - "ELMAH"
+      - type: status
+        status: [200]
+    condition: and

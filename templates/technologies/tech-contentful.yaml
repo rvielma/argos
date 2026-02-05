@@ -1,0 +1,13 @@
+id: tech-contentful
+name: "Contentful Detected"
+severity: info
+description: "Contentful headless CMS detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "contentful"
+    condition: and

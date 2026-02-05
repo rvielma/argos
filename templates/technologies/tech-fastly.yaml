@@ -1,0 +1,18 @@
+id: tech-fastly
+name: "Fastly CDN Detected"
+severity: info
+description: "Fastly CDN detected via headers."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: header
+        header: "x-served-by"
+        words:
+          - "cache-"
+      - type: header
+        header: "via"
+        words:
+          - "fastly"
+    condition: or

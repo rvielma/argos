@@ -1,0 +1,16 @@
+id: directory-listing-iis
+name: "IIS Directory Listing Enabled"
+severity: low
+description: "IIS directory browsing is enabled exposing directory contents and file structure."
+reference: CWE-548
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "Parent Directory"
+          - "Microsoft-IIS"
+      - type: status
+        status: [200]
+    condition: and

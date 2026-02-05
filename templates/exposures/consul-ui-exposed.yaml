@@ -1,0 +1,15 @@
+id: consul-ui-exposed
+name: "Consul UI Exposed"
+severity: medium
+description: "HashiCorp Consul web UI is publicly accessible."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/ui/"
+    matchers:
+      - type: body
+        words:
+          - "Consul"
+      - type: status
+        status: [200]
+    condition: and

@@ -1,7 +1,7 @@
-id: graphql-playground
-name: "GraphQL Playground Exposed"
+id: graphiql-exposed
+name: "GraphiQL IDE Exposed"
 severity: medium
-description: "GraphQL Playground or GraphiQL interface is publicly accessible."
+description: "GraphiQL interactive IDE is publicly accessible, allowing anyone to explore and query the GraphQL API."
 reference: CWE-200
 requests:
   - method: GET
@@ -9,7 +9,7 @@ requests:
     matchers:
       - type: body
         words:
-          - "GraphiQL"
+          - "graphiql"
       - type: status
         status: [200]
     condition: and

@@ -1,0 +1,14 @@
+id: tech-craft-cms
+name: "Craft CMS Detected"
+severity: info
+description: "Craft CMS content management system detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: header
+        header: "x-powered-by"
+        words:
+          - "Craft CMS"
+    condition: and

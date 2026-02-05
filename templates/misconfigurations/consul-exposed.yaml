@@ -1,0 +1,16 @@
+id: consul-exposed
+name: "HashiCorp Consul API Exposed"
+severity: high
+description: "HashiCorp Consul agent API is publicly accessible exposing service discovery and configuration data."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/v1/agent/self"
+    matchers:
+      - type: body
+        words:
+          - "Config"
+          - "Consul"
+      - type: status
+        status: [200]
+    condition: and

@@ -1,0 +1,18 @@
+id: sonarqube-default-login
+name: "SonarQube Default Login"
+severity: critical
+description: "SonarQube accepts default credentials admin:admin via authentication API."
+reference: CWE-1393
+requests:
+  - method: POST
+    path: "/api/authentication/login"
+    headers:
+      Content-Type: "application/x-www-form-urlencoded"
+    body: "login=admin&password=admin"
+    matchers:
+      - type: body
+        words:
+          - "valid"
+      - type: status
+        status: [200]
+    condition: and

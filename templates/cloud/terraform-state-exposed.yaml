@@ -1,0 +1,16 @@
+id: terraform-state-exposed
+name: "Terraform State File Exposed"
+severity: critical
+description: "Terraform state file is publicly accessible, potentially exposing infrastructure secrets, credentials, and resource configurations."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/terraform.tfstate"
+    matchers:
+      - type: body
+        words:
+          - "terraform_version"
+          - "resources"
+      - type: status
+        status: [200]
+    condition: and

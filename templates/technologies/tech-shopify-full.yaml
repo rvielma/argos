@@ -1,0 +1,19 @@
+id: tech-shopify-full
+name: "Shopify Platform Detected"
+severity: info
+description: "Shopify e-commerce platform detected via multiple fingerprints."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "Shopify.theme"
+      - type: body
+        words:
+          - "cdn.shopify.com"
+      - type: body
+        words:
+          - "shopify-section"
+    condition: or

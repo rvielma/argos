@@ -1,0 +1,16 @@
+id: directory-listing-nginx
+name: "Nginx Directory Listing Enabled"
+severity: low
+description: "Nginx autoindex is enabled exposing directory contents and file structure."
+reference: CWE-548
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "Index of"
+          - "nginx"
+      - type: status
+        status: [200]
+    condition: and

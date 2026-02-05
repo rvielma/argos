@@ -1,0 +1,13 @@
+id: tech-turbopack
+name: "Turbopack Detected"
+severity: info
+description: "Turbopack bundler detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "turbopack"
+    condition: and

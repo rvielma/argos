@@ -1,0 +1,16 @@
+id: kubernetes-api-exposed
+name: "Kubernetes API Server Exposed"
+severity: critical
+description: "Kubernetes API server is publicly accessible without authentication."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/api/v1/namespaces"
+    matchers:
+      - type: body
+        words:
+          - "items"
+          - "metadata"
+      - type: status
+        status: [200]
+    condition: and

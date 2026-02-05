@@ -1,0 +1,18 @@
+id: tech-cloudflare-full
+name: "Cloudflare CDN Detected"
+severity: info
+description: "Cloudflare CDN and WAF detected via headers."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: header
+        header: "server"
+        words:
+          - "cloudflare"
+      - type: header
+        header: "cf-ray"
+        words:
+          - "-"
+    condition: or

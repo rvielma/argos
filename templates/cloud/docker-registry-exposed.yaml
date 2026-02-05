@@ -1,0 +1,15 @@
+id: docker-registry-exposed
+name: "Docker Registry API Exposed"
+severity: high
+description: "Docker Registry v2 API is publicly accessible, allowing enumeration and potential pull of container images."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/v2/_catalog"
+    matchers:
+      - type: body
+        words:
+          - "repositories"
+      - type: status
+        status: [200]
+    condition: and

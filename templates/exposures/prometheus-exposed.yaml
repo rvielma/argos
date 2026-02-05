@@ -1,0 +1,15 @@
+id: prometheus-exposed
+name: "Prometheus Targets Exposed"
+severity: medium
+description: "Prometheus monitoring targets page is publicly accessible."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/targets"
+    matchers:
+      - type: body
+        words:
+          - "Prometheus"
+      - type: status
+        status: [200]
+    condition: and

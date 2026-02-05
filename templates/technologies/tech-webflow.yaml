@@ -1,0 +1,13 @@
+id: tech-webflow
+name: "Webflow Detected"
+severity: info
+description: "Webflow website builder detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "webflow"
+    condition: and

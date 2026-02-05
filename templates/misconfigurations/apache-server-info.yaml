@@ -1,0 +1,15 @@
+id: apache-server-info
+name: "Apache Server Info Exposed"
+severity: medium
+description: "Apache mod_info is publicly accessible revealing detailed server configuration and loaded modules."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/server-info"
+    matchers:
+      - type: body
+        words:
+          - "Apache Server Information"
+      - type: status
+        status: [200]
+    condition: and

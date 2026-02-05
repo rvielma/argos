@@ -1,0 +1,16 @@
+id: kubernetes-dashboard-exposed
+name: "Kubernetes Dashboard Exposed"
+severity: critical
+description: "Kubernetes Dashboard is publicly accessible without authentication."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/api/v1/namespaces/kubernetes-dashboard/services"
+    matchers:
+      - type: body
+        words:
+          - "kubernetes-dashboard"
+          - "metadata"
+      - type: status
+        status: [200]
+    condition: and

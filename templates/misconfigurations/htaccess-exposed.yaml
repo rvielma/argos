@@ -1,0 +1,15 @@
+id: htaccess-exposed
+name: "Htaccess File Exposed"
+severity: medium
+description: "Apache .htaccess file is publicly accessible revealing server configuration and rewrite rules."
+reference: CWE-538
+requests:
+  - method: GET
+    path: "/.htaccess"
+    matchers:
+      - type: body
+        words:
+          - "RewriteEngine"
+      - type: status
+        status: [200]
+    condition: and

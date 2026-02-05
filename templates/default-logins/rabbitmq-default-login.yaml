@@ -1,0 +1,17 @@
+id: rabbitmq-default-login
+name: "RabbitMQ Default Login"
+severity: critical
+description: "RabbitMQ management API accepts default credentials guest:guest."
+reference: CWE-1393
+requests:
+  - method: GET
+    path: "/api/whoami"
+    headers:
+      Authorization: "Basic Z3Vlc3Q6Z3Vlc3Q="
+    matchers:
+      - type: body
+        words:
+          - "guest"
+      - type: status
+        status: [200]
+    condition: and

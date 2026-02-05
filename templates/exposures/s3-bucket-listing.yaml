@@ -1,0 +1,15 @@
+id: s3-bucket-listing
+name: "S3 Bucket Listing Exposed"
+severity: high
+description: "Amazon S3 bucket allows public directory listing."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "ListBucketResult"
+      - type: status
+        status: [200]
+    condition: and

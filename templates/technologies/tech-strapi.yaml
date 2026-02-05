@@ -1,0 +1,13 @@
+id: tech-strapi
+name: "Strapi CMS Detected"
+severity: info
+description: "Strapi headless CMS detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/admin"
+    matchers:
+      - type: body
+        words:
+          - "strapi"
+    condition: and

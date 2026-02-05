@@ -1,0 +1,15 @@
+id: consul-service-exposed
+name: "HashiCorp Consul Services Exposed"
+severity: high
+description: "HashiCorp Consul service catalog is publicly accessible without authentication."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/v1/catalog/services"
+    matchers:
+      - type: body
+        words:
+          - "consul"
+      - type: status
+        status: [200]
+    condition: and

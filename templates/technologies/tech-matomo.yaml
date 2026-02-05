@@ -1,0 +1,16 @@
+id: tech-matomo
+name: "Matomo Analytics Detected"
+severity: info
+description: "Matomo (formerly Piwik) analytics platform detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "matomo.js"
+      - type: body
+        words:
+          - "piwik.js"
+    condition: or

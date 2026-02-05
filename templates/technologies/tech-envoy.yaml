@@ -1,0 +1,14 @@
+id: tech-envoy
+name: "Envoy Proxy Detected"
+severity: info
+description: "Envoy proxy detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: header
+        header: "server"
+        words:
+          - "envoy"
+    condition: and

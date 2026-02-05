@@ -1,0 +1,15 @@
+id: graphql-voyager
+name: "GraphQL Voyager Exposed"
+severity: medium
+description: "GraphQL Voyager visualization tool is publicly accessible, displaying the entire API schema as an interactive graph."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/voyager"
+    matchers:
+      - type: body
+        words:
+          - "GraphQL Voyager"
+      - type: status
+        status: [200]
+    condition: and

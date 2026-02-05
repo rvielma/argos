@@ -1,0 +1,15 @@
+id: superset-exposed
+name: "Apache Superset Exposed"
+severity: medium
+description: "Apache Superset data visualization platform is publicly accessible."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/login/"
+    matchers:
+      - type: body
+        words:
+          - "Superset"
+      - type: status
+        status: [200]
+    condition: and

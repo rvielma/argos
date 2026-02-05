@@ -1,0 +1,15 @@
+id: mongo-express-exposed
+name: "Mongo Express Exposed"
+severity: high
+description: "Mongo Express web-based MongoDB admin interface is publicly accessible."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "Mongo Express"
+      - type: status
+        status: [200]
+    condition: and

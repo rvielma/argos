@@ -1,0 +1,14 @@
+id: tech-flask
+name: "Flask Detected"
+severity: info
+description: "Flask Python web framework detected via Werkzeug server header."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: header
+        header: "server"
+        words:
+          - "Werkzeug"
+    condition: and

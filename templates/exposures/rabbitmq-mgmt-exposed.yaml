@@ -1,0 +1,15 @@
+id: rabbitmq-mgmt-exposed
+name: "RabbitMQ Management API Exposed"
+severity: high
+description: "RabbitMQ management API overview endpoint is publicly accessible."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/api/overview"
+    matchers:
+      - type: body
+        words:
+          - "rabbitmq_version"
+      - type: status
+        status: [200]
+    condition: and

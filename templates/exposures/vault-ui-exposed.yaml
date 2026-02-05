@@ -1,0 +1,15 @@
+id: vault-ui-exposed
+name: "Vault UI Exposed"
+severity: high
+description: "HashiCorp Vault secrets management UI is publicly accessible."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/ui/vault/auth"
+    matchers:
+      - type: body
+        words:
+          - "Vault"
+      - type: status
+        status: [200]
+    condition: and

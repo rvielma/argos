@@ -1,4 +1,4 @@
-id: kibana-exposed
+id: kibana-status-exposed
 name: "Kibana Exposed"
 severity: high
 description: "Kibana dashboard is publicly accessible."

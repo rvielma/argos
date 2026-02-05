@@ -1,0 +1,16 @@
+id: vault-health-exposed
+name: "HashiCorp Vault Health Endpoint Exposed"
+severity: medium
+description: "HashiCorp Vault health endpoint is publicly accessible, revealing seal status and configuration."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/v1/sys/health"
+    matchers:
+      - type: body
+        words:
+          - "initialized"
+          - "sealed"
+      - type: status
+        status: [200]
+    condition: and

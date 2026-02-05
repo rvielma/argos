@@ -1,0 +1,16 @@
+id: composer-json-exposed
+name: "Composer.json File Exposed"
+severity: medium
+description: "PHP composer.json file is publicly accessible revealing dependencies and application structure."
+reference: CWE-538
+requests:
+  - method: GET
+    path: "/composer.json"
+    matchers:
+      - type: body
+        words:
+          - "require"
+          - "name"
+      - type: status
+        status: [200]
+    condition: and

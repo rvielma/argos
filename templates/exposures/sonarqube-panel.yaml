@@ -1,0 +1,15 @@
+id: sonarqube-panel
+name: "SonarQube Panel Exposed"
+severity: medium
+description: "SonarQube code quality platform is publicly accessible."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/about"
+    matchers:
+      - type: body
+        words:
+          - "SonarQube"
+      - type: status
+        status: [200]
+    condition: and

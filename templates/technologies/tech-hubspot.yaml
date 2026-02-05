@@ -1,0 +1,19 @@
+id: tech-hubspot
+name: "HubSpot Detected"
+severity: info
+description: "HubSpot CMS or tracking detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "hs-scripts"
+      - type: body
+        words:
+          - "js.hs-scripts.com"
+      - type: body
+        words:
+          - "hubspot"
+    condition: or

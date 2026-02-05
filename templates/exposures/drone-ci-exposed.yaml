@@ -1,0 +1,15 @@
+id: drone-ci-exposed
+name: "Drone CI Exposed"
+severity: medium
+description: "Drone CI continuous integration server is publicly accessible."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/login"
+    matchers:
+      - type: body
+        words:
+          - "Drone"
+      - type: status
+        status: [200]
+    condition: and

@@ -1,0 +1,16 @@
+id: tech-typo3
+name: "TYPO3 CMS Detected"
+severity: info
+description: "TYPO3 content management system detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "typo3"
+      - type: body
+        words:
+          - "TYPO3"
+    condition: or

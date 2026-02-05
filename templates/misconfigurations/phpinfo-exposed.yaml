@@ -1,0 +1,16 @@
+id: phpinfo-exposed
+name: "PHP Info Page Exposed"
+severity: medium
+description: "PHP phpinfo() page is publicly accessible revealing server configuration, modules and environment variables."
+reference: CWE-215
+requests:
+  - method: GET
+    path: "/phpinfo.php"
+    matchers:
+      - type: body
+        words:
+          - "PHP Version"
+          - "Configuration"
+      - type: status
+        status: [200]
+    condition: and

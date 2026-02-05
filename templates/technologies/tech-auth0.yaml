@@ -1,0 +1,16 @@
+id: tech-auth0
+name: "Auth0 Detected"
+severity: info
+description: "Auth0 authentication platform detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "auth0.com"
+      - type: body
+        words:
+          - "auth0-lock"
+    condition: or

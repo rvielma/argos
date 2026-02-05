@@ -1,0 +1,13 @@
+id: tech-parcel
+name: "Parcel Detected"
+severity: info
+description: "Parcel bundler detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "parcelRequire"
+    condition: and

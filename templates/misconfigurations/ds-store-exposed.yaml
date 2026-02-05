@@ -1,0 +1,15 @@
+id: ds-store-exposed
+name: "DS_Store File Exposed"
+severity: low
+description: "macOS .DS_Store file is publicly accessible, revealing directory structure and file names."
+reference: CWE-538
+requests:
+  - method: GET
+    path: "/.DS_Store"
+    matchers:
+      - type: body
+        words:
+          - "Bud1"
+      - type: status
+        status: [200]
+    condition: and

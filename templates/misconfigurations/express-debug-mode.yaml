@@ -1,0 +1,17 @@
+id: express-debug-mode
+name: "Express.js Debug Mode Enabled"
+severity: medium
+description: "Express.js application is exposing stack traces in error responses."
+reference: CWE-215
+requests:
+  - method: GET
+    path: "/nonexistent-argos-test"
+    matchers:
+      - type: body
+        words:
+          - "Error"
+          - "at Function"
+          - "stack"
+      - type: status
+        status: [200, 400, 404, 500]
+    condition: and

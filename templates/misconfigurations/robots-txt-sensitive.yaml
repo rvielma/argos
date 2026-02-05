@@ -1,0 +1,15 @@
+id: robots-txt-sensitive
+name: "Robots.txt With Sensitive Paths"
+severity: info
+description: "Robots.txt file reveals potentially sensitive paths that may contain administrative or private resources."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/robots.txt"
+    matchers:
+      - type: body
+        words:
+          - "Disallow"
+      - type: status
+        status: [200]
+    condition: and

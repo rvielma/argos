@@ -1,0 +1,13 @@
+id: tech-supabase
+name: "Supabase Detected"
+severity: info
+description: "Supabase backend platform detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "supabase"
+    condition: and

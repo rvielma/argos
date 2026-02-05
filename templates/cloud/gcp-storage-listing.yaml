@@ -1,0 +1,16 @@
+id: gcp-storage-listing
+name: "GCP Storage Bucket Listing"
+severity: high
+description: "Google Cloud Storage bucket allows public listing of objects."
+reference: CWE-264
+requests:
+  - method: GET
+    path: "/storage/v1/b"
+    matchers:
+      - type: body
+        words:
+          - "items"
+          - "kind"
+      - type: status
+        status: [200]
+    condition: and

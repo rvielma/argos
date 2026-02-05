@@ -1,0 +1,15 @@
+id: hadoop-namenode
+name: "Hadoop NameNode Exposed"
+severity: high
+description: "Hadoop HDFS NameNode web interface is publicly accessible."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/dfshealth.html"
+    matchers:
+      - type: body
+        words:
+          - "NameNode"
+      - type: status
+        status: [200]
+    condition: and

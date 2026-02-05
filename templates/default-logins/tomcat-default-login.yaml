@@ -1,0 +1,17 @@
+id: tomcat-default-login
+name: "Tomcat Manager Default Login"
+severity: critical
+description: "Apache Tomcat Manager accepts default credentials admin:admin."
+reference: CWE-1393
+requests:
+  - method: GET
+    path: "/manager/html"
+    headers:
+      Authorization: "Basic YWRtaW46YWRtaW4="
+    matchers:
+      - type: body
+        words:
+          - "Tomcat"
+      - type: status
+        status: [200]
+    condition: and

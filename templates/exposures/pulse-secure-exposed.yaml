@@ -1,0 +1,15 @@
+id: pulse-secure-exposed
+name: "Pulse Secure VPN Exposed"
+severity: medium
+description: "Pulse Secure VPN login page is publicly accessible."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/dana-na/auth/url_default/welcome.cgi"
+    matchers:
+      - type: body
+        words:
+          - "Pulse"
+      - type: status
+        status: [200]
+    condition: and

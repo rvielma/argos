@@ -1,0 +1,15 @@
+id: mirth-connect-exposed
+name: "Mirth Connect Exposed"
+severity: high
+description: "Mirth Connect healthcare integration engine is publicly accessible."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/api/server/version"
+    matchers:
+      - type: body
+        words:
+          - "version"
+      - type: status
+        status: [200]
+    condition: and

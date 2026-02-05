@@ -1,0 +1,15 @@
+id: x-debug-token-exposed
+name: "X-Debug-Token Header Exposed"
+severity: info
+description: "Server exposes X-Debug-Token header indicating debug mode is enabled and profiler data may be accessible."
+reference: CWE-215
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: header
+        words:
+          - "x-debug-token"
+      - type: status
+        status: [200]
+    condition: and

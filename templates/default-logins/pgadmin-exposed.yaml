@@ -1,5 +1,5 @@
-id: pgadmin-exposed
-name: "pgAdmin Exposed"
+id: pgadmin-default-login
+name: "pgAdmin Default Login"
 severity: high
 description: "pgAdmin PostgreSQL management is publicly accessible."
 reference: CWE-284

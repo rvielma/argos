@@ -1,7 +1,7 @@
 id: spring-actuator
 name: "Spring Boot Actuator Exposed"
 severity: high
-description: "Spring Boot Actuator endpoints are publicly accessible."
+description: "Spring Boot Actuator endpoints are publicly accessible exposing application internals and environment."
 reference: CWE-284
 requests:
   - method: GET
@@ -10,6 +10,7 @@ requests:
       - type: body
         words:
           - "_links"
+          - "self"
       - type: status
         status: [200]
     condition: and

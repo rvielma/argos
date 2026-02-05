@@ -1,0 +1,15 @@
+id: kibana-exposed
+name: "Kibana Dashboard Exposed"
+severity: medium
+description: "Kibana analytics dashboard is publicly accessible."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/app/kibana"
+    matchers:
+      - type: body
+        words:
+          - "kibana"
+      - type: status
+        status: [200]
+    condition: and

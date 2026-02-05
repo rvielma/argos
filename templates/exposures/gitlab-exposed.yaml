@@ -1,0 +1,15 @@
+id: gitlab-exposed
+name: "GitLab Login Page Exposed"
+severity: medium
+description: "GitLab instance login page is publicly accessible."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/users/sign_in"
+    matchers:
+      - type: body
+        words:
+          - "GitLab"
+      - type: status
+        status: [200]
+    condition: and

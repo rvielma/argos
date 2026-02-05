@@ -1,0 +1,16 @@
+id: fhir-careplan
+name: "FHIR CarePlan Endpoint Exposed"
+severity: high
+description: "HL7 FHIR CarePlan endpoint is publicly accessible, potentially exposing patient treatment plans."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/fhir/CarePlan"
+    matchers:
+      - type: body
+        words:
+          - "CarePlan"
+          - "resourceType"
+      - type: status
+        status: [200]
+    condition: and

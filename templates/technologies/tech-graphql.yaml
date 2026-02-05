@@ -1,0 +1,13 @@
+id: tech-graphql
+name: "GraphQL Detected"
+severity: info
+description: "GraphQL API endpoint detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/graphql"
+    matchers:
+      - type: body
+        words:
+          - "graphql"
+    condition: and

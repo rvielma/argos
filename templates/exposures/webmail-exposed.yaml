@@ -1,0 +1,15 @@
+id: webmail-exposed
+name: "Webmail Interface Exposed"
+severity: medium
+description: "Webmail interface is publicly accessible."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/webmail"
+    matchers:
+      - type: body
+        words:
+          - "Webmail"
+      - type: status
+        status: [200]
+    condition: and

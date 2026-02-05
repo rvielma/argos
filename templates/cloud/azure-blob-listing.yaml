@@ -1,0 +1,16 @@
+id: azure-blob-listing
+name: "Azure Blob Storage Container Listing"
+severity: high
+description: "Azure Blob Storage container allows public enumeration of blobs."
+reference: CWE-264
+requests:
+  - method: GET
+    path: "/?comp=list&restype=container"
+    matchers:
+      - type: body
+        words:
+          - "EnumerationResults"
+          - "Blob"
+      - type: status
+        status: [200]
+    condition: and

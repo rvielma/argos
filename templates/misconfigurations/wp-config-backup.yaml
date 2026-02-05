@@ -1,0 +1,16 @@
+id: wp-config-backup
+name: "WordPress Config Backup Exposed"
+severity: critical
+description: "WordPress wp-config.php backup file is publicly accessible exposing database credentials and secret keys."
+reference: CWE-530
+requests:
+  - method: GET
+    path: "/wp-config.php.bak"
+    matchers:
+      - type: body
+        words:
+          - "DB_NAME"
+          - "DB_PASSWORD"
+      - type: status
+        status: [200]
+    condition: and

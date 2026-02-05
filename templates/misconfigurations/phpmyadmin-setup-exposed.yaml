@@ -1,0 +1,16 @@
+id: phpmyadmin-setup-exposed
+name: "phpMyAdmin Setup Page Exposed"
+severity: high
+description: "phpMyAdmin setup page is publicly accessible allowing reconfiguration of the database manager."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/phpmyadmin/setup/"
+    matchers:
+      - type: body
+        words:
+          - "phpMyAdmin"
+          - "setup"
+      - type: status
+        status: [200]
+    condition: and

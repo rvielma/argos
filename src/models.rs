@@ -336,6 +336,7 @@ impl Default for ScanConfig {
                 "waf".to_string(),
                 "websocket".to_string(),
                 "dast".to_string(),
+                "graphql".to_string(),
             ],
             follow_redirects: true,
             max_depth: 3,

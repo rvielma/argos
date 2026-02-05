@@ -1,0 +1,20 @@
+id: tech-rails-full
+name: "Ruby on Rails Detected"
+severity: info
+description: "Ruby on Rails web framework detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: header
+        header: "x-powered-by"
+        words:
+          - "Phusion Passenger"
+      - type: body
+        words:
+          - "csrf-token"
+      - type: body
+        words:
+          - "data-turbo"
+    condition: or

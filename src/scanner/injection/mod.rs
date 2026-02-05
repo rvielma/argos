@@ -3,6 +3,8 @@
 //! Detects SQL Injection, XSS, Command Injection, SSTI, and Path Traversal.
 
 pub mod command;
+pub mod crlf;
+pub mod open_redirect;
 pub mod path_traversal;
 pub mod sqli;
 pub mod ssti;
@@ -18,14 +20,36 @@ use std::collections::HashMap;
 use tracing::{debug, info};
 use url::Url;
 
+// Re-export serde_json for JSON body injection point extraction
+use serde_json;
+
+/// Represents a prepared test request: (method, url, headers, optional body)
+pub type TestRequest = (reqwest::Method, String, Vec<(String, String)>, Option<String>);
+
 /// Detects injection vulnerabilities across multiple categories
 pub struct InjectionScanner;
 
-/// An injection point: URL + parameter names
+/// Type of injection point — determines how payloads are delivered
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub enum PointType {
+    /// Query string parameter or form field
+    QueryParam,
+    /// HTTP header injection (Referer, X-Forwarded-For, etc.)
+    Header,
+    /// Cookie value injection
+    Cookie,
+    /// JSON body field injection
+    JsonBody,
+}
+
+/// An injection point: URL + parameter names + delivery type
 #[derive(Debug, Clone)]
 pub struct InjectionPoint {
     pub url: String,
     pub params: Vec<String>,
+    pub point_type: PointType,
+    /// Original request body (used for JSON body fuzzing)
+    pub original_body: Option<String>,
 }
 
 /// Baseline response for a specific (URL, param) pair.
@@ -77,6 +101,8 @@ impl InjectionScanner {
                     points.push(InjectionPoint {
                         url: form_url,
                         params,
+                        point_type: PointType::QueryParam,
+                        original_body: None,
                     });
                 }
             }
@@ -89,6 +115,8 @@ impl InjectionScanner {
                 points.push(InjectionPoint {
                     url: base_url.to_string(),
                     params,
+                    point_type: PointType::QueryParam,
+                    original_body: None,
                 });
             }
         }
@@ -126,6 +154,8 @@ impl InjectionScanner {
                             points.push(InjectionPoint {
                                 url: full_url,
                                 params,
+                                point_type: PointType::QueryParam,
+                                original_body: None,
                             });
                         }
                     }
@@ -188,6 +218,154 @@ impl InjectionScanner {
         Some(BaselineResponse { body, elapsed_ms })
     }
 
+    /// Headers commonly injectable by attackers
+    const INJECTABLE_HEADERS: &'static [&'static str] = &[
+        "Referer",
+        "X-Forwarded-For",
+        "X-Forwarded-Host",
+        "User-Agent",
+        "Origin",
+        "X-Original-URL",
+        "X-Rewrite-URL",
+    ];
+
+    /// Extracts header-based injection points for a URL
+    pub fn extract_header_points(url: &str) -> InjectionPoint {
+        InjectionPoint {
+            url: url.to_string(),
+            params: Self::INJECTABLE_HEADERS
+                .iter()
+                .map(|h| h.to_string())
+                .collect(),
+            point_type: PointType::Header,
+            original_body: None,
+        }
+    }
+
+    /// Extracts cookie-based injection points from response Set-Cookie headers
+    pub fn extract_cookie_points(url: &str, set_cookie_headers: &[String]) -> Option<InjectionPoint> {
+        let mut cookie_names = Vec::new();
+        for header in set_cookie_headers {
+            // Parse "name=value; ..." format
+            if let Some(name_value) = header.split(';').next() {
+                if let Some(name) = name_value.split('=').next() {
+                    let name = name.trim().to_string();
+                    if !name.is_empty() {
+                        cookie_names.push(name);
+                    }
+                }
+            }
+        }
+
+        if cookie_names.is_empty() {
+            return None;
+        }
+
+        Some(InjectionPoint {
+            url: url.to_string(),
+            params: cookie_names,
+            point_type: PointType::Cookie,
+            original_body: None,
+        })
+    }
+
+    /// Extracts JSON body injection points from a response body
+    pub fn extract_json_points(url: &str, json_body: &str) -> Option<InjectionPoint> {
+        let parsed: serde_json::Value = serde_json::from_str(json_body).ok()?;
+        let mut field_names = Vec::new();
+
+        if let Some(obj) = parsed.as_object() {
+            for key in obj.keys() {
+                field_names.push(key.clone());
+            }
+        }
+
+        if field_names.is_empty() {
+            return None;
+        }
+
+        Some(InjectionPoint {
+            url: url.to_string(),
+            params: field_names,
+            point_type: PointType::JsonBody,
+            original_body: Some(json_body.to_string()),
+        })
+    }
+
+    /// Builds a test request for non-query injection points.
+    /// Returns (method, url, headers, body) tuple.
+    pub fn build_test_request(
+        point: &InjectionPoint,
+        param: &str,
+        payload: &str,
+    ) -> Option<TestRequest> {
+        match point.point_type {
+            PointType::QueryParam => {
+                let url = Self::build_test_url(&point.url, param, payload)?;
+                Some((reqwest::Method::GET, url, vec![], None))
+            }
+            PointType::Header => {
+                let headers = vec![(param.to_string(), payload.to_string())];
+                Some((reqwest::Method::GET, point.url.clone(), headers, None))
+            }
+            PointType::Cookie => {
+                let cookie_value = format!("{param}={payload}");
+                let headers = vec![("Cookie".to_string(), cookie_value)];
+                Some((reqwest::Method::GET, point.url.clone(), headers, None))
+            }
+            PointType::JsonBody => {
+                let original = point.original_body.as_deref().unwrap_or("{}");
+                let mut parsed: serde_json::Value =
+                    serde_json::from_str(original).unwrap_or(serde_json::Value::Object(
+                        serde_json::Map::new(),
+                    ));
+                if let Some(obj) = parsed.as_object_mut() {
+                    obj.insert(
+                        param.to_string(),
+                        serde_json::Value::String(payload.to_string()),
+                    );
+                }
+                let body = serde_json::to_string(&parsed).unwrap_or_default();
+                let headers = vec![(
+                    "Content-Type".to_string(),
+                    "application/json".to_string(),
+                )];
+                Some((reqwest::Method::POST, point.url.clone(), headers, Some(body)))
+            }
+        }
+    }
+
+    /// Sends a test request using the appropriate method for the injection point type.
+    /// Returns the response body and elapsed time.
+    pub async fn send_test_request(
+        client: &HttpClient,
+        point: &InjectionPoint,
+        param: &str,
+        payload: &str,
+    ) -> Option<(String, u64)> {
+        let (method, url, headers, body) = Self::build_test_request(point, param, payload)?;
+        let start = std::time::Instant::now();
+        let resp = client
+            .request(method, &url, &headers, body.as_deref())
+            .await
+            .ok()?;
+        let elapsed_ms = start.elapsed().as_millis() as u64;
+        let resp_body = resp.text().await.unwrap_or_default();
+        Some((resp_body, elapsed_ms))
+    }
+
+    /// Gets a baseline response for any injection point type
+    pub async fn get_baseline_generic(
+        client: &HttpClient,
+        point: &InjectionPoint,
+        param: &str,
+    ) -> Option<BaselineResponse> {
+        let benign_value = "argosbaselinetest123";
+        let (body, elapsed_ms) =
+            Self::send_test_request(client, point, param, benign_value).await?;
+        Some(BaselineResponse { body, elapsed_ms })
+    }
+
     /// Checks response body for SQL error patterns and returns the DB type
     pub fn check_sql_errors(body: &str) -> Option<&'static str> {
         let patterns: &[(&str, &str)] = &[
@@ -221,7 +399,7 @@ impl super::Scanner for InjectionScanner {
     }
 
     fn description(&self) -> &str {
-        "Detects injection vulnerabilities: SQLi, XSS, Command Injection, SSTI, Path Traversal"
+        "Detects injection vulnerabilities: SQLi, XSS, Command Injection, SSTI, Path Traversal, Open Redirect, CRLF"
     }
 
     async fn scan(
@@ -243,15 +421,52 @@ impl super::Scanner for InjectionScanner {
 
         for url in urls_to_check.iter().take(50) {
             if let Ok(response) = client.get(url).await {
+                // Extract Set-Cookie headers for cookie injection points
+                let set_cookies: Vec<String> = response
+                    .headers()
+                    .get_all("set-cookie")
+                    .iter()
+                    .filter_map(|v| v.to_str().ok())
+                    .map(|s| s.to_string())
+                    .collect();
+
+                let content_type = response
+                    .headers()
+                    .get("content-type")
+                    .and_then(|v| v.to_str().ok())
+                    .unwrap_or("")
+                    .to_string();
+
                 let body = response.text().await.unwrap_or_default();
+
+                // Standard injection points (forms, query params, links)
                 let points = Self::extract_injection_points(url, &body);
                 injection_points.extend(points);
+
+                // Header injection points (one per URL)
+                injection_points.push(Self::extract_header_points(url));
+
+                // Cookie injection points
+                if !set_cookies.is_empty() {
+                    if let Some(cookie_point) = Self::extract_cookie_points(url, &set_cookies) {
+                        injection_points.push(cookie_point);
+                    }
+                }
+
+                // JSON body injection points
+                if content_type.contains("application/json") {
+                    if let Some(json_point) = Self::extract_json_points(url, &body) {
+                        injection_points.push(json_point);
+                    }
+                }
             }
         }
 
-        // Deduplicate
-        injection_points.sort_by(|a, b| a.url.cmp(&b.url));
-        injection_points.dedup_by(|a, b| a.url == b.url);
+        // Deduplicate query param points by URL
+        injection_points.sort_by(|a, b| {
+            a.url.cmp(&b.url).then(format!("{:?}", a.point_type).cmp(&format!("{:?}", b.point_type)))
+        });
+        injection_points.dedup_by(|a, b| a.url == b.url && a.point_type == b.point_type);
 
         info!("Found {} injection points", injection_points.len());
 
@@ -265,10 +480,16 @@ impl super::Scanner for InjectionScanner {
         let mut baselines: HashMap<(String, String), BaselineResponse> = HashMap::new();
         for point in injection_points.iter().take(10) {
             for param in &point.params {
-                if let Some(baseline) =
-                    InjectionScanner::get_baseline(client, &point.url, param).await
-                {
-                    baselines.insert((point.url.clone(), param.clone()), baseline);
+                let baseline = match point.point_type {
+                    PointType::QueryParam => {
+                        InjectionScanner::get_baseline(client, &point.url, param).await
+                    }
+                    _ => {
+                        InjectionScanner::get_baseline_generic(client, point, param).await
+                    }
+                };
+                if let Some(bl) = baseline {
+                    baselines.insert((point.url.clone(), param.clone()), bl);
                 }
             }
         }
@@ -288,6 +509,13 @@ impl super::Scanner for InjectionScanner {
 
         let pt_findings = path_traversal::scan(client, &injection_points).await;
         findings.extend(pt_findings);
+
+        let redirect_findings =
+            open_redirect::scan(client, &injection_points, &baselines).await;
+        findings.extend(redirect_findings);
+
+        let crlf_findings = crlf::scan(client, &injection_points, &baselines).await;
+        findings.extend(crlf_findings);
 
         Ok(findings)
     }

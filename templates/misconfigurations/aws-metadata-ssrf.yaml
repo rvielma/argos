@@ -1,0 +1,16 @@
+id: aws-metadata-ssrf
+name: "AWS Metadata Endpoint Accessible"
+severity: critical
+description: "AWS EC2 instance metadata endpoint is accessible via SSRF, potentially exposing IAM credentials."
+reference: CWE-918
+requests:
+  - method: GET
+    path: "/latest/meta-data/"
+    matchers:
+      - type: body
+        words:
+          - "ami-id"
+          - "instance-id"
+      - type: status
+        status: [200]
+    condition: and

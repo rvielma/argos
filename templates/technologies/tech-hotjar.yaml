@@ -1,0 +1,16 @@
+id: tech-hotjar
+name: "Hotjar Detected"
+severity: info
+description: "Hotjar analytics and feedback tool detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "hotjar"
+      - type: body
+        words:
+          - "static.hotjar.com"
+    condition: or

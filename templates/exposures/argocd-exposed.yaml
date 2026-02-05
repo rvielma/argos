@@ -1,0 +1,15 @@
+id: argocd-exposed
+name: "Argo CD Exposed"
+severity: medium
+description: "Argo CD GitOps dashboard is publicly accessible."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/login"
+    matchers:
+      - type: body
+        words:
+          - "Argo CD"
+      - type: status
+        status: [200]
+    condition: and

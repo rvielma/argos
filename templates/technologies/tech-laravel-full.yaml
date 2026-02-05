@@ -1,0 +1,17 @@
+id: tech-laravel-full
+name: "Laravel Framework Detected"
+severity: info
+description: "Laravel PHP framework detected via cookie or body fingerprint."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: header
+        header: "set-cookie"
+        words:
+          - "laravel_session"
+      - type: body
+        words:
+          - "laravel"
+    condition: or

@@ -1,0 +1,14 @@
+id: tech-caddy
+name: "Caddy Web Server Detected"
+severity: info
+description: "Caddy web server detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: header
+        header: "server"
+        words:
+          - "Caddy"
+    condition: and

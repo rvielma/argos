@@ -1,0 +1,16 @@
+id: tech-sanity
+name: "Sanity CMS Detected"
+severity: info
+description: "Sanity headless CMS detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "sanity.io"
+      - type: body
+        words:
+          - "cdn.sanity.io"
+    condition: or

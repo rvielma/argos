@@ -1,0 +1,15 @@
+id: database-dump-exposed
+name: "Database Dump File Exposed"
+severity: critical
+description: "Database dump file is publicly accessible potentially exposing entire database schema and data."
+reference: CWE-530
+requests:
+  - method: GET
+    path: "/dump.sql"
+    matchers:
+      - type: body
+        words:
+          - "CREATE TABLE"
+      - type: status
+        status: [200]
+    condition: and

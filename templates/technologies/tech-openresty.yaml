@@ -1,0 +1,14 @@
+id: tech-openresty
+name: "OpenResty Detected"
+severity: info
+description: "OpenResty web platform detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: header
+        header: "server"
+        words:
+          - "openresty"
+    condition: and

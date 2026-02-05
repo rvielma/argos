@@ -1,0 +1,16 @@
+id: tech-gatsby
+name: "Gatsby Detected"
+severity: info
+description: "Gatsby static site generator detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "___gatsby"
+      - type: body
+        words:
+          - "gatsby-image"
+    condition: or

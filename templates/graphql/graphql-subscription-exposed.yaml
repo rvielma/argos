@@ -1,0 +1,19 @@
+id: graphql-subscription-exposed
+name: "GraphQL Subscriptions Exposed"
+severity: medium
+description: "GraphQL subscriptions are enabled, which could be abused for real-time data exfiltration or resource exhaustion."
+reference: CWE-284
+requests:
+  - method: POST
+    path: "/graphql"
+    headers:
+      Content-Type: "application/json"
+    body: '{"query":"{ __schema { subscriptionType { fields { name } } } }"}'
+    matchers:
+      - type: body
+        words:
+          - "subscriptionType"
+          - "fields"
+      - type: status
+        status: [200]
+    condition: and

@@ -1,4 +1,4 @@
-id: elasticsearch-exposed
+id: elasticsearch-unauthenticated
 name: "Elasticsearch Exposed"
 severity: high
 description: "Elasticsearch instance is publicly accessible without authentication."

@@ -1,0 +1,17 @@
+id: tech-nextjs-full
+name: "Next.js Framework Detected"
+severity: info
+description: "Next.js React framework detected via header or body fingerprint."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: header
+        header: "x-powered-by"
+        words:
+          - "Next.js"
+      - type: body
+        words:
+          - "__NEXT_DATA__"
+    condition: or

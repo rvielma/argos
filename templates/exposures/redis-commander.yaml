@@ -1,0 +1,15 @@
+id: redis-commander
+name: "Redis Commander Exposed"
+severity: high
+description: "Redis Commander web management tool is publicly accessible."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "Redis Commander"
+      - type: status
+        status: [200]
+    condition: and

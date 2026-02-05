@@ -1,0 +1,19 @@
+id: tech-google-analytics
+name: "Google Analytics Detected"
+severity: info
+description: "Google Analytics or Google Tag Manager tracking detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "google-analytics.com"
+      - type: body
+        words:
+          - "googletagmanager.com"
+      - type: body
+        words:
+          - "gtag("
+    condition: or

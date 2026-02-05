@@ -1,0 +1,19 @@
+id: graphql-debug-mode
+name: "GraphQL Debug Mode Enabled"
+severity: medium
+description: "GraphQL endpoint has debug/tracing mode enabled, exposing execution details and performance metrics."
+reference: CWE-200
+requests:
+  - method: POST
+    path: "/graphql"
+    headers:
+      Content-Type: "application/json"
+    body: '{"query":"{ __typename }"}'
+    matchers:
+      - type: body
+        words:
+          - "extensions"
+          - "tracing"
+      - type: status
+        status: [200]
+    condition: and

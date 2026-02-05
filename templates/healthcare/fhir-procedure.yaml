@@ -1,0 +1,16 @@
+id: fhir-procedure
+name: "FHIR Procedure Endpoint Exposed"
+severity: high
+description: "HL7 FHIR Procedure endpoint is publicly accessible, potentially exposing patient procedure records."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/fhir/Procedure"
+    matchers:
+      - type: body
+        words:
+          - "Procedure"
+          - "resourceType"
+      - type: status
+        status: [200]
+    condition: and

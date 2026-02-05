@@ -1,0 +1,15 @@
+id: requirements-txt-exposed
+name: "Requirements.txt File Exposed"
+severity: low
+description: "Python requirements.txt is publicly accessible revealing dependency versions."
+reference: CWE-538
+requests:
+  - method: GET
+    path: "/requirements.txt"
+    matchers:
+      - type: body
+        words:
+          - "=="
+      - type: status
+        status: [200]
+    condition: and

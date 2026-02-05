@@ -1,0 +1,15 @@
+id: portainer-api-exposed
+name: "Portainer API Status Exposed"
+severity: medium
+description: "Portainer container management API status endpoint is publicly accessible."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/api/status"
+    matchers:
+      - type: body
+        words:
+          - "Version"
+      - type: status
+        status: [200]
+    condition: and

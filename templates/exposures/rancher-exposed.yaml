@@ -1,0 +1,15 @@
+id: rancher-exposed
+name: "Rancher Dashboard Exposed"
+severity: medium
+description: "Rancher Kubernetes management dashboard is publicly accessible."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/v3"
+    matchers:
+      - type: body
+        words:
+          - "rancher"
+      - type: status
+        status: [200]
+    condition: and

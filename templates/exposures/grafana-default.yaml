@@ -1,0 +1,15 @@
+id: grafana-default
+name: "Grafana Login Page Exposed"
+severity: medium
+description: "Grafana monitoring dashboard login page is publicly accessible."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/login"
+    matchers:
+      - type: body
+        words:
+          - "Grafana"
+      - type: status
+        status: [200]
+    condition: and

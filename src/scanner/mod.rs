@@ -5,6 +5,7 @@ pub mod cookies;
 pub mod cors;
 pub mod dast;
 pub mod discovery;
+pub mod graphql;
 pub mod headers;
 pub mod info_disclosure;
 pub mod injection;
@@ -71,6 +72,7 @@ impl ScanEngine {
         engine.register(Arc::new(websocket::WebSocketScanner));
         engine.register(Arc::new(dast::DastScanner));
         engine.register(Arc::new(oob_scanner::OobScanner));
+        engine.register(Arc::new(graphql::GraphQLScanner));
         engine
     }
 

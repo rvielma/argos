@@ -1,0 +1,13 @@
+id: tech-astro
+name: "Astro Detected"
+severity: info
+description: "Astro web framework detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "astro-island"
+    condition: and

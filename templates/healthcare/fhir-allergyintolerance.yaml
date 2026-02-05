@@ -1,0 +1,16 @@
+id: fhir-allergyintolerance
+name: "FHIR AllergyIntolerance Endpoint Exposed"
+severity: high
+description: "HL7 FHIR AllergyIntolerance endpoint is publicly accessible, potentially exposing patient allergy data."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/fhir/AllergyIntolerance"
+    matchers:
+      - type: body
+        words:
+          - "AllergyIntolerance"
+          - "resourceType"
+      - type: status
+        status: [200]
+    condition: and

@@ -1,0 +1,16 @@
+id: crossdomain-xml-wildcard
+name: "Flash Crossdomain XML Wildcard Policy"
+severity: medium
+description: "Flash crossdomain.xml allows access from any domain, enabling cross-site data theft via Flash."
+reference: CWE-942
+requests:
+  - method: GET
+    path: "/crossdomain.xml"
+    matchers:
+      - type: body
+        words:
+          - "cross-domain-policy"
+          - "allow-access-from domain=\"*\""
+      - type: status
+        status: [200]
+    condition: and

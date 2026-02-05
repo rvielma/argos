@@ -1,0 +1,16 @@
+id: tech-webpack
+name: "Webpack Detected"
+severity: info
+description: "Webpack module bundler detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "webpackChunk"
+      - type: body
+        words:
+          - "__webpack_require__"
+    condition: or

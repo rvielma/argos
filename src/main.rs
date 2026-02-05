@@ -48,9 +48,13 @@ enum Commands {
         #[arg(short, long)]
         output: Option<String>,
 
-        /// Output format (html or json)
+        /// Output format (html, json, or sarif)
         #[arg(short, long, default_value = "html")]
         format: String,
+
+        /// Exit with code 1 if findings at or above this severity are found (critical, high, medium, low, info)
+        #[arg(long)]
+        fail_on: Option<String>,
 
         /// Path to configuration file
         #[arg(short, long)]
@@ -272,6 +276,7 @@ async fn main() -> std::result::Result<(), Box<dyn std::error::Error>> {
             timeout,
             output,
             format,
+            fail_on,
             config: config_path,
             proxy,
             rate_limit,
@@ -407,13 +412,20 @@ async fn main() -> std::result::Result<(), Box<dyn std::error::Error>> {
             print_summary(&result.findings);
 
             let output_file = output.unwrap_or_else(|| {
-                let ext = if format == "json" { "json" } else { "html" };
+                let ext = match format.as_str() {
+                    "json" => "json",
+                    "sarif" => "sarif.json",
+                    _ => "html",
+                };
                 output_name_from_target(&scan_config.target, ext)
             });
             let output_path = Path::new(&output_file);
             match format.as_str() {
                 "json" => {
                     report::json::export(&result, output_path)?;
+                }
+                "sarif" => {
+                    report::sarif::export(&result, output_path)?;
                 }
                 _ => {
                     report::html::generate(&result, output_path)?;
@@ -423,6 +435,41 @@ async fn main() -> std::result::Result<(), Box<dyn std::error::Error>> {
             }
 
             println!("\n  {} {}", "Report saved to:".bold(), output_file.green());
+
+            // Exit code based on --fail-on threshold
+            if let Some(ref threshold) = fail_on {
+                let fail_severity = match threshold.to_lowercase().as_str() {
+                    "critical" => Some(Severity::Critical),
+                    "high" => Some(Severity::High),
+                    "medium" => Some(Severity::Medium),
+                    "low" => Some(Severity::Low),
+                    "info" => Some(Severity::Info),
+                    _ => {
+                        eprintln!(
+                            "  {} Invalid --fail-on value: '{}'. Use: critical, high, medium, low, info",
+                            "Error:".red().bold(),
+                            threshold
+                        );
+                        None
+                    }
+                };
+
+                if let Some(threshold_sev) = fail_severity {
+                    let has_findings_at_or_above = result
+                        .findings
+                        .iter()
+                        .any(|f| f.severity <= threshold_sev);
+
+                    if has_findings_at_or_above {
+                        println!(
+                            "\n  {} Findings at or above {} severity detected.",
+                            "FAIL:".red().bold(),
+                            threshold.to_uppercase().red()
+                        );
+                        std::process::exit(1);
+                    }
+                }
+            }
         }
 
         Commands::Proxy {

@@ -1,0 +1,15 @@
+id: fortigate-login
+name: "FortiGate Login Exposed"
+severity: medium
+description: "FortiGate firewall login page is publicly accessible."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/login"
+    matchers:
+      - type: body
+        words:
+          - "FortiGate"
+      - type: status
+        status: [200]
+    condition: and

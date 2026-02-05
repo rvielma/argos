@@ -1,0 +1,20 @@
+id: tech-spring-boot
+name: "Spring Boot Detected"
+severity: info
+description: "Spring Boot Java framework detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "Whitelabel Error Page"
+    condition: and
+  - method: GET
+    path: "/actuator"
+    matchers:
+      - type: body
+        words:
+          - "_links"
+    condition: and

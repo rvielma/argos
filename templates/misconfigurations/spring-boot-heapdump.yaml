@@ -1,0 +1,15 @@
+id: spring-boot-heapdump
+name: "Spring Boot Heapdump Exposed"
+severity: critical
+description: "Spring Boot actuator heapdump endpoint is accessible, potentially exposing credentials and sensitive data from memory."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/actuator/heapdump"
+    matchers:
+      - type: body
+        words:
+          - "JAVA PROFILE"
+      - type: status
+        status: [200]
+    condition: and

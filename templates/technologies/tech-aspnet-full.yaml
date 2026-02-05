@@ -1,0 +1,18 @@
+id: tech-aspnet-full
+name: "ASP.NET Framework Detected"
+severity: info
+description: "ASP.NET framework detected via headers."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: header
+        header: "x-powered-by"
+        words:
+          - "ASP.NET"
+      - type: header
+        header: "x-aspnet-version"
+        words:
+          - "."
+    condition: or

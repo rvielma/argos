@@ -1,0 +1,15 @@
+id: redoc-exposed
+name: "ReDoc API Documentation Exposed"
+severity: low
+description: "ReDoc API documentation is publicly accessible."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/redoc"
+    matchers:
+      - type: body
+        words:
+          - "ReDoc"
+      - type: status
+        status: [200]
+    condition: and

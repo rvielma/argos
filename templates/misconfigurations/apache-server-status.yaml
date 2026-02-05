@@ -1,0 +1,15 @@
+id: apache-server-status
+name: "Apache Server Status Exposed"
+severity: medium
+description: "Apache mod_status is publicly accessible revealing server performance data and active connections."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/server-status"
+    matchers:
+      - type: body
+        words:
+          - "Apache Server Status"
+      - type: status
+        status: [200]
+    condition: and

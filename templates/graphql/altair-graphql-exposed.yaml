@@ -1,0 +1,16 @@
+id: altair-graphql-exposed
+name: "Altair GraphQL Client Exposed"
+severity: medium
+description: "Altair GraphQL Client is publicly accessible, providing an interactive environment to explore the API."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/altair"
+    matchers:
+      - type: body
+        words:
+          - "Altair"
+          - "GraphQL"
+      - type: status
+        status: [200]
+    condition: and

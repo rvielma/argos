@@ -1,0 +1,16 @@
+id: orthanc-dicom-exposed
+name: "Orthanc DICOM Server Exposed"
+severity: high
+description: "Orthanc DICOM server is publicly accessible, potentially exposing medical imaging data."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/system"
+    matchers:
+      - type: body
+        words:
+          - "DicomAet"
+          - "Version"
+      - type: status
+        status: [200]
+    condition: and

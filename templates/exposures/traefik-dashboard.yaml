@@ -1,0 +1,15 @@
+id: traefik-dashboard
+name: "Traefik Dashboard Exposed"
+severity: medium
+description: "Traefik reverse proxy dashboard is publicly accessible."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/dashboard/"
+    matchers:
+      - type: body
+        words:
+          - "Traefik"
+      - type: status
+        status: [200]
+    condition: and

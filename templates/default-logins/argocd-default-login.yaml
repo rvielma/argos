@@ -1,0 +1,18 @@
+id: argocd-default-login
+name: "Argo CD Default Login"
+severity: critical
+description: "Argo CD accepts default credentials admin:admin via session API."
+reference: CWE-1393
+requests:
+  - method: POST
+    path: "/api/v1/session"
+    headers:
+      Content-Type: "application/json"
+    body: '{"username":"admin","password":"admin"}'
+    matchers:
+      - type: body
+        words:
+          - "token"
+      - type: status
+        status: [200]
+    condition: and

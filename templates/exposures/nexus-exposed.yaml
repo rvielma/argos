@@ -1,0 +1,15 @@
+id: nexus-exposed
+name: "Nexus Repository Manager Exposed"
+severity: medium
+description: "Sonatype Nexus Repository Manager is publicly accessible."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "Nexus Repository"
+      - type: status
+        status: [200]
+    condition: and

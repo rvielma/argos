@@ -1,14 +1,16 @@
 id: laravel-debug
 name: "Laravel Debug Mode Enabled"
 severity: high
-description: "Laravel application is running in debug mode exposing sensitive data."
+description: "Laravel application is running in debug mode exposing sensitive data including stack traces and environment variables."
 reference: CWE-215
 requests:
   - method: GET
-    path: "/"
+    path: "/nonexistent-argos-test"
     matchers:
       - type: body
         words:
           - "Whoops"
-          - "Laravel"
-    condition: or
+          - "stack trace"
+      - type: status
+        status: [200, 400, 404, 500]
+    condition: and

@@ -1,0 +1,16 @@
+id: aws-s3-listing
+name: "AWS S3 Bucket Listing Enabled"
+severity: high
+description: "AWS S3 bucket allows public listing of objects, potentially exposing sensitive data."
+reference: CWE-264
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "ListBucketResult"
+          - "Key"
+      - type: status
+        status: [200]
+    condition: and

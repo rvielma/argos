@@ -1,0 +1,16 @@
+id: tech-rollup
+name: "Rollup Detected"
+severity: info
+description: "Rollup module bundler detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "rollupOptions"
+      - type: body
+        words:
+          - "Rollup"
+    condition: or

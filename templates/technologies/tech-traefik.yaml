@@ -1,0 +1,21 @@
+id: tech-traefik
+name: "Traefik Proxy Detected"
+severity: info
+description: "Traefik reverse proxy detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: header
+        header: "server"
+        words:
+          - "Traefik"
+    condition: and
+  - method: GET
+    path: "/dashboard/"
+    matchers:
+      - type: body
+        words:
+          - "Traefik"
+    condition: and

@@ -1,0 +1,15 @@
+id: citrix-gateway
+name: "Citrix Gateway Exposed"
+severity: medium
+description: "Citrix Gateway VPN login page is publicly accessible."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/vpn/index.html"
+    matchers:
+      - type: body
+        words:
+          - "Citrix"
+      - type: status
+        status: [200]
+    condition: and

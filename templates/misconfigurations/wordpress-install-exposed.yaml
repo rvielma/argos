@@ -1,0 +1,16 @@
+id: wordpress-install-exposed
+name: "WordPress Installation Page Exposed"
+severity: high
+description: "WordPress installation page is publicly accessible allowing an attacker to take over the site."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/wp-admin/install.php"
+    matchers:
+      - type: body
+        words:
+          - "WordPress"
+          - "installation"
+      - type: status
+        status: [200]
+    condition: and

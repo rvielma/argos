@@ -1,0 +1,15 @@
+id: swagger-ui-v2
+name: "Swagger API Docs Exposed"
+severity: medium
+description: "Swagger API documentation endpoint is publicly accessible."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/api-docs"
+    matchers:
+      - type: body
+        words:
+          - "swagger"
+      - type: status
+        status: [200]
+    condition: and

@@ -1,0 +1,16 @@
+id: gemfile-lock-exposed
+name: "Gemfile.lock File Exposed"
+severity: medium
+description: "Ruby Gemfile.lock is publicly accessible revealing exact dependency versions."
+reference: CWE-538
+requests:
+  - method: GET
+    path: "/Gemfile.lock"
+    matchers:
+      - type: body
+        words:
+          - "GEM"
+          - "remote"
+      - type: status
+        status: [200]
+    condition: and

@@ -1,0 +1,19 @@
+id: tech-ember
+name: "Ember.js Detected"
+severity: info
+description: "Ember.js JavaScript framework detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "ember-view"
+      - type: body
+        words:
+          - "ember-application"
+      - type: body
+        words:
+          - "data-ember-action"
+    condition: or

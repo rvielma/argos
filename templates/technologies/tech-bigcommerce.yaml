@@ -1,0 +1,17 @@
+id: tech-bigcommerce
+name: "BigCommerce Detected"
+severity: info
+description: "BigCommerce e-commerce platform detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: header
+        header: "x-bc-store-version"
+        words:
+          - "."
+      - type: body
+        words:
+          - "BigCommerce"
+    condition: or

@@ -1,0 +1,16 @@
+id: django-debug-mode
+name: "Django Debug Mode Enabled"
+severity: high
+description: "Django application is running in debug mode exposing sensitive information including stack traces and settings."
+reference: CWE-215
+requests:
+  - method: GET
+    path: "/nonexistent-argos-test"
+    matchers:
+      - type: body
+        words:
+          - "Django"
+          - "Traceback"
+      - type: status
+        status: [200, 400, 404, 500]
+    condition: and

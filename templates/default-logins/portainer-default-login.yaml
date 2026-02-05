@@ -1,0 +1,18 @@
+id: portainer-default-login
+name: "Portainer Default Login"
+severity: critical
+description: "Portainer accepts default credentials admin:admin via auth API."
+reference: CWE-1393
+requests:
+  - method: POST
+    path: "/api/auth"
+    headers:
+      Content-Type: "application/json"
+    body: '{"username":"admin","password":"admin"}'
+    matchers:
+      - type: body
+        words:
+          - "jwt"
+      - type: status
+        status: [200]
+    condition: and

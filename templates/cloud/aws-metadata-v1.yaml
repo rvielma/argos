@@ -1,0 +1,16 @@
+id: aws-metadata-v1
+name: "AWS EC2 Metadata Service v1 Accessible"
+severity: critical
+description: "AWS EC2 Instance Metadata Service v1 is accessible, allowing potential SSRF attacks to steal credentials."
+reference: CWE-918
+requests:
+  - method: GET
+    path: "/latest/meta-data/"
+    matchers:
+      - type: body
+        words:
+          - "ami-id"
+          - "instance-id"
+      - type: status
+        status: [200]
+    condition: and

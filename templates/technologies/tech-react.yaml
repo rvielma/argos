@@ -1,0 +1,19 @@
+id: tech-react
+name: "React Detected"
+severity: info
+description: "React JavaScript library detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "_reactRootContainer"
+      - type: body
+        words:
+          - "react-root"
+      - type: body
+        words:
+          - "__NEXT_DATA__"
+    condition: or

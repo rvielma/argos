@@ -1,0 +1,16 @@
+id: fhir-encounter
+name: "FHIR Encounter Endpoint Exposed"
+severity: high
+description: "HL7 FHIR Encounter endpoint is publicly accessible, potentially exposing patient visit records."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/fhir/Encounter"
+    matchers:
+      - type: body
+        words:
+          - "Encounter"
+          - "resourceType"
+      - type: status
+        status: [200]
+    condition: and

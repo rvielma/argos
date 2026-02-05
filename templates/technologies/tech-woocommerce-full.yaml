@@ -1,0 +1,16 @@
+id: tech-woocommerce-full
+name: "WooCommerce Detected"
+severity: info
+description: "WooCommerce e-commerce plugin detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "woocommerce"
+      - type: body
+        words:
+          - "wc-blocks"
+    condition: or

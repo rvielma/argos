@@ -1,0 +1,17 @@
+id: package-json-exposed
+name: "Package.json File Exposed"
+severity: medium
+description: "Node.js package.json file is publicly accessible revealing dependencies and application metadata."
+reference: CWE-538
+requests:
+  - method: GET
+    path: "/package.json"
+    matchers:
+      - type: body
+        words:
+          - "name"
+          - "version"
+          - "dependencies"
+      - type: status
+        status: [200]
+    condition: and

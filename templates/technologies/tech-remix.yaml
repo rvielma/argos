@@ -1,0 +1,13 @@
+id: tech-remix
+name: "Remix Detected"
+severity: info
+description: "Remix full-stack framework detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "__remix"
+    condition: and

@@ -1,0 +1,15 @@
+id: graphql-playground-exposed
+name: "GraphQL Playground Exposed"
+severity: medium
+description: "GraphQL Playground IDE is publicly accessible allowing query execution."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/graphql"
+    matchers:
+      - type: body
+        words:
+          - "GraphQL Playground"
+      - type: status
+        status: [200]
+    condition: and

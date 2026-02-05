@@ -1,0 +1,15 @@
+id: artifactory-exposed
+name: "JFrog Artifactory Exposed"
+severity: medium
+description: "JFrog Artifactory repository manager is publicly accessible."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/ui/login"
+    matchers:
+      - type: body
+        words:
+          - "JFrog"
+      - type: status
+        status: [200]
+    condition: and

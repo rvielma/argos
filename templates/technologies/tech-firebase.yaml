@@ -1,0 +1,19 @@
+id: tech-firebase
+name: "Firebase Detected"
+severity: info
+description: "Google Firebase platform detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "firebaseapp.com"
+      - type: body
+        words:
+          - "firebase.js"
+      - type: body
+        words:
+          - "firebaseio.com"
+    condition: or

@@ -1,0 +1,16 @@
+id: flask-debug-mode
+name: "Flask Debug Mode Enabled"
+severity: critical
+description: "Flask application is running with Werkzeug debugger enabled, allowing remote code execution."
+reference: CWE-215
+requests:
+  - method: GET
+    path: "/nonexistent-argos-test"
+    matchers:
+      - type: body
+        words:
+          - "Werkzeug"
+          - "Debugger"
+      - type: status
+        status: [200, 400, 404, 500]
+    condition: and

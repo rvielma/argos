@@ -1,0 +1,17 @@
+id: tech-ghost
+name: "Ghost CMS Detected"
+severity: info
+description: "Ghost publishing platform detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: header
+        header: "x-powered-by"
+        words:
+          - "Ghost"
+      - type: body
+        words:
+          - "ghost-portal"
+    condition: or

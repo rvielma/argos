@@ -1,0 +1,16 @@
+id: trace-axd-exposed
+name: "ASP.NET Trace Exposed"
+severity: high
+description: "ASP.NET trace.axd handler is publicly accessible exposing request details and application internals."
+reference: CWE-215
+requests:
+  - method: GET
+    path: "/trace.axd"
+    matchers:
+      - type: body
+        words:
+          - "Request Details"
+          - "ASP.NET"
+      - type: status
+        status: [200]
+    condition: and

@@ -1,0 +1,16 @@
+id: aspnet-debug-mode
+name: "ASP.NET Debug Mode Enabled"
+severity: high
+description: "ASP.NET application is exposing detailed error pages with stack traces and source code."
+reference: CWE-215
+requests:
+  - method: GET
+    path: "/nonexistent-argos-test"
+    matchers:
+      - type: body
+        words:
+          - "Server Error"
+          - "ASP.NET"
+      - type: status
+        status: [200, 400, 404, 500]
+    condition: and

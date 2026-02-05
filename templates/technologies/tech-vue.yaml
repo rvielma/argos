@@ -1,0 +1,19 @@
+id: tech-vue
+name: "Vue.js Detected"
+severity: info
+description: "Vue.js JavaScript framework detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "data-v-"
+      - type: body
+        words:
+          - "vue-app"
+      - type: body
+        words:
+          - "__vue__"
+    condition: or

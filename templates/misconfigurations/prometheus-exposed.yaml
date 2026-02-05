@@ -1,4 +1,4 @@
-id: prometheus-exposed
+id: prometheus-targets-exposed
 name: "Prometheus Exposed"
 severity: medium
 description: "Prometheus monitoring is publicly accessible."

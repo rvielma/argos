@@ -1,0 +1,18 @@
+id: jenkins-default-login
+name: "Jenkins Default Login"
+severity: critical
+description: "Jenkins accepts default credentials admin:admin via Spring Security."
+reference: CWE-1393
+requests:
+  - method: POST
+    path: "/j_spring_security_check"
+    headers:
+      Content-Type: "application/x-www-form-urlencoded"
+    body: "j_username=admin&j_password=admin"
+    matchers:
+      - type: body
+        words:
+          - "Jenkins"
+      - type: status
+        status: [200, 302]
+    condition: and

@@ -1,0 +1,15 @@
+id: security-txt-missing
+name: "Security.txt Present"
+severity: info
+description: "Security.txt file found at well-known path providing security contact information."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/.well-known/security.txt"
+    matchers:
+      - type: body
+        words:
+          - "Contact"
+      - type: status
+        status: [200]
+    condition: and
