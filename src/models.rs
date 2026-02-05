@@ -1,7 +1,7 @@
 //! Core data models for Argos scanner
 
 use crate::http::AuthConfig;
-use chrono::{DateTime, Utc};
+use chrono::{DateTime, Local};
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::fmt;
@@ -194,10 +194,10 @@ pub struct ScanResult {
     pub target: String,
     /// Unique scan identifier
     pub scan_id: String,
-    /// Scan start time
-    pub started_at: DateTime<Utc>,
-    /// Scan end time
-    pub finished_at: Option<DateTime<Utc>>,
+    /// Scan start time (local timezone)
+    pub started_at: DateTime<Local>,
+    /// Scan end time (local timezone)
+    pub finished_at: Option<DateTime<Local>>,
     /// All findings discovered
     pub findings: Vec<Finding>,
     /// Names of modules that were executed
@@ -212,7 +212,7 @@ impl ScanResult {
         Self {
             target: target.into(),
             scan_id: uuid::Uuid::new_v4().to_string(),
-            started_at: Utc::now(),
+            started_at: Local::now(),
             finished_at: None,
             findings: Vec::new(),
             modules_executed: Vec::new(),
@@ -230,7 +230,7 @@ impl ScanResult {
 
     /// Marks the scan as finished
     pub fn finish(&mut self) {
-        self.finished_at = Some(Utc::now());
+        self.finished_at = Some(Local::now());
     }
 }
 

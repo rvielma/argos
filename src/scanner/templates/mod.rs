@@ -22,15 +22,56 @@ use tracing::info;
 use cluster::TemplateCluster;
 use loader::CveTemplate;
 
+/// Map a subdirectory name to a human-readable category
+fn dir_to_category(dir_name: &str) -> &str {
+    match dir_name {
+        "cves" => "CVE",
+        "technologies" => "Technology Detection",
+        "misconfigurations" => "Misconfiguration",
+        "exposures" => "Exposure",
+        "default-logins" => "Default Login",
+        "healthcare" => "Healthcare",
+        "cloud" => "Cloud Security",
+        "graphql" => "GraphQL Security",
+        _ => "Template",
+    }
+}
+
+/// Generate a recommendation based on the template category
+fn category_recommendation(category: &str, template_id: &str) -> String {
+    match category {
+        "CVE" => format!("Investigate {} and apply vendor patches.", template_id),
+        "Technology Detection" => "Review detected technology for known vulnerabilities and ensure it is up to date.".to_string(),
+        "Misconfiguration" => "Review and fix the misconfiguration to harden the service.".to_string(),
+        "Exposure" => "Restrict access to the exposed resource and ensure it is not publicly reachable.".to_string(),
+        "Default Login" => "Change default credentials immediately and enforce strong password policies.".to_string(),
+        "Healthcare" => "Review healthcare system exposure and restrict access per compliance requirements.".to_string(),
+        "Cloud Security" => "Review cloud resource configuration and restrict public access.".to_string(),
+        "GraphQL Security" => "Review GraphQL endpoint configuration and disable unnecessary features like introspection.".to_string(),
+        _ => format!("Investigate {} and remediate.", template_id),
+    }
+}
+
 /// Recursively load templates from a directory and all its subdirectories
 fn load_templates_recursive(dir: &Path, templates: &mut Vec<CveTemplate>) {
-    if let Ok(dir_templates) = loader::load_templates(dir) {
+    // Determine category from the directory name
+    let dir_name = dir
+        .file_name()
+        .and_then(|n| n.to_str())
+        .unwrap_or("templates");
+    let category = dir_to_category(dir_name).to_string();
+
+    if let Ok(mut dir_templates) = loader::load_templates(dir) {
         if !dir_templates.is_empty() {
             info!(
                 "Loaded {} templates from {}",
                 dir_templates.len(),
                 dir.display()
             );
+            // Assign category to each loaded template
+            for tmpl in &mut dir_templates {
+                tmpl.category = category.clone();
+            }
             templates.extend(dir_templates);
         }
     }

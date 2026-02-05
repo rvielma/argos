@@ -98,20 +98,19 @@ pub async fn execute_template(
                     if request.stop_at_first_match {
                         let severity = parse_severity(&template.severity);
                         let confidence = parse_confidence(&template.confidence);
+                        let category = if template.category.is_empty() { "Template" } else { &template.category };
+                        let recommendation = super::category_recommendation(category, &template.id);
                         let finding = Finding::new(
                             format!("{}: {}", template.id, template.name),
                             template.description.as_deref().unwrap_or(&template.name),
                             severity,
-                            "CVE Templates",
+                            category,
                             &last_url,
                         )
                         .with_confidence(confidence)
                         .with_evidence(combined_evidence.join("; "))
                         .with_request(format!("{} {}", last_method, last_url))
-                        .with_recommendation(format!(
-                            "Investigate {} and apply vendor patches.",
-                            template.id
-                        ))
+                        .with_recommendation(recommendation)
                         .with_cwe(template.reference.as_deref().unwrap_or("CWE-0"))
                         .with_owasp("A06:2021 Vulnerable and Outdated Components");
                         return vec![finding];
@@ -134,20 +133,19 @@ pub async fn execute_template(
     if all_matched && !combined_evidence.is_empty() {
         let severity = parse_severity(&template.severity);
         let confidence = parse_confidence(&template.confidence);
+        let category = if template.category.is_empty() { "Template" } else { &template.category };
+        let recommendation = super::category_recommendation(category, &template.id);
         let finding = Finding::new(
             format!("{}: {}", template.id, template.name),
             template.description.as_deref().unwrap_or(&template.name),
             severity,
-            "CVE Templates",
+            category,
             &last_url,
         )
         .with_confidence(confidence)
         .with_evidence(combined_evidence.join("; "))
         .with_request(format!("{} {}", last_method, last_url))
-        .with_recommendation(format!(
-            "Investigate {} and apply vendor patches.",
-            template.id
-        ))
+        .with_recommendation(recommendation)
         .with_cwe(template.reference.as_deref().unwrap_or("CWE-0"))
         .with_owasp("A06:2021 Vulnerable and Outdated Components");
 
@@ -307,20 +305,19 @@ pub fn evaluate_template_against_response(
     if result.matched {
         let severity = parse_severity(&template.severity);
         let confidence = parse_confidence(&template.confidence);
+        let category = if template.category.is_empty() { "Template" } else { &template.category };
+        let recommendation = super::category_recommendation(category, &template.id);
         let finding = Finding::new(
             format!("{}: {}", template.id, template.name),
             template.description.as_deref().unwrap_or(&template.name),
             severity,
-            "CVE Templates",
+            category,
             url,
         )
         .with_confidence(confidence)
         .with_evidence(result.evidence)
         .with_request(format!("{} {}", request.method.to_uppercase(), url))
-        .with_recommendation(format!(
-            "Investigate {} and apply vendor patches.",
-            template.id
-        ))
+        .with_recommendation(recommendation)
         .with_cwe(template.reference.as_deref().unwrap_or("CWE-0"))
         .with_owasp("A06:2021 Vulnerable and Outdated Components");
         return vec![finding];

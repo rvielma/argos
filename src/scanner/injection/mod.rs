@@ -61,6 +61,19 @@ pub struct BaselineResponse {
 }
 
 impl InjectionScanner {
+    /// Checks if a URL looks like garbage (JS code, template literals, etc.)
+    fn is_junk_url(url: &str) -> bool {
+        // JS string concatenation patterns crawled as URLs
+        url.contains("' +") || url.contains("+ '")
+            || url.contains("\" +") || url.contains("+ \"")
+            // Template literals
+            || url.contains("${") || url.contains("#{")
+            // Clearly broken paths
+            || url.contains("javascript:") || url.contains("data:")
+            // Angular/Vue template expressions
+            || url.contains("{{") || url.contains("}}")
+    }
+
     /// Extracts injection points from HTML (forms, query params, links)
     pub fn extract_injection_points(base_url: &str, html: &str) -> Vec<InjectionPoint> {
         let document = Html::parse_document(html);
@@ -125,6 +138,11 @@ impl InjectionScanner {
         if let Ok(link_sel) = Selector::parse("a[href]") {
             for link in document.select(&link_sel) {
                 if let Some(href) = link.value().attr("href") {
+                    // Skip junk hrefs (JS code, template expressions)
+                    if Self::is_junk_url(href) {
+                        continue;
+                    }
+
                     let full_url = if href.starts_with("http") {
                         href.to_string()
                     } else if href.starts_with('/') {
@@ -420,6 +438,11 @@ impl super::Scanner for InjectionScanner {
         };
 
         for url in urls_to_check.iter().take(50) {
+            // Skip junk URLs (JS code, template literals, etc.)
+            if Self::is_junk_url(url) {
+                debug!("Skipping junk URL: {url}");
+                continue;
+            }
             if let Ok(response) = client.get(url).await {
                 // Extract Set-Cookie headers for cookie injection points
                 let set_cookies: Vec<String> = response
@@ -494,27 +517,36 @@ impl super::Scanner for InjectionScanner {
             }
         }
 
-        // Run all injection sub-scanners
-        let sqli_findings = sqli::scan(client, &injection_points, &baselines).await;
+        // Split injection points by type:
+        // - Existing sub-scanners (sqli, xss, cmd, ssti, path_traversal) only support QueryParam
+        // - Open redirect and CRLF support QueryParam only (URL-based)
+        let query_points: Vec<InjectionPoint> = injection_points
+            .iter()
+            .filter(|p| p.point_type == PointType::QueryParam)
+            .cloned()
+            .collect();
+
+        // Run sub-scanners with QueryParam points only
+        let sqli_findings = sqli::scan(client, &query_points, &baselines).await;
         findings.extend(sqli_findings);
 
-        let xss_findings = xss::scan(client, &injection_points, crawled_urls, &baselines).await;
+        let xss_findings = xss::scan(client, &query_points, crawled_urls, &baselines).await;
         findings.extend(xss_findings);
 
-        let cmd_findings = command::scan(client, &injection_points, &baselines).await;
+        let cmd_findings = command::scan(client, &query_points, &baselines).await;
         findings.extend(cmd_findings);
 
-        let ssti_findings = ssti::scan(client, &injection_points, &baselines).await;
+        let ssti_findings = ssti::scan(client, &query_points, &baselines).await;
         findings.extend(ssti_findings);
 
-        let pt_findings = path_traversal::scan(client, &injection_points).await;
+        let pt_findings = path_traversal::scan(client, &query_points).await;
         findings.extend(pt_findings);
 
         let redirect_findings =
-            open_redirect::scan(client, &injection_points, &baselines).await;
+            open_redirect::scan(client, &query_points, &baselines).await;
         findings.extend(redirect_findings);
 
-        let crlf_findings = crlf::scan(client, &injection_points, &baselines).await;
+        let crlf_findings = crlf::scan(client, &query_points, &baselines).await;
         findings.extend(crlf_findings);
 
         Ok(findings)

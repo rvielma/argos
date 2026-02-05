@@ -104,6 +104,7 @@ fn simple_template(id: &str, method: &str, path: &str, matchers: Vec<TemplateMat
         }],
         tags: vec![],
         variables: HashMap::new(),
+        category: String::new(),
     }
 }
 
@@ -309,6 +310,7 @@ fn test_cluster_separates_multi_request() {
         ],
         tags: vec![],
         variables: HashMap::new(),
+        category: String::new(),
     };
     let templates = vec![multi_req_template];
     let cluster = TemplateCluster::from_templates(templates);
@@ -344,6 +346,7 @@ fn test_cluster_separates_extractors() {
         }],
         tags: vec![],
         variables: HashMap::new(),
+        category: String::new(),
     };
     let templates = vec![template_with_extractor];
     let cluster = TemplateCluster::from_templates(templates);

@@ -26,6 +26,9 @@ pub struct CveTemplate {
     /// Initial variables for interpolation
     #[serde(default)]
     pub variables: HashMap<String, String>,
+    /// Category derived from the template's subdirectory (set at load time, not from YAML)
+    #[serde(skip)]
+    pub category: String,
 }
 
 fn default_confidence() -> String {
