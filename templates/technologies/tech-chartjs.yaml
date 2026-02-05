@@ -1,0 +1,19 @@
+id: tech-chartjs
+name: "Chart.js Detected"
+severity: info
+description: "Chart.js data visualization library detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "chart.min.js"
+      - type: body
+        words:
+          - "Chart.js"
+      - type: body
+        words:
+          - "new Chart("
+    condition: or

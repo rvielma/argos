@@ -1,0 +1,17 @@
+id: memcached-stats-exposed
+name: "Memcached Stats Exposed via HTTP"
+severity: medium
+description: "Memcached statistics are accessible via HTTP proxy or admin panel."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/stats"
+    matchers:
+      - type: body
+        words:
+          - "STAT"
+          - "bytes"
+          - "curr_items"
+      - type: status
+        status: [200]
+    condition: and

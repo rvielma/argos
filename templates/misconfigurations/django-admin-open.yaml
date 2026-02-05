@@ -1,0 +1,16 @@
+id: django-admin-open
+name: "Django Admin Panel Publicly Accessible"
+severity: medium
+description: "Django admin interface is publicly accessible without IP restriction, increasing brute force and credential stuffing risk."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/admin/login/"
+    matchers:
+      - type: body
+        words:
+          - "djangoproject.com"
+          - "csrfmiddlewaretoken"
+      - type: status
+        status: [200]
+    condition: and

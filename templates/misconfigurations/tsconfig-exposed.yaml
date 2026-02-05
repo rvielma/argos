@@ -1,0 +1,16 @@
+id: tsconfig-exposed
+name: "TypeScript Configuration Exposed"
+severity: info
+description: "TypeScript tsconfig.json is publicly accessible, revealing compiler options, source file paths, and project structure."
+reference: CWE-538
+requests:
+  - method: GET
+    path: "/tsconfig.json"
+    matchers:
+      - type: body
+        words:
+          - "compilerOptions"
+          - "target"
+      - type: status
+        status: [200]
+    condition: and

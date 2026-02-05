@@ -1,0 +1,18 @@
+id: tech-heroku
+name: "Heroku Detected"
+severity: info
+description: "Heroku cloud platform detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: header
+        header: "via"
+        words:
+          - "vegur"
+      - type: header
+        header: "server"
+        words:
+          - "heroku"
+    condition: or

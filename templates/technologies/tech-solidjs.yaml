@@ -1,0 +1,19 @@
+id: tech-solidjs
+name: "SolidJS Detected"
+severity: info
+description: "SolidJS reactive JavaScript framework detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "_$createComponent"
+      - type: body
+        words:
+          - "solid-js"
+      - type: body
+        words:
+          - "_$HY"
+    condition: or

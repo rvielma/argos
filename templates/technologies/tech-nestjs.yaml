@@ -1,0 +1,17 @@
+id: tech-nestjs
+name: "NestJS Detected"
+severity: info
+description: "NestJS Node.js framework detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: header
+        header: "x-powered-by"
+        words:
+          - "Express"
+      - type: body
+        words:
+          - "@nestjs"
+    condition: or

@@ -1,0 +1,20 @@
+id: graphql-schema-dump
+name: "GraphQL Schema Introspection Enabled"
+severity: medium
+description: "GraphQL introspection is enabled allowing full schema enumeration including types, queries, mutations, and internal fields."
+reference: CWE-200
+requests:
+  - method: POST
+    path: "/graphql"
+    headers:
+      Content-Type: "application/json"
+    body: '{"query":"{__schema{types{name fields{name}}}}"}'
+    matchers:
+      - type: body
+        words:
+          - "__schema"
+          - "types"
+          - "fields"
+      - type: status
+        status: [200]
+    condition: and

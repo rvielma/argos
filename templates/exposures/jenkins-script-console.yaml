@@ -1,0 +1,16 @@
+id: jenkins-script-console
+name: "Jenkins Script Console Exposed"
+severity: critical
+description: "Jenkins Groovy Script Console is publicly accessible, allowing remote code execution."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/script"
+    matchers:
+      - type: body
+        words:
+          - "Script Console"
+          - "Groovy script"
+      - type: status
+        status: [200]
+    condition: and

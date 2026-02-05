@@ -1,0 +1,19 @@
+id: tech-fathom
+name: "Fathom Analytics Detected"
+severity: info
+description: "Fathom privacy-first analytics detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "usefathom.com"
+      - type: body
+        words:
+          - "cdn.usefathom.com/script.js"
+      - type: body
+        words:
+          - "fathom-client"
+    condition: or

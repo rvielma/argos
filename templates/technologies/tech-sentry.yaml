@@ -1,0 +1,22 @@
+id: tech-sentry
+name: "Sentry Detected"
+severity: info
+description: "Sentry error tracking and monitoring detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "sentry.io"
+      - type: body
+        words:
+          - "Sentry.init"
+      - type: body
+        words:
+          - "@sentry/browser"
+      - type: body
+        words:
+          - "browser.sentry-cdn.com"
+    condition: or

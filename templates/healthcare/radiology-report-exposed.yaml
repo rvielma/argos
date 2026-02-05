@@ -1,0 +1,17 @@
+id: radiology-report-exposed
+name: "Radiology Reports Exposed"
+severity: critical
+description: "Radiology report API is publicly accessible, exposing patient imaging reports and PHI."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/api/radiology/reports"
+    matchers:
+      - type: body
+        words:
+          - "report"
+          - "patient"
+          - "radiology"
+      - type: status
+        status: [200]
+    condition: and

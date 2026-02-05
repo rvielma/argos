@@ -1,0 +1,28 @@
+id: swagger-json-exposed
+name: "Swagger/OpenAPI Specification Exposed"
+severity: low
+description: "OpenAPI specification file is publicly accessible, revealing all API endpoints, parameters, authentication schemes, and data models."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/swagger.json"
+    matchers:
+      - type: body
+        words:
+          - "swagger"
+          - "paths"
+          - "info"
+      - type: status
+        status: [200]
+    condition: and
+  - method: GET
+    path: "/openapi.json"
+    matchers:
+      - type: body
+        words:
+          - "openapi"
+          - "paths"
+          - "info"
+      - type: status
+        status: [200]
+    condition: and

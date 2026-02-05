@@ -1,0 +1,15 @@
+id: chromadb-exposed
+name: "ChromaDB API Exposed"
+severity: medium
+description: "ChromaDB vector database API is publicly accessible without authentication."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/api/v1/heartbeat"
+    matchers:
+      - type: body
+        words:
+          - "nanosecond heartbeat"
+      - type: status
+        status: [200]
+    condition: and

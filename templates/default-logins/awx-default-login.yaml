@@ -1,0 +1,19 @@
+id: awx-default-login
+name: "AWX Default Credentials"
+severity: critical
+description: "AWX/Ansible Tower accepts default credentials admin:password."
+reference: CWE-1393
+requests:
+  - method: POST
+    path: "/api/v2/tokens/"
+    headers:
+      Content-Type: "application/json"
+      Authorization: "Basic YWRtaW46cGFzc3dvcmQ="
+    matchers:
+      - type: body
+        words:
+          - "token"
+          - "expires"
+      - type: status
+        status: [201]
+    condition: and

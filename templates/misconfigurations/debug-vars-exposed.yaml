@@ -1,0 +1,16 @@
+id: debug-vars-exposed
+name: "Go Debug Variables Endpoint Exposed"
+severity: medium
+description: "Go /debug/vars endpoint is publicly accessible, exposing runtime statistics, memory allocation, garbage collection metrics, and custom debug variables."
+reference: CWE-215
+requests:
+  - method: GET
+    path: "/debug/vars"
+    matchers:
+      - type: body
+        words:
+          - "cmdline"
+          - "memstats"
+      - type: status
+        status: [200]
+    condition: and

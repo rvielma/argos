@@ -1,0 +1,15 @@
+id: pacs-wado-exposed
+name: "PACS WADO Endpoint Exposed"
+severity: high
+description: "PACS WADO (Web Access to DICOM Objects) endpoint is publicly accessible, exposing medical images."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/wado"
+    matchers:
+      - type: body
+        words:
+          - "DICOM"
+      - type: status
+        status: [200, 400]
+    condition: and

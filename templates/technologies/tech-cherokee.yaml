@@ -1,0 +1,14 @@
+id: tech-cherokee
+name: "Cherokee Detected"
+severity: info
+description: "Cherokee web server detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: header
+        header: "server"
+        words:
+          - "Cherokee"
+    condition: and

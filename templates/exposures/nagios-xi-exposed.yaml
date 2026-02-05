@@ -1,0 +1,16 @@
+id: nagios-xi-exposed
+name: "Nagios XI Panel Exposed"
+severity: medium
+description: "Nagios XI monitoring web interface is publicly accessible."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/nagiosxi/login.php"
+    matchers:
+      - type: body
+        words:
+          - "Nagios XI"
+          - "login"
+      - type: status
+        status: [200]
+    condition: and

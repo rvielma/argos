@@ -1,0 +1,16 @@
+id: pnpm-lock-exposed
+name: "pnpm Lock File Exposed"
+severity: low
+description: "pnpm lock file is publicly accessible, revealing exact dependency versions and package registry information."
+reference: CWE-538
+requests:
+  - method: GET
+    path: "/pnpm-lock.yaml"
+    matchers:
+      - type: body
+        words:
+          - "lockfileVersion"
+          - "dependencies"
+      - type: status
+        status: [200]
+    condition: and

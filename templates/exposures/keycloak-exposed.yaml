@@ -1,0 +1,16 @@
+id: keycloak-exposed
+name: "Keycloak Admin Console Exposed"
+severity: medium
+description: "Keycloak identity and access management admin console is publicly accessible."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/auth/admin/"
+    matchers:
+      - type: body
+        words:
+          - "Keycloak"
+          - "Administration Console"
+      - type: status
+        status: [200]
+    condition: and

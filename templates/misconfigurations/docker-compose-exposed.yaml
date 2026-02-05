@@ -1,0 +1,26 @@
+id: docker-compose-exposed
+name: "Docker Compose File Exposed"
+severity: high
+description: "Docker Compose file is publicly accessible, revealing service architecture, environment variables, internal ports, and volume mounts."
+reference: CWE-538
+requests:
+  - method: GET
+    path: "/docker-compose.yml"
+    matchers:
+      - type: body
+        words:
+          - "services:"
+          - "image:"
+      - type: status
+        status: [200]
+    condition: and
+  - method: GET
+    path: "/docker-compose.yaml"
+    matchers:
+      - type: body
+        words:
+          - "services:"
+          - "image:"
+      - type: status
+        status: [200]
+    condition: and

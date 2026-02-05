@@ -1,0 +1,16 @@
+id: fhir-coverage
+name: "FHIR Coverage Endpoint Exposed"
+severity: high
+description: "HL7 FHIR Coverage endpoint is publicly accessible, exposing patient insurance and coverage data."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/fhir/Coverage"
+    matchers:
+      - type: body
+        words:
+          - "Coverage"
+          - "resourceType"
+      - type: status
+        status: [200]
+    condition: and

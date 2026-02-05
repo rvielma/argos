@@ -1,0 +1,19 @@
+id: tech-gsap
+name: "GSAP Detected"
+severity: info
+description: "GSAP (GreenSock Animation Platform) detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "gsap.min.js"
+      - type: body
+        words:
+          - "cdnjs.cloudflare.com/ajax/libs/gsap"
+      - type: body
+        words:
+          - "greensock"
+    condition: or

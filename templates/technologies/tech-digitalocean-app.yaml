@@ -1,0 +1,22 @@
+id: tech-digitalocean-app
+name: "DigitalOcean App Platform Detected"
+severity: info
+description: "DigitalOcean App Platform detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: header
+        header: "server"
+        words:
+          - "digitalocean"
+      - type: header
+        header: "x-do-app-origin"
+        words:
+          - "-"
+      - type: header
+        header: "x-do-orig-status"
+        words:
+          - "200"
+    condition: or

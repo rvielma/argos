@@ -1,0 +1,23 @@
+id: tech-fastapi
+name: "FastAPI Detected"
+severity: info
+description: "FastAPI Python web framework detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/openapi.json"
+    matchers:
+      - type: body
+        words:
+          - "FastAPI"
+    condition: and
+  - method: GET
+    path: "/docs"
+    matchers:
+      - type: body
+        words:
+          - "swagger-ui"
+      - type: body
+        words:
+          - "FastAPI"
+    condition: and

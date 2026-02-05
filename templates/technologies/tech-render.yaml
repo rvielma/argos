@@ -1,0 +1,18 @@
+id: tech-render
+name: "Render Detected"
+severity: info
+description: "Render cloud platform detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: header
+        header: "server"
+        words:
+          - "Render"
+      - type: header
+        header: "x-render-origin-server"
+        words:
+          - "Render"
+    condition: or

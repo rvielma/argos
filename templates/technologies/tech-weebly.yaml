@@ -1,0 +1,19 @@
+id: tech-weebly
+name: "Weebly Detected"
+severity: info
+description: "Weebly website builder platform detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "weebly.com"
+      - type: body
+        words:
+          - "wsite-"
+      - type: body
+        words:
+          - "weebly-footer"
+    condition: or

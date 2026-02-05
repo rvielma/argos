@@ -1,0 +1,16 @@
+id: vault-dev-mode
+name: "Vault Dev Mode Token"
+severity: critical
+description: "HashiCorp Vault is running in dev mode, accessible with root token."
+reference: CWE-1393
+requests:
+  - method: GET
+    path: "/v1/sys/health"
+    matchers:
+      - type: body
+        words:
+          - "initialized"
+          - "sealed"
+      - type: status
+        status: [200]
+    condition: and

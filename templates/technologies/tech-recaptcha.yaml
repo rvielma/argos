@@ -1,0 +1,19 @@
+id: tech-recaptcha
+name: "reCAPTCHA Detected"
+severity: info
+description: "Google reCAPTCHA bot protection detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "google.com/recaptcha"
+      - type: body
+        words:
+          - "g-recaptcha"
+      - type: body
+        words:
+          - "recaptcha/api.js"
+    condition: or

@@ -1,0 +1,16 @@
+id: pihole-no-auth
+name: "Pi-hole No Authentication"
+severity: medium
+description: "Pi-hole admin API is accessible without authentication."
+reference: CWE-1393
+requests:
+  - method: GET
+    path: "/admin/api.php?summary"
+    matchers:
+      - type: body
+        words:
+          - "domains_being_blocked"
+          - "dns_queries_today"
+      - type: status
+        status: [200]
+    condition: and

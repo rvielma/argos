@@ -1,0 +1,16 @@
+id: fhir-observation
+name: "FHIR Observation Endpoint Exposed"
+severity: high
+description: "HL7 FHIR Observation endpoint is publicly accessible, potentially exposing patient vital signs and lab results."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/fhir/Observation"
+    matchers:
+      - type: body
+        words:
+          - "Observation"
+          - "resourceType"
+      - type: status
+        status: [200]
+    condition: and

@@ -1,0 +1,19 @@
+id: tech-hexo
+name: "Hexo Detected"
+severity: info
+description: "Hexo static blog framework detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: regex
+        words:
+          - "generator\"\\s+content=\"Hexo"
+      - type: body
+        words:
+          - "hexo-"
+      - type: body
+        words:
+          - "Powered by Hexo"
+    condition: or

@@ -1,0 +1,16 @@
+id: uptime-kuma-exposed
+name: "Uptime Kuma Dashboard Exposed"
+severity: low
+description: "Uptime Kuma monitoring dashboard is publicly accessible."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/dashboard"
+    matchers:
+      - type: body
+        words:
+          - "Uptime Kuma"
+          - "uptime-kuma"
+      - type: status
+        status: [200]
+    condition: and

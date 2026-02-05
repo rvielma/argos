@@ -1,0 +1,19 @@
+id: tech-imgix
+name: "Imgix Detected"
+severity: info
+description: "Imgix image processing CDN detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "imgix.net"
+      - type: body
+        words:
+          - "imgix.js"
+      - type: body
+        words:
+          - "imgix-"
+    condition: or

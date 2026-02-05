@@ -1,0 +1,19 @@
+id: tech-jquery
+name: "jQuery Detected"
+severity: info
+description: "jQuery JavaScript library detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "jquery.min.js"
+      - type: body
+        words:
+          - "jquery.js"
+      - type: body
+        words:
+          - "jQuery.fn.jquery"
+    condition: or

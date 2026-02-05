@@ -1,0 +1,16 @@
+id: prometheus-targets-api
+name: "Prometheus Targets API Exposed"
+severity: medium
+description: "Prometheus targets API endpoint is publicly accessible, exposing monitored infrastructure."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/api/v1/targets"
+    matchers:
+      - type: body
+        words:
+          - "activeTargets"
+          - "scrapeUrl"
+      - type: status
+        status: [200]
+    condition: and

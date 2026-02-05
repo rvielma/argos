@@ -1,0 +1,20 @@
+id: tech-supertokens
+name: "SuperTokens Detected"
+severity: info
+description: "SuperTokens open source authentication detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "supertokens"
+      - type: header
+        header: "anti-csrf"
+        words:
+          - "-"
+      - type: body
+        words:
+          - "supertokens-web-js"
+    condition: or

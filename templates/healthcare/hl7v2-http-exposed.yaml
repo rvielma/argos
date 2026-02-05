@@ -1,0 +1,19 @@
+id: hl7v2-http-exposed
+name: "HL7v2 over HTTP Endpoint Exposed"
+severity: high
+description: "HL7v2 messaging endpoint over HTTP is publicly accessible, exposing healthcare message exchange."
+reference: CWE-284
+requests:
+  - method: POST
+    path: "/hl7"
+    headers:
+      Content-Type: "application/hl7-v2"
+    body: 'MSH|^~\\&|TEST|TEST|TEST|TEST|20240101||ADT^A01|123|P|2.3'
+    matchers:
+      - type: body
+        words:
+          - "MSH"
+          - "MSA"
+      - type: status
+        status: [200]
+    condition: and

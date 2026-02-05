@@ -1,0 +1,19 @@
+id: tech-pelican
+name: "Pelican Detected"
+severity: info
+description: "Pelican static site generator detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: regex
+        words:
+          - "generator\"\\s+content=\"Pelican"
+      - type: body
+        words:
+          - "Powered by Pelican"
+      - type: body
+        words:
+          - "pelican-theme"
+    condition: or

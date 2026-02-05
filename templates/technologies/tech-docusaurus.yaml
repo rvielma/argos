@@ -1,0 +1,19 @@
+id: tech-docusaurus
+name: "Docusaurus Detected"
+severity: info
+description: "Docusaurus documentation framework detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: regex
+        words:
+          - "generator\"\\s+content=\"Docusaurus"
+      - type: body
+        words:
+          - "docusaurus"
+      - type: body
+        words:
+          - "__docusaurus"
+    condition: or

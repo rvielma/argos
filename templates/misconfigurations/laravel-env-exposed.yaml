@@ -1,0 +1,16 @@
+id: laravel-env-exposed
+name: "Laravel .env File Exposed"
+severity: critical
+description: "Laravel .env configuration file is publicly accessible, exposing APP_KEY, database credentials, mail server passwords, and API keys."
+reference: CWE-540
+requests:
+  - method: GET
+    path: "/.env"
+    matchers:
+      - type: body
+        words:
+          - "APP_KEY="
+          - "DB_PASSWORD="
+      - type: status
+        status: [200]
+    condition: and

@@ -1,0 +1,16 @@
+id: idea-workspace-exposed
+name: "JetBrains IDE Workspace Exposed"
+severity: medium
+description: "JetBrains IDE workspace configuration is publicly accessible, revealing project structure, run configurations, and potentially data source credentials."
+reference: CWE-538
+requests:
+  - method: GET
+    path: "/.idea/workspace.xml"
+    matchers:
+      - type: body
+        words:
+          - "<project"
+          - "component"
+      - type: status
+        status: [200]
+    condition: and

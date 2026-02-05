@@ -1,0 +1,16 @@
+id: haproxy-stats-exposed
+name: "HAProxy Stats Page Exposed"
+severity: medium
+description: "HAProxy statistics page is publicly accessible, exposing backend server information."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/haproxy?stats"
+    matchers:
+      - type: body
+        words:
+          - "HAProxy"
+          - "Statistics Report"
+      - type: status
+        status: [200]
+    condition: and

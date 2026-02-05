@@ -1,0 +1,18 @@
+id: opensearch-default-login
+name: "OpenSearch Default Credentials"
+severity: critical
+description: "OpenSearch accepts default credentials admin:admin."
+reference: CWE-1393
+requests:
+  - method: GET
+    path: "/"
+    headers:
+      Authorization: "Basic YWRtaW46YWRtaW4="
+    matchers:
+      - type: body
+        words:
+          - "opensearch"
+          - "cluster_name"
+      - type: status
+        status: [200]
+    condition: and

@@ -1,0 +1,16 @@
+id: loki-exposed
+name: "Grafana Loki API Exposed"
+severity: medium
+description: "Grafana Loki log aggregation API is publicly accessible."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/loki/api/v1/status/buildinfo"
+    matchers:
+      - type: body
+        words:
+          - "version"
+          - "revision"
+      - type: status
+        status: [200]
+    condition: and

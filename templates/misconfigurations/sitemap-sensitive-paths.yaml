@@ -1,0 +1,23 @@
+id: sitemap-sensitive-paths
+name: "Sitemap Contains Sensitive Paths"
+severity: low
+description: "XML sitemap exposes URLs to administrative, internal, or sensitive application paths that should not be publicly indexed."
+reference: CWE-538
+requests:
+  - method: GET
+    path: "/sitemap.xml"
+    matchers:
+      - type: body
+        words:
+          - "<urlset"
+      - type: body
+        words:
+          - "/admin"
+          - "/dashboard"
+          - "/internal"
+          - "/staging"
+          - "/debug"
+          - "/api/v1"
+      - type: status
+        status: [200]
+    condition: and

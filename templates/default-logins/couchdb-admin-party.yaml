@@ -1,0 +1,16 @@
+id: couchdb-admin-party
+name: "CouchDB Admin Party Mode"
+severity: critical
+description: "CouchDB is in admin party mode with no authentication required for admin operations."
+reference: CWE-1393
+requests:
+  - method: GET
+    path: "/_all_dbs"
+    matchers:
+      - type: body
+        words:
+          - "_users"
+          - "_replicator"
+      - type: status
+        status: [200]
+    condition: and

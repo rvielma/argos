@@ -1,0 +1,16 @@
+id: dockerenv-exposed
+name: "Docker Environment File Exposed"
+severity: medium
+description: "The .dockerenv file is accessible from the web, confirming the application runs inside a Docker container and potentially aiding container escape attacks."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/.dockerenv"
+    matchers:
+      - type: status
+        status: [200]
+      - type: header
+        header: "content-length"
+        words:
+          - "0"
+    condition: and

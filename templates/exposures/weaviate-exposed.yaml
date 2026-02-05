@@ -1,0 +1,16 @@
+id: weaviate-exposed
+name: "Weaviate Vector DB Exposed"
+severity: medium
+description: "Weaviate vector database API is publicly accessible without authentication."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/v1/meta"
+    matchers:
+      - type: body
+        words:
+          - "weaviate"
+          - "version"
+      - type: status
+        status: [200]
+    condition: and

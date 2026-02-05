@@ -1,0 +1,18 @@
+id: tech-haproxy
+name: "HAProxy Detected"
+severity: info
+description: "HAProxy load balancer detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: header
+        header: "server"
+        words:
+          - "HAProxy"
+      - type: header
+        header: "x-haproxy-"
+        words:
+          - "haproxy"
+    condition: or

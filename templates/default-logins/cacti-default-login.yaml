@@ -1,0 +1,18 @@
+id: cacti-default-login
+name: "Cacti Default Credentials"
+severity: critical
+description: "Cacti monitoring accepts default credentials admin:admin."
+reference: CWE-1393
+requests:
+  - method: POST
+    path: "/cacti/index.php"
+    headers:
+      Content-Type: "application/x-www-form-urlencoded"
+    body: 'action=login&login_username=admin&login_password=admin'
+    matchers:
+      - type: body
+        words:
+          - "cacti"
+      - type: status
+        status: [200, 302]
+    condition: and

@@ -1,0 +1,18 @@
+id: ntopng-default-login
+name: "ntopng Default Credentials"
+severity: critical
+description: "ntopng accepts default credentials admin:admin."
+reference: CWE-1393
+requests:
+  - method: POST
+    path: "/authorize.html"
+    headers:
+      Content-Type: "application/x-www-form-urlencoded"
+    body: 'user=admin&password=admin'
+    matchers:
+      - type: body
+        words:
+          - "session"
+      - type: status
+        status: [200, 302]
+    condition: and

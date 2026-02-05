@@ -1,0 +1,16 @@
+id: python-pycache-exposed
+name: "Python __pycache__ Directory Exposed"
+severity: medium
+description: "Python __pycache__ directory is publicly accessible, exposing compiled bytecode that can be decompiled to recover source code."
+reference: CWE-538
+requests:
+  - method: GET
+    path: "/__pycache__/"
+    matchers:
+      - type: body
+        words:
+          - ".cpython-"
+          - ".pyc"
+      - type: status
+        status: [200]
+    condition: and

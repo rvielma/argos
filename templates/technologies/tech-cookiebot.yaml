@@ -1,0 +1,19 @@
+id: tech-cookiebot
+name: "Cookiebot Detected"
+severity: info
+description: "Cookiebot consent management platform detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "cookiebot.com"
+      - type: body
+        words:
+          - "CookieConsent"
+      - type: body
+        words:
+          - "Cookiebot"
+    condition: or

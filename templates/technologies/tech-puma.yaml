@@ -1,0 +1,18 @@
+id: tech-puma
+name: "Puma Detected"
+severity: info
+description: "Puma Ruby web server detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: header
+        header: "server"
+        words:
+          - "Puma"
+      - type: header
+        header: "x-powered-by"
+        words:
+          - "Puma"
+    condition: or

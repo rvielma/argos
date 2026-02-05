@@ -1,0 +1,20 @@
+id: x-powered-by-header
+name: "X-Powered-By Header Information Disclosure"
+severity: info
+description: "Server exposes X-Powered-By header revealing the technology stack, which aids attackers in targeting known vulnerabilities."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: header
+        header: "x-powered-by"
+        words:
+          - "PHP"
+          - "ASP.NET"
+          - "Express"
+          - "Servlet"
+          - "JSP"
+      - type: status
+        status: [200, 301, 302, 403, 404]
+    condition: and

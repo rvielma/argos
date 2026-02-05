@@ -1,0 +1,17 @@
+id: tech-play
+name: "Play Framework Detected"
+severity: info
+description: "Play Framework for Scala/Java detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: header
+        header: "set-cookie"
+        words:
+          - "PLAY_SESSION"
+      - type: body
+        words:
+          - "play.api"
+    condition: or

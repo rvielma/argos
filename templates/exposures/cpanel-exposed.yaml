@@ -1,0 +1,16 @@
+id: cpanel-exposed
+name: "cPanel Login Exposed"
+severity: medium
+description: "cPanel web hosting control panel is publicly accessible."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/login/"
+    matchers:
+      - type: body
+        words:
+          - "cPanel"
+          - "login"
+      - type: status
+        status: [200]
+    condition: and

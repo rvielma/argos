@@ -1,0 +1,17 @@
+id: php-fpm-status-exposed
+name: "PHP-FPM Status Page Exposed"
+severity: medium
+description: "PHP-FPM status page is publicly accessible, revealing pool name, process states, accepted connections, and request details."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/status?full"
+    matchers:
+      - type: body
+        words:
+          - "pool:"
+          - "process manager:"
+          - "accepted conn:"
+      - type: status
+        status: [200]
+    condition: and

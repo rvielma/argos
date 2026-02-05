@@ -1,0 +1,16 @@
+id: fhir-location
+name: "FHIR Location Endpoint Exposed"
+severity: medium
+description: "HL7 FHIR Location endpoint is publicly accessible, exposing facility location data."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/fhir/Location"
+    matchers:
+      - type: body
+        words:
+          - "Location"
+          - "resourceType"
+      - type: status
+        status: [200]
+    condition: and

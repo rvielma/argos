@@ -1,0 +1,16 @@
+id: gruntfile-exposed
+name: "Gruntfile Exposed"
+severity: low
+description: "Gruntfile is publicly accessible, revealing build tasks, file paths, deployment configurations, and potentially sensitive build parameters."
+reference: CWE-538
+requests:
+  - method: GET
+    path: "/Gruntfile.js"
+    matchers:
+      - type: body
+        words:
+          - "grunt.initConfig"
+          - "module.exports"
+      - type: status
+        status: [200]
+    condition: and

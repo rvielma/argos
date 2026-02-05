@@ -1,0 +1,17 @@
+id: glances-exposed
+name: "Glances System Monitor Exposed"
+severity: low
+description: "Glances system monitoring web interface is publicly accessible."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/api/3/all"
+    matchers:
+      - type: body
+        words:
+          - "cpu"
+          - "mem"
+          - "system"
+      - type: status
+        status: [200]
+    condition: and

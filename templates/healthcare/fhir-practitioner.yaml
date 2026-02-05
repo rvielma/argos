@@ -1,0 +1,16 @@
+id: fhir-practitioner
+name: "FHIR Practitioner Endpoint Exposed"
+severity: medium
+description: "HL7 FHIR Practitioner endpoint is publicly accessible, exposing healthcare provider information."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/fhir/Practitioner"
+    matchers:
+      - type: body
+        words:
+          - "Practitioner"
+          - "resourceType"
+      - type: status
+        status: [200]
+    condition: and

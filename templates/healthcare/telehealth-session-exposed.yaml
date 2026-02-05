@@ -1,0 +1,16 @@
+id: telehealth-session-exposed
+name: "Telehealth Session Endpoint Exposed"
+severity: high
+description: "Telehealth video session management API is publicly accessible without authentication."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/api/telehealth/sessions"
+    matchers:
+      - type: body
+        words:
+          - "session"
+          - "patient"
+      - type: status
+        status: [200]
+    condition: and

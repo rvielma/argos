@@ -1,0 +1,16 @@
+id: pip-conf-exposed
+name: "Python pip Configuration Exposed"
+severity: high
+description: "Python pip configuration file is publicly accessible, potentially exposing private PyPI registry URLs and authentication tokens."
+reference: CWE-540
+requests:
+  - method: GET
+    path: "/pip.conf"
+    matchers:
+      - type: body
+        words:
+          - "[global]"
+          - "index-url"
+      - type: status
+        status: [200]
+    condition: and

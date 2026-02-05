@@ -1,0 +1,16 @@
+id: firebase-config-exposed
+name: "Firebase Configuration Exposed"
+severity: medium
+description: "Firebase configuration file is publicly accessible, revealing project ID, API keys, messaging sender ID, and storage bucket details."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/firebase.json"
+    matchers:
+      - type: body
+        words:
+          - "hosting"
+          - "firestore"
+      - type: status
+        status: [200]
+    condition: and

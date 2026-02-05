@@ -1,0 +1,16 @@
+id: supervisor-exposed
+name: "Supervisor Web UI Exposed"
+severity: medium
+description: "Supervisor process control web interface is publicly accessible."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "Supervisor"
+          - "supervisor status"
+      - type: status
+        status: [200]
+    condition: and

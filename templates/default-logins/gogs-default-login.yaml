@@ -1,0 +1,16 @@
+id: gogs-default-login
+name: "Gogs Default Credentials"
+severity: critical
+description: "Gogs Git service API is accessible without authentication."
+reference: CWE-1393
+requests:
+  - method: GET
+    path: "/api/v1/users/search?q=admin"
+    matchers:
+      - type: body
+        words:
+          - "username"
+          - "admin"
+      - type: status
+        status: [200]
+    condition: and

@@ -1,0 +1,16 @@
+id: traefik-api-exposed
+name: "Traefik API Exposed"
+severity: high
+description: "Traefik reverse proxy API is publicly accessible, exposing routing configuration."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/api/rawdata"
+    matchers:
+      - type: body
+        words:
+          - "routers"
+          - "services"
+      - type: status
+        status: [200]
+    condition: and

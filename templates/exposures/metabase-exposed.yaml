@@ -1,0 +1,16 @@
+id: metabase-exposed
+name: "Metabase Analytics Exposed"
+severity: medium
+description: "Metabase business intelligence and analytics platform is publicly accessible."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/api/session/properties"
+    matchers:
+      - type: body
+        words:
+          - "engines"
+          - "version"
+      - type: status
+        status: [200]
+    condition: and

@@ -1,0 +1,19 @@
+id: tech-azure-ad
+name: "Azure AD Detected"
+severity: info
+description: "Microsoft Azure Active Directory / Entra ID detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "login.microsoftonline.com"
+      - type: body
+        words:
+          - "msal.min.js"
+      - type: body
+        words:
+          - "microsoftonline"
+    condition: or

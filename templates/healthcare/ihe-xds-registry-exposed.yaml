@@ -1,0 +1,16 @@
+id: ihe-xds-registry-exposed
+name: "IHE XDS Registry Exposed"
+severity: high
+description: "IHE XDS (Cross-Enterprise Document Sharing) registry is publicly accessible."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/xds/registry"
+    matchers:
+      - type: body
+        words:
+          - "RegistryStoredQuery"
+          - "DocumentEntry"
+      - type: status
+        status: [200]
+    condition: and

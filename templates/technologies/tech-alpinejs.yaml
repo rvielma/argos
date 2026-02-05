@@ -1,0 +1,19 @@
+id: tech-alpinejs
+name: "Alpine.js Detected"
+severity: info
+description: "Alpine.js lightweight JavaScript framework detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "x-data="
+      - type: body
+        words:
+          - "alpine.min.js"
+      - type: body
+        words:
+          - "alpinejs"
+    condition: or

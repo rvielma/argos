@@ -1,0 +1,19 @@
+id: tech-struts
+name: "Apache Struts Detected"
+severity: info
+description: "Apache Struts Java web framework detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "struts"
+      - type: regex
+        words:
+          - "\\.action[\"\\?]"
+      - type: body
+        words:
+          - "struts-tags"
+    condition: or

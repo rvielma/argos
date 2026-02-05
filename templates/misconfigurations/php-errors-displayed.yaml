@@ -1,0 +1,16 @@
+id: php-errors-displayed
+name: "PHP Error Display Enabled"
+severity: medium
+description: "PHP display_errors is enabled in production, exposing file paths, database details, and internal application structure through error messages."
+reference: CWE-209
+requests:
+  - method: GET
+    path: "/%00"
+    matchers:
+      - type: body
+        words:
+          - "Fatal error"
+          - "on line"
+      - type: status
+        status: [200, 500]
+    condition: and

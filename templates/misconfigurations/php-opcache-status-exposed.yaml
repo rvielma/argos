@@ -1,0 +1,16 @@
+id: php-opcache-status-exposed
+name: "PHP OPcache Status Exposed"
+severity: medium
+description: "PHP OPcache status page is publicly accessible, revealing cached scripts, memory usage, and internal file paths."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/opcache-status.php"
+    matchers:
+      - type: body
+        words:
+          - "opcache_enabled"
+          - "cached_scripts"
+      - type: status
+        status: [200]
+    condition: and

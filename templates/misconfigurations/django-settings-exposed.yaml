@@ -1,0 +1,26 @@
+id: django-settings-exposed
+name: "Django Settings Module Exposed"
+severity: high
+description: "Django settings module is accessible, potentially exposing SECRET_KEY, database credentials, and API keys."
+reference: CWE-215
+requests:
+  - method: GET
+    path: "/settings.py"
+    matchers:
+      - type: body
+        words:
+          - "SECRET_KEY"
+          - "DATABASES"
+      - type: status
+        status: [200]
+    condition: and
+  - method: GET
+    path: "/config/settings.py"
+    matchers:
+      - type: body
+        words:
+          - "SECRET_KEY"
+          - "INSTALLED_APPS"
+      - type: status
+        status: [200]
+    condition: and

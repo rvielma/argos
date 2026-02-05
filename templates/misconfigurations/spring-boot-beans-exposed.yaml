@@ -1,0 +1,17 @@
+id: spring-boot-beans-exposed
+name: "Spring Boot Beans Endpoint Exposed"
+severity: medium
+description: "Spring Boot /actuator/beans endpoint is publicly accessible, revealing all Spring beans, dependencies, and injection points."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/actuator/beans"
+    matchers:
+      - type: body
+        words:
+          - "contexts"
+          - "beans"
+          - "scope"
+      - type: status
+        status: [200]
+    condition: and

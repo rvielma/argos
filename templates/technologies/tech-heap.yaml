@@ -1,0 +1,19 @@
+id: tech-heap
+name: "Heap Analytics Detected"
+severity: info
+description: "Heap product analytics detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "heap.io"
+      - type: body
+        words:
+          - "heapanalytics.com"
+      - type: body
+        words:
+          - "heap.load"
+    condition: or

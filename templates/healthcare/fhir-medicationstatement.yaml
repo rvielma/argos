@@ -1,0 +1,16 @@
+id: fhir-medicationstatement
+name: "FHIR MedicationStatement Endpoint Exposed"
+severity: high
+description: "HL7 FHIR MedicationStatement endpoint is publicly accessible, exposing patient medication history."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/fhir/MedicationStatement"
+    matchers:
+      - type: body
+        words:
+          - "MedicationStatement"
+          - "resourceType"
+      - type: status
+        status: [200]
+    condition: and

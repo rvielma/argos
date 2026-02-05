@@ -1,0 +1,19 @@
+id: tech-hugo
+name: "Hugo Detected"
+severity: info
+description: "Hugo static site generator detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "Hugo --"
+      - type: body
+        words:
+          - "hugo-"
+      - type: regex
+        words:
+          - "generator\"\\s+content=\"Hugo"
+    condition: or

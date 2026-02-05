@@ -1,0 +1,16 @@
+id: kestrel-info-leak
+name: "Kestrel Server Information Disclosure"
+severity: info
+description: "Kestrel web server exposes its identity in the Server header, revealing the ASP.NET Core runtime environment."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: header
+        header: "server"
+        words:
+          - "Kestrel"
+      - type: status
+        status: [200, 301, 302, 404]
+    condition: and

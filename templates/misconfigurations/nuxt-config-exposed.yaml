@@ -1,0 +1,19 @@
+id: nuxt-config-exposed
+name: "Nuxt.js Configuration Exposed"
+severity: low
+description: "Nuxt.js configuration file is publicly accessible, revealing API endpoints, modules, server middleware, and runtime configuration."
+reference: CWE-538
+requests:
+  - method: GET
+    path: "/nuxt.config.js"
+    matchers:
+      - type: body
+        words:
+          - "export default"
+          - "modules"
+      - type: body
+        words:
+          - "nuxt"
+      - type: status
+        status: [200]
+    condition: and

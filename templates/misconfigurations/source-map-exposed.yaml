@@ -1,0 +1,17 @@
+id: source-map-exposed
+name: "JavaScript Source Maps Exposed"
+severity: medium
+description: "JavaScript source map files are publicly accessible, allowing reconstruction of original unminified source code including comments and variable names."
+reference: CWE-540
+requests:
+  - method: GET
+    path: "/main.js.map"
+    matchers:
+      - type: body
+        words:
+          - "mappings"
+          - "sources"
+          - "sourcesContent"
+      - type: status
+        status: [200]
+    condition: and

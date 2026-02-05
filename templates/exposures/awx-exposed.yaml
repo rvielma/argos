@@ -1,0 +1,16 @@
+id: awx-exposed
+name: "AWX/Ansible Tower Exposed"
+severity: medium
+description: "AWX or Ansible Tower web interface is publicly accessible."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/#/login"
+    matchers:
+      - type: body
+        words:
+          - "AWX"
+          - "ansible"
+      - type: status
+        status: [200]
+    condition: and

@@ -1,0 +1,19 @@
+id: express-stack-trace
+name: "Express.js Stack Trace Exposure"
+severity: medium
+description: "Express.js application exposes detailed stack traces in error responses, revealing internal file paths, middleware, and module versions."
+reference: CWE-209
+requests:
+  - method: GET
+    path: "/nonexistent-argos-test"
+    matchers:
+      - type: body
+        words:
+          - "at Function"
+          - "at Layer.handle"
+      - type: body
+        words:
+          - "node_modules"
+      - type: status
+        status: [404, 500]
+    condition: and

@@ -1,0 +1,20 @@
+id: tech-wix
+name: "Wix Detected"
+severity: info
+description: "Wix website builder platform detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "wix.com"
+      - type: body
+        words:
+          - "X-Wix-"
+      - type: header
+        header: "x-wix-request-id"
+        words:
+          - "-"
+    condition: or

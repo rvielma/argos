@@ -1,0 +1,19 @@
+id: mirth-default-login
+name: "Mirth Connect Default Credentials"
+severity: critical
+description: "Mirth Connect accepts default credentials admin:admin."
+reference: CWE-1393
+requests:
+  - method: POST
+    path: "/api/users/_login"
+    headers:
+      Content-Type: "application/xml"
+      Authorization: "Basic YWRtaW46YWRtaW4="
+    matchers:
+      - type: body
+        words:
+          - "loginStatus"
+          - "SUCCESS"
+      - type: status
+        status: [200]
+    condition: and

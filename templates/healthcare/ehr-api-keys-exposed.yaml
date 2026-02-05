@@ -1,0 +1,16 @@
+id: ehr-api-keys-exposed
+name: "EHR API Keys Exposed"
+severity: critical
+description: "Electronic Health Record system API keys or credentials are exposed in a publicly accessible endpoint."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/api/config"
+    matchers:
+      - type: body
+        words:
+          - "api_key"
+          - "ehr"
+      - type: status
+        status: [200]
+    condition: and

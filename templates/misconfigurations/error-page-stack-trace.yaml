@@ -1,0 +1,22 @@
+id: error-page-stack-trace
+name: "Error Page Exposes Stack Trace"
+severity: medium
+description: "Application error pages expose detailed stack traces, revealing internal code paths, framework versions, and database query details."
+reference: CWE-209
+requests:
+  - method: GET
+    path: "/nonexistent-argos-test"
+    matchers:
+      - type: body
+        words:
+          - "Traceback"
+          - "Stack trace"
+          - "at System."
+          - "java.lang."
+      - type: body
+        words:
+          - "File"
+          - "line"
+      - type: status
+        status: [500]
+    condition: and

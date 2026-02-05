@@ -1,0 +1,22 @@
+id: tech-flyio
+name: "Fly.io Detected"
+severity: info
+description: "Fly.io cloud platform detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: header
+        header: "fly-request-id"
+        words:
+          - "-"
+      - type: header
+        header: "server"
+        words:
+          - "Fly"
+      - type: header
+        header: "via"
+        words:
+          - "fly.io"
+    condition: or

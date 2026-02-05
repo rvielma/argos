@@ -1,0 +1,16 @@
+id: prtg-exposed
+name: "PRTG Network Monitor Exposed"
+severity: medium
+description: "PRTG Network Monitor web interface is publicly accessible."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/index.htm"
+    matchers:
+      - type: body
+        words:
+          - "PRTG"
+          - "Network Monitor"
+      - type: status
+        status: [200]
+    condition: and

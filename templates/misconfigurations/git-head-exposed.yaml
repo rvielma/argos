@@ -1,0 +1,15 @@
+id: git-head-exposed
+name: "Git HEAD Reference Exposed"
+severity: medium
+description: "Git HEAD file is publicly accessible, confirming the presence of a git repository and revealing the current branch name."
+reference: CWE-538
+requests:
+  - method: GET
+    path: "/.git/HEAD"
+    matchers:
+      - type: body
+        words:
+          - "ref: refs/"
+      - type: status
+        status: [200]
+    condition: and

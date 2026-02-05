@@ -1,0 +1,19 @@
+id: tech-newrelic
+name: "New Relic Detected"
+severity: info
+description: "New Relic browser monitoring detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "newrelic.com"
+      - type: body
+        words:
+          - "NREUM"
+      - type: body
+        words:
+          - "nr-data.net"
+    condition: or

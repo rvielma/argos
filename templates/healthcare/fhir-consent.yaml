@@ -1,0 +1,16 @@
+id: fhir-consent
+name: "FHIR Consent Endpoint Exposed"
+severity: high
+description: "HL7 FHIR Consent endpoint is publicly accessible, exposing patient consent records."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/fhir/Consent"
+    matchers:
+      - type: body
+        words:
+          - "Consent"
+          - "resourceType"
+      - type: status
+        status: [200]
+    condition: and

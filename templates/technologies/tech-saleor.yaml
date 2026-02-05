@@ -1,0 +1,16 @@
+id: tech-saleor
+name: "Saleor Detected"
+severity: info
+description: "Saleor headless e-commerce platform detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "saleor"
+      - type: body
+        words:
+          - "saleor-app"
+    condition: or

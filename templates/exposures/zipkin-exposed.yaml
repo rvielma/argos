@@ -1,0 +1,16 @@
+id: zipkin-exposed
+name: "Zipkin Tracing UI Exposed"
+severity: medium
+description: "Zipkin distributed tracing web UI is publicly accessible."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/zipkin/"
+    matchers:
+      - type: body
+        words:
+          - "Zipkin"
+          - "zipkin-ui"
+      - type: status
+        status: [200]
+    condition: and

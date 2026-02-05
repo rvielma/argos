@@ -1,0 +1,16 @@
+id: influxdb-exposed
+name: "InfluxDB API Exposed"
+severity: medium
+description: "InfluxDB time-series database API is publicly accessible."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/ping"
+    matchers:
+      - type: header
+        words:
+          - "X-Influxdb-Version"
+        header: "x-influxdb-version"
+      - type: status
+        status: [204]
+    condition: and

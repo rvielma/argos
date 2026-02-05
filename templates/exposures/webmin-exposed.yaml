@@ -1,0 +1,16 @@
+id: webmin-exposed
+name: "Webmin Panel Exposed"
+severity: medium
+description: "Webmin system administration web interface is publicly accessible."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "Webmin"
+          - "login"
+      - type: status
+        status: [200]
+    condition: and

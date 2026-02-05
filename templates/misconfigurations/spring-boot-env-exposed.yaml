@@ -1,0 +1,16 @@
+id: spring-boot-env-exposed
+name: "Spring Boot Environment Endpoint Exposed"
+severity: high
+description: "Spring Boot /actuator/env endpoint is publicly accessible, exposing environment variables, system properties, and configuration values."
+reference: CWE-215
+requests:
+  - method: GET
+    path: "/actuator/env"
+    matchers:
+      - type: body
+        words:
+          - "propertySources"
+          - "systemProperties"
+      - type: status
+        status: [200]
+    condition: and

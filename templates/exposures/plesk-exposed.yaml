@@ -1,0 +1,16 @@
+id: plesk-exposed
+name: "Plesk Panel Exposed"
+severity: medium
+description: "Plesk web hosting control panel is publicly accessible."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/login_up.php"
+    matchers:
+      - type: body
+        words:
+          - "Plesk"
+          - "login"
+      - type: status
+        status: [200]
+    condition: and

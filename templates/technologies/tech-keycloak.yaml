@@ -1,0 +1,19 @@
+id: tech-keycloak
+name: "Keycloak Detected"
+severity: info
+description: "Keycloak open source identity management detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "keycloak.js"
+      - type: body
+        words:
+          - "keycloak-js"
+      - type: body
+        words:
+          - "/auth/realms/"
+    condition: or

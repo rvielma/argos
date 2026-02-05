@@ -1,0 +1,19 @@
+id: tech-paypal
+name: "PayPal Detected"
+severity: info
+description: "PayPal payment processing detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "paypal.com/sdk"
+      - type: body
+        words:
+          - "paypal-buttons"
+      - type: body
+        words:
+          - "paypalobjects.com"
+    condition: or

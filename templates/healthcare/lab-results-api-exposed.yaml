@@ -1,0 +1,17 @@
+id: lab-results-api-exposed
+name: "Lab Results API Exposed"
+severity: critical
+description: "Laboratory results API is publicly accessible, exposing patient lab data and PHI."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/api/lab/results"
+    matchers:
+      - type: body
+        words:
+          - "result"
+          - "patient"
+          - "lab"
+      - type: status
+        status: [200]
+    condition: and

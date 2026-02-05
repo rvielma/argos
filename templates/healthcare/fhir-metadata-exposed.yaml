@@ -1,0 +1,17 @@
+id: fhir-metadata-exposed
+name: "FHIR Metadata Capability Statement Exposed"
+severity: medium
+description: "FHIR server metadata/capability statement is publicly accessible, revealing server capabilities and supported resources."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/fhir/metadata"
+    matchers:
+      - type: body
+        words:
+          - "CapabilityStatement"
+          - "resourceType"
+          - "fhirVersion"
+      - type: status
+        status: [200]
+    condition: and

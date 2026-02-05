@@ -1,0 +1,16 @@
+id: jaeger-exposed
+name: "Jaeger Tracing UI Exposed"
+severity: medium
+description: "Jaeger distributed tracing web UI is publicly accessible."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/search"
+    matchers:
+      - type: body
+        words:
+          - "Jaeger"
+          - "jaeger-ui"
+      - type: status
+        status: [200]
+    condition: and

@@ -1,0 +1,16 @@
+id: gitlab-ci-exposed
+name: "GitLab CI Configuration Exposed"
+severity: low
+description: "GitLab CI configuration file is publicly accessible, revealing pipeline stages, deployment commands, and referenced variables."
+reference: CWE-538
+requests:
+  - method: GET
+    path: "/.gitlab-ci.yml"
+    matchers:
+      - type: body
+        words:
+          - "stages:"
+          - "script:"
+      - type: status
+        status: [200]
+    condition: and

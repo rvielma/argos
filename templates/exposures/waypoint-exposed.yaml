@@ -1,0 +1,16 @@
+id: waypoint-exposed
+name: "Waypoint UI Exposed"
+severity: medium
+description: "HashiCorp Waypoint deployment UI is publicly accessible."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "Waypoint"
+          - "waypoint"
+      - type: status
+        status: [200]
+    condition: and

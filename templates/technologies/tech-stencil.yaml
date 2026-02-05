@@ -1,0 +1,19 @@
+id: tech-stencil
+name: "Stencil Detected"
+severity: info
+description: "Stencil web component compiler detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "stencil-hydrated"
+      - type: body
+        words:
+          - "s-id="
+      - type: body
+        words:
+          - "stenciljs"
+    condition: or

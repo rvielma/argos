@@ -1,0 +1,19 @@
+id: tech-stimulus
+name: "Stimulus Detected"
+severity: info
+description: "Stimulus JavaScript framework detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "data-controller="
+      - type: body
+        words:
+          - "stimulus.min.js"
+      - type: body
+        words:
+          - "@hotwired/stimulus"
+    condition: or

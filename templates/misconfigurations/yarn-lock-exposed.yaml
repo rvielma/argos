@@ -1,0 +1,16 @@
+id: yarn-lock-exposed
+name: "Yarn Lock File Exposed"
+severity: low
+description: "Yarn lock file is publicly accessible, revealing exact dependency versions and registry URLs used by the application."
+reference: CWE-538
+requests:
+  - method: GET
+    path: "/yarn.lock"
+    matchers:
+      - type: body
+        words:
+          - "yarn lockfile"
+          - "resolved"
+      - type: status
+        status: [200]
+    condition: and

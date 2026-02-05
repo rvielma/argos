@@ -1,0 +1,17 @@
+id: openid-configuration-exposed
+name: "OpenID Configuration Exposed"
+severity: info
+description: "OpenID Connect discovery endpoint is accessible, revealing authorization endpoints, supported scopes, and token signing algorithms."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/.well-known/openid-configuration"
+    matchers:
+      - type: body
+        words:
+          - "issuer"
+          - "authorization_endpoint"
+          - "token_endpoint"
+      - type: status
+        status: [200]
+    condition: and

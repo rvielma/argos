@@ -1,0 +1,19 @@
+id: tech-lit
+name: "Lit Detected"
+severity: info
+description: "Lit web components library detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "lit-element"
+      - type: body
+        words:
+          - "lit-html"
+      - type: body
+        words:
+          - "LitElement"
+    condition: or

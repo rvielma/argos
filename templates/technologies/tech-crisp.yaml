@@ -1,0 +1,19 @@
+id: tech-crisp
+name: "Crisp Chat Detected"
+severity: info
+description: "Crisp live chat platform detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "crisp.chat"
+      - type: body
+        words:
+          - "client.crisp.chat"
+      - type: body
+        words:
+          - "CRISP_WEBSITE_ID"
+    condition: or

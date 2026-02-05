@@ -1,0 +1,19 @@
+id: supervisor-no-auth
+name: "Supervisor No Authentication"
+severity: high
+description: "Supervisor XML-RPC interface is accessible without authentication."
+reference: CWE-1393
+requests:
+  - method: POST
+    path: "/RPC2"
+    headers:
+      Content-Type: "text/xml"
+    body: '<?xml version="1.0"?><methodCall><methodName>supervisor.getVersion</methodName></methodCall>'
+    matchers:
+      - type: body
+        words:
+          - "methodResponse"
+          - "value"
+      - type: status
+        status: [200]
+    condition: and

@@ -1,0 +1,19 @@
+id: tech-eleventy
+name: "Eleventy Detected"
+severity: info
+description: "Eleventy (11ty) static site generator detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: regex
+        words:
+          - "generator\"\\s+content=\"Eleventy"
+      - type: body
+        words:
+          - "11ty"
+      - type: body
+        words:
+          - "eleventy"
+    condition: or

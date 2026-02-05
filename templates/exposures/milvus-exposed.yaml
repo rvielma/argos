@@ -1,0 +1,19 @@
+id: milvus-exposed
+name: "Milvus Vector DB Exposed"
+severity: medium
+description: "Milvus vector database web UI or API is publicly accessible without authentication."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/api/v1/health"
+    matchers:
+      - type: body
+        words:
+          - "ok"
+      - type: header
+        words:
+          - "application/json"
+        header: "content-type"
+      - type: status
+        status: [200]
+    condition: and

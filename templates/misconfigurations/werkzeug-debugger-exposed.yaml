@@ -1,0 +1,17 @@
+id: werkzeug-debugger-exposed
+name: "Werkzeug Debugger Console Exposed"
+severity: critical
+description: "Werkzeug interactive debugger is publicly accessible, allowing arbitrary Python code execution on the server through the debug console."
+reference: CWE-489
+requests:
+  - method: GET
+    path: "/console"
+    matchers:
+      - type: body
+        words:
+          - "Werkzeug"
+          - "debugger"
+          - "console"
+      - type: status
+        status: [200]
+    condition: and

@@ -1,0 +1,19 @@
+id: tech-bootstrap
+name: "Bootstrap Detected"
+severity: info
+description: "Bootstrap CSS framework detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "bootstrap.min.css"
+      - type: body
+        words:
+          - "bootstrap.min.js"
+      - type: body
+        words:
+          - "bootstrap.bundle.min.js"
+    condition: or

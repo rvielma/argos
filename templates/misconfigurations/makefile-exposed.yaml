@@ -1,0 +1,18 @@
+id: makefile-exposed
+name: "Makefile Exposed"
+severity: low
+description: "Makefile is publicly accessible, revealing build commands, deployment targets, internal paths, and potentially credentials in environment variables."
+reference: CWE-538
+requests:
+  - method: GET
+    path: "/Makefile"
+    matchers:
+      - type: body
+        regex:
+          - "^[a-zA-Z_-]+:"
+      - type: body
+        words:
+          - "install"
+      - type: status
+        status: [200]
+    condition: and

@@ -1,0 +1,18 @@
+id: drf-browsable-api
+name: "Django REST Framework Browsable API Exposed"
+severity: medium
+description: "Django REST Framework browsable API is publicly accessible, exposing API endpoints, serializer fields, and potentially sensitive data."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/api/"
+    headers:
+      Accept: "text/html"
+    matchers:
+      - type: body
+        words:
+          - "Django REST framework"
+          - "api-root"
+      - type: status
+        status: [200]
+    condition: and

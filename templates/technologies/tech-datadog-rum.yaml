@@ -1,0 +1,19 @@
+id: tech-datadog-rum
+name: "Datadog RUM Detected"
+severity: info
+description: "Datadog Real User Monitoring detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "datadoghq.com"
+      - type: body
+        words:
+          - "@datadog/browser-rum"
+      - type: body
+        words:
+          - "DD_RUM"
+    condition: or

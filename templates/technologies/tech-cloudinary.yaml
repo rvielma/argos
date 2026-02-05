@@ -1,0 +1,19 @@
+id: tech-cloudinary
+name: "Cloudinary Detected"
+severity: info
+description: "Cloudinary image and video management detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "res.cloudinary.com"
+      - type: body
+        words:
+          - "cloudinary-core"
+      - type: body
+        words:
+          - "cloudinary.min.js"
+    condition: or

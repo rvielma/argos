@@ -1,0 +1,16 @@
+id: phpunit-xml-exposed
+name: "PHPUnit Configuration Exposed"
+severity: medium
+description: "PHPUnit configuration file is publicly accessible, revealing test database credentials, environment variables, and application structure."
+reference: CWE-538
+requests:
+  - method: GET
+    path: "/phpunit.xml"
+    matchers:
+      - type: body
+        words:
+          - "<phpunit"
+          - "testsuite"
+      - type: status
+        status: [200]
+    condition: and

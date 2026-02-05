@@ -1,0 +1,18 @@
+id: gitea-default-login
+name: "Gitea Default Credentials"
+severity: critical
+description: "Gitea accepts default or initial setup credentials."
+reference: CWE-1393
+requests:
+  - method: POST
+    path: "/api/v1/users/search?q=admin"
+    headers:
+      Content-Type: "application/json"
+    matchers:
+      - type: body
+        words:
+          - "login"
+          - "admin"
+      - type: status
+        status: [200]
+    condition: and

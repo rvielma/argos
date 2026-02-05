@@ -1,0 +1,20 @@
+id: tech-inertiajs
+name: "Inertia.js Detected"
+severity: info
+description: "Inertia.js server-driven SPA framework detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "data-page="
+      - type: header
+        header: "x-inertia"
+        words:
+          - "true"
+      - type: body
+        words:
+          - "@inertiajs"
+    condition: or

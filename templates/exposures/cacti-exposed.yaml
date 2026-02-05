@@ -1,0 +1,16 @@
+id: cacti-exposed
+name: "Cacti Monitoring Panel Exposed"
+severity: medium
+description: "Cacti network monitoring web interface is publicly accessible."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/cacti/"
+    matchers:
+      - type: body
+        words:
+          - "Cacti"
+          - "Login"
+      - type: status
+        status: [200]
+    condition: and

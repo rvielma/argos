@@ -1,0 +1,19 @@
+id: tech-clerk
+name: "Clerk Detected"
+severity: info
+description: "Clerk authentication and user management detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "clerk.com"
+      - type: body
+        words:
+          - "@clerk/"
+      - type: body
+        words:
+          - "clerk-js"
+    condition: or

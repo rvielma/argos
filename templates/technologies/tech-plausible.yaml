@@ -1,0 +1,16 @@
+id: tech-plausible
+name: "Plausible Analytics Detected"
+severity: info
+description: "Plausible privacy-friendly analytics detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "plausible.io/js/"
+      - type: body
+        words:
+          - "data-domain="
+    condition: or

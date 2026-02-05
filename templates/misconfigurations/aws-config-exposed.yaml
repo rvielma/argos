@@ -1,0 +1,26 @@
+id: aws-config-exposed
+name: "AWS Configuration File Exposed"
+severity: critical
+description: "AWS configuration or credentials file is publicly accessible, potentially exposing access keys, secret keys, and session tokens."
+reference: CWE-540
+requests:
+  - method: GET
+    path: "/.aws/credentials"
+    matchers:
+      - type: body
+        words:
+          - "aws_access_key_id"
+          - "aws_secret_access_key"
+      - type: status
+        status: [200]
+    condition: and
+  - method: GET
+    path: "/.aws/config"
+    matchers:
+      - type: body
+        words:
+          - "[default]"
+          - "region"
+      - type: status
+        status: [200]
+    condition: and

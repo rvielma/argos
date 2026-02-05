@@ -1,0 +1,16 @@
+id: editorconfig-exposed
+name: "EditorConfig File Exposed"
+severity: info
+description: "EditorConfig file is publicly accessible, revealing project coding standards and directory structure hints."
+reference: CWE-538
+requests:
+  - method: GET
+    path: "/.editorconfig"
+    matchers:
+      - type: body
+        words:
+          - "root = true"
+          - "indent_style"
+      - type: status
+        status: [200]
+    condition: and

@@ -1,0 +1,16 @@
+id: metabase-setup-exposed
+name: "Metabase Setup Not Completed"
+severity: critical
+description: "Metabase initial setup wizard is accessible, allowing attacker to create admin account."
+reference: CWE-1393
+requests:
+  - method: GET
+    path: "/api/session/properties"
+    matchers:
+      - type: body
+        words:
+          - "setup-token"
+          - "has-user-setup"
+      - type: status
+        status: [200]
+    condition: and

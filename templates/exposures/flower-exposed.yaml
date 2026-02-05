@@ -1,0 +1,16 @@
+id: flower-exposed
+name: "Flower Celery Monitor Exposed"
+severity: medium
+description: "Flower Celery task monitoring interface is publicly accessible."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/dashboard"
+    matchers:
+      - type: body
+        words:
+          - "Flower"
+          - "Celery"
+      - type: status
+        status: [200]
+    condition: and

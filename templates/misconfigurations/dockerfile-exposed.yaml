@@ -1,0 +1,19 @@
+id: dockerfile-exposed
+name: "Dockerfile Exposed"
+severity: medium
+description: "Dockerfile is publicly accessible, revealing base images, build steps, environment variables, and internal application architecture."
+reference: CWE-538
+requests:
+  - method: GET
+    path: "/Dockerfile"
+    matchers:
+      - type: body
+        words:
+          - "FROM"
+          - "RUN"
+      - type: body
+        regex:
+          - "^FROM\\s+[a-z]"
+      - type: status
+        status: [200]
+    condition: and

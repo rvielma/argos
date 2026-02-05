@@ -1,0 +1,16 @@
+id: phppgadmin-exposed
+name: "phpPgAdmin Panel Exposed"
+severity: medium
+description: "phpPgAdmin PostgreSQL administration interface is publicly accessible."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/phppgadmin/"
+    matchers:
+      - type: body
+        words:
+          - "phpPgAdmin"
+          - "PostgreSQL"
+      - type: status
+        status: [200]
+    condition: and

@@ -1,0 +1,17 @@
+id: opensearch-no-auth
+name: "OpenSearch No Authentication"
+severity: high
+description: "OpenSearch is accessible without authentication, exposing cluster data."
+reference: CWE-1393
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "opensearch"
+          - "cluster_name"
+          - "version"
+      - type: status
+        status: [200]
+    condition: and

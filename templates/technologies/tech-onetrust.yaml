@@ -1,0 +1,19 @@
+id: tech-onetrust
+name: "OneTrust Detected"
+severity: info
+description: "OneTrust privacy and consent management detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "onetrust.com"
+      - type: body
+        words:
+          - "OptanonConsent"
+      - type: body
+        words:
+          - "otSDKStub"
+    condition: or

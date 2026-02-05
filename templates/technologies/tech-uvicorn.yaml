@@ -1,0 +1,14 @@
+id: tech-uvicorn
+name: "Uvicorn Detected"
+severity: info
+description: "Uvicorn Python ASGI server detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: header
+        header: "server"
+        words:
+          - "uvicorn"
+    condition: and

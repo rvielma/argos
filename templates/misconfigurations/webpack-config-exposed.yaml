@@ -1,0 +1,16 @@
+id: webpack-config-exposed
+name: "Webpack Configuration Exposed"
+severity: low
+description: "Webpack configuration file is publicly accessible, revealing build configuration, entry points, plugins, and potentially source map settings."
+reference: CWE-538
+requests:
+  - method: GET
+    path: "/webpack.config.js"
+    matchers:
+      - type: body
+        words:
+          - "module.exports"
+          - "entry"
+      - type: status
+        status: [200]
+    condition: and

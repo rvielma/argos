@@ -1,0 +1,19 @@
+id: tech-okta
+name: "Okta Detected"
+severity: info
+description: "Okta identity and access management detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "okta.com"
+      - type: body
+        words:
+          - "okta-sign-in"
+      - type: body
+        words:
+          - "OktaAuth"
+    condition: or

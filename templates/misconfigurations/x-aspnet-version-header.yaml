@@ -1,0 +1,16 @@
+id: x-aspnet-version-header
+name: "X-AspNet-Version Header Exposed"
+severity: low
+description: "Server exposes X-AspNet-Version header revealing the exact ASP.NET framework version, enabling targeted vulnerability research."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: header
+        header: "x-aspnet-version"
+        regex:
+          - "[0-9]+\\.[0-9]+"
+      - type: status
+        status: [200, 301, 302, 403, 404]
+    condition: and

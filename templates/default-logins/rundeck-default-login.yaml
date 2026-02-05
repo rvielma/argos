@@ -1,0 +1,18 @@
+id: rundeck-default-login
+name: "Rundeck Default Credentials"
+severity: critical
+description: "Rundeck accepts default credentials admin:admin."
+reference: CWE-1393
+requests:
+  - method: POST
+    path: "/j_security_check"
+    headers:
+      Content-Type: "application/x-www-form-urlencoded"
+    body: 'j_username=admin&j_password=admin'
+    matchers:
+      - type: body
+        words:
+          - "rundeck"
+      - type: status
+        status: [200, 302]
+    condition: and

@@ -1,0 +1,16 @@
+id: cockpit-exposed
+name: "Cockpit Web Console Exposed"
+severity: medium
+description: "Cockpit Linux server web console is publicly accessible."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/cockpit/login"
+    matchers:
+      - type: body
+        words:
+          - "Cockpit"
+          - "login"
+      - type: status
+        status: [200]
+    condition: and

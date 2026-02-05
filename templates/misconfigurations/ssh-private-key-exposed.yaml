@@ -1,0 +1,16 @@
+id: ssh-private-key-exposed
+name: "SSH Private Key Exposed"
+severity: critical
+description: "SSH private key file is publicly accessible, allowing direct unauthorized access to servers and services authenticated via this key."
+reference: CWE-540
+requests:
+  - method: GET
+    path: "/.ssh/id_rsa"
+    matchers:
+      - type: body
+        words:
+          - "BEGIN RSA PRIVATE KEY"
+          - "BEGIN OPENSSH PRIVATE KEY"
+      - type: status
+        status: [200]
+    condition: and

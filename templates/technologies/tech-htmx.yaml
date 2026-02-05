@@ -1,0 +1,22 @@
+id: tech-htmx
+name: "HTMX Detected"
+severity: info
+description: "HTMX hypermedia library detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "htmx.min.js"
+      - type: body
+        words:
+          - "htmx.org"
+      - type: body
+        words:
+          - "hx-get="
+      - type: body
+        words:
+          - "hx-post="
+    condition: or

@@ -1,0 +1,16 @@
+id: fhir-documentreference
+name: "FHIR DocumentReference Endpoint Exposed"
+severity: high
+description: "HL7 FHIR DocumentReference endpoint is publicly accessible, potentially exposing clinical documents."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/fhir/DocumentReference"
+    matchers:
+      - type: body
+        words:
+          - "DocumentReference"
+          - "resourceType"
+      - type: status
+        status: [200]
+    condition: and

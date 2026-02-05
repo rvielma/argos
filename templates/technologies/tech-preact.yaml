@@ -1,0 +1,19 @@
+id: tech-preact
+name: "Preact Detected"
+severity: info
+description: "Preact lightweight React alternative detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "preact.min.js"
+      - type: body
+        words:
+          - "preact/compat"
+      - type: body
+        words:
+          - "__PREACT_DEVTOOLS__"
+    condition: or

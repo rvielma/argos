@@ -1,0 +1,22 @@
+id: tech-livewire
+name: "Laravel Livewire Detected"
+severity: info
+description: "Laravel Livewire full-stack framework detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "livewire.js"
+      - type: body
+        words:
+          - "wire:model"
+      - type: body
+        words:
+          - "wire:click"
+      - type: body
+        words:
+          - "livewire/livewire.js"
+    condition: or

@@ -1,0 +1,16 @@
+id: spring-boot-mappings-exposed
+name: "Spring Boot Mappings Endpoint Exposed"
+severity: medium
+description: "Spring Boot /actuator/mappings endpoint is publicly accessible, revealing all registered URL handlers, controllers, and request patterns."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/actuator/mappings"
+    matchers:
+      - type: body
+        words:
+          - "dispatcherServlets"
+          - "requestMappingConditions"
+      - type: status
+        status: [200]
+    condition: and

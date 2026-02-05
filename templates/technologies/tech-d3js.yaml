@@ -1,0 +1,19 @@
+id: tech-d3js
+name: "D3.js Detected"
+severity: info
+description: "D3.js data visualization library detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "d3.min.js"
+      - type: body
+        words:
+          - "d3js.org"
+      - type: body
+        words:
+          - "d3.select"
+    condition: or

@@ -1,0 +1,18 @@
+id: nagios-default-login
+name: "Nagios Default Credentials"
+severity: critical
+description: "Nagios accepts default credentials nagiosadmin:nagios."
+reference: CWE-1393
+requests:
+  - method: GET
+    path: "/nagios/"
+    headers:
+      Authorization: "Basic bmFnaW9zYWRtaW46bmFnaW9z"
+    matchers:
+      - type: body
+        words:
+          - "Nagios"
+          - "Core"
+      - type: status
+        status: [200]
+    condition: and

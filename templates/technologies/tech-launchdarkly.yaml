@@ -1,0 +1,19 @@
+id: tech-launchdarkly
+name: "LaunchDarkly Detected"
+severity: info
+description: "LaunchDarkly feature flag management detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "launchdarkly"
+      - type: body
+        words:
+          - "app.launchdarkly.com"
+      - type: body
+        words:
+          - "ldclient-js"
+    condition: or

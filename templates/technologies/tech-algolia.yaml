@@ -1,0 +1,19 @@
+id: tech-algolia
+name: "Algolia Detected"
+severity: info
+description: "Algolia search service detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "algolia.net"
+      - type: body
+        words:
+          - "algoliasearch"
+      - type: body
+        words:
+          - "algolia-"
+    condition: or

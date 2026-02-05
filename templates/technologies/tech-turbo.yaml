@@ -1,0 +1,19 @@
+id: tech-turbo
+name: "Turbo Detected"
+severity: info
+description: "Hotwire Turbo page acceleration framework detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "data-turbo="
+      - type: body
+        words:
+          - "@hotwired/turbo"
+      - type: body
+        words:
+          - "turbo-frame"
+    condition: or

@@ -1,0 +1,16 @@
+id: prometheus-config-exposed
+name: "Prometheus Config Exposed"
+severity: high
+description: "Prometheus configuration API is publicly accessible, potentially exposing service discovery details."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/api/v1/status/config"
+    matchers:
+      - type: body
+        words:
+          - "scrape_configs"
+          - "yaml"
+      - type: status
+        status: [200]
+    condition: and

@@ -1,0 +1,16 @@
+id: fhir-binary
+name: "FHIR Binary Endpoint Exposed"
+severity: high
+description: "HL7 FHIR Binary endpoint is publicly accessible, potentially exposing raw clinical data and attachments."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/fhir/Binary"
+    matchers:
+      - type: body
+        words:
+          - "Binary"
+          - "resourceType"
+      - type: status
+        status: [200]
+    condition: and

@@ -1,0 +1,17 @@
+id: jwks-json-exposed
+name: "JWKS Endpoint Exposed"
+severity: info
+description: "JSON Web Key Set endpoint is publicly accessible, exposing public keys used for JWT token verification."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/.well-known/jwks.json"
+    matchers:
+      - type: body
+        words:
+          - "keys"
+          - "kty"
+          - "kid"
+      - type: status
+        status: [200]
+    condition: and

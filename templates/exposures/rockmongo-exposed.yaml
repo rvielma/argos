@@ -1,0 +1,16 @@
+id: rockmongo-exposed
+name: "RockMongo Panel Exposed"
+severity: medium
+description: "RockMongo MongoDB administration interface is publicly accessible."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/index.php"
+    matchers:
+      - type: body
+        words:
+          - "RockMongo"
+          - "MongoDB"
+      - type: status
+        status: [200]
+    condition: and

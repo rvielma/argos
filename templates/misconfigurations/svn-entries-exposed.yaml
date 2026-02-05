@@ -1,0 +1,19 @@
+id: svn-entries-exposed
+name: "SVN Entries File Exposed"
+severity: high
+description: "Subversion entries file is publicly accessible, revealing repository structure, file paths, and commit metadata."
+reference: CWE-538
+requests:
+  - method: GET
+    path: "/.svn/entries"
+    matchers:
+      - type: body
+        words:
+          - "dir"
+          - "svn"
+      - type: body
+        regex:
+          - "^(10|12|8)\\s"
+      - type: status
+        status: [200]
+    condition: and

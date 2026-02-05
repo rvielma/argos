@@ -1,0 +1,17 @@
+id: netdata-exposed
+name: "Netdata Monitoring Exposed"
+severity: low
+description: "Netdata real-time performance monitoring dashboard is publicly accessible."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/api/v1/info"
+    matchers:
+      - type: body
+        words:
+          - "netdata"
+          - "version"
+          - "uid"
+      - type: status
+        status: [200]
+    condition: and

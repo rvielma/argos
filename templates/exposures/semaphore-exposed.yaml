@@ -1,0 +1,16 @@
+id: semaphore-exposed
+name: "Ansible Semaphore Exposed"
+severity: medium
+description: "Ansible Semaphore UI is publicly accessible."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/auth/login"
+    matchers:
+      - type: body
+        words:
+          - "Semaphore"
+          - "ansible"
+      - type: status
+        status: [200]
+    condition: and

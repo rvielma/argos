@@ -1,0 +1,19 @@
+id: mirth-connect-api-exposed
+name: "Mirth Connect API Exposed"
+severity: high
+description: "Mirth Connect integration engine API is publicly accessible."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/api/server/version"
+    matchers:
+      - type: body
+        words:
+          - "."
+      - type: header
+        words:
+          - "application"
+        header: "content-type"
+      - type: status
+        status: [200]
+    condition: and

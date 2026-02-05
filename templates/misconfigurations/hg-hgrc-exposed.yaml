@@ -1,0 +1,16 @@
+id: hg-hgrc-exposed
+name: "Mercurial Configuration Exposed"
+severity: high
+description: "Mercurial .hg/hgrc configuration file is publicly accessible, revealing repository paths, remote URLs, and potentially credentials."
+reference: CWE-538
+requests:
+  - method: GET
+    path: "/.hg/hgrc"
+    matchers:
+      - type: body
+        words:
+          - "[paths]"
+          - "default"
+      - type: status
+        status: [200]
+    condition: and

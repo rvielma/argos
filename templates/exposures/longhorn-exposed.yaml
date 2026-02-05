@@ -1,0 +1,16 @@
+id: longhorn-exposed
+name: "Longhorn Storage UI Exposed"
+severity: medium
+description: "Longhorn Kubernetes storage management UI is publicly accessible."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "Longhorn"
+          - "longhorn-ui"
+      - type: status
+        status: [200]
+    condition: and

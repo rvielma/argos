@@ -1,0 +1,16 @@
+id: spring-boot-logfile-exposed
+name: "Spring Boot Log File Endpoint Exposed"
+severity: high
+description: "Spring Boot /actuator/logfile endpoint is publicly accessible, exposing application logs that may contain credentials, tokens, and sensitive user data."
+reference: CWE-532
+requests:
+  - method: GET
+    path: "/actuator/logfile"
+    matchers:
+      - type: body
+        words:
+          - "INFO"
+          - "org.springframework"
+      - type: status
+        status: [200]
+    condition: and

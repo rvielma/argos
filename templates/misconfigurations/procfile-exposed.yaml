@@ -1,0 +1,18 @@
+id: procfile-exposed
+name: "Procfile Exposed"
+severity: low
+description: "Heroku/PaaS Procfile is publicly accessible, revealing process types, start commands, and application entry points."
+reference: CWE-538
+requests:
+  - method: GET
+    path: "/Procfile"
+    matchers:
+      - type: body
+        words:
+          - "web:"
+      - type: body
+        regex:
+          - "^(web|worker|release):"
+      - type: status
+        status: [200]
+    condition: and

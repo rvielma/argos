@@ -1,0 +1,16 @@
+id: prtg-default-login
+name: "PRTG Default Credentials"
+severity: critical
+description: "PRTG Network Monitor accepts default credentials prtgadmin:prtgadmin."
+reference: CWE-1393
+requests:
+  - method: GET
+    path: "/api/table.json?content=sensors&columns=sensor&username=prtgadmin&password=prtgadmin"
+    matchers:
+      - type: body
+        words:
+          - "sensors"
+          - "treesize"
+      - type: status
+        status: [200]
+    condition: and

@@ -1,0 +1,17 @@
+id: dicom-stow-rs-exposed
+name: "DICOM STOW-RS Endpoint Exposed"
+severity: high
+description: "DICOM STOW-RS store endpoint is publicly accessible, allowing unauthorized medical image uploads."
+reference: CWE-284
+requests:
+  - method: POST
+    path: "/dicom-web/studies"
+    headers:
+      Content-Type: "multipart/related; type=application/dicom"
+    matchers:
+      - type: body
+        words:
+          - "dicom"
+      - type: status
+        status: [200, 409]
+    condition: and

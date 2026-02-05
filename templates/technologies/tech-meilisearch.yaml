@@ -1,0 +1,16 @@
+id: tech-meilisearch
+name: "Meilisearch Detected"
+severity: info
+description: "Meilisearch search engine detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "meilisearch"
+      - type: body
+        words:
+          - "meilisearch-js"
+    condition: or

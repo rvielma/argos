@@ -1,0 +1,19 @@
+id: tech-unpoly
+name: "Unpoly Detected"
+severity: info
+description: "Unpoly progressive enhancement framework detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "unpoly.min.js"
+      - type: body
+        words:
+          - "up-"
+      - type: body
+        words:
+          - "unpoly"
+    condition: or

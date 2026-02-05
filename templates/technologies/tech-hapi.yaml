@@ -1,0 +1,17 @@
+id: tech-hapi
+name: "Hapi.js Detected"
+severity: info
+description: "Hapi.js Node.js web framework detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: header
+        header: "x-powered-by"
+        words:
+          - "hapi"
+      - type: body
+        words:
+          - "@hapi/"
+    condition: or

@@ -1,0 +1,17 @@
+id: debug-pprof-exposed
+name: "Go pprof Debug Endpoint Exposed"
+severity: high
+description: "Go /debug/pprof endpoint is publicly accessible, exposing CPU profiles, memory allocations, goroutine stacks, and enabling denial-of-service via profiling."
+reference: CWE-215
+requests:
+  - method: GET
+    path: "/debug/pprof/"
+    matchers:
+      - type: body
+        words:
+          - "goroutine"
+          - "heap"
+          - "threadcreate"
+      - type: status
+        status: [200]
+    condition: and

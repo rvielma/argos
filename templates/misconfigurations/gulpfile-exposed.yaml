@@ -1,0 +1,16 @@
+id: gulpfile-exposed
+name: "Gulpfile Exposed"
+severity: low
+description: "Gulpfile is publicly accessible, revealing build pipeline tasks, source paths, and deployment processes."
+reference: CWE-538
+requests:
+  - method: GET
+    path: "/gulpfile.js"
+    matchers:
+      - type: body
+        words:
+          - "gulp.task"
+          - "gulp.src"
+      - type: status
+        status: [200]
+    condition: and

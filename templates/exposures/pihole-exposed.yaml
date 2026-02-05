@@ -1,0 +1,16 @@
+id: pihole-exposed
+name: "Pi-hole Admin Exposed"
+severity: low
+description: "Pi-hole DNS sinkhole admin interface is publicly accessible."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/admin/"
+    matchers:
+      - type: body
+        words:
+          - "Pi-hole"
+          - "Dashboard"
+      - type: status
+        status: [200]
+    condition: and

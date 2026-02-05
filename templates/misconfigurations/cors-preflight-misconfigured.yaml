@@ -1,0 +1,23 @@
+id: cors-preflight-misconfigured
+name: "CORS Preflight Allows All Methods"
+severity: medium
+description: "CORS preflight response allows all HTTP methods and headers, indicating overly permissive cross-origin policy."
+reference: CWE-942
+requests:
+  - method: OPTIONS
+    path: "/"
+    headers:
+      Origin: "https://evil.attacker.com"
+      Access-Control-Request-Method: "DELETE"
+      Access-Control-Request-Headers: "X-Custom-Header"
+    matchers:
+      - type: header
+        header: "access-control-allow-methods"
+        words:
+          - "DELETE"
+      - type: header
+        header: "access-control-allow-origin"
+        words:
+          - "*"
+          - "evil.attacker.com"
+    condition: and

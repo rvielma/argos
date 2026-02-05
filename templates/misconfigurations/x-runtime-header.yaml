@@ -1,0 +1,16 @@
+id: x-runtime-header
+name: "X-Runtime Header Information Disclosure"
+severity: info
+description: "Server exposes X-Runtime header revealing request processing time, which can be used for timing attacks against authentication endpoints."
+reference: CWE-208
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: header
+        header: "x-runtime"
+        regex:
+          - "^[0-9]+\\.[0-9]+"
+      - type: status
+        status: [200, 301, 302]
+    condition: and

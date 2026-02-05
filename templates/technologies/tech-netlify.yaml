@@ -1,0 +1,18 @@
+id: tech-netlify
+name: "Netlify Detected"
+severity: info
+description: "Netlify hosting platform detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: header
+        header: "server"
+        words:
+          - "Netlify"
+      - type: header
+        header: "x-nf-request-id"
+        words:
+          - "-"
+    condition: or

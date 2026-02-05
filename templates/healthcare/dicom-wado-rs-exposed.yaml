@@ -1,0 +1,15 @@
+id: dicom-wado-rs-exposed
+name: "DICOM WADO-RS Endpoint Exposed"
+severity: high
+description: "DICOM WADO-RS retrieval endpoint is publicly accessible, exposing medical imaging data."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/dicom-web/studies"
+    matchers:
+      - type: body
+        words:
+          - "StudyInstanceUID"
+      - type: status
+        status: [200]
+    condition: and

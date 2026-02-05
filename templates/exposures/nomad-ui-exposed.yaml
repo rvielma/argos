@@ -1,0 +1,16 @@
+id: nomad-ui-exposed
+name: "Nomad UI Exposed"
+severity: medium
+description: "HashiCorp Nomad workload orchestrator UI is publicly accessible."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/ui/jobs"
+    matchers:
+      - type: body
+        words:
+          - "Nomad"
+          - "nomad-ui"
+      - type: status
+        status: [200]
+    condition: and

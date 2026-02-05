@@ -1,0 +1,17 @@
+id: github-workflow-exposed
+name: "GitHub Actions Workflow Exposed"
+severity: low
+description: "GitHub Actions workflow files are publicly accessible, revealing CI/CD pipeline steps, deployment targets, and referenced secrets names."
+reference: CWE-538
+requests:
+  - method: GET
+    path: "/.github/workflows/ci.yml"
+    matchers:
+      - type: body
+        words:
+          - "on:"
+          - "jobs:"
+          - "steps:"
+      - type: status
+        status: [200]
+    condition: and

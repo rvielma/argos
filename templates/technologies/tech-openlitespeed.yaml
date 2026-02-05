@@ -1,0 +1,18 @@
+id: tech-openlitespeed
+name: "OpenLiteSpeed Detected"
+severity: info
+description: "OpenLiteSpeed web server detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: header
+        header: "server"
+        words:
+          - "OpenLiteSpeed"
+      - type: header
+        header: "x-powered-by"
+        words:
+          - "LiteSpeed"
+    condition: or

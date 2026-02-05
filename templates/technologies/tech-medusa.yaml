@@ -1,0 +1,19 @@
+id: tech-medusa
+name: "Medusa Detected"
+severity: info
+description: "Medusa headless commerce engine detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "medusajs"
+      - type: body
+        words:
+          - "@medusajs"
+      - type: body
+        words:
+          - "medusa-"
+    condition: or

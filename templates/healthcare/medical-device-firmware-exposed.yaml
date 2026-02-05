@@ -1,0 +1,17 @@
+id: medical-device-firmware-exposed
+name: "Medical Device Firmware Update Exposed"
+severity: critical
+description: "Medical device firmware update endpoint is publicly accessible, potentially allowing unauthorized firmware modifications."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/api/firmware/update"
+    matchers:
+      - type: body
+        words:
+          - "firmware"
+          - "version"
+          - "device"
+      - type: status
+        status: [200]
+    condition: and

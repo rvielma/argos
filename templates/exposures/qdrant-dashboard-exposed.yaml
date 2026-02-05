@@ -1,0 +1,16 @@
+id: qdrant-dashboard-exposed
+name: "Qdrant Dashboard Exposed"
+severity: medium
+description: "Qdrant vector database web dashboard is publicly accessible."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/dashboard"
+    matchers:
+      - type: body
+        words:
+          - "Qdrant"
+          - "dashboard"
+      - type: status
+        status: [200]
+    condition: and

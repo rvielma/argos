@@ -1,0 +1,19 @@
+id: tech-gtm
+name: "Google Tag Manager Detected"
+severity: info
+description: "Google Tag Manager detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "googletagmanager.com/gtm.js"
+      - type: body
+        words:
+          - "GTM-"
+      - type: body
+        words:
+          - "google_tag_manager"
+    condition: or

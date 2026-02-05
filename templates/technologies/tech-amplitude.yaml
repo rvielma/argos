@@ -1,0 +1,19 @@
+id: tech-amplitude
+name: "Amplitude Detected"
+severity: info
+description: "Amplitude product analytics detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "amplitude.com"
+      - type: body
+        words:
+          - "cdn.amplitude.com"
+      - type: body
+        words:
+          - "amplitude.getInstance"
+    condition: or

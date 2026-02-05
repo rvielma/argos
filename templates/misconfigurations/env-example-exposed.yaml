@@ -1,0 +1,16 @@
+id: env-example-exposed
+name: "Environment Example File Exposed"
+severity: low
+description: "Environment example file is publicly accessible, revealing configuration variable names, expected formats, and potentially default values."
+reference: CWE-538
+requests:
+  - method: GET
+    path: "/.env.example"
+    matchers:
+      - type: body
+        words:
+          - "DB_HOST="
+          - "APP_"
+      - type: status
+        status: [200]
+    condition: and

@@ -1,0 +1,19 @@
+id: tech-swell
+name: "Swell Detected"
+severity: info
+description: "Swell headless e-commerce platform detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "swell.store"
+      - type: body
+        words:
+          - "swell-js"
+      - type: body
+        words:
+          - "cdn.swell.store"
+    condition: or

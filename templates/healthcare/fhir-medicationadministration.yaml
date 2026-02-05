@@ -1,0 +1,16 @@
+id: fhir-medicationadministration
+name: "FHIR MedicationAdministration Endpoint Exposed"
+severity: high
+description: "HL7 FHIR MedicationAdministration endpoint is publicly accessible, exposing patient medication administration records."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/fhir/MedicationAdministration"
+    matchers:
+      - type: body
+        words:
+          - "MedicationAdministration"
+          - "resourceType"
+      - type: status
+        status: [200]
+    condition: and

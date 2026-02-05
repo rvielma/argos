@@ -1,0 +1,16 @@
+id: openmrs-rest-api
+name: "OpenMRS REST API Exposed"
+severity: high
+description: "OpenMRS REST API is publicly accessible without authentication, exposing patient data."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/openmrs/ws/rest/v1/session"
+    matchers:
+      - type: body
+        words:
+          - "sessionId"
+          - "authenticated"
+      - type: status
+        status: [200]
+    condition: and

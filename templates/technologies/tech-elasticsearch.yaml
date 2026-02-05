@@ -1,0 +1,19 @@
+id: tech-elasticsearch
+name: "Elasticsearch Detected"
+severity: info
+description: "Elasticsearch search engine detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "elasticsearch"
+      - type: body
+        words:
+          - "\"cluster_name\""
+      - type: body
+        words:
+          - "\"tagline\" : \"You Know, for Search\""
+    condition: or

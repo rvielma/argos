@@ -1,0 +1,19 @@
+id: tech-threejs
+name: "Three.js Detected"
+severity: info
+description: "Three.js 3D JavaScript library detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "three.min.js"
+      - type: body
+        words:
+          - "THREE.WebGLRenderer"
+      - type: body
+        words:
+          - "three.module.js"
+    condition: or

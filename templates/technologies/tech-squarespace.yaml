@@ -1,0 +1,19 @@
+id: tech-squarespace
+name: "Squarespace Detected"
+severity: info
+description: "Squarespace website builder platform detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "squarespace.com"
+      - type: body
+        words:
+          - "Static.SQUARESPACE_CONTEXT"
+      - type: body
+        words:
+          - "sqsp-"
+    condition: or

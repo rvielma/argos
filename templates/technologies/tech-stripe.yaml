@@ -1,0 +1,19 @@
+id: tech-stripe
+name: "Stripe Detected"
+severity: info
+description: "Stripe payment processing detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "js.stripe.com"
+      - type: body
+        words:
+          - "Stripe("
+      - type: body
+        words:
+          - "stripe-js"
+    condition: or

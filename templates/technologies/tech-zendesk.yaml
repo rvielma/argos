@@ -1,0 +1,19 @@
+id: tech-zendesk
+name: "Zendesk Detected"
+severity: info
+description: "Zendesk customer support platform detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "zendesk.com"
+      - type: body
+        words:
+          - "zdassets.com"
+      - type: body
+        words:
+          - "ze-snippet"
+    condition: or

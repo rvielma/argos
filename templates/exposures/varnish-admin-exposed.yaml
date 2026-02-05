@@ -1,0 +1,18 @@
+id: varnish-admin-exposed
+name: "Varnish Cache Stats Exposed"
+severity: low
+description: "Varnish cache statistics page is publicly accessible."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: header
+        words:
+          - "Varnish"
+        header: "x-varnish"
+      - type: header
+        words:
+          - "HIT"
+        header: "x-cache"
+    condition: and

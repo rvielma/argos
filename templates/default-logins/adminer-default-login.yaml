@@ -1,0 +1,19 @@
+id: adminer-default-login
+name: "Adminer Default Credentials"
+severity: critical
+description: "Adminer database admin accepts default credentials root with empty password."
+reference: CWE-1393
+requests:
+  - method: POST
+    path: "/adminer/"
+    headers:
+      Content-Type: "application/x-www-form-urlencoded"
+    body: 'auth[driver]=server&auth[server]=localhost&auth[username]=root&auth[password]=&auth[db]='
+    matchers:
+      - type: body
+        words:
+          - "Adminer"
+          - "database"
+      - type: status
+        status: [200, 302]
+    condition: and

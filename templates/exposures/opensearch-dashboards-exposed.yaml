@@ -1,0 +1,16 @@
+id: opensearch-dashboards-exposed
+name: "OpenSearch Dashboards Exposed"
+severity: medium
+description: "OpenSearch Dashboards web interface is publicly accessible."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/app/opensearch-dashboards"
+    matchers:
+      - type: body
+        words:
+          - "OpenSearch"
+          - "opensearch-dashboards"
+      - type: status
+        status: [200]
+    condition: and

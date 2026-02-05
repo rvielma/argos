@@ -1,0 +1,19 @@
+id: tech-intercom
+name: "Intercom Detected"
+severity: info
+description: "Intercom customer messaging platform detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "intercom.com"
+      - type: body
+        words:
+          - "Intercom("
+      - type: body
+        words:
+          - "widget.intercom.io"
+    condition: or

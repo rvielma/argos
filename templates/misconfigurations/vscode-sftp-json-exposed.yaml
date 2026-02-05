@@ -1,0 +1,17 @@
+id: vscode-sftp-json-exposed
+name: "VSCode SFTP Configuration Exposed"
+severity: critical
+description: "VSCode SFTP extension configuration is publicly accessible, exposing server credentials, SSH keys, and remote paths."
+reference: CWE-540
+requests:
+  - method: GET
+    path: "/.vscode/sftp.json"
+    matchers:
+      - type: body
+        words:
+          - "host"
+          - "username"
+          - "password"
+      - type: status
+        status: [200]
+    condition: and

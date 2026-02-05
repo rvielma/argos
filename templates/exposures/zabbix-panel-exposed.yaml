@@ -1,0 +1,16 @@
+id: zabbix-panel-exposed
+name: "Zabbix Monitoring Panel Exposed"
+severity: medium
+description: "Zabbix monitoring web interface is publicly accessible."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/zabbix/"
+    matchers:
+      - type: body
+        words:
+          - "Zabbix"
+          - "sign in"
+      - type: status
+        status: [200]
+    condition: and

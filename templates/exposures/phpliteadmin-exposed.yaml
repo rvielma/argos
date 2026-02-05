@@ -1,0 +1,16 @@
+id: phpliteadmin-exposed
+name: "phpLiteAdmin Panel Exposed"
+severity: medium
+description: "phpLiteAdmin SQLite management interface is publicly accessible."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/phpliteadmin.php"
+    matchers:
+      - type: body
+        words:
+          - "phpLiteAdmin"
+          - "SQLite"
+      - type: status
+        status: [200]
+    condition: and

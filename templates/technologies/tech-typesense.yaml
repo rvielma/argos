@@ -1,0 +1,19 @@
+id: tech-typesense
+name: "Typesense Detected"
+severity: info
+description: "Typesense search engine detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "typesense"
+      - type: body
+        words:
+          - "typesense-js"
+      - type: body
+        words:
+          - "typesense-instantsearch-adapter"
+    condition: or

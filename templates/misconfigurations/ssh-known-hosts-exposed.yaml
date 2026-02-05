@@ -1,0 +1,17 @@
+id: ssh-known-hosts-exposed
+name: "SSH Known Hosts File Exposed"
+severity: medium
+description: "SSH known_hosts file is publicly accessible, revealing internal server hostnames, IP addresses, and SSH key fingerprints."
+reference: CWE-538
+requests:
+  - method: GET
+    path: "/.ssh/known_hosts"
+    matchers:
+      - type: body
+        words:
+          - "ssh-rsa"
+          - "ecdsa-sha2"
+          - "ssh-ed25519"
+      - type: status
+        status: [200]
+    condition: and

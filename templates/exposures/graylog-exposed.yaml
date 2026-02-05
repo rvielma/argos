@@ -1,0 +1,16 @@
+id: graylog-exposed
+name: "Graylog Log Management Exposed"
+severity: medium
+description: "Graylog log management web interface is publicly accessible."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/api/system/cluster/stats"
+    matchers:
+      - type: body
+        words:
+          - "elasticsearch"
+          - "cluster_id"
+      - type: status
+        status: [200]
+    condition: and

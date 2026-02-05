@@ -1,0 +1,16 @@
+id: laravel-horizon-exposed
+name: "Laravel Horizon Dashboard Exposed"
+severity: high
+description: "Laravel Horizon queue dashboard is publicly accessible, exposing job data, metrics, and Redis connection details."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/horizon"
+    matchers:
+      - type: body
+        words:
+          - "Laravel Horizon"
+          - "horizon-toolbar"
+      - type: status
+        status: [200]
+    condition: and

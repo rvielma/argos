@@ -1,0 +1,17 @@
+id: nomad-api-exposed
+name: "Nomad API Exposed"
+severity: high
+description: "HashiCorp Nomad API is publicly accessible without authentication."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/v1/agent/self"
+    matchers:
+      - type: body
+        words:
+          - "config"
+          - "member"
+          - "stats"
+      - type: status
+        status: [200]
+    condition: and

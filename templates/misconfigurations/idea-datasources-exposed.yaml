@@ -1,0 +1,16 @@
+id: idea-datasources-exposed
+name: "JetBrains IDE Data Sources Exposed"
+severity: high
+description: "JetBrains IDE data sources configuration is publicly accessible, exposing database connection strings, usernames, and driver details."
+reference: CWE-540
+requests:
+  - method: GET
+    path: "/.idea/dataSources.xml"
+    matchers:
+      - type: body
+        words:
+          - "data-source"
+          - "jdbc-url"
+      - type: status
+        status: [200]
+    condition: and

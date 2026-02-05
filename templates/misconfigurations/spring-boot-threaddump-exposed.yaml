@@ -1,0 +1,17 @@
+id: spring-boot-threaddump-exposed
+name: "Spring Boot Thread Dump Endpoint Exposed"
+severity: medium
+description: "Spring Boot /actuator/threaddump endpoint is publicly accessible, exposing active threads, stack traces, and potentially sensitive request data."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/actuator/threaddump"
+    matchers:
+      - type: body
+        words:
+          - "threads"
+          - "threadName"
+          - "stackTrace"
+      - type: status
+        status: [200]
+    condition: and

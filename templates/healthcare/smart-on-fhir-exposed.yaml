@@ -1,0 +1,16 @@
+id: smart-on-fhir-exposed
+name: "SMART on FHIR Launch Endpoint Exposed"
+severity: high
+description: "SMART on FHIR launch endpoint is publicly accessible, exposing OAuth2 configuration for EHR integration."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/fhir/.well-known/smart-configuration"
+    matchers:
+      - type: body
+        words:
+          - "authorization_endpoint"
+          - "token_endpoint"
+      - type: status
+        status: [200]
+    condition: and

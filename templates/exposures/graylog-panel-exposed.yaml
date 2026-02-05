@@ -1,0 +1,16 @@
+id: graylog-panel-exposed
+name: "Graylog Web Panel Exposed"
+severity: medium
+description: "Graylog web interface login panel is publicly accessible."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "Graylog"
+          - "graylog-web-interface"
+      - type: status
+        status: [200]
+    condition: and

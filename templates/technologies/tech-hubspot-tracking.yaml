@@ -1,0 +1,19 @@
+id: tech-hubspot-tracking
+name: "HubSpot Tracking Detected"
+severity: info
+description: "HubSpot tracking and marketing analytics detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "js.hs-scripts.com"
+      - type: body
+        words:
+          - "hs-analytics"
+      - type: body
+        words:
+          - "js.hs-banner.com"
+    condition: or

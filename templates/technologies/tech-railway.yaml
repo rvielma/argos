@@ -1,0 +1,18 @@
+id: tech-railway
+name: "Railway Detected"
+severity: info
+description: "Railway cloud deployment platform detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: header
+        header: "server"
+        words:
+          - "railway"
+      - type: header
+        header: "x-railway-"
+        words:
+          - "railway"
+    condition: or

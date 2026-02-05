@@ -1,0 +1,16 @@
+id: ntopng-exposed
+name: "ntopng Network Monitor Exposed"
+severity: medium
+description: "ntopng network traffic monitoring web interface is publicly accessible."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/lua/login.lua"
+    matchers:
+      - type: body
+        words:
+          - "ntopng"
+          - "login"
+      - type: status
+        status: [200]
+    condition: and

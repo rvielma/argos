@@ -1,0 +1,19 @@
+id: tech-qwik
+name: "Qwik Detected"
+severity: info
+description: "Qwik resumable JavaScript framework detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "q:container"
+      - type: body
+        words:
+          - "qwik/build"
+      - type: body
+        words:
+          - "q:base="
+    condition: or

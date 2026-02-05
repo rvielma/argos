@@ -1,0 +1,16 @@
+id: fhir-organization
+name: "FHIR Organization Endpoint Exposed"
+severity: medium
+description: "HL7 FHIR Organization endpoint is publicly accessible, exposing healthcare organization data."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/fhir/Organization"
+    matchers:
+      - type: body
+        words:
+          - "Organization"
+          - "resourceType"
+      - type: status
+        status: [200]
+    condition: and

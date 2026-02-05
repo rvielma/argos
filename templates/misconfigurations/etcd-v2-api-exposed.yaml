@@ -1,0 +1,17 @@
+id: etcd-v2-api-exposed
+name: "etcd v2 API Publicly Accessible"
+severity: high
+description: "etcd v2 API is publicly accessible without authentication, allowing reading and writing of cluster configuration data and secrets."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/v2/keys/"
+    matchers:
+      - type: body
+        words:
+          - "action"
+          - "node"
+          - "key"
+      - type: status
+        status: [200]
+    condition: and

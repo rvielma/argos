@@ -1,0 +1,16 @@
+id: tech-tailwindcss
+name: "Tailwind CSS Detected"
+severity: info
+description: "Tailwind CSS utility-first framework detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "tailwindcss"
+      - type: regex
+        words:
+          - "class=\"[^\"]*\\b(flex|grid|items-center|justify-between|bg-\\w+|text-\\w+|px-\\d|py-\\d)\\b[^\"]*\\b(flex|grid|items-center|justify-between|bg-\\w+|text-\\w+|px-\\d|py-\\d)\\b"
+    condition: or

@@ -1,0 +1,16 @@
+id: git-config-exposed
+name: "Git Config File Exposed"
+severity: high
+description: "Git config file is accessible, revealing repository remote URLs, author information, and potentially credentials in remote URLs."
+reference: CWE-538
+requests:
+  - method: GET
+    path: "/.git/config"
+    matchers:
+      - type: body
+        words:
+          - "[core]"
+          - "[remote"
+      - type: status
+        status: [200]
+    condition: and

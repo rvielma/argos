@@ -1,0 +1,16 @@
+id: cda-endpoint-exposed
+name: "CDA/CCDA Endpoint Exposed"
+severity: high
+description: "Clinical Document Architecture (CDA/CCDA) endpoint is publicly accessible, exposing clinical summaries."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/api/cda"
+    matchers:
+      - type: body
+        words:
+          - "ClinicalDocument"
+          - "hl7"
+      - type: status
+        status: [200]
+    condition: and

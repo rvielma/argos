@@ -1,0 +1,19 @@
+id: tech-posthog
+name: "PostHog Detected"
+severity: info
+description: "PostHog product analytics detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "posthog.com"
+      - type: body
+        words:
+          - "posthog-js"
+      - type: body
+        words:
+          - "app.posthog.com"
+    condition: or

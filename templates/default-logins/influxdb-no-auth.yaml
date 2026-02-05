@@ -1,0 +1,16 @@
+id: influxdb-no-auth
+name: "InfluxDB No Authentication"
+severity: high
+description: "InfluxDB is accessible without authentication, exposing databases and metrics."
+reference: CWE-1393
+requests:
+  - method: GET
+    path: "/query?q=SHOW+DATABASES"
+    matchers:
+      - type: body
+        words:
+          - "results"
+          - "databases"
+      - type: status
+        status: [200]
+    condition: and

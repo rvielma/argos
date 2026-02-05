@@ -1,0 +1,18 @@
+id: tech-koa
+name: "Koa Detected"
+severity: info
+description: "Koa.js Node.js web framework detected."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: header
+        header: "x-powered-by"
+        words:
+          - "koa"
+      - type: header
+        header: "x-koa-"
+        words:
+          - "koa"
+    condition: or

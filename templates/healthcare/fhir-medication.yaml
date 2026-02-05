@@ -1,0 +1,16 @@
+id: fhir-medication
+name: "FHIR Medication Endpoint Exposed"
+severity: high
+description: "HL7 FHIR Medication endpoint is publicly accessible, potentially exposing medication catalog data."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/fhir/Medication"
+    matchers:
+      - type: body
+        words:
+          - "Medication"
+          - "resourceType"
+      - type: status
+        status: [200]
+    condition: and

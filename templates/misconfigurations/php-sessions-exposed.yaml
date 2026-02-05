@@ -1,0 +1,16 @@
+id: php-sessions-exposed
+name: "PHP Session Files Exposed"
+severity: high
+description: "PHP session storage directory is publicly accessible, potentially allowing session hijacking through exposed session data."
+reference: CWE-538
+requests:
+  - method: GET
+    path: "/tmp/sessions/"
+    matchers:
+      - type: body
+        words:
+          - "sess_"
+          - "Index of"
+      - type: status
+        status: [200]
+    condition: and

@@ -1,0 +1,20 @@
+id: neo4j-default-login
+name: "Neo4j Default Credentials"
+severity: critical
+description: "Neo4j graph database accepts default credentials neo4j:neo4j."
+reference: CWE-1393
+requests:
+  - method: POST
+    path: "/db/neo4j/tx/commit"
+    headers:
+      Content-Type: "application/json"
+      Authorization: "Basic bmVvNGo6bmVvNGo="
+    body: '{"statements":[{"statement":"RETURN 1"}]}'
+    matchers:
+      - type: body
+        words:
+          - "results"
+          - "data"
+      - type: status
+        status: [200]
+    condition: and

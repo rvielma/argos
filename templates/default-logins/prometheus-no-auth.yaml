@@ -1,0 +1,16 @@
+id: prometheus-no-auth
+name: "Prometheus No Authentication"
+severity: high
+description: "Prometheus is accessible without any authentication, exposing metrics and configuration."
+reference: CWE-1393
+requests:
+  - method: GET
+    path: "/api/v1/query?query=up"
+    matchers:
+      - type: body
+        words:
+          - "resultType"
+          - "result"
+      - type: status
+        status: [200]
+    condition: and

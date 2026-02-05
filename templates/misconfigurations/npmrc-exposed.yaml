@@ -1,0 +1,16 @@
+id: npmrc-exposed
+name: ".npmrc Configuration Exposed"
+severity: high
+description: "npm configuration file is publicly accessible, potentially exposing registry auth tokens, private registry URLs, and scoped package configurations."
+reference: CWE-540
+requests:
+  - method: GET
+    path: "/.npmrc"
+    matchers:
+      - type: body
+        words:
+          - "registry"
+          - "//registry"
+      - type: status
+        status: [200]
+    condition: and

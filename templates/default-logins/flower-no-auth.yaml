@@ -1,0 +1,20 @@
+id: flower-no-auth
+name: "Flower Celery No Authentication"
+severity: high
+description: "Flower Celery task monitor is accessible without authentication."
+reference: CWE-1393
+requests:
+  - method: GET
+    path: "/api/workers"
+    matchers:
+      - type: body
+        words:
+          - "active"
+          - "registered"
+      - type: header
+        words:
+          - "application/json"
+        header: "content-type"
+      - type: status
+        status: [200]
+    condition: and

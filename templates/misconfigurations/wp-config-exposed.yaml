@@ -1,0 +1,17 @@
+id: wp-config-exposed
+name: "WordPress wp-config.php Source Exposed"
+severity: critical
+description: "WordPress wp-config.php source code is accessible, exposing database credentials, authentication keys, salts, and table prefix."
+reference: CWE-540
+requests:
+  - method: GET
+    path: "/wp-config.php.bak"
+    matchers:
+      - type: body
+        words:
+          - "DB_NAME"
+          - "DB_PASSWORD"
+          - "AUTH_KEY"
+      - type: status
+        status: [200]
+    condition: and

@@ -1,0 +1,19 @@
+id: phpmyadmin-default-login
+name: "phpMyAdmin Default Credentials"
+severity: critical
+description: "phpMyAdmin accepts default credentials root with empty password."
+reference: CWE-1393
+requests:
+  - method: POST
+    path: "/index.php"
+    headers:
+      Content-Type: "application/x-www-form-urlencoded"
+    body: 'pma_username=root&pma_password=&server=1'
+    matchers:
+      - type: body
+        words:
+          - "phpMyAdmin"
+          - "server_databases"
+      - type: status
+        status: [200, 302]
+    condition: and

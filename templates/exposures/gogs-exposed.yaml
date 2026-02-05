@@ -1,0 +1,16 @@
+id: gogs-exposed
+name: "Gogs Instance Exposed"
+severity: low
+description: "Gogs self-hosted Git service is publicly accessible with explore page."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/explore/repos"
+    matchers:
+      - type: body
+        words:
+          - "Gogs"
+          - "Explore"
+      - type: status
+        status: [200]
+    condition: and

@@ -1,0 +1,17 @@
+id: cgi-printenv-exposed
+name: "CGI printenv Script Exposed"
+severity: high
+description: "CGI printenv script is publicly accessible, dumping all server environment variables including paths, server software, and potentially credentials."
+reference: CWE-215
+requests:
+  - method: GET
+    path: "/cgi-bin/printenv"
+    matchers:
+      - type: body
+        words:
+          - "SERVER_SOFTWARE"
+          - "DOCUMENT_ROOT"
+          - "SERVER_NAME"
+      - type: status
+        status: [200]
+    condition: and
