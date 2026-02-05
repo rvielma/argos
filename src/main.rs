@@ -6,7 +6,17 @@ use std::path::{Path, PathBuf};
 use tabled::builder::Builder;
 use tabled::settings::Style;
 use tracing_subscriber::EnvFilter;
+use tracing_subscriber::fmt::time::FormatTime;
 use url::Url;
+
+/// Local time formatter for tracing logs using chrono
+struct LocalTimer;
+
+impl FormatTime for LocalTimer {
+    fn format_time(&self, w: &mut tracing_subscriber::fmt::format::Writer<'_>) -> std::fmt::Result {
+        write!(w, "{}", chrono::Local::now().format("%Y-%m-%dT%H:%M:%S%.3f%:z"))
+    }
+}
 
 use argos::config;
 use argos::http::AuthConfig;
@@ -306,6 +316,7 @@ async fn main() -> std::result::Result<(), Box<dyn std::error::Error>> {
                     EnvFilter::try_from_default_env().unwrap_or_else(|_| EnvFilter::new(filter)),
                 )
                 .with_target(false)
+                .with_timer(LocalTimer)
                 .init();
 
             print_banner();
@@ -484,6 +495,7 @@ async fn main() -> std::result::Result<(), Box<dyn std::error::Error>> {
                     EnvFilter::try_from_default_env().unwrap_or_else(|_| EnvFilter::new(filter)),
                 )
                 .with_target(false)
+                .with_timer(LocalTimer)
                 .init();
 
             print_banner();
@@ -524,6 +536,7 @@ async fn main() -> std::result::Result<(), Box<dyn std::error::Error>> {
             tracing_subscriber::fmt()
                 .with_env_filter(EnvFilter::new("argos=info"))
                 .with_target(false)
+                .with_timer(LocalTimer)
                 .init();
 
             print_banner();
