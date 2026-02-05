@@ -61,6 +61,27 @@ pub struct BaselineResponse {
 }
 
 impl InjectionScanner {
+    /// Parameters that should never be injection-tested (security tokens, nonces, CSRF, etc.)
+    fn is_security_param(name: &str) -> bool {
+        let lower = name.to_lowercase();
+        lower.contains("nonce")
+            || lower.contains("csrf")
+            || lower.contains("token")
+            || lower.contains("_wpnonce")
+            || lower.contains("authenticity")
+            || lower.contains("__requestverificationtoken")
+            || lower.contains("viewstate")
+            || lower.contains("eventvalidation")
+            || lower.contains("antiforgery")
+            || lower.contains("captcha")
+            || lower.contains("recaptcha")
+            || lower.contains("g-recaptcha")
+            || lower.contains("h-captcha")
+            || lower == "state"
+            || lower == "sid"
+            || lower == "_token"
+    }
+
     /// Checks if a URL looks like garbage (JS code, template literals, etc.)
     fn is_junk_url(url: &str) -> bool {
         // JS string concatenation patterns crawled as URLs
@@ -99,14 +120,18 @@ impl InjectionScanner {
                 if let Ok(input_sel) = Selector::parse("input[name]") {
                     for input in form.select(&input_sel) {
                         if let Some(name) = input.value().attr("name") {
-                            params.push(name.to_string());
+                            if !Self::is_security_param(name) {
+                                params.push(name.to_string());
+                            }
                         }
                     }
                 }
                 if let Ok(ta_sel) = Selector::parse("textarea[name]") {
                     for ta in form.select(&ta_sel) {
                         if let Some(name) = ta.value().attr("name") {
-                            params.push(name.to_string());
+                            if !Self::is_security_param(name) {
+                                params.push(name.to_string());
+                            }
                         }
                     }
                 }
@@ -123,7 +148,10 @@ impl InjectionScanner {
 
         // Query params from the URL itself
         if let Ok(parsed) = Url::parse(base_url) {
-            let params: Vec<String> = parsed.query_pairs().map(|(k, _)| k.to_string()).collect();
+            let params: Vec<String> = parsed.query_pairs()
+                .map(|(k, _)| k.to_string())
+                .filter(|k| !Self::is_security_param(k))
+                .collect();
             if !params.is_empty() {
                 points.push(InjectionPoint {
                     url: base_url.to_string(),
@@ -167,7 +195,10 @@ impl InjectionScanner {
                             }
                         }
                         let params: Vec<String> =
-                            parsed.query_pairs().map(|(k, _)| k.to_string()).collect();
+                            parsed.query_pairs()
+                                .map(|(k, _)| k.to_string())
+                                .filter(|k| !Self::is_security_param(k))
+                                .collect();
                         if !params.is_empty() {
                             points.push(InjectionPoint {
                                 url: full_url,

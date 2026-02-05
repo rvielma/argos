@@ -168,7 +168,7 @@ impl HttpClient {
     where
         F: Fn() -> reqwest::RequestBuilder,
     {
-        const MAX_RETRIES: u32 = 3;
+        const MAX_RETRIES: u32 = 2;
         const INITIAL_BACKOFF_MS: u64 = 500;
 
         // Apply rate limiting via simple delay
