@@ -13,14 +13,18 @@ use crate::error::Result;
 use crate::http::HttpClient;
 use crate::models::{Finding, ScanConfig};
 use async_trait::async_trait;
+use include_dir::{include_dir, Dir};
 use std::path::Path;
 use std::sync::Arc;
 use tokio::sync::Semaphore;
 use tokio::task::JoinSet;
-use tracing::info;
+use tracing::{info, warn};
 
 use cluster::TemplateCluster;
 use loader::CveTemplate;
+
+/// Embedded templates directory (compiled into the binary)
+static EMBEDDED_TEMPLATES: Dir = include_dir!("$CARGO_MANIFEST_DIR/templates");
 
 /// Map a subdirectory name to a human-readable category
 fn dir_to_category(dir_name: &str) -> &str {
@@ -49,6 +53,50 @@ fn category_recommendation(category: &str, template_id: &str) -> String {
         "Cloud Security" => "Review cloud resource configuration and restrict public access.".to_string(),
         "GraphQL Security" => "Review GraphQL endpoint configuration and disable unnecessary features like introspection.".to_string(),
         _ => format!("Investigate {} and remediate.", template_id),
+    }
+}
+
+/// Load templates embedded in the binary
+fn load_embedded_templates() -> Vec<CveTemplate> {
+    let mut templates = Vec::new();
+    load_embedded_dir(&EMBEDDED_TEMPLATES, "templates", &mut templates);
+    info!("Loaded {} embedded templates", templates.len());
+    templates
+}
+
+/// Recursively load templates from an embedded directory
+fn load_embedded_dir(dir: &Dir, dir_name: &str, templates: &mut Vec<CveTemplate>) {
+    let category = dir_to_category(dir_name).to_string();
+
+    for file in dir.files() {
+        let path = file.path().display().to_string();
+        if path.ends_with(".yaml") || path.ends_with(".yml") {
+            let content = match file.contents_utf8() {
+                Some(c) => c,
+                None => {
+                    warn!("Embedded template is not valid UTF-8: {}", path);
+                    continue;
+                }
+            };
+            match loader::load_template_from_str(content, &path) {
+                Ok(mut tmpl) => {
+                    tmpl.category = category.clone();
+                    templates.push(tmpl);
+                }
+                Err(e) => {
+                    warn!("Failed to load embedded template {}: {}", path, e);
+                }
+            }
+        }
+    }
+
+    for subdir in dir.dirs() {
+        let sub_name = subdir
+            .path()
+            .file_name()
+            .and_then(|n| n.to_str())
+            .unwrap_or("templates");
+        load_embedded_dir(subdir, sub_name, templates);
     }
 }
 
@@ -105,12 +153,29 @@ impl super::Scanner for TemplateScanner {
         config: &ScanConfig,
         _crawled_urls: &[String],
     ) -> Result<Vec<Finding>> {
-        let templates_dir = config.templates_dir.as_deref().unwrap_or("templates");
-
-        let base_path = Path::new(templates_dir);
-        let mut templates = Vec::new();
-
-        load_templates_recursive(base_path, &mut templates);
+        let mut templates = if let Some(ref dir) = config.templates_dir {
+            // Explicit templates dir: load from filesystem
+            let base_path = Path::new(dir);
+            let mut fs_templates = Vec::new();
+            load_templates_recursive(base_path, &mut fs_templates);
+            fs_templates
+        } else {
+            // No explicit dir: try filesystem "templates/" first, fallback to embedded
+            let default_path = Path::new("templates");
+            if default_path.exists() && default_path.is_dir() {
+                let mut fs_templates = Vec::new();
+                load_templates_recursive(default_path, &mut fs_templates);
+                if fs_templates.is_empty() {
+                    info!("Filesystem templates dir empty, using embedded templates");
+                    load_embedded_templates()
+                } else {
+                    fs_templates
+                }
+            } else {
+                info!("No templates directory found, using embedded templates");
+                load_embedded_templates()
+            }
+        };
 
         for extra_dir in &config.extra_template_dirs {
             let extra_path = Path::new(extra_dir);

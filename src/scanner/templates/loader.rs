@@ -220,3 +220,17 @@ fn load_template(path: &Path) -> Result<CveTemplate> {
 
     Ok(template)
 }
+
+/// Loads a single template from a YAML string (for embedded templates)
+pub fn load_template_from_str(content: &str, source: &str) -> Result<CveTemplate> {
+    let template: CveTemplate = serde_yaml::from_str(content)?;
+
+    if let Err(msg) = validate_template(&template) {
+        return Err(ArgosError::TemplateValidationError(
+            source.to_string(),
+            msg,
+        ));
+    }
+
+    Ok(template)
+}
