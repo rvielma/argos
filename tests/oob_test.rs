@@ -52,14 +52,14 @@ fn test_generate_id_hex() {
 
 #[test]
 fn test_callback_url() {
-    let server = OobServer::new("10.0.0.1".to_string(), 8888, 5353);
+    let server = OobServer::new("10.0.0.1".to_string(), 8888, 5353, 2525, 2121);
     let url = server.callback_url("abc123def456");
     assert_eq!(url, "http://10.0.0.1:8888/abc123def456");
 }
 
 #[test]
 fn test_callback_dns() {
-    let server = OobServer::new("attacker.com".to_string(), 8888, 5353);
+    let server = OobServer::new("attacker.com".to_string(), 8888, 5353, 2525, 2121);
     let dns = server.callback_dns("abc123def456");
     assert_eq!(dns, "abc123def456.attacker.com");
 }
@@ -202,7 +202,7 @@ async fn test_oob_http_callback_records_interaction() {
 
 #[tokio::test]
 async fn test_check_interaction_timeout() {
-    let server = OobServer::new("127.0.0.1".to_string(), 19999, 19998);
+    let server = OobServer::new("127.0.0.1".to_string(), 19999, 19998, 19997, 19996);
     // Don't start — just test the polling timeout
     let result = server.check_interaction("nonexistent", 1).await;
     assert!(
@@ -213,7 +213,7 @@ async fn test_check_interaction_timeout() {
 
 #[tokio::test]
 async fn test_check_interaction_found() {
-    let server = OobServer::new("127.0.0.1".to_string(), 19997, 19996);
+    let server = OobServer::new("127.0.0.1".to_string(), 19995, 19994, 19993, 19992);
 
     // Manually insert an interaction into the store
     {

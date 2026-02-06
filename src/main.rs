@@ -58,7 +58,7 @@ enum Commands {
         #[arg(short, long)]
         output: Option<String>,
 
-        /// Output format (html, json, or sarif)
+        /// Output format (html, json, jsonl, csv, or sarif)
         #[arg(short, long, default_value = "html")]
         format: String,
 
@@ -138,6 +138,14 @@ enum Commands {
         #[arg(long, default_value_t = 5353)]
         oob_dns_port: u16,
 
+        /// OOB SMTP callback port
+        #[arg(long, default_value_t = 2525)]
+        oob_smtp_port: u16,
+
+        /// OOB FTP callback port
+        #[arg(long, default_value_t = 2121)]
+        oob_ftp_port: u16,
+
         /// OOB interaction timeout in seconds
         #[arg(long, default_value_t = 10)]
         oob_timeout: u64,
@@ -183,7 +191,7 @@ enum Commands {
         #[arg(short, long)]
         input: PathBuf,
 
-        /// Output format (html or json)
+        /// Output format (html, json, jsonl, csv, or sarif)
         #[arg(short, long, default_value = "html")]
         format: String,
 
@@ -305,6 +313,8 @@ async fn main() -> std::result::Result<(), Box<dyn std::error::Error>> {
             oob_host,
             oob_http_port,
             oob_dns_port,
+            oob_smtp_port,
+            oob_ftp_port,
             oob_timeout,
             render,
             render_wait,
@@ -394,6 +404,8 @@ async fn main() -> std::result::Result<(), Box<dyn std::error::Error>> {
                 scan_config.oob_host = oob_host;
                 scan_config.oob_http_port = oob_http_port;
                 scan_config.oob_dns_port = oob_dns_port;
+                scan_config.oob_smtp_port = oob_smtp_port;
+                scan_config.oob_ftp_port = oob_ftp_port;
                 scan_config.oob_timeout_secs = oob_timeout;
                 // Auto-add oob module if not present
                 if !scan_config.modules.contains(&"oob".to_string()) {
@@ -425,6 +437,8 @@ async fn main() -> std::result::Result<(), Box<dyn std::error::Error>> {
             let output_file = output.unwrap_or_else(|| {
                 let ext = match format.as_str() {
                     "json" => "json",
+                    "jsonl" => "jsonl",
+                    "csv" => "csv",
                     "sarif" => "sarif.json",
                     _ => "html",
                 };
@@ -434,6 +448,12 @@ async fn main() -> std::result::Result<(), Box<dyn std::error::Error>> {
             match format.as_str() {
                 "json" => {
                     report::json::export(&result, output_path)?;
+                }
+                "jsonl" => {
+                    report::jsonl::export(&result, output_path)?;
+                }
+                "csv" => {
+                    report::csv::export(&result, output_path)?;
                 }
                 "sarif" => {
                     report::sarif::export(&result, output_path)?;
@@ -547,6 +567,15 @@ async fn main() -> std::result::Result<(), Box<dyn std::error::Error>> {
             match format.as_str() {
                 "json" => {
                     report::json::export(&result, output_path)?;
+                }
+                "jsonl" => {
+                    report::jsonl::export(&result, output_path)?;
+                }
+                "csv" => {
+                    report::csv::export(&result, output_path)?;
+                }
+                "sarif" => {
+                    report::sarif::export(&result, output_path)?;
                 }
                 _ => {
                     report::html::generate(&result, output_path)?;

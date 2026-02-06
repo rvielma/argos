@@ -285,6 +285,12 @@ pub struct ScanConfig {
     /// OOB DNS listener port
     #[serde(default = "default_oob_dns_port")]
     pub oob_dns_port: u16,
+    /// OOB SMTP listener port
+    #[serde(default = "default_oob_smtp_port")]
+    pub oob_smtp_port: u16,
+    /// OOB FTP listener port
+    #[serde(default = "default_oob_ftp_port")]
+    pub oob_ftp_port: u16,
     /// OOB interaction wait timeout in seconds
     #[serde(default = "default_oob_timeout")]
     pub oob_timeout_secs: u64,
@@ -306,6 +312,14 @@ fn default_oob_http_port() -> u16 {
 
 fn default_oob_dns_port() -> u16 {
     5353
+}
+
+fn default_oob_smtp_port() -> u16 {
+    2525
+}
+
+fn default_oob_ftp_port() -> u16 {
+    2121
 }
 
 fn default_oob_timeout() -> u64 {
@@ -353,6 +367,8 @@ impl Default for ScanConfig {
             oob_host: None,
             oob_http_port: 8888,
             oob_dns_port: 5353,
+            oob_smtp_port: 2525,
+            oob_ftp_port: 2121,
             oob_timeout_secs: 10,
             render_enabled: false,
             render_wait_ms: 3000,

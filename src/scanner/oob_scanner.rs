@@ -42,7 +42,13 @@ impl super::Scanner for OobScanner {
             }
         };
 
-        let server = OobServer::new(callback_host, config.oob_http_port, config.oob_dns_port);
+        let server = OobServer::new(
+            callback_host,
+            config.oob_http_port,
+            config.oob_dns_port,
+            config.oob_smtp_port,
+            config.oob_ftp_port,
+        );
         server.start().await?;
 
         let mut findings = Vec::new();

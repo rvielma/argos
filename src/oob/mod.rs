@@ -4,8 +4,10 @@
 //! vulnerabilities (SSRF, XXE, blind SQLi, etc.) through out-of-band interactions.
 
 pub mod dns_server;
+pub mod ftp_server;
 pub mod http_server;
 pub mod payloads;
+pub mod smtp_server;
 
 use std::collections::HashMap;
 use std::net::SocketAddr;
@@ -33,6 +35,8 @@ pub struct Interaction {
 pub enum InteractionType {
     Http,
     Dns,
+    Smtp,
+    Ftp,
 }
 
 /// Thread-safe store for received interactions
@@ -50,30 +54,40 @@ pub fn generate_id() -> String {
     hex[..12].to_string()
 }
 
-/// OOB server managing HTTP and DNS callback listeners
+/// OOB server managing HTTP, DNS, SMTP and FTP callback listeners
 pub struct OobServer {
     pub callback_host: String,
     pub http_port: u16,
     pub dns_port: u16,
+    pub smtp_port: u16,
+    pub ftp_port: u16,
     pub store: InteractionStore,
 }
 
 impl OobServer {
     /// Creates a new OOB server configuration
-    pub fn new(callback_host: String, http_port: u16, dns_port: u16) -> Self {
+    pub fn new(
+        callback_host: String,
+        http_port: u16,
+        dns_port: u16,
+        smtp_port: u16,
+        ftp_port: u16,
+    ) -> Self {
         Self {
             callback_host,
             http_port,
             dns_port,
+            smtp_port,
+            ftp_port,
             store: new_interaction_store(),
         }
     }
 
-    /// Starts the HTTP and DNS callback servers as background tasks
+    /// Starts all callback servers as background tasks
     pub async fn start(&self) -> crate::error::Result<()> {
         info!(
-            "Starting OOB servers: HTTP on :{}, DNS on :{}",
-            self.http_port, self.dns_port
+            "Starting OOB servers: HTTP on :{}, DNS on :{}, SMTP on :{}, FTP on :{}",
+            self.http_port, self.dns_port, self.smtp_port, self.ftp_port
         );
 
         let http_store = Arc::clone(&self.store);
@@ -89,6 +103,22 @@ impl OobServer {
         tokio::spawn(async move {
             if let Err(e) = dns_server::start_dns_server(dns_port, dns_store).await {
                 tracing::error!("OOB DNS server error: {}", e);
+            }
+        });
+
+        let smtp_store = Arc::clone(&self.store);
+        let smtp_port = self.smtp_port;
+        tokio::spawn(async move {
+            if let Err(e) = smtp_server::start_smtp_server(smtp_port, smtp_store).await {
+                tracing::error!("OOB SMTP server error: {}", e);
+            }
+        });
+
+        let ftp_store = Arc::clone(&self.store);
+        let ftp_port = self.ftp_port;
+        tokio::spawn(async move {
+            if let Err(e) = ftp_server::start_ftp_server(ftp_port, ftp_store).await {
+                tracing::error!("OOB FTP server error: {}", e);
             }
         });
 
