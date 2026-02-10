@@ -215,13 +215,17 @@ fn output_name_from_target(target: &str, ext: &str) -> String {
 }
 
 fn print_banner() {
-    let banner = r#"
+    let version = env!("CARGO_PKG_VERSION");
+    let banner = format!(
+        r#"
     ╔═══════════════════════════════════════╗
-    ║  🔱 ARGOS PANOPTES v0.1.0            ║
+    ║  🔱 ARGOS PANOPTES v{:<17}║
     ║  Web Security Scanner                ║
     ║  "El que todo lo ve"                 ║
     ╚═══════════════════════════════════════╝
-    "#;
+    "#,
+        version
+    );
     println!("{}", banner.cyan());
 }
 
