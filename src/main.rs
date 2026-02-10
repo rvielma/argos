@@ -20,7 +20,7 @@ impl FormatTime for LocalTimer {
 
 use argos::config;
 use argos::http::AuthConfig;
-use argos::models::{ScanConfig, Severity};
+use argos::models::{DiffReport, ScanConfig, Severity};
 use argos::proxy::InterceptProxy;
 use argos::report;
 use argos::scanner::ScanEngine;
@@ -65,6 +65,10 @@ enum Commands {
         /// Exit with code 1 if findings at or above this severity are found (critical, high, medium, low, info)
         #[arg(long)]
         fail_on: Option<String>,
+
+        /// Path to a previous scan JSON file to compare against (differential report)
+        #[arg(long)]
+        baseline: Option<PathBuf>,
 
         /// Path to configuration file
         #[arg(short, long)]
@@ -230,6 +234,8 @@ fn print_banner() {
 }
 
 fn print_summary(findings: &[argos::models::Finding]) {
+    use argos::models::Confidence;
+
     let severities = [
         (Severity::Critical, "Critical"),
         (Severity::High, "High"),
@@ -238,9 +244,10 @@ fn print_summary(findings: &[argos::models::Finding]) {
         (Severity::Info, "Info"),
     ];
 
-    println!("\n{}", "  Scan Summary".bold());
-    println!("  {}", "─".repeat(35));
+    println!("\n{}", "  ═══ SCAN RESULTS ═══".bold().cyan());
+    println!("  {}", "─".repeat(50));
 
+    // Severity table
     let mut builder = Builder::default();
     builder.push_record(["Severity", "Count"]);
 
@@ -284,6 +291,50 @@ fn print_summary(findings: &[argos::models::Finding]) {
         format!("{low} Low").blue(),
         format!("{info_count} Info").white(),
     );
+
+    // Confidence breakdown
+    let confirmed = findings
+        .iter()
+        .filter(|f| f.confidence == Confidence::Confirmed)
+        .count();
+    let tentative = findings
+        .iter()
+        .filter(|f| f.confidence == Confidence::Tentative)
+        .count();
+    let informational = findings
+        .iter()
+        .filter(|f| f.confidence == Confidence::Informational)
+        .count();
+
+    if !findings.is_empty() {
+        println!(
+            "  {} {} confirmed, {} tentative, {} informational",
+            "Confidence:".bold(),
+            confirmed.to_string().green().bold(),
+            tentative.to_string().yellow(),
+            informational.to_string().bright_black(),
+        );
+    }
+
+    // Categories breakdown
+    let mut categories: std::collections::HashMap<&str, usize> = std::collections::HashMap::new();
+    for f in findings {
+        *categories.entry(&f.category).or_insert(0) += 1;
+    }
+    if !categories.is_empty() {
+        let mut cats: Vec<_> = categories.into_iter().collect();
+        cats.sort_by(|a, b| b.1.cmp(&a.1));
+        let cat_strs: Vec<String> = cats
+            .iter()
+            .take(6)
+            .map(|(cat, count)| format!("{cat} ({count})"))
+            .collect();
+        println!(
+            "  {} {}",
+            "Categories:".bold(),
+            cat_strs.join(", ").bright_black()
+        );
+    }
 }
 
 #[tokio::main]
@@ -299,6 +350,7 @@ async fn main() -> std::result::Result<(), Box<dyn std::error::Error>> {
             output,
             format,
             fail_on,
+            baseline,
             config: config_path,
             proxy,
             rate_limit,
@@ -434,7 +486,106 @@ async fn main() -> std::result::Result<(), Box<dyn std::error::Error>> {
             );
 
             let engine = ScanEngine::with_defaults();
-            let result = engine.run(&scan_config).await?;
+            let mut result = engine.run(&scan_config).await?;
+
+            // -- Differential report --
+            if let Some(ref baseline_path) = baseline {
+                let baseline_result = report::json::load(baseline_path)?;
+
+                // Build fingerprint sets: (title_lower, url_lower)
+                let current_fps: std::collections::HashSet<(String, String)> = result
+                    .findings
+                    .iter()
+                    .map(|f| (f.title.to_lowercase(), f.url.to_lowercase()))
+                    .collect();
+                let baseline_fps: std::collections::HashSet<(String, String)> = baseline_result
+                    .findings
+                    .iter()
+                    .map(|f| (f.title.to_lowercase(), f.url.to_lowercase()))
+                    .collect();
+
+                let new_findings: Vec<_> = result
+                    .findings
+                    .iter()
+                    .filter(|f| {
+                        !baseline_fps.contains(&(f.title.to_lowercase(), f.url.to_lowercase()))
+                    })
+                    .cloned()
+                    .collect();
+                let resolved_findings: Vec<_> = baseline_result
+                    .findings
+                    .iter()
+                    .filter(|f| {
+                        !current_fps.contains(&(f.title.to_lowercase(), f.url.to_lowercase()))
+                    })
+                    .cloned()
+                    .collect();
+                let persisting_findings: Vec<_> = result
+                    .findings
+                    .iter()
+                    .filter(|f| {
+                        baseline_fps.contains(&(f.title.to_lowercase(), f.url.to_lowercase()))
+                    })
+                    .cloned()
+                    .collect();
+
+                println!("\n  {}", "═══ DIFFERENTIAL ANALYSIS ═══".bold().cyan());
+                println!(
+                    "  {} {}",
+                    "Baseline:".bold(),
+                    baseline_path.display().to_string().bright_black()
+                );
+                println!(
+                    "  {} {} findings → {} findings",
+                    "Trend:".bold(),
+                    baseline_result.findings.len().to_string().bright_black(),
+                    result.findings.len().to_string().cyan()
+                );
+                println!(
+                    "\n  {} {} new  {} resolved  {} persisting",
+                    "Delta:".bold().cyan(),
+                    format!("+{}", new_findings.len()).green().bold(),
+                    format!("-{}", resolved_findings.len()).red().bold(),
+                    format!("={}", persisting_findings.len()).yellow(),
+                );
+
+                if !new_findings.is_empty() {
+                    println!("\n  {}", "NEW FINDINGS (regression):".red().bold());
+                    for f in &new_findings {
+                        println!(
+                            "    {} [{}] {} → {}",
+                            "+".green().bold(),
+                            f.severity,
+                            f.title.bold(),
+                            f.url.bright_black()
+                        );
+                    }
+                }
+                if !resolved_findings.is_empty() {
+                    println!("\n  {}", "RESOLVED FINDINGS (fixed):".green().bold());
+                    for f in &resolved_findings {
+                        println!(
+                            "    {} [{}] {} → {}",
+                            "-".red(),
+                            f.severity,
+                            f.title,
+                            f.url.bright_black()
+                        );
+                    }
+                }
+                if new_findings.is_empty() && resolved_findings.is_empty() {
+                    println!(
+                        "\n  {}",
+                        "No changes since baseline — security posture stable.".green()
+                    );
+                }
+
+                result.diff = Some(DiffReport {
+                    new_findings,
+                    resolved_findings,
+                    persisting_findings,
+                });
+            }
 
             print_summary(&result.findings);
 

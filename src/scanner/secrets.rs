@@ -10,6 +10,7 @@ use crate::http::HttpClient;
 use crate::models::{Confidence, Finding, ScanConfig, Severity};
 use crate::scanner::injection::InjectionScanner;
 use async_trait::async_trait;
+use base64::Engine;
 use regex::Regex;
 use std::collections::{HashMap, HashSet};
 use std::time::Duration;
@@ -29,6 +30,9 @@ const MAX_SOURCE_MAP_FILES: usize = 20;
 
 /// Maximum source map file size (5 MB)
 const MAX_SOURCE_MAP_SIZE: usize = 5 * 1024 * 1024;
+
+/// Maximum git reflog size to scan (1 MB)
+const MAX_GIT_REFLOG_SIZE: usize = 1024 * 1024;
 
 /// Detects exposed secrets, tokens, and credentials in page bodies
 pub struct SecretsScanner;
@@ -100,6 +104,8 @@ const SERVICE_TOKEN_PATTERNS: &[(&str, &str, u8, &str)] = &[
     (r"sbp_[a-f0-9]{40}", "Supabase Service Key", 0, "CWE-798"),
     (r"cloudinary://[0-9]+:[a-zA-Z0-9_\-]+@[a-zA-Z0-9]+", "Cloudinary Credentials URL", 0, "CWE-798"),
     (r"AAAA[A-Za-z0-9_\-]{7}:[A-Za-z0-9_\-]{140}", "Firebase Cloud Messaging Key", 1, "CWE-798"),
+    // -- Email (Mailgun) --
+    (r"key-[0-9a-f]{32}", "Mailgun API Key", 0, "CWE-798"),
 ];
 
 // ---------------------------------------------------------------------------
@@ -806,6 +812,128 @@ fn detect_internal_urls(body: &str) -> Vec<SecretMatch> {
     matches
 }
 
+/// Detect secrets in JS runtime config objects, leaked env vars, and unresolved process.env
+fn detect_js_config_secrets(body: &str) -> Vec<SecretMatch> {
+    let mut matches = Vec::new();
+
+    // 1. Window config objects — extract JSON blocks and scan them
+    let config_re = match Regex::new(
+        r"(?:window\.__CONFIG__|window\.__INITIAL_STATE__|window\.__ENV__|window\.__NEXT_DATA__|window\.env)\s*=\s*(\{[^;]{10,}?\});",
+    ) {
+        Ok(r) => r,
+        Err(_) => return matches,
+    };
+
+    for cap in config_re.captures_iter(body) {
+        if let Some(json_match) = cap.get(1) {
+            let json_str = json_match.as_str();
+            // Scan the JSON block with all detectors (avoid infinite recursion by not calling this fn)
+            let inner_matches = detect_service_tokens(json_str);
+            for mut m in inner_matches {
+                m.evidence = format!("{} [in window config object]", m.evidence);
+                matches.push(m);
+            }
+            let inner_cloud = detect_cloud_keys(json_str);
+            for mut m in inner_cloud {
+                m.evidence = format!("{} [in window config object]", m.evidence);
+                matches.push(m);
+            }
+            let inner_api = detect_api_keys(json_str);
+            for mut m in inner_api {
+                m.evidence = format!("{} [in window config object]", m.evidence);
+                matches.push(m);
+            }
+        }
+    }
+
+    // 2. Leaked env vars: REACT_APP_*, NEXT_PUBLIC_*, VUE_APP_*, VITE_*
+    let env_re = match Regex::new(
+        r#"["']?((?:REACT_APP|NEXT_PUBLIC|VUE_APP|VITE)_[A-Z_]+)["']?\s*[:=]\s*["']([^"']{8,})["']"#,
+    ) {
+        Ok(r) => r,
+        Err(_) => return matches,
+    };
+
+    let sensitive_keywords = ["KEY", "SECRET", "TOKEN", "PASSWORD", "PRIVATE", "CREDENTIAL"];
+
+    for cap in env_re.captures_iter(body) {
+        let full_match = cap.get(0).expect("full match");
+        if is_in_comment(body, full_match.start()) {
+            continue;
+        }
+        let var_name = cap.get(1).map(|m| m.as_str()).unwrap_or("");
+        let var_value = cap.get(2).map(|m| m.as_str()).unwrap_or("");
+
+        // Only flag if name contains a sensitive keyword
+        let upper_name = var_name.to_uppercase();
+        if !sensitive_keywords.iter().any(|kw| upper_name.contains(kw)) {
+            continue;
+        }
+        if is_placeholder(var_value) {
+            continue;
+        }
+        if shannon_entropy(var_value) < MIN_ENTROPY_GENERIC {
+            continue;
+        }
+        matches.push(SecretMatch {
+            title: "Leaked Environment Variable".to_string(),
+            description: format!(
+                "Sensitive environment variable {} was found exposed in client-side JavaScript. \
+                 Framework env vars prefixed with REACT_APP_/NEXT_PUBLIC_/VUE_APP_/VITE_ are bundled \
+                 into the client and visible to all visitors.",
+                var_name
+            ),
+            severity: Severity::High,
+            confidence: Confidence::Tentative,
+            cwe: "CWE-798",
+            evidence: format!("{}={}", var_name, truncate_secret(var_value)),
+            raw_value: Some(var_value.to_string()),
+        });
+    }
+
+    // 3. Unresolved process.env references (bundler misconfiguration)
+    let process_env_re = match Regex::new(r"process\.env\.([A-Z_][A-Z0-9_]{2,})") {
+        Ok(r) => r,
+        Err(_) => return matches,
+    };
+
+    let safe_env_vars = [
+        "NODE_ENV", "PORT", "HOST", "DEBUG", "HOSTNAME", "HOME", "PATH", "LANG", "TZ",
+        "PUBLIC_URL", "BASE_URL",
+    ];
+    let mut seen_vars: HashSet<String> = HashSet::new();
+
+    for cap in process_env_re.captures_iter(body) {
+        let full_match = cap.get(0).expect("full match");
+        if is_in_comment(body, full_match.start()) {
+            continue;
+        }
+        let var_name = cap.get(1).map(|m| m.as_str()).unwrap_or("");
+        if safe_env_vars.contains(&var_name) {
+            continue;
+        }
+        if !seen_vars.insert(var_name.to_string()) {
+            continue;
+        }
+        matches.push(SecretMatch {
+            title: "Unresolved process.env Reference".to_string(),
+            description: format!(
+                "Reference to process.env.{} was found in bundled JavaScript. \
+                 This means the bundler did not replace it at build time, which may \
+                 cause runtime errors or expose the variable name to attackers.",
+                var_name
+            ),
+            severity: Severity::Low,
+            confidence: Confidence::Confirmed,
+            cwe: "CWE-200",
+            evidence: format!("process.env.{}", var_name),
+            raw_value: None,
+        });
+    }
+
+    matches
+}
+
 /// Detect Sentry DSNs (semi-public but still info disclosure)
 fn detect_sentry_dsn(body: &str) -> Vec<SecretMatch> {
     let mut matches = Vec::new();
@@ -852,6 +980,7 @@ fn run_all_detectors(body: &str) -> HashMap<&'static str, Vec<SecretMatch>> {
     results.insert("service_tokens", detect_service_tokens(body));
     results.insert("internal_urls", detect_internal_urls(body));
     results.insert("sentry", detect_sentry_dsn(body));
+    results.insert("js_config", detect_js_config_secrets(body));
 
     results
 }
@@ -947,6 +1076,95 @@ async fn verify_secret(title: &str, raw_value: &str) -> VerificationResult {
         .await;
     }
 
+    // Mailgun (key-)
+    if raw_value.starts_with("key-") && raw_value.len() == 36 {
+        return verify_http_basic_auth(
+            &http_client,
+            "https://api.mailgun.net/v3/domains",
+            "api",
+            raw_value,
+        )
+        .await;
+    }
+
+    // npm (npm_)
+    if raw_value.starts_with("npm_") {
+        return verify_http_get(
+            &http_client,
+            "https://registry.npmjs.org/-/npm/v1/user",
+            &format!("Bearer {raw_value}"),
+            "Authorization",
+        )
+        .await;
+    }
+
+    // DigitalOcean (dop_v1_)
+    if raw_value.starts_with("dop_v1_") {
+        return verify_http_get(
+            &http_client,
+            "https://api.digitalocean.com/v2/account",
+            &format!("Bearer {raw_value}"),
+            "Authorization",
+        )
+        .await;
+    }
+
+    // Anthropic (sk-ant-api03-)
+    if raw_value.starts_with("sk-ant-api03-") {
+        return verify_http_get(
+            &http_client,
+            "https://api.anthropic.com/v1/models",
+            raw_value,
+            "x-api-key",
+        )
+        .await;
+    }
+
+    // New Relic (NRAK-)
+    if raw_value.starts_with("NRAK-") {
+        return verify_http_get(
+            &http_client,
+            "https://api.newrelic.com/v2/users.json",
+            raw_value,
+            "Api-Key",
+        )
+        .await;
+    }
+
+    // Sentry (sntrys_)
+    if raw_value.starts_with("sntrys_") {
+        return verify_http_get(
+            &http_client,
+            "https://sentry.io/api/0/organizations/",
+            &format!("Bearer {raw_value}"),
+            "Authorization",
+        )
+        .await;
+    }
+
+    // Linear (lin_api_)
+    if raw_value.starts_with("lin_api_") {
+        return verify_http_post_json(
+            &http_client,
+            "https://api.linear.app/graphql",
+            &format!("Bearer {raw_value}"),
+            "Authorization",
+            r#"{"query":"{ viewer { id } }"}"#,
+        )
+        .await;
+    }
+
+    // Supabase (sbp_)
+    if raw_value.starts_with("sbp_") {
+        return verify_http_get(
+            &http_client,
+            "https://api.supabase.com/v1/projects",
+            &format!("Bearer {raw_value}"),
+            "Authorization",
+        )
+        .await;
+    }
+
     // JWT — local expiration check (no HTTP)
     if title == "Exposed JWT Token" && raw_value.starts_with("eyJ") {
         return verify_jwt_expiration(raw_value);
@@ -966,6 +1184,51 @@ async fn verify_http_get(
         .get(url)
         .header(header_name, header_value)
         .header("User-Agent", "argos-security-scanner")
+        .send()
+        .await
+    {
+        Ok(r) => r,
+        Err(_) => return VerificationResult::Unknown,
+    };
+    match resp.status().as_u16() {
+        200 => VerificationResult::Valid,
+        401 | 403 => VerificationResult::Invalid,
+        _ => VerificationResult::Unknown,
+    }
+}
+
+/// Generic GET verification with HTTP Basic auth
+async fn verify_http_basic_auth(
+    client: &reqwest::Client,
+    url: &str,
+    username: &str,
+    password: &str,
+) -> VerificationResult {
+    let credentials = base64::engine::general_purpose::STANDARD
+        .encode(format!("{username}:{password}"));
+    verify_http_get(
+        client,
+        url,
+        &format!("Basic {credentials}"),
+        "Authorization",
+    )
+    .await
+}
+
+/// Generic POST verification with JSON body
+async fn verify_http_post_json(
+    client: &reqwest::Client,
+    url: &str,
+    header_value: &str,
+    header_name: &str,
+    json_body: &str,
+) -> VerificationResult {
+    let resp = match client
+        .post(url)
+        .header(header_name, header_value)
+        .header("User-Agent", "argos-security-scanner")
+        .header("Content-Type", "application/json")
+        .body(json_body.to_string())
         .send()
         .await
     {
@@ -1007,9 +1270,42 @@ async fn verify_slack_token(client: &reqwest::Client, token: &str) -> Verificati
     VerificationResult::Unknown
 }
 
-/// Verify JWT by decoding the payload — extracts claims and expiration status
+/// Common weak secrets used for HS256 JWT signing
+const WEAK_JWT_SECRETS: &[&str] = &[
+    "secret", "password", "123456", "key", "private",
+    "default", "changeme", "admin", "test", "jwt_secret",
+    "your-256-bit-secret", "shhhhh", "supersecret",
+    "my-secret", "mysecret", "s3cr3t", "qwerty",
+];
+
+/// Try common weak secrets against a HS256-signed JWT.
+/// Returns Some(secret) if a match is found.
+fn try_weak_jwt_secrets(token: &str) -> Option<&'static str> {
+    use hmac::{Hmac, Mac};
+    use sha2::Sha256;
+
+    let parts: Vec<&str> = token.split('.').collect();
+    if parts.len() != 3 {
+        return None;
+    }
+    let signing_input = format!("{}.{}", parts[0], parts[1]);
+    let signature_bytes = base64::engine::general_purpose::URL_SAFE_NO_PAD
+        .decode(parts[2])
+        .or_else(|_| base64::engine::general_purpose::STANDARD.decode(parts[2]))
+        .ok()?;
+
+    for &secret in WEAK_JWT_SECRETS {
+        let mut mac = Hmac::<Sha256>::new_from_slice(secret.as_bytes()).ok()?;
+        mac.update(signing_input.as_bytes());
+        if mac.verify_slice(&signature_bytes).is_ok() {
+            return Some(secret);
+        }
+    }
+    None
+}
+
+/// Verify JWT by decoding the payload — extracts claims, expiration, algorithm analysis, and weak secret check
 fn verify_jwt_expiration(token: &str) -> VerificationResult {
-    use base64::Engine;
     let parts: Vec<&str> = token.split('.').collect();
     if parts.len() < 2 {
         return VerificationResult::Unknown;
@@ -1059,6 +1355,38 @@ fn verify_jwt_expiration(token: &str) -> VerificationResult {
         let sub_str = sub.as_str().map(|s| s.to_string())
             .unwrap_or_else(|| sub.to_string());
         details_parts.push(format!("sub={sub_str}"));
+    }
+
+    // Algorithm analysis
+    if let Some(ref a) = alg {
+        match a.to_lowercase().as_str() {
+            "none" => {
+                details_parts.push("CRITICAL: alg=none authentication bypass".to_string());
+                return VerificationResult::JwtDecoded {
+                    status: "CRITICAL: alg=none (authentication bypass)".to_string(),
+                    details: details_parts.join(", "),
+                };
+            }
+            "hs256" | "hs384" | "hs512" => {
+                // Try weak secret brute-force for HS256
+                if a.eq_ignore_ascii_case("HS256") {
+                    if let Some(weak_secret) = try_weak_jwt_secrets(token) {
+                        details_parts.push(format!(
+                            "CRITICAL: signed with weak secret '{}'", weak_secret
+                        ));
+                        return VerificationResult::JwtDecoded {
+                            status: format!("CRITICAL: weak secret '{}'", weak_secret),
+                            details: details_parts.join(", "),
+                        };
+                    }
+                }
+                details_parts.push("alg=HMAC (vulnerable if weak secret)".to_string());
+            }
+            a if a.starts_with("rs") || a.starts_with("es") || a.starts_with("ps") => {
+                details_parts.push(format!("alg={} (asymmetric, safe)", a.to_uppercase()));
+            }
+            _ => {}
+        }
     }
 
     let now = chrono::Utc::now().timestamp();
@@ -1243,6 +1571,86 @@ fn resolve_map_url(js_url: &str, map_ref: &str) -> String {
     }
 }
 
+// ---------------------------------------------------------------------------
+// Git exposure deep scan
+// ---------------------------------------------------------------------------
+
+/// Scan exposed .git directory for secrets in config and reflog
+async fn scan_git_exposure(
+    client: &HttpClient,
+    base_url: &str,
+) -> Vec<(String, SecretMatch)> {
+    let mut results = Vec::new();
+    let base = base_url.trim_end_matches('/');
+
+    // 1. .git/config — look for tokens embedded in remote URLs
+    let config_url = format!("{base}/.git/config");
+    if let Ok(resp) = client.get(&config_url).await {
+        if resp.status().is_success() {
+            let body = resp.text().await.unwrap_or_default();
+            if body.contains("[remote") || body.contains("[core]") {
+                // Look for credentials in remote URLs: https://user:token@host/repo
+                if let Ok(re) = Regex::new(r"https?://[^:]+:([^@\s]{8,})@[^\s]+") {
+                    for cap in re.captures_iter(&body) {
+                        if let Some(token_match) = cap.get(1) {
+                            let token = token_match.as_str();
+                            if !is_placeholder(token) && shannon_entropy(token) >= MIN_ENTROPY_GENERIC {
+                                results.push((config_url.clone(), SecretMatch {
+                                    title: "Git Config: Credentials in Remote URL".to_string(),
+                                    description: "The .git/config file is publicly accessible and \
+                                        contains credentials embedded in a remote URL. This allows \
+                                        access to the source code repository.".to_string(),
+                                    severity: Severity::Critical,
+                                    confidence: Confidence::Confirmed,
+                                    cwe: "CWE-540",
+                                    evidence: format!("Token in .git/config remote URL: {}", truncate_secret(token)),
+                                    raw_value: Some(token.to_string()),
+                                }));
+                            }
+                        }
+                    }
+                }
+
+                // Also report .git/config exposure itself if it looks valid
+                results.push((config_url.clone(), SecretMatch {
+                    title: "Git Configuration File Exposed".to_string(),
+                    description: "The .git/config file is publicly accessible. This reveals \
+                        repository structure, remote URLs, and potentially credentials.".to_string(),
+                    severity: Severity::High,
+                    confidence: Confidence::Confirmed,
+                    cwe: "CWE-540",
+                    evidence: format!(".git/config accessible at {}", config_url),
+                    raw_value: None,
+                }));
+            }
+        }
+    }
+
+    // 2. .git/logs/HEAD — reflog with commit messages that may contain secrets
+    let reflog_url = format!("{base}/.git/logs/HEAD");
+    if let Ok(resp) = client.get(&reflog_url).await {
+        if resp.status().is_success() {
+            let body = resp.text().await.unwrap_or_default();
+            // Only scan if it looks like a real reflog and isn't too large
+            if body.len() <= MAX_GIT_REFLOG_SIZE
+                && (body.contains("commit:") || body.contains("0000000"))
+            {
+                let detections = run_all_detectors(&body);
+                for matches in detections.values() {
+                    for secret in matches.iter().take(MAX_PER_CATEGORY_PER_URL) {
+                        let mut annotated = secret.clone();
+                        annotated.evidence =
+                            format!("{} [in .git/logs/HEAD reflog]", annotated.evidence);
+                        results.push((reflog_url.clone(), annotated));
+                    }
+                }
+            }
+        }
+    }
+
+    results
+}
+
 #[async_trait]
 impl super::Scanner for SecretsScanner {
     fn name(&self) -> &str {
@@ -1307,6 +1715,10 @@ impl super::Scanner for SecretsScanner {
         // -- Phase 2: Source map scanning --
         let source_map_matches = check_source_maps(client, &js_urls, &js_bodies).await;
         all_matches.extend(source_map_matches);
+
+        // -- Phase 2.5: Git exposure deep scan --
+        let git_matches = scan_git_exposure(client, &config.target).await;
+        all_matches.extend(git_matches);
 
         // -- Phase 3: Active verification --
         for (_url, secret) in &mut all_matches {

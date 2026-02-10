@@ -204,6 +204,9 @@ pub struct ScanResult {
     pub modules_executed: Vec<String>,
     /// Total HTTP requests made
     pub total_requests: u64,
+    /// Differential report (when --baseline is used)
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub diff: Option<DiffReport>,
 }
 
 impl ScanResult {
@@ -217,6 +220,7 @@ impl ScanResult {
             findings: Vec::new(),
             modules_executed: Vec::new(),
             total_requests: 0,
+            diff: None,
         }
     }
 
@@ -232,6 +236,17 @@ impl ScanResult {
     pub fn finish(&mut self) {
         self.finished_at = Some(Local::now());
     }
+}
+
+/// Differential report comparing current scan against a baseline
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct DiffReport {
+    /// Findings present in current scan but not in baseline
+    pub new_findings: Vec<Finding>,
+    /// Findings present in baseline but not in current scan (fixed)
+    pub resolved_findings: Vec<Finding>,
+    /// Findings present in both scans
+    pub persisting_findings: Vec<Finding>,
 }
 
 /// Configuration for a scan session
