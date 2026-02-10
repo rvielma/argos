@@ -12,7 +12,8 @@ use crate::scanner::injection::InjectionScanner;
 use async_trait::async_trait;
 use regex::Regex;
 use std::collections::{HashMap, HashSet};
-use tracing::{debug, warn};
+use std::time::Duration;
+use tracing::{debug, info, warn};
 
 /// Maximum number of crawled URLs to inspect
 const MAX_URLS: usize = 50;
@@ -23,10 +24,17 @@ const MAX_PER_CATEGORY_PER_URL: usize = 3;
 /// Minimum Shannon entropy for generic secret patterns (API keys, passwords)
 const MIN_ENTROPY_GENERIC: f64 = 3.0;
 
+/// Maximum JS files to probe for source maps
+const MAX_SOURCE_MAP_FILES: usize = 20;
+
+/// Maximum source map file size (5 MB)
+const MAX_SOURCE_MAP_SIZE: usize = 5 * 1024 * 1024;
+
 /// Detects exposed secrets, tokens, and credentials in page bodies
 pub struct SecretsScanner;
 
 /// A secret match found in page content
+#[derive(Clone)]
 struct SecretMatch {
     title: String,
     description: String,
@@ -34,6 +42,7 @@ struct SecretMatch {
     confidence: Confidence,
     cwe: &'static str,
     evidence: String,
+    raw_value: Option<String>,
 }
 
 // ---------------------------------------------------------------------------
@@ -257,6 +266,7 @@ fn detect_jwt(body: &str) -> Vec<SecretMatch> {
             confidence: Confidence::Confirmed,
             cwe: "CWE-798",
             evidence: format!("JWT: {}", truncate_secret(token)),
+            raw_value: Some(token.to_string()),
         });
     }
 
@@ -316,6 +326,7 @@ fn detect_oauth_tokens(body: &str) -> Vec<SecretMatch> {
                 confidence: Confidence::Confirmed,
                 cwe: "CWE-798",
                 evidence: format!("{}: {}", title, truncate_secret(value)),
+                raw_value: Some(token_part.to_string()),
             });
         }
     }
@@ -356,6 +367,7 @@ fn detect_api_keys(body: &str) -> Vec<SecretMatch> {
                 confidence: Confidence::Tentative,
                 cwe: "CWE-798",
                 evidence: format!("API Key: {}", truncate_secret(key)),
+                raw_value: Some(key.to_string()),
             });
         }
     }
@@ -382,6 +394,7 @@ fn detect_cloud_keys(body: &str) -> Vec<SecretMatch> {
                 confidence: Confidence::Confirmed,
                 cwe: "CWE-798",
                 evidence: format!("AWS Key: {}", truncate_secret(m.as_str())),
+                raw_value: Some(m.as_str().to_string()),
             });
         }
     }
@@ -400,6 +413,7 @@ fn detect_cloud_keys(body: &str) -> Vec<SecretMatch> {
                 confidence: Confidence::Confirmed,
                 cwe: "CWE-798",
                 evidence: format!("GCP Key: {}", truncate_secret(m.as_str())),
+                raw_value: Some(m.as_str().to_string()),
             });
         }
     }
@@ -419,6 +433,7 @@ fn detect_cloud_keys(body: &str) -> Vec<SecretMatch> {
                 confidence: Confidence::Confirmed,
                 cwe: "CWE-798",
                 evidence: format!("Azure: {}", truncate_secret(m.as_str())),
+                raw_value: Some(m.as_str().to_string()),
             });
         }
     }
@@ -449,6 +464,7 @@ fn detect_private_keys(body: &str) -> Vec<SecretMatch> {
             confidence: Confidence::Confirmed,
             cwe: "CWE-321",
             evidence: format!("Key header: {}", m.as_str()),
+            raw_value: None,
         });
     }
 
@@ -493,6 +509,7 @@ fn detect_db_connection_strings(body: &str) -> Vec<SecretMatch> {
             confidence: Confidence::Confirmed,
             cwe: "CWE-798",
             evidence: format!("DB URI: {}", truncate_secret(conn_str)),
+            raw_value: None,
         });
     }
 
@@ -513,6 +530,7 @@ fn detect_db_connection_strings(body: &str) -> Vec<SecretMatch> {
                 confidence: Confidence::Confirmed,
                 cwe: "CWE-798",
                 evidence: format!("JDBC: {}", truncate_secret(conn_str)),
+                raw_value: None,
             });
         }
     }
@@ -554,8 +572,57 @@ fn detect_hardcoded_passwords(body: &str) -> Vec<SecretMatch> {
                 confidence: Confidence::Tentative,
                 cwe: "CWE-798",
                 evidence: format!("Password value: {}", truncate_secret(pass)),
+                raw_value: None,
             });
         }
+    }
+
+    matches
+}
+
+/// Detect credential pairs (email + password together) — no entropy filter needed
+/// since the email context provides strong signal this is a real credential.
+fn detect_credential_pairs(body: &str) -> Vec<SecretMatch> {
+    let mut matches = Vec::new();
+
+    // Pattern: email:"...",password:"..." or email:"...", password:"..."
+    // Also handles username/user fields paired with password
+    let re = match Regex::new(
+        r#"["']?(?:email|user|username)["']?\s*[:=]\s*["']([^"']{3,}@[^"']{2,}\.[^"']{2,})["']\s*[,}\s]\s*["']?password["']?\s*[:=]\s*["']([^"'<>]{4,})["']"#,
+    ) {
+        Ok(r) => r,
+        Err(_) => return matches,
+    };
+
+    for cap in re.captures_iter(body) {
+        let full_match = cap.get(0).expect("full match exists");
+        if is_in_comment(body, full_match.start()) {
+            continue;
+        }
+        let email = cap.get(1).map(|m| m.as_str()).unwrap_or("");
+        let password = cap.get(2).map(|m| m.as_str()).unwrap_or("");
+        if is_placeholder(password) || is_placeholder(email) {
+            continue;
+        }
+        // Skip documentation examples with literal <password>
+        if password.contains('<') || password.contains('>') {
+            continue;
+        }
+        matches.push(SecretMatch {
+            title: "Hardcoded Credentials (Email + Password)".to_string(),
+            description: "An email and password pair was found hardcoded in the page source. \
+                This allows direct authentication to the associated service."
+                .to_string(),
+            severity: Severity::Critical,
+            confidence: Confidence::Confirmed,
+            cwe: "CWE-798",
+            evidence: format!(
+                "Credentials: {} / {}",
+                email,
+                truncate_secret(password)
+            ),
+            raw_value: None,
+        });
     }
 
     matches
@@ -580,6 +647,7 @@ fn detect_payment_keys(body: &str) -> Vec<SecretMatch> {
                 confidence: Confidence::Confirmed,
                 cwe: "CWE-798",
                 evidence: format!("Stripe SK: {}", truncate_secret(m.as_str())),
+                raw_value: Some(m.as_str().to_string()),
             });
         }
     }
@@ -597,6 +665,7 @@ fn detect_payment_keys(body: &str) -> Vec<SecretMatch> {
                 confidence: Confidence::Confirmed,
                 cwe: "CWE-798",
                 evidence: format!("Stripe RK: {}", truncate_secret(m.as_str())),
+                raw_value: Some(m.as_str().to_string()),
             });
         }
     }
@@ -616,6 +685,7 @@ fn detect_payment_keys(body: &str) -> Vec<SecretMatch> {
                 confidence: Confidence::Tentative,
                 cwe: "CWE-798",
                 evidence: format!("Stripe PK: {}", truncate_secret(m.as_str())),
+                raw_value: Some(m.as_str().to_string()),
             });
         }
     }
@@ -657,6 +727,7 @@ fn detect_service_tokens(body: &str) -> Vec<SecretMatch> {
                 confidence: Confidence::Confirmed,
                 cwe,
                 evidence: format!("{}: {}", title, truncate_secret(value)),
+                raw_value: Some(value.to_string()),
             });
         }
     }
@@ -685,6 +756,7 @@ fn detect_internal_urls(body: &str) -> Vec<SecretMatch> {
                 confidence: Confidence::Confirmed,
                 cwe: "CWE-200",
                 evidence: format!("Internal URL: {}", truncate_secret(m.as_str())),
+                raw_value: None,
             });
         }
     }
@@ -704,6 +776,7 @@ fn detect_internal_urls(body: &str) -> Vec<SecretMatch> {
                 confidence: Confidence::Confirmed,
                 cwe: "CWE-200",
                 evidence: format!("Localhost: {}", truncate_secret(m.as_str())),
+                raw_value: None,
             });
         }
     }
@@ -725,6 +798,7 @@ fn detect_internal_urls(body: &str) -> Vec<SecretMatch> {
                 confidence: Confidence::Confirmed,
                 cwe: "CWE-200",
                 evidence: format!("Internal host: {}", truncate_secret(m.as_str())),
+                raw_value: None,
             });
         }
     }
@@ -751,6 +825,7 @@ fn detect_sentry_dsn(body: &str) -> Vec<SecretMatch> {
                 confidence: Confidence::Confirmed,
                 cwe: "CWE-200",
                 evidence: format!("Sentry DSN: {}", truncate_secret(m.as_str())),
+                raw_value: None,
             });
         }
     }
@@ -772,12 +847,400 @@ fn run_all_detectors(body: &str) -> HashMap<&'static str, Vec<SecretMatch>> {
     results.insert("private_keys", detect_private_keys(body));
     results.insert("db_conn", detect_db_connection_strings(body));
     results.insert("passwords", detect_hardcoded_passwords(body));
+    results.insert("credential_pairs", detect_credential_pairs(body));
     results.insert("payment", detect_payment_keys(body));
     results.insert("service_tokens", detect_service_tokens(body));
     results.insert("internal_urls", detect_internal_urls(body));
     results.insert("sentry", detect_sentry_dsn(body));
 
     results
+}
+
+// ---------------------------------------------------------------------------
+// Active secret verification
+// ---------------------------------------------------------------------------
+
+/// Result of attempting to verify a secret against its provider API
+enum VerificationResult {
+    /// Token is valid and active
+    Valid,
+    /// Token was rejected (rotated/revoked)
+    Invalid,
+    /// Could not determine validity
+    Unknown,
+    /// JWT decoded with payload details (status label + claims summary)
+    JwtDecoded { status: String, details: String },
+}
+
+/// Build a minimal reqwest client for verification (no auth headers, 5s timeout)
+fn build_verification_client() -> std::result::Result<reqwest::Client, reqwest::Error> {
+    reqwest::Client::builder()
+        .timeout(Duration::from_secs(5))
+        .redirect(reqwest::redirect::Policy::none())
+        .build()
+}
+
+/// Verify a secret by calling its provider's read-only API
+async fn verify_secret(title: &str, raw_value: &str) -> VerificationResult {
+    let http_client = match build_verification_client() {
+        Ok(c) => c,
+        Err(_) => return VerificationResult::Unknown,
+    };
+
+    // GitHub PAT (ghp_, github_pat_)
+    if raw_value.starts_with("ghp_") || raw_value.starts_with("github_pat_") {
+        return verify_http_get(
+            &http_client,
+            "https://api.github.com/user",
+            &format!("token {raw_value}"),
+            "Authorization",
+        )
+        .await;
+    }
+
+    // GitLab PAT (glpat-)
+    if raw_value.starts_with("glpat-") {
+        return verify_http_get(
+            &http_client,
+            "https://gitlab.com/api/v4/user",
+            raw_value,
+            "PRIVATE-TOKEN",
+        )
+        .await;
+    }
+
+    // Slack tokens (xoxb-, xoxp-)
+    if raw_value.starts_with("xoxb-") || raw_value.starts_with("xoxp-") {
+        return verify_slack_token(&http_client, raw_value).await;
+    }
+
+    // OpenAI (sk-proj-)
+    if raw_value.starts_with("sk-proj-") {
+        return verify_http_get(
+            &http_client,
+            "https://api.openai.com/v1/models",
+            &format!("Bearer {raw_value}"),
+            "Authorization",
+        )
+        .await;
+    }
+
+    // HuggingFace (hf_)
+    if raw_value.starts_with("hf_") {
+        return verify_http_get(
+            &http_client,
+            "https://huggingface.co/api/whoami",
+            &format!("Bearer {raw_value}"),
+            "Authorization",
+        )
+        .await;
+    }
+
+    // SendGrid (SG.)
+    if raw_value.starts_with("SG.") {
+        return verify_http_get(
+            &http_client,
+            "https://api.sendgrid.com/v3/scopes",
+            &format!("Bearer {raw_value}"),
+            "Authorization",
+        )
+        .await;
+    }
+
+    // JWT — local expiration check (no HTTP)
+    if title == "Exposed JWT Token" && raw_value.starts_with("eyJ") {
+        return verify_jwt_expiration(raw_value);
+    }
+
+    VerificationResult::Unknown
+}
+
+/// Generic GET verification: 200 = Valid, 401/403 = Invalid, else Unknown
+async fn verify_http_get(
+    client: &reqwest::Client,
+    url: &str,
+    header_value: &str,
+    header_name: &str,
+) -> VerificationResult {
+    let resp = match client
+        .get(url)
+        .header(header_name, header_value)
+        .header("User-Agent", "argos-security-scanner")
+        .send()
+        .await
+    {
+        Ok(r) => r,
+        Err(_) => return VerificationResult::Unknown,
+    };
+    match resp.status().as_u16() {
+        200 => VerificationResult::Valid,
+        401 | 403 => VerificationResult::Invalid,
+        _ => VerificationResult::Unknown,
+    }
+}
+
+/// Verify Slack token via auth.test (POST, checks "ok" field in JSON response)
+async fn verify_slack_token(client: &reqwest::Client, token: &str) -> VerificationResult {
+    let resp = match client
+        .post("https://slack.com/api/auth.test")
+        .header("Authorization", format!("Bearer {token}"))
+        .header("User-Agent", "argos-security-scanner")
+        .header("Content-Type", "application/x-www-form-urlencoded")
+        .send()
+        .await
+    {
+        Ok(r) => r,
+        Err(_) => return VerificationResult::Unknown,
+    };
+    let body = match resp.text().await {
+        Ok(b) => b,
+        Err(_) => return VerificationResult::Unknown,
+    };
+    if let Ok(json) = serde_json::from_str::<serde_json::Value>(&body) {
+        if json.get("ok") == Some(&serde_json::Value::Bool(true)) {
+            return VerificationResult::Valid;
+        }
+        if json.get("ok") == Some(&serde_json::Value::Bool(false)) {
+            return VerificationResult::Invalid;
+        }
+    }
+    VerificationResult::Unknown
+}
+
+/// Verify JWT by decoding the payload — extracts claims and expiration status
+fn verify_jwt_expiration(token: &str) -> VerificationResult {
+    use base64::Engine;
+    let parts: Vec<&str> = token.split('.').collect();
+    if parts.len() < 2 {
+        return VerificationResult::Unknown;
+    }
+    // Decode header to get algorithm
+    let header_b64 = parts[0];
+    let alg = base64::engine::general_purpose::URL_SAFE_NO_PAD
+        .decode(header_b64)
+        .or_else(|_| base64::engine::general_purpose::STANDARD.decode(header_b64))
+        .ok()
+        .and_then(|d| std::str::from_utf8(&d).ok().map(|s| s.to_string()))
+        .and_then(|s| serde_json::from_str::<serde_json::Value>(&s).ok())
+        .and_then(|j| j.get("alg").and_then(|v| v.as_str()).map(|s| s.to_string()));
+
+    // JWT payload is base64url-encoded (no padding)
+    let payload = parts[1];
+    let decoded = match base64::engine::general_purpose::URL_SAFE_NO_PAD.decode(payload) {
+        Ok(d) => d,
+        Err(_) => {
+            match base64::engine::general_purpose::STANDARD.decode(payload) {
+                Ok(d) => d,
+                Err(_) => return VerificationResult::Unknown,
+            }
+        }
+    };
+    let json_str = match std::str::from_utf8(&decoded) {
+        Ok(s) => s,
+        Err(_) => return VerificationResult::Unknown,
+    };
+    let json = match serde_json::from_str::<serde_json::Value>(json_str) {
+        Ok(j) => j,
+        Err(_) => return VerificationResult::Unknown,
+    };
+
+    // Build details from claims
+    let mut details_parts: Vec<String> = Vec::new();
+    if let Some(a) = &alg {
+        details_parts.push(format!("alg={a}"));
+    }
+    if let Some(iss) = json.get("iss").and_then(|v| v.as_str()) {
+        details_parts.push(format!("iss={iss}"));
+    }
+    if let Some(aud) = json.get("aud").and_then(|v| v.as_str()) {
+        details_parts.push(format!("aud={aud}"));
+    }
+    if let Some(sub) = json.get("sub") {
+        let sub_str = sub.as_str().map(|s| s.to_string())
+            .unwrap_or_else(|| sub.to_string());
+        details_parts.push(format!("sub={sub_str}"));
+    }
+
+    let now = chrono::Utc::now().timestamp();
+    if let Some(exp) = json.get("exp").and_then(|v| v.as_i64()) {
+        if exp > now {
+            let hours = (exp - now) / 3600;
+            let status = format!("ACTIVE (expires in {}h)", hours);
+            details_parts.push(status.clone());
+            return VerificationResult::JwtDecoded {
+                status,
+                details: details_parts.join(", "),
+            };
+        }
+        let days = (now - exp) / 86400;
+        let status = format!("EXPIRED ({}d ago)", days);
+        details_parts.push(status.clone());
+        return VerificationResult::JwtDecoded {
+            status,
+            details: details_parts.join(", "),
+        };
+    }
+
+    // No exp claim — token doesn't expire
+    let status = "NO EXPIRATION".to_string();
+    details_parts.push(status.clone());
+    VerificationResult::JwtDecoded {
+        status,
+        details: details_parts.join(", "),
+    }
+}
+
+// ---------------------------------------------------------------------------
+// Source map detection
+// ---------------------------------------------------------------------------
+
+/// Check JS source maps for exposed secrets
+async fn check_source_maps(
+    client: &HttpClient,
+    js_urls: &[&str],
+    js_bodies: &HashMap<&str, String>,
+) -> Vec<(String, SecretMatch)> {
+    let mut results = Vec::new();
+
+    for &js_url in js_urls.iter().take(MAX_SOURCE_MAP_FILES) {
+        // Strategy 1: try {url}.map directly
+        let map_url = format!("{js_url}.map");
+        let map_body = fetch_source_map(client, &map_url).await;
+
+        // Strategy 2: look for sourceMappingURL comment in the JS body
+        let map_body = if map_body.is_none() {
+            if let Some(body) = js_bodies.get(js_url) {
+                if let Some(map_ref) = extract_source_mapping_url(body) {
+                    let resolved = resolve_map_url(js_url, &map_ref);
+                    fetch_source_map(client, &resolved).await
+                } else {
+                    None
+                }
+            } else {
+                None
+            }
+        } else {
+            map_body
+        };
+
+        let map_body = match map_body {
+            Some(b) => b,
+            None => continue,
+        };
+
+        // Parse source map JSON
+        let json: serde_json::Value = match serde_json::from_str(&map_body) {
+            Ok(v) => v,
+            Err(_) => continue,
+        };
+
+        let sources = json
+            .get("sources")
+            .and_then(|v| v.as_array())
+            .cloned()
+            .unwrap_or_default();
+
+        let sources_content = match json.get("sourcesContent").and_then(|v| v.as_array()) {
+            Some(arr) => arr,
+            None => continue,
+        };
+
+        info!(
+            "Secrets: found source map {} with {} source files",
+            map_url,
+            sources_content.len()
+        );
+
+        for (idx, content_val) in sources_content.iter().enumerate() {
+            let content = match content_val.as_str() {
+                Some(s) if !s.is_empty() => s,
+                _ => continue,
+            };
+
+            let source_name = sources
+                .get(idx)
+                .and_then(|v| v.as_str())
+                .unwrap_or("unknown");
+
+            let detections = run_all_detectors(content);
+            for matches in detections.values() {
+                for secret in matches.iter().take(MAX_PER_CATEGORY_PER_URL) {
+                    let mut annotated = secret.clone();
+                    annotated.evidence = format!(
+                        "{} [source map: {} → {}]",
+                        annotated.evidence, map_url, source_name
+                    );
+                    results.push((js_url.to_string(), annotated));
+                }
+            }
+        }
+    }
+
+    results
+}
+
+/// Fetch a source map URL; returns None if not found or too large
+async fn fetch_source_map(client: &HttpClient, url: &str) -> Option<String> {
+    let resp = match client.get(url).await {
+        Ok(r) => r,
+        Err(_) => return None,
+    };
+    if !resp.status().is_success() {
+        return None;
+    }
+    // Check content-length if available
+    if let Some(len) = resp.content_length() {
+        if len as usize > MAX_SOURCE_MAP_SIZE {
+            debug!("Secrets: source map too large ({} bytes): {}", len, url);
+            return None;
+        }
+    }
+    let body = resp.text().await.unwrap_or_default();
+    if body.len() > MAX_SOURCE_MAP_SIZE {
+        return None;
+    }
+    // Must look like a source map (contains sourcesContent)
+    if body.contains("\"sourcesContent\"") || body.contains("\"sources\"") {
+        Some(body)
+    } else {
+        None
+    }
+}
+
+/// Extract sourceMappingURL from a JS body
+fn extract_source_mapping_url(js_body: &str) -> Option<String> {
+    // Look for //# sourceMappingURL=... or //@ sourceMappingURL=...
+    for line in js_body.lines().rev().take(5) {
+        let trimmed = line.trim();
+        if let Some(rest) = trimmed
+            .strip_prefix("//# sourceMappingURL=")
+            .or_else(|| trimmed.strip_prefix("//@ sourceMappingURL="))
+        {
+            let url = rest.trim();
+            // Skip data: URIs (inline source maps)
+            if url.starts_with("data:") {
+                return None;
+            }
+            if !url.is_empty() {
+                return Some(url.to_string());
+            }
+        }
+    }
+    None
+}
+
+/// Resolve a possibly-relative source map URL against the JS file URL
+fn resolve_map_url(js_url: &str, map_ref: &str) -> String {
+    // Already absolute
+    if map_ref.starts_with("http://") || map_ref.starts_with("https://") {
+        return map_ref.to_string();
+    }
+    // Relative: resolve against the JS URL base
+    if let Some(base_end) = js_url.rfind('/') {
+        format!("{}/{}", &js_url[..base_end], map_ref)
+    } else {
+        map_ref.to_string()
+    }
 }
 
 #[async_trait]
@@ -796,11 +1259,6 @@ impl super::Scanner for SecretsScanner {
         config: &ScanConfig,
         crawled_urls: &[String],
     ) -> Result<Vec<Finding>> {
-        let mut findings = Vec::new();
-        // Dedup: track seen (title, evidence) to avoid reporting the same secret
-        // found via multiple pages that reference the same JS bundle
-        let mut seen_secrets: HashSet<String> = HashSet::new();
-
         // Always include the target URL, plus crawled URLs up to MAX_URLS
         let mut urls_to_check: Vec<&str> = vec![&config.target];
         for url in crawled_urls.iter().take(MAX_URLS) {
@@ -809,8 +1267,12 @@ impl super::Scanner for SecretsScanner {
             }
         }
 
+        // -- Phase 1: Scan all URLs for secrets --
+        let mut all_matches: Vec<(String, SecretMatch)> = Vec::new();
+        let mut js_urls: Vec<&str> = Vec::new();
+        let mut js_bodies: HashMap<&str, String> = HashMap::new();
+
         for url in &urls_to_check {
-            // Skip OAuth/SSO URLs
             if InjectionScanner::is_oauth_url(url) {
                 debug!("Secrets: skipping OAuth URL: {}", url);
                 continue;
@@ -828,36 +1290,90 @@ impl super::Scanner for SecretsScanner {
                 continue;
             }
 
+            // Track JS files for source map scanning
+            if url.ends_with(".js") || url.contains(".js?") {
+                js_urls.push(url);
+                js_bodies.insert(url, body.clone());
+            }
+
             let detections = run_all_detectors(&body);
-
-            for secret_matches in detections.values() {
-                for secret in secret_matches.iter().take(MAX_PER_CATEGORY_PER_URL) {
-                    // Dedup by (title + evidence) across all URLs
-                    let dedup_key = format!("{}|{}", secret.title, secret.evidence);
-                    if !seen_secrets.insert(dedup_key) {
-                        continue;
-                    }
-
-                    findings.push(
-                        Finding::new(
-                            &secret.title,
-                            &secret.description,
-                            secret.severity.clone(),
-                            "Secrets Exposure",
-                            *url,
-                        )
-                        .with_confidence(secret.confidence.clone())
-                        .with_evidence(&secret.evidence)
-                        .with_recommendation(
-                            "Immediately rotate the exposed credential. \
-                            Remove secrets from client-side code and use server-side \
-                            environment variables or a secrets manager instead.",
-                        )
-                        .with_cwe(secret.cwe)
-                        .with_owasp("A07:2021 Identification and Authentication Failures"),
-                    );
+            for matches in detections.values() {
+                for secret in matches.iter().take(MAX_PER_CATEGORY_PER_URL) {
+                    all_matches.push((url.to_string(), secret.clone()));
                 }
             }
+        }
+
+        // -- Phase 2: Source map scanning --
+        let source_map_matches = check_source_maps(client, &js_urls, &js_bodies).await;
+        all_matches.extend(source_map_matches);
+
+        // -- Phase 3: Active verification --
+        for (_url, secret) in &mut all_matches {
+            let raw = match &secret.raw_value {
+                Some(v) => v.clone(),
+                None => continue,
+            };
+            // Skip verification for OAuth-sourced URLs
+            if InjectionScanner::is_oauth_url(_url) {
+                continue;
+            }
+            let result = verify_secret(&secret.title, &raw).await;
+            match result {
+                VerificationResult::Valid => {
+                    debug!("Secrets: verified VALID — {}: {}", secret.title, truncate_secret(&raw));
+                    secret.confidence = Confidence::Confirmed;
+                    secret.evidence = format!("{} [verified: active]", secret.evidence);
+                }
+                VerificationResult::Invalid => {
+                    debug!("Secrets: verified INVALID (rotated) — {}: {}", secret.title, truncate_secret(&raw));
+                    // Mark for removal by setting a sentinel title
+                    secret.title = String::new();
+                }
+                VerificationResult::JwtDecoded { status, details } => {
+                    debug!("Secrets: JWT decoded — {}", details);
+                    if status.starts_with("ACTIVE") {
+                        secret.confidence = Confidence::Confirmed;
+                    }
+                    secret.evidence = format!("{} [{}]", secret.evidence, details);
+                }
+                VerificationResult::Unknown => {
+                    // Keep original confidence
+                }
+            }
+        }
+
+        // Remove invalidated secrets
+        all_matches.retain(|(_, secret)| !secret.title.is_empty());
+
+        // -- Phase 4: Create findings with dedup --
+        let mut findings = Vec::new();
+        let mut seen_secrets: HashSet<String> = HashSet::new();
+
+        for (url, secret) in &all_matches {
+            let dedup_key = format!("{}|{}", secret.title, secret.evidence);
+            if !seen_secrets.insert(dedup_key) {
+                continue;
+            }
+
+            findings.push(
+                Finding::new(
+                    &secret.title,
+                    &secret.description,
+                    secret.severity.clone(),
+                    "Secrets Exposure",
+                    url,
+                )
+                .with_confidence(secret.confidence.clone())
+                .with_evidence(&secret.evidence)
+                .with_recommendation(
+                    "Immediately rotate the exposed credential. \
+                    Remove secrets from client-side code and use server-side \
+                    environment variables or a secrets manager instead.",
+                )
+                .with_cwe(secret.cwe)
+                .with_owasp("A07:2021 Identification and Authentication Failures"),
+            );
         }
 
         Ok(findings)
