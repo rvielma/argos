@@ -121,7 +121,21 @@ impl InjectionScanner {
             || lower.contains("facebook.com/dialog/oauth")
             || lower.contains("login.yahoo.com");
 
-        has_oauth_params || has_known_provider
+        // Known provider names in the URL path (e.g., /oauth/google, /sso/microsoft)
+        let has_provider_in_path = lower.contains("/oauth/google")
+            || lower.contains("/oauth/microsoft")
+            || lower.contains("/oauth/github")
+            || lower.contains("/oauth/facebook")
+            || lower.contains("/oauth/apple")
+            || lower.contains("/oauth/yahoo")
+            || lower.contains("/oauth/okta")
+            || lower.contains("/oauth/auth0")
+            || lower.contains("/oauth/keycloak")
+            || lower.contains("/sso/google")
+            || lower.contains("/sso/microsoft")
+            || lower.contains("/sso/saml");
+
+        has_oauth_params || has_known_provider || has_provider_in_path
     }
 
     /// Checks if a URL looks like garbage (JS code, template literals, etc.)
@@ -560,6 +574,9 @@ impl super::Scanner for InjectionScanner {
                 }
             }
         }
+
+        // Filter out OAuth/SSO injection points (forms on non-OAuth pages can point to OAuth URLs)
+        injection_points.retain(|p| !Self::is_oauth_url(&p.url));
 
         // Deduplicate query param points by URL
         injection_points.sort_by(|a, b| {
