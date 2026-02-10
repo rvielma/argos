@@ -351,6 +351,7 @@ impl Default for ScanConfig {
                 "websocket".to_string(),
                 "dast".to_string(),
                 "graphql".to_string(),
+                "secrets".to_string(),
             ],
             follow_redirects: true,
             max_depth: 3,

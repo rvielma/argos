@@ -10,6 +10,7 @@ pub mod headers;
 pub mod info_disclosure;
 pub mod injection;
 pub mod oob_scanner;
+pub mod secrets;
 pub mod ssl;
 pub mod templates;
 pub mod waf;
@@ -73,6 +74,7 @@ impl ScanEngine {
         engine.register(Arc::new(dast::DastScanner));
         engine.register(Arc::new(oob_scanner::OobScanner));
         engine.register(Arc::new(graphql::GraphQLScanner));
+        engine.register(Arc::new(secrets::SecretsScanner));
         engine
     }
 
