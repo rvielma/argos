@@ -116,6 +116,8 @@ pub async fn scan(
         "dojo", "ext-all", "yui", "d3.", "chart.", "highcharts",
         "popper", "select2", "datatables", "sweetalert", "toastr",
         "handlebars", "mustache", "underscore", "zepto", "modernizr",
+        "vendor.", "vendors.", "vendor-", "vendors-",
+        "chunk-vendors", "bundle.",
     ];
 
     let dom_sinks: &[(&str, &str)] = &[

@@ -82,6 +82,48 @@ impl InjectionScanner {
             || lower == "_token"
     }
 
+    /// Checks if a URL points to an OAuth/SSO flow (Google, Microsoft, GitHub, etc.)
+    /// These URLs are often proxied through the target host, so same-host filtering
+    /// doesn't catch them. We require BOTH a path pattern AND a param/domain indicator.
+    pub fn is_oauth_url(url: &str) -> bool {
+        let lower = url.to_lowercase();
+
+        // Path patterns typical of OAuth/SSO flows
+        let has_oauth_path = lower.contains("/oauth/")
+            || lower.contains("/auth/callback")
+            || lower.contains("/sso/")
+            || lower.contains("/saml/")
+            || lower.contains("/signin/")
+            || lower.contains("/sign-in/")
+            || lower.contains("/.well-known/openid")
+            || lower.contains("/authorize")
+            || lower.contains("/login/oauth");
+
+        if !has_oauth_path {
+            return false;
+        }
+
+        // Query param indicators of OAuth protocol
+        let has_oauth_params = lower.contains("client_id=")
+            || lower.contains("redirect_uri=")
+            || lower.contains("response_type=")
+            || lower.contains("scope=openid")
+            || lower.contains("scope=email")
+            || lower.contains("code_challenge=")
+            || lower.contains("nonce=");
+
+        // Known OAuth provider domains embedded in the URL
+        let has_known_provider = lower.contains("accounts.google.com")
+            || lower.contains("login.microsoftonline.com")
+            || lower.contains("github.com/login/oauth")
+            || lower.contains("login.live.com")
+            || lower.contains("appleid.apple.com")
+            || lower.contains("facebook.com/dialog/oauth")
+            || lower.contains("login.yahoo.com");
+
+        has_oauth_params || has_known_provider
+    }
+
     /// Checks if a URL looks like garbage (JS code, template literals, etc.)
     fn is_junk_url(url: &str) -> bool {
         // JS string concatenation patterns crawled as URLs
@@ -148,9 +190,12 @@ impl InjectionScanner {
 
         // Query params from the URL itself
         if let Ok(parsed) = Url::parse(base_url) {
+            if Self::is_oauth_url(base_url) {
+                return points;
+            }
             let params: Vec<String> = parsed.query_pairs()
                 .map(|(k, _)| k.to_string())
-                .filter(|k| !Self::is_security_param(k))
+                .filter(|k| !k.is_empty() && !Self::is_security_param(k))
                 .collect();
             if !params.is_empty() {
                 points.push(InjectionPoint {
@@ -166,8 +211,8 @@ impl InjectionScanner {
         if let Ok(link_sel) = Selector::parse("a[href]") {
             for link in document.select(&link_sel) {
                 if let Some(href) = link.value().attr("href") {
-                    // Skip junk hrefs (JS code, template expressions)
-                    if Self::is_junk_url(href) {
+                    // Skip junk hrefs (JS code, template expressions) and OAuth/SSO
+                    if Self::is_junk_url(href) || Self::is_oauth_url(href) {
                         continue;
                     }
 
@@ -197,7 +242,7 @@ impl InjectionScanner {
                         let params: Vec<String> =
                             parsed.query_pairs()
                                 .map(|(k, _)| k.to_string())
-                                .filter(|k| !Self::is_security_param(k))
+                                .filter(|k| !k.is_empty() && !Self::is_security_param(k))
                                 .collect();
                         if !params.is_empty() {
                             points.push(InjectionPoint {
@@ -469,9 +514,9 @@ impl super::Scanner for InjectionScanner {
         };
 
         for url in urls_to_check.iter().take(50) {
-            // Skip junk URLs (JS code, template literals, etc.)
-            if Self::is_junk_url(url) {
-                debug!("Skipping junk URL: {url}");
+            // Skip junk URLs (JS code, template literals, etc.) and OAuth/SSO flows
+            if Self::is_junk_url(url) || Self::is_oauth_url(url) {
+                debug!("Skipping URL: {url}");
                 continue;
             }
             if let Ok(response) = client.get(url).await {

@@ -10,6 +10,7 @@ pub mod session;
 use crate::error::Result;
 use crate::http::HttpClient;
 use crate::models::{Finding, ScanConfig};
+use crate::scanner::injection::InjectionScanner;
 use async_trait::async_trait;
 use tracing::{debug, info};
 
@@ -43,6 +44,10 @@ impl super::Scanner for DastScanner {
         // Collect forms and injection points from crawled pages
         let mut forms_html: Vec<(String, String)> = Vec::new();
         for url in urls_to_check.iter().take(50) {
+            if InjectionScanner::is_oauth_url(url) {
+                debug!("DAST: skipping OAuth/SSO URL: {url}");
+                continue;
+            }
             if let Ok(response) = client.get(url).await {
                 let body = response.text().await.unwrap_or_default();
                 if !body.is_empty() {
