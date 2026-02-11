@@ -1,0 +1,22 @@
+id: influxdb-default-creds
+name: "InfluxDB Default Credentials"
+severity: critical
+description: "InfluxDB is accessible with default credentials (admin:admin)."
+reference: CWE-1393
+requests:
+  - method: GET
+    path: "/api/v2/me"
+    headers:
+      Authorization: "Basic YWRtaW46YWRtaW4="
+    matchers:
+      - type: body
+        words:
+          - "name"
+          - "status"
+      - type: status
+        status: [200]
+      - type: header
+        header: "content-type"
+        words:
+          - "application/json"
+    condition: and

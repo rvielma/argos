@@ -1,0 +1,17 @@
+id: graphql-gatsby-exposed
+name: "Gatsby GraphQL IDE Exposed"
+severity: medium
+confidence: tentative
+description: "Gatsby development GraphQL IDE is exposed in production at /__graphql or ___graphql, providing full access to the site data layer including content, page metadata, and build-time configuration data."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/___graphql"
+    matchers:
+      - type: body
+        words:
+          - "GraphiQL"
+          - "gatsby"
+      - type: status
+        status: [200]
+    condition: and

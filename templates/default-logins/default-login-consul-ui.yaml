@@ -1,0 +1,33 @@
+id: default-login-consul-ui
+name: "Consul UI Default Access"
+severity: high
+confidence: tentative
+description: "HashiCorp Consul UI and API are accessible without ACL tokens, exposing service mesh configuration, KV store, and cluster topology."
+reference: CWE-798
+requests:
+  - method: GET
+    path: "/ui/"
+    matchers:
+      - type: body
+        words:
+          - "consul"
+          - "Consul"
+      - type: status
+        status: [200]
+    condition: and
+  - method: GET
+    path: "/v1/agent/members"
+    matchers:
+      - type: body
+        words:
+          - "Name"
+          - "Addr"
+          - "Status"
+          - "Tags"
+      - type: status
+        status: [200]
+      - type: header
+        header: "content-type"
+        words:
+          - "application/json"
+    condition: and

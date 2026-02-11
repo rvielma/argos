@@ -1,0 +1,17 @@
+id: cloud-wasabi-listing
+name: "Wasabi Cloud Storage Bucket Listing Enabled"
+severity: high
+confidence: tentative
+description: "Wasabi S3-compatible cloud storage bucket allows public object listing, potentially exposing sensitive files and data to unauthenticated users."
+reference: CWE-548
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "<ListBucketResult"
+          - "wasabisys.com"
+      - type: status
+        status: [200]
+    condition: and

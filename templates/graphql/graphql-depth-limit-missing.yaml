@@ -1,0 +1,20 @@
+id: graphql-depth-limit-missing
+name: "GraphQL Depth Limit Missing"
+severity: medium
+description: "GraphQL endpoint allows deeply nested queries without depth limits, enabling denial-of-service attacks through resource exhaustion with recursive query patterns."
+reference: CWE-400
+requests:
+  - method: POST
+    path: "/graphql"
+    headers:
+      Content-Type: "application/json"
+    body: '{"query":"{ __schema { types { fields { type { fields { type { fields { type { name } } } } } } } } }"}'
+    matchers:
+      - type: body
+        words:
+          - "fields"
+          - "type"
+          - "name"
+      - type: status
+        status: [200]
+    condition: and

@@ -1,0 +1,20 @@
+id: graphql-error-stacktrace
+name: "GraphQL Verbose Error Messages with Stack Traces"
+severity: medium
+confidence: tentative
+description: "GraphQL endpoint returns verbose error messages including stack traces, internal file paths, or framework details, leaking sensitive server-side information that aids attackers in mapping the application architecture."
+reference: CWE-209
+requests:
+  - method: POST
+    path: "/graphql"
+    headers:
+      Content-Type: "application/json"
+    body: '{"query":"{ __nonexistent { also_invalid } }"}'
+    matchers:
+      - type: body
+        words:
+          - "stacktrace"
+          - "errors"
+      - type: status
+        status: [200, 400]
+    condition: and

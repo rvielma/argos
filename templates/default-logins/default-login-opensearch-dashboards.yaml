@@ -1,0 +1,36 @@
+id: default-login-opensearch-dashboards
+name: "OpenSearch Dashboards Default Login"
+severity: critical
+confidence: tentative
+description: "OpenSearch Dashboards accepts default credentials admin:admin, exposing log analytics, visualizations, and cluster management capabilities."
+reference: CWE-798
+requests:
+  - method: GET
+    path: "/app/login"
+    matchers:
+      - type: body
+        words:
+          - "OpenSearch Dashboards"
+          - "username"
+          - "password"
+      - type: status
+        status: [200]
+    condition: and
+  - method: POST
+    path: "/auth/login"
+    headers:
+      Content-Type: "application/json"
+      osd-xsrf: "true"
+    body: '{"username":"admin","password":"admin"}'
+    matchers:
+      - type: body
+        words:
+          - "username"
+          - "tenants"
+      - type: status
+        status: [200]
+      - type: header
+        header: "content-type"
+        words:
+          - "application/json"
+    condition: and

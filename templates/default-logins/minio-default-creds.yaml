@@ -1,15 +1,22 @@
 id: minio-default-creds
 name: "MinIO Default Credentials"
 severity: critical
-description: "MinIO object storage with potential default credentials."
+description: "MinIO is accessible with default credentials (minioadmin:minioadmin)."
 reference: CWE-1393
 requests:
-  - method: GET
+  - method: POST
     path: "/minio/login"
+    headers:
+      Content-Type: "application/json"
+    body: '{"accessKey":"minioadmin","secretKey":"minioadmin"}'
     matchers:
       - type: body
         words:
-          - "MinIO"
+          - "token"
       - type: status
         status: [200]
+      - type: header
+        header: "content-type"
+        words:
+          - "application/json"
     condition: and

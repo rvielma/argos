@@ -1,0 +1,16 @@
+id: sentry-self-hosted-exposed
+name: "Sentry Self-Hosted Exposed"
+severity: medium
+description: "Sentry self-hosted error tracking instance is publicly accessible, potentially exposing application error details and stack traces."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/auth/login/sentry/"
+    matchers:
+      - type: body
+        words:
+          - "Sentry"
+          - "login"
+      - type: status
+        status: [200]
+    condition: and

@@ -1,0 +1,16 @@
+id: pocketbase-exposed
+name: "PocketBase Admin Dashboard Exposed"
+severity: high
+description: "PocketBase admin dashboard is publicly accessible, potentially allowing unauthorized access to backend data and configuration."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/_/"
+    matchers:
+      - type: body
+        words:
+          - "PocketBase"
+          - "admin"
+      - type: status
+        status: [200]
+    condition: and

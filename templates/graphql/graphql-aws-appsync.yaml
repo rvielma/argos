@@ -1,0 +1,23 @@
+id: graphql-aws-appsync
+name: "AWS AppSync GraphQL Endpoint Detected"
+severity: low
+confidence: tentative
+description: "AWS AppSync managed GraphQL API endpoint is detected. If the API key authentication mode is misconfigured or an API key is exposed, attackers can execute arbitrary queries and mutations against the backend data sources."
+reference: CWE-200
+requests:
+  - method: POST
+    path: "/graphql"
+    headers:
+      Content-Type: "application/json"
+    body: '{"query":"{ __typename }"}'
+    matchers:
+      - type: body
+        words:
+          - "UnauthorizedException"
+          - "You are not authorized"
+      - type: header
+        words:
+          - "x-amzn-requestid"
+      - type: status
+        status: [401, 403]
+    condition: and

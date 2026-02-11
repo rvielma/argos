@@ -1,0 +1,17 @@
+id: meditech-ehr-detected
+name: "MEDITECH EHR System Detected"
+severity: info
+confidence: informational
+description: "MEDITECH Electronic Health Record system detected. MEDITECH is a major EHR vendor serving hospitals and health systems. Verify access controls are enforced."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "MEDITECH"
+          - "meditech"
+      - type: status
+        status: [200]
+    condition: and

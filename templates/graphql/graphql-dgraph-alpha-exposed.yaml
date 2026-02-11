@@ -1,0 +1,23 @@
+id: graphql-dgraph-alpha-exposed
+name: "Dgraph Alpha GraphQL Endpoint Exposed"
+severity: high
+confidence: tentative
+description: "Dgraph Alpha server GraphQL endpoint is publicly accessible without authentication, allowing direct query execution, mutations, and schema modifications against the graph database."
+reference: CWE-306
+requests:
+  - method: POST
+    path: "/graphql"
+    headers:
+      Content-Type: "application/json"
+    body: '{"query":"{ __typename }"}'
+    matchers:
+      - type: body
+        words:
+          - "data"
+          - "__typename"
+      - type: header
+        words:
+          - "Dgraph"
+      - type: status
+        status: [200]
+    condition: and

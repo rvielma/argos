@@ -1,0 +1,22 @@
+id: graphql-directive-exposure
+name: "GraphQL Custom Directives Exposed"
+severity: low
+confidence: tentative
+description: "GraphQL endpoint exposes custom directives through introspection, revealing server-side logic such as caching strategies, authentication rules, rate limiting configurations, and field-level authorization policies."
+reference: CWE-200
+requests:
+  - method: POST
+    path: "/graphql"
+    headers:
+      Content-Type: "application/json"
+    body: '{"query":"{ __schema { directives { name description locations args { name type { name } } } } }"}'
+    matchers:
+      - type: body
+        words:
+          - "directives"
+          - "locations"
+          - "args"
+          - "description"
+      - type: status
+        status: [200]
+    condition: and

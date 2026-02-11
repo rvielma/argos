@@ -1,0 +1,20 @@
+id: consul-default-creds
+name: "Consul No Authentication"
+severity: critical
+description: "HashiCorp Consul agent API is accessible without authentication, exposing full cluster configuration."
+reference: CWE-1393
+requests:
+  - method: GET
+    path: "/v1/agent/self"
+    matchers:
+      - type: body
+        words:
+          - "Config"
+          - "Member"
+      - type: status
+        status: [200]
+      - type: header
+        header: "content-type"
+        words:
+          - "application/json"
+    condition: and

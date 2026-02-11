@@ -1,0 +1,17 @@
+id: cloud-digitalocean-spaces-listing
+name: "DigitalOcean Spaces Bucket Listing Enabled"
+severity: high
+confidence: tentative
+description: "DigitalOcean Spaces object storage allows public listing of objects via S3-compatible API, potentially exposing sensitive files and directory structure to unauthenticated users."
+reference: CWE-548
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "<ListBucketResult"
+          - "digitaloceanspaces.com"
+      - type: status
+        status: [200]
+    condition: and

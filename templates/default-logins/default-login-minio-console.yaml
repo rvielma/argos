@@ -1,0 +1,34 @@
+id: default-login-minio-console
+name: "MinIO Console Default Login"
+severity: critical
+confidence: tentative
+description: "MinIO Console accepts default credentials minioadmin:minioadmin, granting administrative access to object storage buckets, users, and policies."
+reference: CWE-798
+requests:
+  - method: GET
+    path: "/login"
+    matchers:
+      - type: body
+        words:
+          - "MinIO"
+          - "Console"
+      - type: status
+        status: [200]
+    condition: and
+  - method: POST
+    path: "/api/v1/login"
+    headers:
+      Content-Type: "application/json"
+    body: '{"accessKey":"minioadmin","secretKey":"minioadmin"}'
+    matchers:
+      - type: body
+        words:
+          - "sessionId"
+          - "token"
+      - type: status
+        status: [200, 204]
+      - type: header
+        header: "content-type"
+        words:
+          - "application/json"
+    condition: and

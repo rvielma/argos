@@ -1,0 +1,16 @@
+id: opnsense-exposed
+name: "OPNsense Firewall Web UI Exposed"
+severity: high
+description: "OPNsense firewall web interface is publicly accessible, potentially allowing unauthorized access to firewall rules and network configuration."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "OPNsense"
+          - "login"
+      - type: status
+        status: [200]
+    condition: and

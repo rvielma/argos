@@ -1,0 +1,26 @@
+id: grpc-reflection-exposed
+name: "gRPC Server Reflection Enabled"
+severity: medium
+description: "gRPC server reflection is enabled and publicly accessible, allowing unauthenticated users to enumerate all available services, methods, and message types on the gRPC server."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/grpc.reflection.v1alpha.ServerReflection/ServerReflectionInfo"
+    matchers:
+      - type: body
+        words:
+          - "grpc"
+          - "application/grpc"
+      - type: status
+        status: [200]
+    condition: and
+  - method: GET
+    path: "/grpc/reflection/v1"
+    matchers:
+      - type: body
+        words:
+          - "grpc"
+          - "service"
+      - type: status
+        status: [200]
+    condition: and

@@ -1,0 +1,32 @@
+id: default-login-netdata
+name: "Netdata Default Access"
+severity: high
+confidence: tentative
+description: "Netdata monitoring dashboard is accessible without authentication, exposing real-time system metrics, running processes, and network connections."
+reference: CWE-798
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "netdata"
+          - "dashboard"
+      - type: status
+        status: [200]
+    condition: and
+  - method: GET
+    path: "/api/v1/info"
+    matchers:
+      - type: body
+        words:
+          - "version"
+          - "uid"
+          - "mirrored_hosts"
+      - type: status
+        status: [200]
+      - type: header
+        header: "content-type"
+        words:
+          - "application/json"
+    condition: and

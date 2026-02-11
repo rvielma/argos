@@ -1,0 +1,15 @@
+id: redash-exposed
+name: "Redash Query Dashboard Exposed"
+severity: high
+description: "Redash data visualization and query dashboard is publicly accessible, potentially exposing database queries and sensitive data."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/login"
+    matchers:
+      - type: body
+        words:
+          - "Redash"
+      - type: status
+        status: [200]
+    condition: and

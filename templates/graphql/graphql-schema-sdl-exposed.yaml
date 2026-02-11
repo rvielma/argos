@@ -1,0 +1,16 @@
+id: graphql-schema-sdl-exposed
+name: "GraphQL SDL Schema Endpoint Exposed"
+severity: medium
+description: "GraphQL Schema Definition Language endpoint is publicly accessible, exposing the complete API schema in SDL format without requiring introspection queries."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/graphql/schema.graphql"
+    matchers:
+      - type: body
+        words:
+          - "type Query"
+          - "schema"
+      - type: status
+        status: [200]
+    condition: and

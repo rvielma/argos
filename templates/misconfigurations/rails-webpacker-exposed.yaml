@@ -1,0 +1,17 @@
+id: rails-webpacker-exposed
+name: "Rails Webpacker Manifest Exposed"
+severity: low
+description: "Rails Webpacker manifest.json is publicly accessible, revealing compiled asset filenames, JavaScript entry points, and the application's frontend build structure."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/packs/manifest.json"
+    matchers:
+      - type: body
+        words:
+          - "entrypoints"
+          - ".js"
+          - "application"
+      - type: status
+        status: [200]
+    condition: and

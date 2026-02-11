@@ -1,0 +1,18 @@
+id: fhir-r4-questionnaire
+name: "FHIR R4 Questionnaire/QuestionnaireResponse Exposed"
+severity: high
+confidence: tentative
+description: "FHIR R4 QuestionnaireResponse endpoint is publicly accessible. QuestionnaireResponses contain patient-submitted clinical intake forms, screening questionnaires, and health assessments that include PHI."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/fhir/QuestionnaireResponse"
+    matchers:
+      - type: body
+        words:
+          - "QuestionnaireResponse"
+          - "resourceType"
+          - "authored"
+      - type: status
+        status: [200]
+    condition: and

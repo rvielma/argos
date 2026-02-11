@@ -1,0 +1,17 @@
+id: helm-tiller-exposed
+name: "Helm Tiller Service Exposed"
+severity: critical
+description: "Helm Tiller gRPC service is publicly accessible without authentication, allowing arbitrary Helm chart deployment and full cluster compromise."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/api/v1/namespaces/kube-system/pods"
+    matchers:
+      - type: body
+        words:
+          - "tiller-deploy"
+          - "kube-system"
+          - "metadata"
+      - type: status
+        status: [200]
+    condition: and

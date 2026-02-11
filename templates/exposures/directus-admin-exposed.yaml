@@ -1,0 +1,15 @@
+id: directus-admin-exposed
+name: "Directus CMS Admin Panel Exposed"
+severity: high
+description: "Directus headless CMS admin panel is publicly accessible, potentially exposing database schema and content management features."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/admin/login"
+    matchers:
+      - type: body
+        words:
+          - "Directus"
+      - type: status
+        status: [200]
+    condition: and

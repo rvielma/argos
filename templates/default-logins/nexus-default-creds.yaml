@@ -1,0 +1,21 @@
+id: nexus-default-creds
+name: "Nexus Repository Default Credentials"
+severity: critical
+description: "Sonatype Nexus Repository is accessible with default credentials (admin:admin123)."
+reference: CWE-1393
+requests:
+  - method: GET
+    path: "/service/rest/v1/status"
+    headers:
+      Authorization: "Basic YWRtaW46YWRtaW4xMjM="
+    matchers:
+      - type: body
+        words:
+          - "edition"
+      - type: status
+        status: [200]
+      - type: header
+        header: "content-type"
+        words:
+          - "application/json"
+    condition: and

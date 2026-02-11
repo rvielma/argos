@@ -1,0 +1,22 @@
+id: kibana-default-creds
+name: "Kibana Default Credentials"
+severity: critical
+description: "Kibana is accessible with default credentials (elastic:changeme)."
+reference: CWE-1393
+requests:
+  - method: GET
+    path: "/api/status"
+    headers:
+      Authorization: "Basic ZWxhc3RpYzpjaGFuZ2VtZQ=="
+    matchers:
+      - type: body
+        words:
+          - "overall"
+          - "statuses"
+      - type: status
+        status: [200]
+      - type: header
+        header: "content-type"
+        words:
+          - "application/json"
+    condition: and

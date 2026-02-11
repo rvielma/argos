@@ -1,0 +1,22 @@
+id: couchdb-default-creds
+name: "CouchDB Default Credentials"
+severity: critical
+description: "CouchDB is accessible with default credentials (admin:admin)."
+reference: CWE-1393
+requests:
+  - method: GET
+    path: "/_session"
+    headers:
+      Authorization: "Basic YWRtaW46YWRtaW4="
+    matchers:
+      - type: body
+        words:
+          - "userCtx"
+          - "admin"
+      - type: status
+        status: [200]
+      - type: header
+        header: "content-type"
+        words:
+          - "application/json"
+    condition: and

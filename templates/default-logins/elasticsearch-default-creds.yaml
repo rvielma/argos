@@ -1,0 +1,22 @@
+id: elasticsearch-default-creds
+name: "Elasticsearch Default Credentials"
+severity: critical
+description: "Elasticsearch is accessible with default credentials (elastic:changeme)."
+reference: CWE-1393
+requests:
+  - method: GET
+    path: "/"
+    headers:
+      Authorization: "Basic ZWxhc3RpYzpjaGFuZ2VtZQ=="
+    matchers:
+      - type: body
+        words:
+          - "cluster_name"
+          - "cluster_uuid"
+      - type: status
+        status: [200]
+      - type: header
+        header: "content-type"
+        words:
+          - "application/json"
+    condition: and

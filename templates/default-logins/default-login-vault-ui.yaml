@@ -1,0 +1,34 @@
+id: default-login-vault-ui
+name: "Vault UI Default Token Access"
+severity: critical
+confidence: tentative
+description: "HashiCorp Vault UI is accessible with the default root token, granting full administrative access to secrets, encryption keys, and identity management."
+reference: CWE-798
+requests:
+  - method: GET
+    path: "/ui/"
+    matchers:
+      - type: body
+        words:
+          - "Vault"
+          - "vault"
+      - type: status
+        status: [200]
+    condition: and
+  - method: GET
+    path: "/v1/sys/health"
+    headers:
+      X-Vault-Token: "root"
+    matchers:
+      - type: body
+        words:
+          - "initialized"
+          - "sealed"
+          - "cluster_name"
+      - type: status
+        status: [200]
+      - type: header
+        header: "content-type"
+        words:
+          - "application/json"
+    condition: and

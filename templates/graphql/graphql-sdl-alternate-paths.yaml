@@ -1,0 +1,17 @@
+id: graphql-sdl-alternate-paths
+name: "GraphQL SDL Schema at Alternate Paths"
+severity: medium
+confidence: tentative
+description: "GraphQL Schema Definition Language file is exposed at common alternate paths, revealing the complete API schema including types, queries, mutations, and field-level details without requiring introspection."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/graphql/sdl"
+    matchers:
+      - type: body
+        words:
+          - "type Query"
+          - "type Mutation"
+      - type: status
+        status: [200]
+    condition: and

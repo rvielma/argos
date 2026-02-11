@@ -1,0 +1,17 @@
+id: jenkins-pipeline-exposed
+name: "Jenkinsfile Pipeline Exposed"
+severity: medium
+description: "A Jenkinsfile is publicly accessible, revealing CI/CD pipeline stages, build steps, deployment targets, credentials references, and infrastructure details."
+reference: CWE-538
+requests:
+  - method: GET
+    path: "/Jenkinsfile"
+    matchers:
+      - type: body
+        words:
+          - "pipeline"
+          - "stages"
+          - "agent"
+      - type: status
+        status: [200]
+    condition: and

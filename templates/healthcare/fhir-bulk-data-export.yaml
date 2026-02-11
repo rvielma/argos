@@ -1,0 +1,17 @@
+id: fhir-bulk-data-export
+name: "FHIR Bulk Data Export Endpoint Exposed"
+severity: critical
+confidence: tentative
+description: "FHIR Bulk Data Export endpoint is publicly accessible. This endpoint allows exporting large volumes of patient data in NDJSON format, posing a massive PHI exposure risk if unauthenticated."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/fhir/$export"
+    matchers:
+      - type: body
+        words:
+          - "output"
+          - "transactionTime"
+      - type: status
+        status: [200, 202]
+    condition: and

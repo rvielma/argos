@@ -1,0 +1,17 @@
+id: graphql-dgraph-ratel-exposed
+name: "Dgraph Ratel UI Exposed"
+severity: high
+confidence: tentative
+description: "Dgraph Ratel web UI is publicly accessible, providing full administrative access to the Dgraph database including schema management, data querying, mutation execution, and cluster monitoring."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "Dgraph Ratel"
+          - "dgraph"
+      - type: status
+        status: [200]
+    condition: and

@@ -1,0 +1,22 @@
+id: harbor-default-creds
+name: "Harbor Default Credentials"
+severity: critical
+description: "Harbor registry is accessible with default credentials (admin:Harbor12345)."
+reference: CWE-1393
+requests:
+  - method: GET
+    path: "/api/v2.0/users/current"
+    headers:
+      Authorization: "Basic YWRtaW46SGFyYm9yMTIzNDU="
+    matchers:
+      - type: body
+        words:
+          - "username"
+          - "admin_role_in_auth"
+      - type: status
+        status: [200]
+      - type: header
+        header: "content-type"
+        words:
+          - "application/json"
+    condition: and

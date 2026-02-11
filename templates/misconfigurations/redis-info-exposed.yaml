@@ -1,0 +1,17 @@
+id: redis-info-exposed
+name: "Redis HTTP Interface Exposed"
+severity: high
+description: "Redis server information is accessible via HTTP interface, exposing server version, memory usage, connected clients, keyspace statistics, and replication configuration."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/info"
+    matchers:
+      - type: body
+        words:
+          - "redis_version"
+          - "connected_clients"
+          - "used_memory"
+      - type: status
+        status: [200]
+    condition: and

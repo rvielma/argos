@@ -1,0 +1,26 @@
+id: cloud-terraform-tfvars-exposed
+name: "Terraform Variables File Exposed"
+severity: critical
+confidence: tentative
+description: "Terraform variables file (terraform.tfvars) is publicly accessible, potentially exposing infrastructure secrets, API keys, database passwords, and cloud provider credentials used during deployment."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/terraform.tfvars"
+    matchers:
+      - type: body
+        words:
+          - "="
+          - "region"
+      - type: body
+        words:
+          - "access_key"
+          - "secret_key"
+          - "password"
+          - "token"
+          - "api_key"
+          - "credentials"
+        condition: or
+      - type: status
+        status: [200]
+    condition: and

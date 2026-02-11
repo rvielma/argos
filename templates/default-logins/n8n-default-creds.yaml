@@ -1,0 +1,23 @@
+id: n8n-default-creds
+name: "n8n Default Credentials"
+severity: critical
+description: "n8n workflow automation is accessible with default credentials (admin@example.com:admin)."
+reference: CWE-1393
+requests:
+  - method: POST
+    path: "/rest/login"
+    headers:
+      Content-Type: "application/json"
+    body: '{"email":"admin@example.com","password":"admin"}'
+    matchers:
+      - type: body
+        words:
+          - "firstName"
+          - "email"
+      - type: status
+        status: [200]
+      - type: header
+        header: "content-type"
+        words:
+          - "application/json"
+    condition: and

@@ -1,0 +1,28 @@
+id: vault-debug-exposed
+name: "HashiCorp Vault Debug Endpoint Exposed"
+severity: high
+description: "HashiCorp Vault debug/pprof endpoint is publicly accessible, exposing runtime profiling data, goroutine dumps, memory allocations, and internal server state."
+reference: CWE-215
+requests:
+  - method: GET
+    path: "/v1/sys/pprof/"
+    matchers:
+      - type: body
+        words:
+          - "allocs"
+          - "goroutine"
+          - "heap"
+      - type: status
+        status: [200]
+    condition: and
+  - method: GET
+    path: "/v1/sys/host-info"
+    matchers:
+      - type: body
+        words:
+          - "cpu"
+          - "memory"
+          - "host"
+      - type: status
+        status: [200]
+    condition: and

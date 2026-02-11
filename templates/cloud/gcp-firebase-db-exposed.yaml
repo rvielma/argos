@@ -1,0 +1,18 @@
+id: gcp-firebase-db-exposed
+name: "Firebase Realtime Database Exposed"
+severity: critical
+description: "Firebase Realtime Database is publicly readable without authentication, potentially exposing all stored data including user information and application secrets."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/.json"
+    matchers:
+      - type: body
+        words:
+          - "{"
+      - type: header
+        words:
+          - "application/json"
+      - type: status
+        status: [200]
+    condition: and

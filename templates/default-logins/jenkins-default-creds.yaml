@@ -1,0 +1,21 @@
+id: jenkins-default-creds
+name: "Jenkins Default Credentials"
+severity: critical
+description: "Jenkins is accessible with default credentials (admin:admin) via API."
+reference: CWE-1393
+requests:
+  - method: GET
+    path: "/api/json"
+    headers:
+      Authorization: "Basic YWRtaW46YWRtaW4="
+    matchers:
+      - type: body
+        words:
+          - "numExecutors"
+      - type: status
+        status: [200]
+      - type: header
+        header: "content-type"
+        words:
+          - "application/json"
+    condition: and

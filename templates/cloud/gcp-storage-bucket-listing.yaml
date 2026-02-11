@@ -1,0 +1,16 @@
+id: gcp-storage-bucket-listing
+name: "GCP Storage Bucket Listing Open"
+severity: high
+description: "Google Cloud Storage bucket allows public object listing via XML API, potentially exposing sensitive files and directory structure."
+reference: CWE-548
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "<ListBucketResult"
+          - "storage.googleapis.com"
+      - type: status
+        status: [200]
+    condition: and

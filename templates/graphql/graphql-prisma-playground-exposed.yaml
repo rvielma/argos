@@ -1,0 +1,16 @@
+id: graphql-prisma-playground-exposed
+name: "Prisma GraphQL Playground Exposed"
+severity: medium
+description: "Prisma GraphQL Playground is publicly accessible, providing an interactive IDE with schema documentation, query history, and direct database access through the GraphQL API."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/playground"
+    matchers:
+      - type: body
+        words:
+          - "GraphQL Playground"
+          - "prisma"
+      - type: status
+        status: [200]
+    condition: and

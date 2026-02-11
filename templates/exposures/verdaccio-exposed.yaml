@@ -1,0 +1,15 @@
+id: verdaccio-exposed
+name: "Verdaccio npm Registry Exposed"
+severity: medium
+description: "Verdaccio private npm registry is publicly accessible, potentially exposing internal packages and dependencies."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/-/verdaccio/data/packages"
+    matchers:
+      - type: body
+        words:
+          - "verdaccio"
+      - type: status
+        status: [200]
+    condition: and

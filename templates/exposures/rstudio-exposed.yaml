@@ -1,0 +1,16 @@
+id: rstudio-exposed
+name: "RStudio Server Exposed"
+severity: high
+description: "RStudio Server web interface is publicly accessible, potentially allowing arbitrary R code execution on the server."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/auth-sign-in"
+    matchers:
+      - type: body
+        words:
+          - "RStudio"
+          - "sign-in"
+      - type: status
+        status: [200]
+    condition: and

@@ -1,0 +1,16 @@
+id: azure-app-settings-exposed
+name: "Azure App Service Settings Exposed"
+severity: high
+description: "Azure App Service environment configuration is publicly accessible, potentially exposing application settings, connection strings, and secrets."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/api/settings"
+    matchers:
+      - type: body
+        words:
+          - "WEBSITE_SITE_NAME"
+          - "APPSETTING_"
+      - type: status
+        status: [200]
+    condition: and

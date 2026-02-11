@@ -1,0 +1,32 @@
+id: default-login-gitbucket
+name: "GitBucket Default Root Login"
+severity: critical
+confidence: tentative
+description: "GitBucket Git platform accepts default credentials root:root, granting full administrative access to repositories, user management, and system settings."
+reference: CWE-798
+requests:
+  - method: GET
+    path: "/signin"
+    matchers:
+      - type: body
+        words:
+          - "GitBucket"
+          - "userName"
+          - "password"
+      - type: status
+        status: [200]
+    condition: and
+  - method: POST
+    path: "/signin"
+    headers:
+      Content-Type: "application/x-www-form-urlencoded"
+    body: "userName=root&password=root"
+    matchers:
+      - type: body
+        words:
+          - "GitBucket"
+          - "root"
+          - "dashboard"
+      - type: status
+        status: [200, 302]
+    condition: and

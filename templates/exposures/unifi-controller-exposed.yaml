@@ -1,0 +1,16 @@
+id: unifi-controller-exposed
+name: "UniFi Network Controller Exposed"
+severity: high
+description: "UniFi Network Controller web interface is publicly accessible, potentially allowing unauthorized access to network device management."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/manage/account/login"
+    matchers:
+      - type: body
+        words:
+          - "UniFi"
+          - "ubnt"
+      - type: status
+        status: [200]
+    condition: and

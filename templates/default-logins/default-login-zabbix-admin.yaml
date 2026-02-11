@@ -1,0 +1,31 @@
+id: default-login-zabbix-admin
+name: "Zabbix Default Admin Login"
+severity: critical
+confidence: tentative
+description: "Zabbix monitoring system accepts default credentials Admin:zabbix, granting full administrative access to infrastructure monitoring."
+reference: CWE-798
+requests:
+  - method: GET
+    path: "/index.php"
+    matchers:
+      - type: body
+        words:
+          - "Zabbix"
+          - "name=\"name\""
+          - "name=\"password\""
+      - type: status
+        status: [200]
+    condition: and
+  - method: POST
+    path: "/index.php"
+    headers:
+      Content-Type: "application/x-www-form-urlencoded"
+    body: "name=Admin&password=zabbix&autologin=1&enter=Sign+in"
+    matchers:
+      - type: body
+        words:
+          - "Dashboard"
+          - "zbx_session"
+      - type: status
+        status: [200, 302]
+    condition: and

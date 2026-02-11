@@ -1,0 +1,18 @@
+id: fhir-r4-operationdefinition
+name: "FHIR R4 OperationDefinition Endpoint Exposed"
+severity: medium
+confidence: tentative
+description: "FHIR R4 OperationDefinition endpoint is publicly accessible, revealing custom server operations that could be abused to extract or manipulate clinical data."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/fhir/OperationDefinition"
+    matchers:
+      - type: body
+        words:
+          - "OperationDefinition"
+          - "resourceType"
+          - "parameter"
+      - type: status
+        status: [200]
+    condition: and

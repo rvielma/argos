@@ -1,0 +1,17 @@
+id: cloud-alibaba-oss-listing
+name: "Alibaba Cloud OSS Bucket Listing Enabled"
+severity: high
+confidence: tentative
+description: "Alibaba Cloud Object Storage Service (OSS) bucket allows public listing of objects, potentially exposing sensitive files and internal data structures to unauthenticated users."
+reference: CWE-548
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "<ListBucketResult"
+          - "aliyuncs.com"
+      - type: status
+        status: [200]
+    condition: and

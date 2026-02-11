@@ -1,0 +1,20 @@
+id: graphql-persisted-queries
+name: "GraphQL Automatic Persisted Queries Enabled"
+severity: low
+confidence: tentative
+description: "GraphQL Automatic Persisted Queries (APQ) mechanism is enabled. While APQ itself is a performance feature, when not paired with a query allowlist, it can be abused to register and execute arbitrary queries, bypassing query whitelisting defenses."
+reference: CWE-400
+requests:
+  - method: POST
+    path: "/graphql"
+    headers:
+      Content-Type: "application/json"
+    body: '{"extensions":{"persistedQuery":{"version":1,"sha256Hash":"ecf4edb46db40b5132295c0291d62fb65d6759a9eedfa4d5d612dd5ec54a6b38"}}}'
+    matchers:
+      - type: body
+        words:
+          - "PersistedQueryNotFound"
+          - "persistedQuery"
+      - type: status
+        status: [200]
+    condition: and

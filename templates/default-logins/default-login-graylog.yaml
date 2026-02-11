@@ -1,0 +1,35 @@
+id: default-login-graylog
+name: "Graylog Default Admin Login"
+severity: critical
+confidence: tentative
+description: "Graylog log management platform accepts default credentials admin:admin, granting full access to centralized log data, search queries, and system configuration."
+reference: CWE-798
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "Graylog"
+          - "login"
+      - type: status
+        status: [200]
+    condition: and
+  - method: POST
+    path: "/api/system/sessions"
+    headers:
+      Content-Type: "application/json"
+      Accept: "application/json"
+    body: '{"username":"admin","password":"admin","host":""}'
+    matchers:
+      - type: body
+        words:
+          - "session_id"
+          - "valid_until"
+      - type: status
+        status: [200]
+      - type: header
+        header: "content-type"
+        words:
+          - "application/json"
+    condition: and

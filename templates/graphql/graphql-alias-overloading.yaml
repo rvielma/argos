@@ -1,0 +1,22 @@
+id: graphql-alias-overloading
+name: "GraphQL Alias-Based Query Overloading"
+severity: medium
+confidence: tentative
+description: "GraphQL endpoint allows query overloading via aliases without rate limiting or complexity controls, enabling denial-of-service attacks by duplicating expensive operations in a single request."
+reference: CWE-770
+requests:
+  - method: POST
+    path: "/graphql"
+    headers:
+      Content-Type: "application/json"
+    body: '{"query":"{ q1:__schema{queryType{name}} q2:__schema{queryType{name}} q3:__schema{queryType{name}} q4:__schema{queryType{name}} q5:__schema{queryType{name}} q6:__schema{queryType{name}} q7:__schema{queryType{name}} q8:__schema{queryType{name}} q9:__schema{queryType{name}} q10:__schema{queryType{name}} }"}'
+    matchers:
+      - type: body
+        words:
+          - "q1"
+          - "q5"
+          - "q10"
+          - "queryType"
+      - type: status
+        status: [200]
+    condition: and

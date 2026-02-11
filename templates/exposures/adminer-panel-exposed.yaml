@@ -1,0 +1,16 @@
+id: adminer-panel-exposed
+name: "Adminer Database Admin Exposed"
+severity: high
+description: "Adminer database administration tool is publicly accessible at its alternate path, potentially allowing unauthorized database access."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/adminer/"
+    matchers:
+      - type: body
+        words:
+          - "Adminer"
+          - "login-form"
+      - type: status
+        status: [200]
+    condition: and

@@ -1,0 +1,17 @@
+id: cargo-lock-exposed
+name: "Cargo Lock File Exposed"
+severity: low
+description: "Rust Cargo.lock file is publicly accessible, revealing exact dependency versions, package sources, and checksums which can be used to identify known vulnerabilities in dependencies."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/Cargo.lock"
+    matchers:
+      - type: body
+        words:
+          - "[[package]]"
+          - "name ="
+          - "version ="
+      - type: status
+        status: [200]
+    condition: and

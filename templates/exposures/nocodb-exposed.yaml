@@ -1,0 +1,15 @@
+id: nocodb-exposed
+name: "NocoDB Dashboard Exposed"
+severity: medium
+description: "NocoDB open-source Airtable alternative dashboard is publicly accessible, potentially exposing database contents."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/dashboard/"
+    matchers:
+      - type: body
+        words:
+          - "NocoDB"
+      - type: status
+        status: [200]
+    condition: and

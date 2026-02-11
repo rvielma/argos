@@ -1,0 +1,22 @@
+id: pgadmin-default-creds
+name: "pgAdmin Default Credentials"
+severity: critical
+description: "pgAdmin is accessible with default credentials (admin@admin.com:admin)."
+reference: CWE-1393
+requests:
+  - method: POST
+    path: "/api/auth/login"
+    headers:
+      Content-Type: "application/json"
+    body: '{"email":"admin@admin.com","password":"admin"}'
+    matchers:
+      - type: body
+        words:
+          - "Authentication"
+      - type: status
+        status: [200]
+      - type: header
+        header: "content-type"
+        words:
+          - "application/json"
+    condition: and

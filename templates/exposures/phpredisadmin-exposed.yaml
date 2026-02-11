@@ -1,0 +1,16 @@
+id: phpredisadmin-exposed
+name: "phpRedisAdmin Exposed"
+severity: high
+description: "phpRedisAdmin web interface is publicly accessible, potentially allowing unauthorized access to Redis keys and data."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "phpRedisAdmin"
+          - "redis"
+      - type: status
+        status: [200]
+    condition: and

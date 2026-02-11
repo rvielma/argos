@@ -1,0 +1,16 @@
+id: proxmox-exposed
+name: "Proxmox VE Web UI Exposed"
+severity: high
+description: "Proxmox Virtual Environment web interface is publicly accessible, potentially allowing unauthorized access to hypervisor management."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "Proxmox"
+          - "PVE"
+      - type: status
+        status: [200]
+    condition: and

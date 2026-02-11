@@ -1,0 +1,22 @@
+id: superset-default-creds
+name: "Apache Superset Default Credentials"
+severity: critical
+description: "Apache Superset is accessible with default credentials (admin:admin)."
+reference: CWE-1393
+requests:
+  - method: POST
+    path: "/api/v1/security/login"
+    headers:
+      Content-Type: "application/json"
+    body: '{"username":"admin","password":"admin","provider":"db","refresh":true}'
+    matchers:
+      - type: body
+        words:
+          - "access_token"
+      - type: status
+        status: [200]
+      - type: header
+        header: "content-type"
+        words:
+          - "application/json"
+    condition: and

@@ -1,0 +1,17 @@
+id: dcm4chee-arc-exposed
+name: "dcm4chee Archive PACS System Detected"
+severity: medium
+confidence: tentative
+description: "dcm4chee Archive PACS system web interface is publicly accessible. dcm4chee is a widely-used open-source clinical image and object management system that stores DICOM medical images."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/dcm4chee-arc/ui2/"
+    matchers:
+      - type: body
+        words:
+          - "dcm4chee"
+          - "archive"
+      - type: status
+        status: [200]
+    condition: and

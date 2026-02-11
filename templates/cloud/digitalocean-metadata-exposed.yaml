@@ -1,0 +1,16 @@
+id: digitalocean-metadata-exposed
+name: "DigitalOcean Metadata Endpoint Exposed"
+severity: critical
+description: "DigitalOcean droplet metadata endpoint is accessible, potentially leaking droplet configuration, SSH keys, user-data scripts, and authentication tokens."
+reference: CWE-918
+requests:
+  - method: GET
+    path: "/metadata/v1.json"
+    matchers:
+      - type: body
+        words:
+          - "droplet_id"
+          - "hostname"
+      - type: status
+        status: [200]
+    condition: and

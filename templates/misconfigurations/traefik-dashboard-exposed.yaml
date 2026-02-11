@@ -1,0 +1,28 @@
+id: traefik-dashboard-exposed
+name: "Traefik Dashboard Exposed"
+severity: high
+description: "Traefik reverse proxy dashboard is publicly accessible without authentication, exposing all configured routers, services, middlewares, and backend infrastructure details."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/dashboard/"
+    matchers:
+      - type: body
+        words:
+          - "Traefik"
+          - "routers"
+          - "services"
+      - type: status
+        status: [200]
+    condition: and
+  - method: GET
+    path: "/api/overview"
+    matchers:
+      - type: body
+        words:
+          - "http"
+          - "routers"
+          - "services"
+      - type: status
+        status: [200]
+    condition: and

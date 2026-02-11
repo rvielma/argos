@@ -1,0 +1,28 @@
+id: nomad-exposed
+name: "HashiCorp Nomad API Exposed"
+severity: high
+description: "HashiCorp Nomad HTTP API is publicly accessible, exposing job definitions, allocation details, node information, and potentially sensitive environment variables from running workloads."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/v1/agent/self"
+    matchers:
+      - type: body
+        words:
+          - "config"
+          - "member"
+          - "nomad"
+      - type: status
+        status: [200]
+    condition: and
+  - method: GET
+    path: "/v1/jobs"
+    matchers:
+      - type: body
+        words:
+          - "JobID"
+          - "Status"
+          - "Datacenters"
+      - type: status
+        status: [200]
+    condition: and

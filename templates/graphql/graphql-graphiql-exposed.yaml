@@ -1,0 +1,17 @@
+id: graphql-graphiql-exposed
+name: "GraphiQL Interactive IDE Exposed"
+severity: medium
+description: "GraphiQL interactive development environment is publicly accessible, allowing unauthenticated users to explore the schema, execute queries, and test mutations against the API."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/graphiql"
+    matchers:
+      - type: body
+        words:
+          - "GraphiQL"
+          - "graphql"
+          - "fetcher"
+      - type: status
+        status: [200]
+    condition: and

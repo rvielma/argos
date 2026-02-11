@@ -1,0 +1,16 @@
+id: ceph-dashboard-exposed
+name: "Ceph Dashboard Exposed"
+severity: high
+description: "Ceph storage cluster dashboard is publicly accessible, potentially exposing cluster topology, OSD status, and pool configurations."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/api/summary"
+    matchers:
+      - type: body
+        words:
+          - "mgr_id"
+          - "health_status"
+      - type: status
+        status: [200]
+    condition: and

@@ -1,0 +1,18 @@
+id: fhir-r4-valueset
+name: "FHIR R4 ValueSet Terminology Endpoint Exposed"
+severity: low
+confidence: tentative
+description: "FHIR R4 ValueSet endpoint is publicly accessible, exposing clinical terminologies, code systems, and value sets used by the healthcare system."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/fhir/ValueSet"
+    matchers:
+      - type: body
+        words:
+          - "ValueSet"
+          - "resourceType"
+          - "compose"
+      - type: status
+        status: [200]
+    condition: and

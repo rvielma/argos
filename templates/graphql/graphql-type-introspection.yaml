@@ -1,0 +1,20 @@
+id: graphql-type-introspection
+name: "GraphQL __type Introspection Enabled"
+severity: medium
+description: "GraphQL __type introspection query is enabled, allowing enumeration of individual type definitions including fields, arguments, and relationships even when full schema introspection might be disabled."
+reference: CWE-200
+requests:
+  - method: POST
+    path: "/graphql"
+    headers:
+      Content-Type: "application/json"
+    body: '{"query":"{ __type(name: \"Query\") { name fields { name type { name kind } } } }"}'
+    matchers:
+      - type: body
+        words:
+          - "__type"
+          - "fields"
+          - "kind"
+      - type: status
+        status: [200]
+    condition: and

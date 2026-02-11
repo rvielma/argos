@@ -1,0 +1,18 @@
+id: hie-endpoint-exposed
+name: "Health Information Exchange (HIE) Endpoint Exposed"
+severity: critical
+confidence: tentative
+description: "Health Information Exchange endpoint is publicly accessible. HIE systems facilitate sharing of clinical data across organizations and may expose patient records, care summaries, and cross-institutional PHI."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/api/hie/documents"
+    matchers:
+      - type: body
+        words:
+          - "document"
+          - "patient"
+          - "exchange"
+      - type: status
+        status: [200]
+    condition: and

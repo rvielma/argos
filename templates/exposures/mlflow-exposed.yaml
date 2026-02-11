@@ -1,0 +1,16 @@
+id: mlflow-exposed
+name: "MLflow Tracking Server Exposed"
+severity: high
+description: "MLflow tracking server is publicly accessible, potentially exposing ML experiment data, model artifacts, and registered models."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/api/2.0/mlflow/experiments/search"
+    matchers:
+      - type: body
+        words:
+          - "experiments"
+          - "experiment_id"
+      - type: status
+        status: [200]
+    condition: and

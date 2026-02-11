@@ -1,0 +1,15 @@
+id: code-server-exposed
+name: "VS Code Server (code-server) Exposed"
+severity: critical
+description: "code-server (VS Code in the browser) is publicly accessible, potentially allowing arbitrary code execution and full file system access."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/login"
+    matchers:
+      - type: body
+        words:
+          - "code-server"
+      - type: status
+        status: [200]
+    condition: and

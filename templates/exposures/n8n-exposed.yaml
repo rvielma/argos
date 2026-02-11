@@ -1,0 +1,16 @@
+id: n8n-exposed
+name: "n8n Workflow Automation Exposed"
+severity: high
+description: "n8n workflow automation interface is publicly accessible, potentially allowing unauthorized execution of automated workflows and access to credentials."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/signin"
+    matchers:
+      - type: body
+        words:
+          - "n8n"
+          - "workflow"
+      - type: status
+        status: [200]
+    condition: and

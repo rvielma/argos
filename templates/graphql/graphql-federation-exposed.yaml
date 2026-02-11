@@ -1,0 +1,20 @@
+id: graphql-federation-exposed
+name: "Apollo Federation Gateway Exposed"
+severity: high
+description: "Apollo Federation gateway service composition details are exposed, revealing the microservice architecture, subgraph endpoints, and internal service boundaries of the GraphQL API."
+reference: CWE-200
+requests:
+  - method: POST
+    path: "/graphql"
+    headers:
+      Content-Type: "application/json"
+    body: '{"query":"{ _service { sdl } }"}'
+    matchers:
+      - type: body
+        words:
+          - "_service"
+          - "sdl"
+          - "@key"
+      - type: status
+        status: [200]
+    condition: and

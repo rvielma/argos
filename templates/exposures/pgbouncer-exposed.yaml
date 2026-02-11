@@ -1,0 +1,16 @@
+id: pgbouncer-exposed
+name: "PgBouncer Stats Exposed"
+severity: medium
+description: "PgBouncer connection pooler statistics page is publicly accessible, exposing database connection pool details and performance metrics."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/stats"
+    matchers:
+      - type: body
+        words:
+          - "pgbouncer"
+          - "database"
+      - type: status
+        status: [200]
+    condition: and

@@ -1,0 +1,17 @@
+id: allscripts-ehr-detected
+name: "Allscripts EHR System Detected"
+severity: info
+confidence: informational
+description: "Allscripts Electronic Health Record system detected. Verify that authentication and access controls are properly configured to protect patient data."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "Allscripts"
+          - "TouchWorks"
+      - type: status
+        status: [200]
+    condition: and

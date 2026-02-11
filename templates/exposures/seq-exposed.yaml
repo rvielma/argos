@@ -1,0 +1,16 @@
+id: seq-exposed
+name: "Seq Log Server Exposed"
+severity: high
+description: "Seq structured log server is publicly accessible, potentially exposing application logs containing sensitive data."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/api"
+    matchers:
+      - type: body
+        words:
+          - "Seq"
+          - "Product"
+      - type: status
+        status: [200]
+    condition: and

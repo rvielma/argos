@@ -1,0 +1,17 @@
+id: athenahealth-platform-detected
+name: "athenahealth Platform Detected"
+severity: info
+confidence: informational
+description: "athenahealth cloud-based EHR and practice management platform detected. Verify that patient portal and API access controls are properly configured."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "athenahealth"
+          - "athenaNet"
+      - type: status
+        status: [200]
+    condition: and

@@ -1,0 +1,17 @@
+id: graphql-apollo-sandbox-exposed
+name: "Apollo Sandbox/Studio Exposed"
+severity: medium
+description: "Apollo GraphQL Sandbox or Studio interface is publicly accessible, providing an interactive environment to explore, query, and modify data through the GraphQL API."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/graphql"
+    matchers:
+      - type: body
+        words:
+          - "Apollo"
+          - "sandbox"
+          - "explorer"
+      - type: status
+        status: [200]
+    condition: and

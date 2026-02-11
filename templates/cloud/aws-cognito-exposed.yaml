@@ -1,0 +1,20 @@
+id: aws-cognito-exposed
+name: "AWS Cognito Identity Pool Exposed"
+severity: high
+description: "AWS Cognito identity pool configuration is publicly accessible, potentially allowing unauthorized users to obtain temporary AWS credentials via unauthenticated identities."
+reference: CWE-284
+requests:
+  - method: POST
+    path: "/"
+    headers:
+      Content-Type: "application/x-amz-json-1.1"
+      X-Amz-Target: "AWSCognitoIdentityService.GetId"
+    body: '{"IdentityPoolId":"*"}'
+    matchers:
+      - type: body
+        words:
+          - "IdentityId"
+          - "IdentityPoolId"
+      - type: status
+        status: [200]
+    condition: and

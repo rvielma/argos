@@ -1,0 +1,21 @@
+id: graphql-wpgraphql
+name: "WPGraphQL Endpoint Detected"
+severity: medium
+confidence: tentative
+description: "WPGraphQL plugin endpoint is publicly accessible on a WordPress site, exposing the WordPress data model as a GraphQL API. This may allow enumeration of users, posts, pages, custom fields, and plugin metadata without authentication."
+reference: CWE-200
+requests:
+  - method: POST
+    path: "/graphql"
+    headers:
+      Content-Type: "application/json"
+    body: '{"query":"{ generalSettings { title description url } }"}'
+    matchers:
+      - type: body
+        words:
+          - "generalSettings"
+          - "title"
+          - "data"
+      - type: status
+        status: [200]
+    condition: and

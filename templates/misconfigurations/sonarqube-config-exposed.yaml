@@ -1,0 +1,16 @@
+id: sonarqube-config-exposed
+name: "SonarQube Configuration Exposed"
+severity: medium
+description: "SonarQube project configuration file is publicly accessible, revealing project keys, organization details, source paths, and potentially authentication tokens."
+reference: CWE-538
+requests:
+  - method: GET
+    path: "/sonar-project.properties"
+    matchers:
+      - type: body
+        words:
+          - "sonar.projectKey"
+          - "sonar.sources"
+      - type: status
+        status: [200]
+    condition: and

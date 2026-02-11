@@ -1,0 +1,16 @@
+id: strapi-admin-exposed
+name: "Strapi CMS Admin Panel Exposed"
+severity: high
+description: "Strapi CMS admin panel is publicly accessible, potentially allowing unauthorized content management operations."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/admin"
+    matchers:
+      - type: body
+        words:
+          - "strapi"
+          - "admin"
+      - type: status
+        status: [200]
+    condition: and

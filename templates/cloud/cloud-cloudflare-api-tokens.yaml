@@ -1,0 +1,17 @@
+id: cloud-cloudflare-api-tokens
+name: "Cloudflare API Configuration Exposed"
+severity: critical
+confidence: tentative
+description: "Cloudflare API configuration file is publicly accessible, potentially exposing API tokens, zone IDs, and account credentials that could allow full DNS and CDN control."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/.cloudflare/config.json"
+    matchers:
+      - type: body
+        words:
+          - "api_token"
+          - "zone_id"
+      - type: status
+        status: [200]
+    condition: and

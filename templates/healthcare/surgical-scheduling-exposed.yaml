@@ -1,0 +1,18 @@
+id: surgical-scheduling-exposed
+name: "Surgical Scheduling System API Exposed"
+severity: high
+confidence: tentative
+description: "Surgical scheduling system API is publicly accessible. These systems contain operating room schedules, surgeon assignments, patient procedure details, and pre-operative assessments which are protected health information."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/api/surgery/schedule"
+    matchers:
+      - type: body
+        words:
+          - "procedure"
+          - "surgeon"
+          - "operatingRoom"
+      - type: status
+        status: [200]
+    condition: and

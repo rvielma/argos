@@ -1,0 +1,21 @@
+id: cloud-aws-cognito-userpool
+name: "AWS Cognito User Pool Configuration Exposed"
+severity: high
+confidence: tentative
+description: "AWS Cognito User Pool configuration endpoint is publicly accessible, exposing user pool settings, client IDs, and authentication flow configurations that could aid in account enumeration or unauthorized authentication attempts."
+reference: CWE-200
+requests:
+  - method: POST
+    path: "/"
+    headers:
+      Content-Type: "application/x-amz-json-1.1"
+      X-Amz-Target: "AWSCognitoIdentityProviderService.DescribeUserPoolClient"
+    body: '{"ClientId":"*","UserPoolId":"*"}'
+    matchers:
+      - type: body
+        words:
+          - "UserPoolClient"
+          - "ClientId"
+      - type: status
+        status: [200]
+    condition: and

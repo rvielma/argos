@@ -1,0 +1,16 @@
+id: dagster-exposed
+name: "Dagster Data Pipeline Dashboard Exposed"
+severity: medium
+description: "Dagster data orchestration platform dashboard is publicly accessible, potentially exposing pipeline definitions and run history."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/dagit"
+    matchers:
+      - type: body
+        words:
+          - "dagster"
+          - "dagit"
+      - type: status
+        status: [200]
+    condition: and

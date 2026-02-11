@@ -1,0 +1,17 @@
+id: aws-s3-bucket-listing
+name: "AWS S3 Bucket Directory Listing Enabled"
+severity: high
+description: "AWS S3 bucket has directory listing enabled, exposing the full list of objects and potentially sensitive files to unauthenticated users."
+reference: CWE-548
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "<ListBucketResult"
+          - "<Contents>"
+          - "<Key>"
+      - type: status
+        status: [200]
+    condition: and

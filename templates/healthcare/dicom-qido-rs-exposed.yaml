@@ -1,0 +1,20 @@
+id: dicom-qido-rs-exposed
+name: "DICOMweb QIDO-RS Query Endpoint Exposed"
+severity: high
+confidence: tentative
+description: "DICOMweb QIDO-RS query endpoint is publicly accessible. QIDO-RS allows querying DICOM studies, series, and instances, potentially exposing patient imaging metadata including names and study descriptions."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/dicom-web/studies?limit=1"
+    matchers:
+      - type: body
+        words:
+          - "00080020"
+          - "00100010"
+      - type: header
+        words:
+          - "application/dicom+json"
+      - type: status
+        status: [200]
+    condition: and

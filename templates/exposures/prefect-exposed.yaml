@@ -1,0 +1,15 @@
+id: prefect-exposed
+name: "Prefect Orchestration Dashboard Exposed"
+severity: medium
+description: "Prefect workflow orchestration dashboard is publicly accessible, potentially exposing pipeline configurations and execution history."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/api/health"
+    matchers:
+      - type: body
+        words:
+          - "prefect"
+      - type: status
+        status: [200]
+    condition: and

@@ -1,0 +1,16 @@
+id: metabase-setup-page-exposed
+name: "Metabase Setup Page Exposed"
+severity: critical
+description: "Metabase initial setup page is publicly accessible, allowing an attacker to configure the instance and gain full administrative access."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/setup"
+    matchers:
+      - type: body
+        words:
+          - "Metabase"
+          - "setup"
+      - type: status
+        status: [200]
+    condition: and

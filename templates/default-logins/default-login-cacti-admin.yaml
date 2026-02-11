@@ -1,0 +1,32 @@
+id: default-login-cacti-admin
+name: "Cacti Default Admin Login"
+severity: critical
+confidence: tentative
+description: "Cacti network monitoring tool accepts default credentials admin:admin, allowing full control over monitored infrastructure and data collection."
+reference: CWE-798
+requests:
+  - method: GET
+    path: "/cacti/index.php"
+    matchers:
+      - type: body
+        words:
+          - "cacti"
+          - "login_username"
+          - "login_password"
+      - type: status
+        status: [200]
+    condition: and
+  - method: POST
+    path: "/cacti/index.php"
+    headers:
+      Content-Type: "application/x-www-form-urlencoded"
+    body: "action=login&login_username=admin&login_password=admin"
+    matchers:
+      - type: body
+        words:
+          - "Cacti"
+          - "Console"
+          - "graph_view"
+      - type: status
+        status: [200, 302]
+    condition: and

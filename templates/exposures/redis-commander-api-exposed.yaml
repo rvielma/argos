@@ -1,0 +1,16 @@
+id: redis-commander-api-exposed
+name: "Redis Commander API Exposed"
+severity: high
+description: "Redis Commander web management UI is publicly accessible, potentially allowing unauthorized access to Redis data and operations."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/apiv2/server/info"
+    matchers:
+      - type: body
+        words:
+          - "redis_version"
+          - "connected_clients"
+      - type: status
+        status: [200]
+    condition: and

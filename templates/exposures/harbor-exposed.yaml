@@ -1,0 +1,16 @@
+id: harbor-exposed
+name: "Harbor Container Registry Dashboard Exposed"
+severity: medium
+description: "Harbor container registry web dashboard is publicly accessible, allowing visibility into container images and project configurations."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/harbor/sign-in"
+    matchers:
+      - type: body
+        words:
+          - "Harbor"
+          - "sign-in"
+      - type: status
+        status: [200]
+    condition: and

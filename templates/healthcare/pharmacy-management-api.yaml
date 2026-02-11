@@ -1,0 +1,18 @@
+id: pharmacy-management-api
+name: "Pharmacy Management System API Exposed"
+severity: high
+confidence: tentative
+description: "Pharmacy management system API is publicly accessible, potentially exposing prescription data, medication dispensing records, and patient medication histories which constitute PHI."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/api/pharmacy/prescriptions"
+    matchers:
+      - type: body
+        words:
+          - "prescription"
+          - "medication"
+          - "dispensing"
+      - type: status
+        status: [200]
+    condition: and

@@ -1,0 +1,17 @@
+id: cloud-backblaze-b2-listing
+name: "Backblaze B2 Bucket Listing Enabled"
+severity: high
+confidence: tentative
+description: "Backblaze B2 cloud storage bucket allows public file listing, potentially exposing sensitive files and directory structure to unauthenticated users."
+reference: CWE-548
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "<ListBucketResult"
+          - "backblazeb2.com"
+      - type: status
+        status: [200]
+    condition: and

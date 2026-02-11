@@ -1,0 +1,16 @@
+id: jupyter-exposed
+name: "Jupyter Notebook/Lab Exposed"
+severity: critical
+description: "Jupyter Notebook or JupyterLab interface is publicly accessible, potentially allowing arbitrary code execution on the server."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/api/kernelspecs"
+    matchers:
+      - type: body
+        words:
+          - "kernelspecs"
+          - "python"
+      - type: status
+        status: [200]
+    condition: and

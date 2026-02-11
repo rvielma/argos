@@ -1,0 +1,22 @@
+id: argocd-default-creds
+name: "ArgoCD Default Credentials"
+severity: critical
+description: "ArgoCD is accessible with default credentials (admin:argocd)."
+reference: CWE-1393
+requests:
+  - method: POST
+    path: "/api/v1/session"
+    headers:
+      Content-Type: "application/json"
+    body: '{"username":"admin","password":"argocd"}'
+    matchers:
+      - type: body
+        words:
+          - "token"
+      - type: status
+        status: [200]
+      - type: header
+        header: "content-type"
+        words:
+          - "application/json"
+    condition: and

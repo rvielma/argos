@@ -1,0 +1,18 @@
+id: cloud-gcp-firebase-config
+name: "Firebase Web App Configuration Exposed"
+severity: medium
+confidence: tentative
+description: "Firebase web application configuration is exposed in client-side code, revealing API keys, project ID, and authentication domain. While Firebase API keys are designed to be public, exposure combined with misconfigured security rules can lead to unauthorized data access."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/__/firebase/init.json"
+    matchers:
+      - type: body
+        words:
+          - "apiKey"
+          - "projectId"
+          - "authDomain"
+      - type: status
+        status: [200]
+    condition: and

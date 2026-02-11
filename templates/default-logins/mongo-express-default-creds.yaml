@@ -1,0 +1,22 @@
+id: mongo-express-default-creds
+name: "Mongo Express Default Credentials"
+severity: critical
+description: "Mongo Express is accessible with default credentials (admin:pass)."
+reference: CWE-1393
+requests:
+  - method: GET
+    path: "/"
+    headers:
+      Authorization: "Basic YWRtaW46cGFzcw=="
+    matchers:
+      - type: body
+        words:
+          - "mongo-express"
+          - "Databases"
+      - type: status
+        status: [200]
+      - type: header
+        header: "content-type"
+        words:
+          - "text/html"
+    condition: and

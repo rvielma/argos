@@ -1,0 +1,17 @@
+id: cloud-azure-appservice-scm
+name: "Azure App Service SCM/Kudu Console Exposed"
+severity: critical
+confidence: tentative
+description: "Azure App Service SCM (Kudu) deployment console is publicly accessible without proper authentication, allowing access to source code, environment variables, and remote command execution."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/basicauth"
+    matchers:
+      - type: body
+        words:
+          - "Kudu"
+          - "Environment"
+      - type: status
+        status: [200]
+    condition: and

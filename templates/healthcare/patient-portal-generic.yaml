@@ -1,0 +1,17 @@
+id: patient-portal-generic
+name: "Patient Portal Application Detected"
+severity: info
+confidence: informational
+description: "A generic patient portal application is detected. Patient portals provide patient access to medical records, appointments, messaging, and lab results. Verify strong authentication and session controls are in place."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/patient-portal"
+    matchers:
+      - type: body
+        words:
+          - "patient portal"
+          - "medical records"
+      - type: status
+        status: [200]
+    condition: and

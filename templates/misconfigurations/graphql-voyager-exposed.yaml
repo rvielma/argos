@@ -1,0 +1,28 @@
+id: graphql-voyager-exposed
+name: "GraphQL Voyager Exposed"
+severity: medium
+description: "GraphQL Voyager interactive schema visualization tool is publicly accessible, allowing unauthenticated users to explore the entire GraphQL API schema and relationships."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/voyager"
+    matchers:
+      - type: body
+        words:
+          - "GraphQL Voyager"
+          - "voyager"
+          - "introspection"
+      - type: status
+        status: [200]
+    condition: and
+  - method: GET
+    path: "/graphql/voyager"
+    matchers:
+      - type: body
+        words:
+          - "GraphQL Voyager"
+          - "voyager"
+          - "introspection"
+      - type: status
+        status: [200]
+    condition: and

@@ -1,0 +1,20 @@
+id: prometheus-default-creds
+name: "Prometheus No Authentication"
+severity: critical
+description: "Prometheus configuration API is accessible without authentication, exposing scrape targets and alerting rules."
+reference: CWE-1393
+requests:
+  - method: GET
+    path: "/api/v1/status/config"
+    matchers:
+      - type: body
+        words:
+          - "status"
+          - "scrape_configs"
+      - type: status
+        status: [200]
+      - type: header
+        header: "content-type"
+        words:
+          - "application/json"
+    condition: and

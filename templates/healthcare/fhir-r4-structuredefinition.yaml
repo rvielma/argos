@@ -1,0 +1,18 @@
+id: fhir-r4-structuredefinition
+name: "FHIR R4 StructureDefinition Endpoint Exposed"
+severity: medium
+confidence: tentative
+description: "FHIR R4 StructureDefinition endpoint is publicly accessible, revealing data models, custom profiles, and extensions used for clinical data which aids in crafting targeted attacks."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/fhir/StructureDefinition"
+    matchers:
+      - type: body
+        words:
+          - "StructureDefinition"
+          - "resourceType"
+          - "snapshot"
+      - type: status
+        status: [200]
+    condition: and

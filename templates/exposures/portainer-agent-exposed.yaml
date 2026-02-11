@@ -1,0 +1,15 @@
+id: portainer-agent-exposed
+name: "Portainer Agent API Exposed"
+severity: high
+description: "Portainer agent API is publicly accessible, potentially allowing unauthorized container management operations."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/ping"
+    matchers:
+      - type: body
+        words:
+          - "Portainer Agent"
+      - type: status
+        status: [200]
+    condition: and

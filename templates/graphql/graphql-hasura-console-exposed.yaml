@@ -1,0 +1,17 @@
+id: graphql-hasura-console-exposed
+name: "Hasura GraphQL Console Exposed"
+severity: high
+description: "Hasura GraphQL Engine console is publicly accessible without authentication, providing full access to database schema management, data exploration, and query execution."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/console"
+    matchers:
+      - type: body
+        words:
+          - "Hasura"
+          - "graphql-engine"
+          - "console"
+      - type: status
+        status: [200]
+    condition: and

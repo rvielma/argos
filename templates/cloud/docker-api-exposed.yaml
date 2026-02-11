@@ -1,0 +1,17 @@
+id: cloud-docker-api-exposed
+name: "Docker Daemon API Exposed"
+severity: critical
+description: "Docker daemon REST API is publicly accessible without authentication, allowing full control over containers including creation, execution, and data access."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/v1.41/info"
+    matchers:
+      - type: body
+        words:
+          - "Containers"
+          - "DockerRootDir"
+          - "OperatingSystem"
+      - type: status
+        status: [200]
+    condition: and

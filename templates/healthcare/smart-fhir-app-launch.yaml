@@ -1,0 +1,18 @@
+id: smart-fhir-app-launch
+name: "SMART on FHIR App Launch Framework Detected"
+severity: medium
+confidence: tentative
+description: "SMART on FHIR app launch endpoint detected exposing registered applications, OAuth scopes, and EHR integration capabilities. Misconfigured app registrations could allow unauthorized clinical data access."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/smart/launch"
+    matchers:
+      - type: body
+        words:
+          - "launch"
+          - "scope"
+          - "fhirServiceUrl"
+      - type: status
+        status: [200]
+    condition: and

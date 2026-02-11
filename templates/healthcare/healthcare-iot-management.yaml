@@ -1,0 +1,18 @@
+id: healthcare-iot-management
+name: "Healthcare IoT Device Management Interface Exposed"
+severity: high
+confidence: tentative
+description: "Healthcare IoT device management interface is publicly accessible. Medical IoT platforms manage connected devices such as infusion pumps, patient monitors, and ventilators. Unauthorized access could allow device manipulation."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/api/devices"
+    matchers:
+      - type: body
+        words:
+          - "device"
+          - "serialNumber"
+          - "firmware"
+      - type: status
+        status: [200]
+    condition: and

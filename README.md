@@ -1,6 +1,6 @@
 # Argos Panoptes
 
-Web Security Scanner with 800+ detection templates, 15 scanner modules, active secret verification, and healthcare-specific checks.
+Web Security Scanner with 1000+ detection templates, 15 scanner modules, active secret verification, and healthcare-specific checks.
 
 Built in Rust. Single binary. No dependencies.
 
@@ -52,7 +52,7 @@ argos modules
 - **15 scanner modules**: headers, SSL/TLS, cookies, CORS, info disclosure, discovery, injection, API security, templates, WAF detection, WebSocket, DAST, OOB testing, GraphQL, secrets
 - **7 injection sub-modules**: SQLi (boolean + time-based), XSS (reflected + DOM), command injection, SSTI, path traversal, open redirect, CRLF
 - **Secrets scanner** with 50+ patterns, 15 active verification providers, JWT analysis with HS256 brute-force, JS config secrets, and git exposure deep scan
-- **800+ YAML detection templates** across 8 categories, embedded in the binary
+- **1000+ YAML detection templates** across 8 categories, embedded in the binary
 - **Differential reporting** with `--baseline` to track security posture over time
 - **SARIF v2.1.0 output** for GitHub Code Scanning integration
 - **CI/CD ready** with `--fail-on` exit codes
@@ -74,7 +74,7 @@ argos modules
 | `discovery` | Hidden directories, sensitive files, exposed endpoints |
 | `injection` | SQLi, XSS, Command Injection, SSTI, Path Traversal, Open Redirect, CRLF |
 | `api` | API security: authentication, rate limiting, error handling |
-| `templates` | 800+ YAML templates for CVE detection and fingerprinting |
+| `templates` | 1000+ YAML templates for CVE detection and fingerprinting |
 | `waf` | Web Application Firewall detection |
 | `websocket` | WebSocket endpoint security |
 | `dast` | CSRF, broken access control, session management, IDOR |
@@ -173,18 +173,18 @@ The `DiffReport` is included in JSON output for programmatic consumption.
 
 ## Detection Templates
 
-800+ YAML templates organized by category:
+1000+ YAML templates organized by category:
 
 | Category | Count | Description |
 |----------|-------|-------------|
-| CVEs | 160+ | Known vulnerabilities (Log4Shell, Spring4Shell, ProxyShell, etc.) |
-| Technologies | 100+ | Framework and server fingerprinting |
-| Misconfigurations | 90+ | Debug modes, exposed configs, directory listings |
-| Exposures | 100+ | Admin panels, dashboards, management interfaces |
-| Default Logins | 50+ | Default credential detection |
-| Healthcare | 50+ | FHIR, DICOM, HL7, EHR system checks |
-| Cloud | 15 | AWS, Azure, GCP misconfigurations |
-| GraphQL | 10 | GraphQL introspection and security |
+| CVEs | 310+ | Known vulnerabilities (Log4Shell, Spring4Shell, ProxyShell, FortiJump, etc.) |
+| Technologies | 155+ | Framework and server fingerprinting |
+| Misconfigurations | 145+ | Debug modes, exposed configs, directory listings |
+| Exposures | 140+ | Admin panels, dashboards, management interfaces |
+| Default Logins | 80+ | Default credential detection |
+| Healthcare | 80+ | FHIR R4, DICOM, HL7, EHR, PHI exposure, medical IoT |
+| Cloud | 45+ | AWS, Azure, GCP, Alibaba, Oracle, DigitalOcean misconfigurations |
+| GraphQL | 35+ | GraphQL introspection, security, and platform detection |
 
 Templates are embedded in the binary. Override with `--templates-dir` or extend with `--extra-template-dirs`.
 

@@ -1,0 +1,26 @@
+id: django-debug-toolbar-exposed
+name: "Django Debug Toolbar Exposed"
+severity: high
+description: "Django Debug Toolbar is enabled and publicly accessible, exposing SQL queries, template variables, HTTP headers, signal handlers, and internal application state to unauthenticated users."
+reference: CWE-215
+requests:
+  - method: GET
+    path: "/__debug__/render_panel/"
+    matchers:
+      - type: body
+        words:
+          - "djdt"
+          - "django-debug-toolbar"
+      - type: status
+        status: [200]
+    condition: and
+  - method: GET
+    path: "/__debug__/"
+    matchers:
+      - type: body
+        words:
+          - "djdt"
+          - "debug toolbar"
+      - type: status
+        status: [200]
+    condition: and

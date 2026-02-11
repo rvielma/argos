@@ -1,0 +1,20 @@
+id: graphql-mutation-no-auth
+name: "GraphQL Mutations Accessible Without Authentication"
+severity: high
+description: "GraphQL mutation operations are accessible without authentication tokens, potentially allowing unauthorized users to modify, create, or delete data."
+reference: CWE-306
+requests:
+  - method: POST
+    path: "/graphql"
+    headers:
+      Content-Type: "application/json"
+    body: '{"query":"{ __schema { mutationType { name fields { name args { name type { name } } } } } }"}'
+    matchers:
+      - type: body
+        words:
+          - "mutationType"
+          - "fields"
+          - "args"
+      - type: status
+        status: [200]
+    condition: and

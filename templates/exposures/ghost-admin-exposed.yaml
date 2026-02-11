@@ -1,0 +1,16 @@
+id: ghost-admin-exposed
+name: "Ghost CMS Admin Panel Exposed"
+severity: high
+description: "Ghost CMS admin panel is publicly accessible, potentially allowing unauthorized access to content management and publishing."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/ghost/"
+    matchers:
+      - type: body
+        words:
+          - "Ghost"
+          - "ghost-admin"
+      - type: status
+        status: [200]
+    condition: and

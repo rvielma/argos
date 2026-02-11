@@ -1,0 +1,33 @@
+id: default-login-prtg-admin
+name: "PRTG Network Monitor Default Login"
+severity: critical
+confidence: tentative
+description: "PRTG Network Monitor accepts default credentials prtgadmin:prtgadmin, granting full administrative access to network monitoring and sensor configuration."
+reference: CWE-798
+requests:
+  - method: GET
+    path: "/index.htm"
+    matchers:
+      - type: body
+        words:
+          - "PRTG"
+          - "loginform"
+          - "password"
+      - type: status
+        status: [200]
+    condition: and
+  - method: GET
+    path: "/api/table.json?content=sensors&columns=sensor,status&username=prtgadmin&password=prtgadmin&count=1"
+    matchers:
+      - type: body
+        words:
+          - "sensors"
+          - "treesize"
+          - "totalcount"
+      - type: status
+        status: [200]
+      - type: header
+        header: "content-type"
+        words:
+          - "application/json"
+    condition: and

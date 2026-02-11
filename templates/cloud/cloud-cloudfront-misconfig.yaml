@@ -1,0 +1,21 @@
+id: cloud-cloudfront-misconfig
+name: "CloudFront Distribution Misconfiguration"
+severity: medium
+confidence: tentative
+description: "AWS CloudFront distribution is misconfigured, exposing origin server information and distribution details through error responses. This can reveal backend infrastructure and aid in targeted attacks."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/nonexistent-path-argos-test"
+    matchers:
+      - type: body
+        words:
+          - "<Error>"
+          - "CloudFront"
+          - "Distribution"
+      - type: header
+        words:
+          - "x-amz-cf-id"
+      - type: status
+        status: [403]
+    condition: and

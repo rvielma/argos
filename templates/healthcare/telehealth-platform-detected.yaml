@@ -1,0 +1,17 @@
+id: telehealth-platform-detected
+name: "Telehealth Platform Detected"
+severity: info
+confidence: informational
+description: "A telehealth or telemedicine platform is detected. Telehealth platforms handle virtual patient consultations, video sessions, and remote patient monitoring data. Verify HIPAA-compliant encryption and access controls."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "telehealth"
+          - "virtual visit"
+      - type: status
+        status: [200]
+    condition: and

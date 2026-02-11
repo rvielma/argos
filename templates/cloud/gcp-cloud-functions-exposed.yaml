@@ -1,0 +1,16 @@
+id: gcp-cloud-functions-exposed
+name: "GCP Cloud Functions Source Exposed"
+severity: high
+description: "Google Cloud Functions source code or configuration is publicly accessible, potentially revealing business logic, API keys, and internal endpoints."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/v1/projects/-/locations/-/functions"
+    matchers:
+      - type: body
+        words:
+          - "cloudfunctions.googleapis.com"
+          - "entryPoint"
+      - type: status
+        status: [200]
+    condition: and

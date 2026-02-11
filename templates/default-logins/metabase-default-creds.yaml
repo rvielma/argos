@@ -1,0 +1,22 @@
+id: metabase-default-creds
+name: "Metabase Default Credentials"
+severity: critical
+description: "Metabase is accessible with default credentials (admin:metabase)."
+reference: CWE-1393
+requests:
+  - method: POST
+    path: "/api/session"
+    headers:
+      Content-Type: "application/json"
+    body: '{"username":"admin","password":"metabase"}'
+    matchers:
+      - type: body
+        words:
+          - "id"
+      - type: status
+        status: [200]
+      - type: header
+        header: "content-type"
+        words:
+          - "application/json"
+    condition: and

@@ -1,0 +1,28 @@
+id: kubernetes-config-exposed
+name: "Kubernetes Kubeconfig File Exposed"
+severity: critical
+description: "A Kubernetes kubeconfig file is publicly accessible, potentially exposing cluster API server addresses, authentication tokens, client certificates, and namespace configurations."
+reference: CWE-540
+requests:
+  - method: GET
+    path: "/.kube/config"
+    matchers:
+      - type: body
+        words:
+          - "apiVersion:"
+          - "clusters:"
+          - "contexts:"
+      - type: status
+        status: [200]
+    condition: and
+  - method: GET
+    path: "/kubeconfig"
+    matchers:
+      - type: body
+        words:
+          - "apiVersion:"
+          - "clusters:"
+          - "contexts:"
+      - type: status
+        status: [200]
+    condition: and

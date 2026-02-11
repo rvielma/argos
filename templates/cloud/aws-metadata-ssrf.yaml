@@ -1,0 +1,16 @@
+id: cloud-aws-metadata-ssrf
+name: "AWS EC2 Metadata SSRF Endpoint Accessible"
+severity: critical
+description: "The EC2 instance metadata service at 169.254.169.254 is accessible, indicating a potential SSRF vulnerability that could leak IAM credentials and instance details."
+reference: CWE-918
+requests:
+  - method: GET
+    path: "/latest/meta-data/"
+    matchers:
+      - type: body
+        words:
+          - "ami-id"
+          - "instance-id"
+      - type: status
+        status: [200]
+    condition: and

@@ -1,0 +1,17 @@
+id: ge-healthcare-centricity
+name: "GE Healthcare Centricity Platform Detected"
+severity: info
+confidence: informational
+description: "GE Healthcare Centricity platform detected. Centricity is used for radiology PACS, cardiology imaging, and clinical information systems in hospitals. Verify access controls and authentication are enforced."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: body
+        words:
+          - "Centricity"
+          - "GE Healthcare"
+      - type: status
+        status: [200]
+    condition: and

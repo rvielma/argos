@@ -1,0 +1,20 @@
+id: cloud-gcp-firebase-storage-rules
+name: "Firebase Storage Security Rules Exposed"
+severity: medium
+confidence: tentative
+description: "Firebase Cloud Storage security rules are publicly readable, revealing access control configuration. Misconfigured rules (e.g., allow read/write if true) can indicate unrestricted access to stored files."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/v1/projects/-/releases/cloud.firestore"
+    matchers:
+      - type: body
+        words:
+          - "rulesetName"
+          - "release"
+      - type: header
+        words:
+          - "application/json"
+      - type: status
+        status: [200]
+    condition: and

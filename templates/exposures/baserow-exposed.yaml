@@ -1,0 +1,15 @@
+id: baserow-exposed
+name: "Baserow Database Dashboard Exposed"
+severity: medium
+description: "Baserow open-source no-code database platform is publicly accessible, potentially exposing database contents and structure."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/login"
+    matchers:
+      - type: body
+        words:
+          - "Baserow"
+      - type: status
+        status: [200]
+    condition: and

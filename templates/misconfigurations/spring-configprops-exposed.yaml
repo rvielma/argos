@@ -1,0 +1,17 @@
+id: spring-configprops-exposed
+name: "Spring Boot ConfigProps Endpoint Exposed"
+severity: high
+description: "Spring Boot /actuator/configprops endpoint is publicly accessible, exposing all configuration properties including database connection strings, API keys, and service credentials."
+reference: CWE-215
+requests:
+  - method: GET
+    path: "/actuator/configprops"
+    matchers:
+      - type: body
+        words:
+          - "contexts"
+          - "beans"
+          - "properties"
+      - type: status
+        status: [200]
+    condition: and

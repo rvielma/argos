@@ -1,0 +1,18 @@
+id: lis-laboratory-system
+name: "Laboratory Information System (LIS) Interface Exposed"
+severity: high
+confidence: tentative
+description: "Laboratory Information System web interface is publicly accessible. LIS platforms manage lab orders, specimen tracking, test results, and quality control data. Unauthorized access exposes PHI and diagnostic data."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/api/lis/orders"
+    matchers:
+      - type: body
+        words:
+          - "labOrder"
+          - "specimen"
+          - "testCode"
+      - type: status
+        status: [200]
+    condition: and

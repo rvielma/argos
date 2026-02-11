@@ -1,15 +1,22 @@
-id: portainer-default
-name: "Portainer Exposed"
+id: portainer-default-creds
+name: "Portainer Default Credentials"
 severity: critical
-description: "Portainer container management is publicly accessible."
-reference: CWE-306
+description: "Portainer is accessible with default credentials (admin:admin)."
+reference: CWE-1393
 requests:
-  - method: GET
-    path: "/"
+  - method: POST
+    path: "/api/auth"
+    headers:
+      Content-Type: "application/json"
+    body: '{"username":"admin","password":"admin"}'
     matchers:
       - type: body
         words:
-          - "Portainer"
+          - "jwt"
       - type: status
         status: [200]
+      - type: header
+        header: "content-type"
+        words:
+          - "application/json"
     condition: and

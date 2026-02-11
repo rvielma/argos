@@ -1,0 +1,18 @@
+id: cloud-pulumi-state-exposed
+name: "Pulumi State File Exposed"
+severity: critical
+confidence: tentative
+description: "Pulumi infrastructure-as-code state file is publicly accessible, potentially exposing cloud resource configurations, secrets, connection strings, and deployment details."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/.pulumi/stacks/"
+    matchers:
+      - type: body
+        words:
+          - "deployment"
+          - "resources"
+          - "pulumi"
+      - type: status
+        status: [200]
+    condition: and

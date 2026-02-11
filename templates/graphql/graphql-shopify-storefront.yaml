@@ -1,0 +1,23 @@
+id: graphql-shopify-storefront
+name: "Shopify Storefront GraphQL API Detected"
+severity: info
+confidence: tentative
+description: "Shopify Storefront GraphQL API endpoint is publicly accessible. While intended for storefront use, misconfigured access scopes or leaked access tokens may expose sensitive product, customer, or order data beyond intended scope."
+reference: CWE-200
+requests:
+  - method: POST
+    path: "/api/2024-01/graphql.json"
+    headers:
+      Content-Type: "application/json"
+    body: '{"query":"{ shop { name } }"}'
+    matchers:
+      - type: body
+        words:
+          - "shop"
+          - "name"
+      - type: header
+        words:
+          - "X-Shopify"
+      - type: status
+        status: [200]
+    condition: and

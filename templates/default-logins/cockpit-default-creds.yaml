@@ -1,0 +1,23 @@
+id: cockpit-default-creds
+name: "Cockpit Default Credentials"
+severity: critical
+description: "Cockpit web console is accessible with default credentials (root:root)."
+reference: CWE-1393
+requests:
+  - method: POST
+    path: "/cockpit/login"
+    headers:
+      Content-Type: "application/x-www-form-urlencoded"
+      Authorization: "Basic cm9vdDpyb290"
+    matchers:
+      - type: body
+        words:
+          - "csrf-token"
+          - "user"
+      - type: status
+        status: [200]
+      - type: header
+        header: "content-type"
+        words:
+          - "application/json"
+    condition: and

@@ -1,0 +1,18 @@
+id: composer-lock-exposed
+name: "Composer Lock File Exposed"
+severity: low
+description: "PHP Composer lock file is publicly accessible, revealing exact dependency versions, package sources, and PHP version constraints which can be used to identify known vulnerabilities in dependencies."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/composer.lock"
+    matchers:
+      - type: body
+        words:
+          - "packages"
+          - "name"
+          - "version"
+          - "dist"
+      - type: status
+        status: [200]
+    condition: and

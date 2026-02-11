@@ -1,0 +1,27 @@
+id: alertmanager-exposed
+name: "Alertmanager API Exposed"
+severity: high
+description: "Prometheus Alertmanager API is publicly accessible, exposing alert configurations, notification receivers (email, Slack, PagerDuty), silences, and active alerts that may reveal internal infrastructure details."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/api/v2/status"
+    matchers:
+      - type: body
+        words:
+          - "cluster"
+          - "versionInfo"
+          - "uptime"
+      - type: status
+        status: [200]
+    condition: and
+  - method: GET
+    path: "/api/v1/alerts"
+    matchers:
+      - type: body
+        words:
+          - "alertname"
+          - "status"
+      - type: status
+        status: [200]
+    condition: and

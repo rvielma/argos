@@ -1,0 +1,16 @@
+id: cloud-minio-listing
+name: "MinIO S3-Compatible Storage Public Access"
+severity: high
+confidence: tentative
+description: "MinIO S3-compatible object storage server is publicly accessible with bucket listing enabled, allowing unauthenticated users to enumerate and potentially download stored objects."
+reference: CWE-548
+requests:
+  - method: GET
+    path: "/minio/health/live"
+    matchers:
+      - type: header
+        words:
+          - "MinIO"
+      - type: status
+        status: [200]
+    condition: and

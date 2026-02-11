@@ -1,0 +1,17 @@
+id: cloud-alibaba-metadata-ssrf
+name: "Alibaba Cloud ECS Metadata SSRF"
+severity: critical
+confidence: tentative
+description: "Alibaba Cloud ECS instance metadata service is accessible, indicating a potential SSRF vulnerability. This can expose instance identity, RAM role credentials, and security tokens."
+reference: CWE-918
+requests:
+  - method: GET
+    path: "/latest/meta-data/"
+    matchers:
+      - type: body
+        words:
+          - "instance-id"
+          - "region-id"
+      - type: status
+        status: [200]
+    condition: and

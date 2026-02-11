@@ -1,0 +1,18 @@
+id: ris-radiology-system
+name: "Radiology Information System (RIS) Interface Exposed"
+severity: high
+confidence: tentative
+description: "Radiology Information System web interface is publicly accessible. RIS manages radiology workflows including patient scheduling, imaging orders, results distribution, and billing data containing PHI."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/ris/api/worklist"
+    matchers:
+      - type: body
+        words:
+          - "worklist"
+          - "accessionNumber"
+          - "modality"
+      - type: status
+        status: [200]
+    condition: and

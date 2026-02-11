@@ -1,0 +1,18 @@
+id: dicom-dimse-gateway
+name: "DICOM DIMSE-to-HTTP Gateway Exposed"
+severity: high
+confidence: tentative
+description: "A DICOM DIMSE-to-HTTP gateway is publicly accessible. These gateways translate traditional DICOM network commands to HTTP APIs, exposing medical imaging query/retrieve operations to web-based attacks."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/api/dicom/nodes"
+    matchers:
+      - type: body
+        words:
+          - "aeTitle"
+          - "hostname"
+          - "dicom"
+      - type: status
+        status: [200]
+    condition: and

@@ -1,0 +1,18 @@
+id: cloud-azure-devops-pipeline
+name: "Azure DevOps Pipeline Configuration Exposed"
+severity: high
+confidence: tentative
+description: "Azure DevOps pipeline YAML configuration is publicly accessible, potentially exposing CI/CD secrets, deployment targets, service connections, and internal infrastructure details."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/azure-pipelines.yml"
+    matchers:
+      - type: body
+        words:
+          - "trigger:"
+          - "pool:"
+          - "steps:"
+      - type: status
+        status: [200]
+    condition: and

@@ -1,0 +1,16 @@
+id: graphql-get-method-enabled
+name: "GraphQL Queries via GET Method Enabled"
+severity: low
+description: "GraphQL endpoint accepts queries via GET parameters, making it susceptible to CSRF attacks and allowing query strings to be logged in server access logs and browser history."
+reference: CWE-352
+requests:
+  - method: GET
+    path: "/graphql?query={__typename}"
+    matchers:
+      - type: body
+        words:
+          - "__typename"
+          - "data"
+      - type: status
+        status: [200]
+    condition: and

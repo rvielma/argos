@@ -1,0 +1,20 @@
+id: graphql-graphene-debug
+name: "Graphene Python GraphQL Debug Mode"
+severity: medium
+confidence: tentative
+description: "Graphene (Python) GraphQL server is running with debug mode enabled, exposing detailed error stack traces, internal code paths, and Django/Flask framework information through GraphQL error responses."
+reference: CWE-209
+requests:
+  - method: POST
+    path: "/graphql"
+    headers:
+      Content-Type: "application/json"
+    body: '{"query":"{ __invalid_field_that_does_not_exist }"}'
+    matchers:
+      - type: body
+        words:
+          - "traceback"
+          - "graphene"
+      - type: status
+        status: [200, 400]
+    condition: and

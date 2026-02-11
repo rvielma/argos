@@ -1,0 +1,16 @@
+id: apache-airflow-exposed
+name: "Apache Airflow API Exposed"
+severity: high
+description: "Apache Airflow REST API is publicly accessible, potentially allowing unauthorized DAG execution and access to connection credentials."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/api/v1/dags"
+    matchers:
+      - type: body
+        words:
+          - "dag_id"
+          - "dags"
+      - type: status
+        status: [200]
+    condition: and

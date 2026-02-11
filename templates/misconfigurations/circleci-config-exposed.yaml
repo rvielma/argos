@@ -1,0 +1,17 @@
+id: circleci-config-exposed
+name: "CircleCI Configuration Exposed"
+severity: medium
+description: "CircleCI configuration file is publicly accessible, revealing CI/CD pipeline configuration, Docker images used, deployment steps, and referenced environment variable names."
+reference: CWE-538
+requests:
+  - method: GET
+    path: "/.circleci/config.yml"
+    matchers:
+      - type: body
+        words:
+          - "version:"
+          - "jobs:"
+          - "docker:"
+      - type: status
+        status: [200]
+    condition: and

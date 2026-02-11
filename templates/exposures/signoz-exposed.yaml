@@ -1,0 +1,15 @@
+id: signoz-exposed
+name: "SigNoz APM Dashboard Exposed"
+severity: medium
+description: "SigNoz application performance monitoring dashboard is publicly accessible, potentially exposing traces, metrics, and logs."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/application"
+    matchers:
+      - type: body
+        words:
+          - "SigNoz"
+      - type: status
+        status: [200]
+    condition: and

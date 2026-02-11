@@ -1,0 +1,23 @@
+id: graphql-postgraphile-exposed
+name: "PostGraphile GraphQL Endpoint Exposed"
+severity: medium
+confidence: tentative
+description: "PostGraphile automatically-generated GraphQL API is publicly accessible, potentially exposing the full PostgreSQL database schema as a queryable GraphQL interface including tables, views, and functions."
+reference: CWE-200
+requests:
+  - method: POST
+    path: "/graphql"
+    headers:
+      Content-Type: "application/json"
+    body: '{"query":"{ __schema { types { name description } } }"}'
+    matchers:
+      - type: body
+        words:
+          - "nodeId"
+          - "Query"
+      - type: header
+        words:
+          - "X-GraphQL-Event-Stream"
+      - type: status
+        status: [200]
+    condition: and

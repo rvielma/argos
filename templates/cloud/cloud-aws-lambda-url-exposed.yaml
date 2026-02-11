@@ -1,0 +1,17 @@
+id: cloud-aws-lambda-url-exposed
+name: "AWS Lambda Function URL Configuration Exposed"
+severity: high
+confidence: tentative
+description: "AWS Lambda function URL endpoint is publicly accessible with AUTH_TYPE set to NONE, allowing unauthenticated invocation of the Lambda function. This can lead to unauthorized function execution and potential data exposure."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/"
+    matchers:
+      - type: header
+        words:
+          - "x-amzn-requestid"
+          - "x-amz-executed-version"
+      - type: status
+        status: [200]
+    condition: and

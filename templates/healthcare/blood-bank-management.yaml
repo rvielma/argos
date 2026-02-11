@@ -1,0 +1,18 @@
+id: blood-bank-management
+name: "Blood Bank Management System Exposed"
+severity: high
+confidence: tentative
+description: "Blood bank management system API is publicly accessible. Blood bank systems manage donor records, blood product inventory, crossmatch results, and transfusion histories which contain sensitive patient data."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/api/bloodbank/inventory"
+    matchers:
+      - type: body
+        words:
+          - "bloodProduct"
+          - "donor"
+          - "unitNumber"
+      - type: status
+        status: [200]
+    condition: and

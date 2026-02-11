@@ -1,0 +1,22 @@
+id: graphql-query-complexity-abuse
+name: "GraphQL Query Complexity Limit Missing"
+severity: medium
+confidence: tentative
+description: "GraphQL endpoint does not enforce query complexity or cost analysis limits, allowing attackers to craft expensive queries that consume excessive server resources and potentially cause denial of service."
+reference: CWE-400
+requests:
+  - method: POST
+    path: "/graphql"
+    headers:
+      Content-Type: "application/json"
+    body: '{"query":"{ a1:__typename a2:__typename a3:__typename a4:__typename a5:__typename a6:__typename a7:__typename a8:__typename a9:__typename a10:__typename a11:__typename a12:__typename a13:__typename a14:__typename a15:__typename a16:__typename a17:__typename a18:__typename a19:__typename a20:__typename }"}'
+    matchers:
+      - type: body
+        words:
+          - "a1"
+          - "a10"
+          - "a20"
+          - "data"
+      - type: status
+        status: [200]
+    condition: and

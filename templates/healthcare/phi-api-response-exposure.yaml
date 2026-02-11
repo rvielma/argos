@@ -1,0 +1,18 @@
+id: phi-api-response-exposure
+name: "PHI Exposure in Healthcare API Response"
+severity: critical
+confidence: tentative
+description: "Healthcare API endpoint returns Protected Health Information (PHI) including patient identifiers, dates of birth, Social Security numbers, or medical record numbers without requiring authentication. This is a direct HIPAA violation."
+reference: CWE-359
+requests:
+  - method: GET
+    path: "/api/patients"
+    matchers:
+      - type: body
+        words:
+          - "dateOfBirth"
+          - "medicalRecordNumber"
+          - "patient"
+      - type: status
+        status: [200]
+    condition: and

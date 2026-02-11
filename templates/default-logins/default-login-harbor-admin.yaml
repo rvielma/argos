@@ -1,0 +1,30 @@
+id: default-login-harbor-admin
+name: "Harbor Registry Default Admin Login"
+severity: critical
+confidence: tentative
+description: "Harbor container registry accepts default credentials admin:Harbor12345, granting full access to container images, vulnerability scan results, and registry replication policies."
+reference: CWE-798
+requests:
+  - method: GET
+    path: "/harbor/sign-in"
+    matchers:
+      - type: body
+        words:
+          - "Harbor"
+          - "harbor"
+          - "sign-in"
+      - type: status
+        status: [200]
+    condition: and
+  - method: POST
+    path: "/c/login"
+    headers:
+      Content-Type: "application/x-www-form-urlencoded"
+    body: "principal=admin&password=Harbor12345"
+    matchers:
+      - type: body
+        words:
+          - "Harbor"
+      - type: status
+        status: [200, 302]
+    condition: and

@@ -1,0 +1,26 @@
+id: ansible-vault-exposed
+name: "Ansible Vault File Exposed"
+severity: high
+description: "An Ansible vault encrypted file is publicly accessible. While the contents are encrypted, the file reveals the use of Ansible and may be subject to brute-force decryption attempts."
+reference: CWE-538
+requests:
+  - method: GET
+    path: "/ansible/vault.yml"
+    matchers:
+      - type: body
+        words:
+          - "$ANSIBLE_VAULT"
+          - "AES256"
+      - type: status
+        status: [200]
+    condition: and
+  - method: GET
+    path: "/group_vars/all/vault.yml"
+    matchers:
+      - type: body
+        words:
+          - "$ANSIBLE_VAULT"
+          - "AES256"
+      - type: status
+        status: [200]
+    condition: and

@@ -1,0 +1,15 @@
+id: label-studio-exposed
+name: "Label Studio Annotation Tool Exposed"
+severity: medium
+description: "Label Studio data annotation platform is publicly accessible, potentially exposing labeled datasets and annotation configurations."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/user/login/"
+    matchers:
+      - type: body
+        words:
+          - "Label Studio"
+      - type: status
+        status: [200]
+    condition: and

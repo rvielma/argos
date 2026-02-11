@@ -1,0 +1,15 @@
+id: budibase-exposed
+name: "Budibase Dashboard Exposed"
+severity: medium
+description: "Budibase low-code platform dashboard is publicly accessible, potentially exposing internal application configurations."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/builder/auth/login"
+    matchers:
+      - type: body
+        words:
+          - "Budibase"
+      - type: status
+        status: [200]
+    condition: and

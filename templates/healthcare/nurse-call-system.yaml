@@ -1,0 +1,18 @@
+id: nurse-call-system
+name: "Nurse Call System Web Interface Exposed"
+severity: medium
+confidence: tentative
+description: "Nurse call system web interface is publicly accessible. Nurse call systems manage patient room alerts, staff assignments, and response times. Exposure reveals hospital floor layouts, patient room assignments, and staffing information."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/api/nursecall/stations"
+    matchers:
+      - type: body
+        words:
+          - "station"
+          - "roomNumber"
+          - "callType"
+      - type: status
+        status: [200]
+    condition: and

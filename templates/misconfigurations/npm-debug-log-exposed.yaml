@@ -1,0 +1,17 @@
+id: npm-debug-log-exposed
+name: "npm Debug Log Exposed"
+severity: medium
+description: "npm debug log file is publicly accessible, exposing npm commands executed, internal paths, registry URLs, authentication tokens, and system environment details."
+reference: CWE-532
+requests:
+  - method: GET
+    path: "/npm-debug.log"
+    matchers:
+      - type: body
+        words:
+          - "npm"
+          - "verbose"
+          - "error"
+      - type: status
+        status: [200]
+    condition: and

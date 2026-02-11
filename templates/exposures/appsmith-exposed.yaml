@@ -1,0 +1,15 @@
+id: appsmith-exposed
+name: "Appsmith Dashboard Exposed"
+severity: medium
+description: "Appsmith low-code application builder dashboard is publicly accessible."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/user/login"
+    matchers:
+      - type: body
+        words:
+          - "appsmith"
+      - type: status
+        status: [200]
+    condition: and

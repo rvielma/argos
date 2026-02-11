@@ -1,0 +1,35 @@
+id: graphql-subscription-ws
+name: "GraphQL WebSocket Subscription Endpoint"
+severity: medium
+confidence: tentative
+description: "GraphQL WebSocket subscription endpoint is accessible, potentially allowing attackers to subscribe to real-time data streams, exfiltrate sensitive data, or exhaust server resources through persistent connections."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/graphql"
+    headers:
+      Upgrade: "websocket"
+      Connection: "Upgrade"
+      Sec-WebSocket-Protocol: "graphql-ws"
+      Sec-WebSocket-Version: "13"
+    matchers:
+      - type: header
+        words:
+          - "graphql-ws"
+      - type: status
+        status: [101, 200, 400, 426]
+    condition: and
+  - method: POST
+    path: "/graphql"
+    headers:
+      Content-Type: "application/json"
+    body: '{"query":"{ __schema { subscriptionType { name fields { name description } } } }"}'
+    matchers:
+      - type: body
+        words:
+          - "subscriptionType"
+          - "fields"
+          - "name"
+      - type: status
+        status: [200]
+    condition: and

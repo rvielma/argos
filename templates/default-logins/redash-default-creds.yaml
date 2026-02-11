@@ -1,0 +1,22 @@
+id: redash-default-creds
+name: "Redash Default Credentials"
+severity: critical
+description: "Redash is accessible with default API key or without proper authentication."
+reference: CWE-1393
+requests:
+  - method: GET
+    path: "/api/users/1"
+    headers:
+      Authorization: "Key default"
+    matchers:
+      - type: body
+        words:
+          - "email"
+          - "api_key"
+      - type: status
+        status: [200]
+      - type: header
+        header: "content-type"
+        words:
+          - "application/json"
+    condition: and

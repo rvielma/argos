@@ -1,0 +1,17 @@
+id: terraform-backend-exposed
+name: "Terraform State Backend Exposed"
+severity: critical
+description: "Terraform remote state backend is publicly accessible, exposing infrastructure configuration, resource IDs, secrets, and potentially credentials stored in state."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/.terraform/terraform.tfstate"
+    matchers:
+      - type: body
+        words:
+          - "terraform_version"
+          - "serial"
+          - "outputs"
+      - type: status
+        status: [200]
+    condition: and

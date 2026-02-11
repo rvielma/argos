@@ -1,0 +1,16 @@
+id: minio-console-exposed
+name: "MinIO Console Dashboard Exposed"
+severity: medium
+description: "MinIO Console web dashboard is publicly accessible, potentially exposing object storage bucket configurations and access policies."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/login"
+    matchers:
+      - type: body
+        words:
+          - "MinIO"
+          - "Console"
+      - type: status
+        status: [200]
+    condition: and

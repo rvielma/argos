@@ -1,0 +1,17 @@
+id: graphql-altair-exposed
+name: "Altair GraphQL Client Interface Exposed"
+severity: medium
+description: "Altair GraphQL Client web interface is publicly accessible, providing a full-featured IDE for querying, exploring schemas, and modifying data on the GraphQL API."
+reference: CWE-200
+requests:
+  - method: GET
+    path: "/altair"
+    matchers:
+      - type: body
+        words:
+          - "altair"
+          - "graphql"
+          - "AltairGraphQL"
+      - type: status
+        status: [200]
+    condition: and

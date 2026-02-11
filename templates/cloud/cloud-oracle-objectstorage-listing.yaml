@@ -1,0 +1,20 @@
+id: cloud-oracle-objectstorage-listing
+name: "Oracle Cloud Object Storage Bucket Listing"
+severity: high
+confidence: tentative
+description: "Oracle Cloud Infrastructure Object Storage bucket is publicly accessible, allowing unauthenticated enumeration of stored objects. This can expose sensitive data and internal file structures."
+reference: CWE-548
+requests:
+  - method: GET
+    path: "/n/"
+    matchers:
+      - type: body
+        words:
+          - "objectstorage"
+          - "namespace"
+      - type: header
+        words:
+          - "application/json"
+      - type: status
+        status: [200]
+    condition: and

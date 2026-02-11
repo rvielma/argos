@@ -1,0 +1,19 @@
+id: graphql-batching-enabled
+name: "GraphQL Query Batching Allowed"
+severity: medium
+description: "GraphQL endpoint accepts batched query arrays, enabling attackers to perform brute-force attacks, credential stuffing, or denial-of-service by sending many operations in a single request."
+reference: CWE-400
+requests:
+  - method: POST
+    path: "/graphql"
+    headers:
+      Content-Type: "application/json"
+    body: '[{"query":"{ __typename }"},{"query":"{ __typename }"},{"query":"{ __typename }"}]'
+    matchers:
+      - type: body
+        words:
+          - "__typename"
+          - "data"
+      - type: status
+        status: [200]
+    condition: and

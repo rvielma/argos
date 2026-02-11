@@ -1,0 +1,18 @@
+id: immunization-registry-exposed
+name: "Immunization Information System (IIS) Registry Exposed"
+severity: high
+confidence: tentative
+description: "Immunization Information System registry endpoint is publicly accessible. IIS registries contain vaccination records, patient demographics, and immunization histories which constitute PHI."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/api/immunization/registry"
+    matchers:
+      - type: body
+        words:
+          - "immunization"
+          - "vaccine"
+          - "patient"
+      - type: status
+        status: [200]
+    condition: and

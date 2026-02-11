@@ -1,0 +1,18 @@
+id: cloud-azure-keyvault-exposed
+name: "Azure Key Vault Secrets Listing Exposed"
+severity: critical
+confidence: tentative
+description: "Azure Key Vault API is publicly accessible without proper authentication, potentially allowing enumeration of stored secrets, keys, and certificates used for application encryption and authentication."
+reference: CWE-284
+requests:
+  - method: GET
+    path: "/secrets?api-version=7.4"
+    matchers:
+      - type: body
+        words:
+          - "value"
+          - "vault.azure.net"
+          - "id"
+      - type: status
+        status: [200]
+    condition: and
