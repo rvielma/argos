@@ -53,6 +53,14 @@ pub async fn scan(
                     if let Ok(resp) = client.get(&test_url).await {
                         let resp_body = resp.text().await.unwrap_or_default();
                         if resp_body.contains(expected) && !resp_body.contains(payload) {
+                            // Anti-FP: if response body length is very similar to baseline,
+                            // the server ignored our input (e.g., endpoints with dynamic numbers)
+                            if let Some(bl) = baseline {
+                                let bl_diff = (bl.body.len() as i64 - resp_body.len() as i64).unsigned_abs();
+                                if bl_diff < 100 {
+                                    continue;
+                                }
+                            }
                             findings.push(
                                 Finding::new(
                                     format!("Server-Side Template Injection in '{param}'"),

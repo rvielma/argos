@@ -1,6 +1,6 @@
 [package]
 name = "argos"
-version = "2.1.0"
+version = "2.1.1"
 edition = "2021"
 authors = ["Raphael Vielma <rvielma@falp.org>"]
 description = "Argos Panoptes - Web Security Scanner for Healthcare Environments"

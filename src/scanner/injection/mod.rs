@@ -584,6 +584,14 @@ impl InjectionScanner {
                     }
                     if let Some((body, _)) = Self::send_test_request(client, point, param, payload).await {
                         if body.contains(expected) && !body.contains(payload) {
+                            // Anti-FP: if response body length is very similar to baseline,
+                            // the server ignored our input (e.g., health endpoints with dynamic numbers)
+                            if let Some(bl) = baseline {
+                                let bl_diff = (bl.body.len() as i64 - body.len() as i64).unsigned_abs();
+                                if bl_diff < 100 {
+                                    continue;
+                                }
+                            }
                             findings.push(
                                 Finding::new(
                                     format!("SSTI via {:?} '{param}'", point.point_type),
