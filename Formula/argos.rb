@@ -12,7 +12,7 @@ class Argos < Formula
 
     on_arm do
       url "https://github.com/rvielma/argos/releases/download/v#{version}/argos-v#{version}-aarch64-apple-darwin.tar.gz"
-      sha256 "c01ad63e5897b72f5709ea6e81029850a86c5551c98803751133aaed677741ad"
+      sha256 "6f794bc483ea2aa5873df43cbbb5768028b88dd169ba714cff099f8734e8472f"
     end
   end
 
