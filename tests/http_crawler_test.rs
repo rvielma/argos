@@ -204,9 +204,9 @@ async fn test_http_options() {
 
 #[tokio::test]
 async fn test_http_retry_on_rate_limit() {
-    // The retry logic retries on 429 (TOO_MANY_REQUESTS) up to MAX_RETRIES (2).
+    // The retry logic retries on 429 (TOO_MANY_REQUESTS) up to MAX_RETRIES (3).
     // When all attempts return 429, the client returns RateLimitExceeded.
-    // We verify the client made exactly 2 attempts.
+    // We verify the client made exactly 3 attempts.
     let mock_server = MockServer::start().await;
 
     Mock::given(method("GET"))
@@ -225,8 +225,8 @@ async fn test_http_retry_on_rate_limit() {
     // All retries exhausted with 429 should yield an error
     assert!(result.is_err(), "expected error after all retries return 429");
 
-    // The client should have made exactly 2 attempts (MAX_RETRIES)
-    assert_eq!(client.request_count(), 2);
+    // The client should have made exactly 3 attempts (MAX_RETRIES)
+    assert_eq!(client.request_count(), 3);
 }
 
 #[tokio::test]

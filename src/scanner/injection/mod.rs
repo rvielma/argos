@@ -12,7 +12,7 @@ pub mod xss;
 
 use crate::error::Result;
 use crate::http::HttpClient;
-use crate::models::{Finding, ScanConfig};
+use crate::models::{Finding, ScanConfig, Severity};
 use async_trait::async_trait;
 use regex::Regex;
 use scraper::{Html, Selector};
@@ -474,6 +474,239 @@ impl InjectionScanner {
         Some(BaselineResponse { body, elapsed_ms })
     }
 
+    /// Generic SQLi scan for non-QueryParam injection points (Header/Cookie/JsonBody)
+    async fn generic_sqli_scan(
+        client: &HttpClient,
+        points: &[InjectionPoint],
+        baselines: &HashMap<(String, String), BaselineResponse>,
+    ) -> Vec<Finding> {
+        let mut findings = Vec::new();
+        let payloads = ["'", "\"", "' OR '1'='1", "1' OR '1'='1' --"];
+
+        for point in points.iter().take(5) {
+            for param in point.params.iter().take(4) {
+                let baseline = baselines.get(&(point.url.clone(), param.clone()));
+                for payload in &payloads {
+                    if let Some((body, _)) = Self::send_test_request(client, point, param, payload).await {
+                        if let Some(db_type) = Self::check_sql_errors(&body) {
+                            let in_baseline = baseline
+                                .map(|bl| Self::check_sql_errors(&bl.body).is_some())
+                                .unwrap_or(false);
+                            if in_baseline { continue; }
+
+                            findings.push(
+                                Finding::new(
+                                    format!("SQL Injection (Error-Based) via {:?} '{param}'", point.point_type),
+                                    format!("Parameter '{param}' ({:?}) is vulnerable to error-based SQL injection ({db_type}).", point.point_type),
+                                    Severity::Critical,
+                                    "Injection",
+                                    &point.url,
+                                )
+                                .with_evidence(format!("Type: {:?}\nParam: {param}\nPayload: {payload}\nDB: {db_type}", point.point_type))
+                                .with_recommendation("Use parameterized queries or prepared statements.")
+                                .with_cwe("CWE-89")
+                                .with_owasp("A03:2021 Injection"),
+                            );
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        findings
+    }
+
+    /// Generic XSS scan for non-QueryParam injection points
+    async fn generic_xss_scan(
+        client: &HttpClient,
+        points: &[InjectionPoint],
+        baselines: &HashMap<(String, String), BaselineResponse>,
+    ) -> Vec<Finding> {
+        let mut findings = Vec::new();
+        let payloads = [
+            "<script>alert(1)</script>",
+            "'\"><img src=x onerror=alert(1)>",
+            "<svg onload=alert(1)>",
+        ];
+
+        for point in points.iter().take(5) {
+            for param in point.params.iter().take(4) {
+                let baseline = baselines.get(&(point.url.clone(), param.clone()));
+                for payload in &payloads {
+                    if let Some((body, _)) = Self::send_test_request(client, point, param, payload).await {
+                        if body.contains(payload) {
+                            let in_baseline = baseline
+                                .map(|bl| bl.body.contains(payload))
+                                .unwrap_or(false);
+                            if in_baseline { continue; }
+
+                            findings.push(
+                                Finding::new(
+                                    format!("Reflected XSS via {:?} '{param}'", point.point_type),
+                                    format!("Parameter '{param}' ({:?}) reflects input without sanitization.", point.point_type),
+                                    Severity::High,
+                                    "Injection",
+                                    &point.url,
+                                )
+                                .with_evidence(format!("Type: {:?}\nParam: {param}\nPayload: {payload}", point.point_type))
+                                .with_recommendation("Implement output encoding and Content-Security-Policy headers.")
+                                .with_cwe("CWE-79")
+                                .with_owasp("A03:2021 Injection"),
+                            );
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        findings
+    }
+
+    /// Generic SSTI scan for non-QueryParam injection points
+    async fn generic_ssti_scan(
+        client: &HttpClient,
+        points: &[InjectionPoint],
+        baselines: &HashMap<(String, String), BaselineResponse>,
+    ) -> Vec<Finding> {
+        let mut findings = Vec::new();
+        let checks: &[(&str, &str)] = &[
+            ("{{7*7}}", "49"),
+            ("${7*7}", "49"),
+            ("{{7*'7'}}", "7777777"),
+        ];
+
+        for point in points.iter().take(5) {
+            for param in point.params.iter().take(4) {
+                let baseline = baselines.get(&(point.url.clone(), param.clone()));
+                for (payload, expected) in checks {
+                    if let Some(bl) = baseline {
+                        if bl.body.contains(expected) { continue; }
+                    }
+                    if let Some((body, _)) = Self::send_test_request(client, point, param, payload).await {
+                        if body.contains(expected) && !body.contains(payload) {
+                            findings.push(
+                                Finding::new(
+                                    format!("SSTI via {:?} '{param}'", point.point_type),
+                                    format!("Parameter '{param}' ({:?}) is vulnerable to SSTI.", point.point_type),
+                                    Severity::Critical,
+                                    "Injection",
+                                    &point.url,
+                                )
+                                .with_evidence(format!("Type: {:?}\nParam: {param}\nPayload: {payload}\nExpected: {expected}", point.point_type))
+                                .with_recommendation("Never pass user input directly to template engines.")
+                                .with_cwe("CWE-1336")
+                                .with_owasp("A03:2021 Injection"),
+                            );
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        findings
+    }
+
+    /// Generic command injection scan for non-QueryParam points
+    async fn generic_cmd_scan(
+        client: &HttpClient,
+        points: &[InjectionPoint],
+        baselines: &HashMap<(String, String), BaselineResponse>,
+    ) -> Vec<Finding> {
+        let mut findings = Vec::new();
+        let payloads = [";id", "|id", "$(id)"];
+        let patterns: &[(&str, &str)] = &[
+            (r"uid=\d+\(\w+\)", "Unix id command output"),
+            (r"root:x:0:0:", "/etc/passwd content"),
+        ];
+
+        for point in points.iter().take(5) {
+            for param in point.params.iter().take(4) {
+                let baseline = baselines.get(&(point.url.clone(), param.clone()));
+                'cmd: for payload in &payloads {
+                    if let Some((body, _)) = Self::send_test_request(client, point, param, payload).await {
+                        for (pattern, description) in patterns {
+                            if let Ok(re) = Regex::new(pattern) {
+                                if re.is_match(&body) {
+                                    let in_baseline = baseline
+                                        .map(|bl| re.is_match(&bl.body))
+                                        .unwrap_or(false);
+                                    if in_baseline { continue; }
+
+                                    findings.push(
+                                        Finding::new(
+                                            format!("OS Command Injection via {:?} '{param}'", point.point_type),
+                                            format!("Parameter '{param}' ({:?}) is vulnerable to OS command injection.", point.point_type),
+                                            Severity::Critical,
+                                            "Injection",
+                                            &point.url,
+                                        )
+                                        .with_evidence(format!("Type: {:?}\nParam: {param}\nPayload: {payload}\nDetected: {description}", point.point_type))
+                                        .with_recommendation("Never pass user input to OS commands.")
+                                        .with_cwe("CWE-78")
+                                        .with_owasp("A03:2021 Injection"),
+                                    );
+                                    break 'cmd;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        findings
+    }
+
+    /// Generic CRLF scan for Header injection points
+    async fn generic_crlf_scan(
+        client: &HttpClient,
+        points: &[InjectionPoint],
+        _baselines: &HashMap<(String, String), BaselineResponse>,
+    ) -> Vec<Finding> {
+        let mut findings = Vec::new();
+        let payloads = [
+            "%0d%0aX-Injected:%20argos",
+            "\r\nX-Injected: argos",
+        ];
+
+        for point in points.iter().take(5) {
+            for param in point.params.iter().take(3) {
+                for payload in &payloads {
+                    let (method, url, headers, body) = match Self::build_test_request(point, param, payload) {
+                        Some(r) => r,
+                        None => continue,
+                    };
+                    if let Ok(resp) = client.request(method, &url, &headers, body.as_deref()).await {
+                        let has_injected = resp
+                            .headers()
+                            .get("x-injected")
+                            .and_then(|v| v.to_str().ok())
+                            .map(|v| v.contains("argos"))
+                            .unwrap_or(false);
+                        let _ = resp.text().await;
+
+                        if has_injected {
+                            findings.push(
+                                Finding::new(
+                                    format!("CRLF Injection via {:?} '{param}'", point.point_type),
+                                    format!("Header '{param}' allows CRLF injection for response header manipulation."),
+                                    Severity::Medium,
+                                    "CRLF Injection",
+                                    &point.url,
+                                )
+                                .with_evidence(format!("Type: {:?}\nParam: {param}\nPayload: {payload}", point.point_type))
+                                .with_recommendation("Strip CRLF characters from user input in HTTP headers.")
+                                .with_cwe("CWE-93")
+                                .with_owasp("A03:2021 Injection"),
+                            );
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        findings
+    }
+
     /// Checks response body for SQL error patterns and returns the DB type
     pub fn check_sql_errors(body: &str) -> Option<&'static str> {
         let patterns: &[(&str, &str)] = &[
@@ -610,16 +843,26 @@ impl super::Scanner for InjectionScanner {
             }
         }
 
-        // Split injection points by type:
-        // - Existing sub-scanners (sqli, xss, cmd, ssti, path_traversal) only support QueryParam
-        // - Open redirect and CRLF support QueryParam only (URL-based)
+        // Split injection points by type
         let query_points: Vec<InjectionPoint> = injection_points
             .iter()
             .filter(|p| p.point_type == PointType::QueryParam)
             .cloned()
             .collect();
 
-        // Run sub-scanners with QueryParam points only
+        let header_points: Vec<InjectionPoint> = injection_points
+            .iter()
+            .filter(|p| p.point_type == PointType::Header)
+            .cloned()
+            .collect();
+
+        let json_points: Vec<InjectionPoint> = injection_points
+            .iter()
+            .filter(|p| p.point_type == PointType::JsonBody)
+            .cloned()
+            .collect();
+
+        // Run sub-scanners with QueryParam points (original behavior)
         let sqli_findings = sqli::scan(client, &query_points, &baselines).await;
         findings.extend(sqli_findings);
 
@@ -641,6 +884,29 @@ impl super::Scanner for InjectionScanner {
 
         let crlf_findings = crlf::scan(client, &query_points, &baselines).await;
         findings.extend(crlf_findings);
+
+        // --- Extended injection: Header/JsonBody points ---
+        // SQLi via JsonBody
+        let json_sqli = Self::generic_sqli_scan(client, &json_points, &baselines).await;
+        findings.extend(json_sqli);
+
+        // XSS via Header (Referer, User-Agent) and JsonBody
+        let header_xss = Self::generic_xss_scan(client, &header_points, &baselines).await;
+        findings.extend(header_xss);
+        let json_xss = Self::generic_xss_scan(client, &json_points, &baselines).await;
+        findings.extend(json_xss);
+
+        // SSTI via JsonBody
+        let json_ssti = Self::generic_ssti_scan(client, &json_points, &baselines).await;
+        findings.extend(json_ssti);
+
+        // Command Injection via JsonBody
+        let json_cmd = Self::generic_cmd_scan(client, &json_points, &baselines).await;
+        findings.extend(json_cmd);
+
+        // CRLF via Header points
+        let header_crlf = Self::generic_crlf_scan(client, &header_points, &baselines).await;
+        findings.extend(header_crlf);
 
         Ok(findings)
     }

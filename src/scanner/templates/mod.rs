@@ -8,6 +8,7 @@ pub mod cluster;
 pub mod engine;
 pub mod loader;
 pub mod matcher;
+pub mod nuclei;
 
 use crate::error::Result;
 use crate::http::HttpClient;
@@ -191,6 +192,16 @@ impl super::Scanner for TemplateScanner {
                 Err(e) => {
                     info!("Failed to load templates from {}: {}", extra_dir, e);
                 }
+            }
+        }
+
+        // Load Nuclei-compatible templates if specified
+        if let Some(ref nuclei_dir) = config.nuclei_templates_dir {
+            let nuclei_path = Path::new(nuclei_dir);
+            let nuclei_templates = nuclei::load_nuclei_templates(nuclei_path);
+            if !nuclei_templates.is_empty() {
+                info!("Loaded {} Nuclei templates from {}", nuclei_templates.len(), nuclei_dir);
+                templates.extend(nuclei_templates);
             }
         }
 

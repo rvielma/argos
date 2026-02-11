@@ -315,6 +315,9 @@ pub struct ScanConfig {
     /// Wait time in ms after page load for JS rendering
     #[serde(default = "default_render_wait")]
     pub render_wait_ms: u64,
+    /// Directory for Nuclei-compatible templates
+    #[serde(default)]
+    pub nuclei_templates_dir: Option<String>,
 }
 
 fn default_template_clustering() -> bool {
@@ -388,6 +391,7 @@ impl Default for ScanConfig {
             oob_timeout_secs: 10,
             render_enabled: false,
             render_wait_ms: 3000,
+            nuclei_templates_dir: None,
         }
     }
 }

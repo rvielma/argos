@@ -120,6 +120,76 @@ const PROBE_PAYLOADS: &[(&str, &str)] = &[
 /// Status codes commonly returned by WAFs when blocking
 const WAF_BLOCK_STATUSES: &[u16] = &[403, 406, 429, 503];
 
+/// Information about detected WAFs, shared with other scanners
+#[derive(Debug, Clone, Default)]
+pub struct WafInfo {
+    /// Names of detected WAFs (e.g., "Cloudflare", "ModSecurity")
+    pub detected_wafs: Vec<String>,
+    /// Whether active blocking was observed
+    pub active_blocking: bool,
+}
+
+impl WafInfo {
+    /// Returns WAF-aware payload variants for bypass
+    pub fn get_bypass_payloads(&self, original: &str) -> Vec<String> {
+        let mut payloads = vec![original.to_string()];
+
+        for waf in &self.detected_wafs {
+            match waf.as_str() {
+                "Cloudflare" => {
+                    // Double URL encoding
+                    let double_encoded = original
+                        .replace('<', "%253C")
+                        .replace('>', "%253E")
+                        .replace('\'', "%2527");
+                    payloads.push(double_encoded);
+                    // Case alternation
+                    let mut alt = String::new();
+                    for (i, c) in original.chars().enumerate() {
+                        if i % 2 == 0 { alt.push(c.to_uppercase().next().unwrap_or(c)); }
+                        else { alt.push(c.to_lowercase().next().unwrap_or(c)); }
+                    }
+                    payloads.push(alt);
+                }
+                "ModSecurity" => {
+                    // Comment injection for SQL
+                    payloads.push(original.replace(' ', "/**/"));
+                    // Hex encoding
+                    let hex: String = original.bytes().map(|b| format!("%{:02x}", b)).collect();
+                    payloads.push(hex);
+                }
+                "AWS WAF / CloudFront" => {
+                    // Unicode normalization bypass
+                    payloads.push(original.replace('<', "\u{FF1C}").replace('>', "\u{FF1E}"));
+                    // URL encoding
+                    let encoded = original
+                        .replace('\'', "%27")
+                        .replace('"', "%22")
+                        .replace('<', "%3c");
+                    payloads.push(encoded);
+                }
+                "Imperva / Incapsula" => {
+                    // Null byte injection
+                    payloads.push(format!("{}\x00", original));
+                    // Parameter pollution
+                    payloads.push(original.replace('=', "%00="));
+                }
+                _ => {
+                    // Generic bypass: URL-encode special chars
+                    let encoded = original
+                        .replace('\'', "%27")
+                        .replace('"', "%22")
+                        .replace(' ', "%20");
+                    payloads.push(encoded);
+                }
+            }
+        }
+
+        payloads.dedup();
+        payloads
+    }
+}
+
 pub struct WafScanner;
 
 #[async_trait]
@@ -308,6 +378,78 @@ async fn active_detect(client: &HttpClient, target: &str) -> Vec<Finding> {
     }
 
     findings
+}
+
+/// Performs WAF detection and returns structured WafInfo for other scanners
+pub async fn detect_waf(client: &HttpClient, target: &str) -> WafInfo {
+    let mut info = WafInfo::default();
+
+    // Passive detection
+    if let Ok(response) = client.get(target).await {
+        let headers: Vec<(String, String)> = response
+            .headers()
+            .iter()
+            .map(|(k, v)| (k.as_str().to_lowercase(), v.to_str().unwrap_or("").to_lowercase()))
+            .collect();
+
+        let cookies: String = headers
+            .iter()
+            .filter(|(k, _)| k == "set-cookie")
+            .map(|(_, v)| v.as_str())
+            .collect::<Vec<&str>>()
+            .join("; ");
+
+        let body = response.text().await.unwrap_or_default();
+        let body_lower = body.to_lowercase();
+
+        for sig in WAF_SIGNATURES {
+            let mut matched = false;
+
+            for (header_name, header_pattern) in sig.headers {
+                for (name, value) in &headers {
+                    if name == *header_name && (header_pattern.is_empty() || value.contains(header_pattern)) {
+                        matched = true;
+                        break;
+                    }
+                }
+                if matched { break; }
+            }
+
+            if !matched {
+                for cookie_pattern in sig.cookies {
+                    if cookies.to_lowercase().contains(&cookie_pattern.to_lowercase()) {
+                        matched = true;
+                        break;
+                    }
+                }
+            }
+
+            if !matched {
+                for pattern in sig.body_patterns {
+                    if body_lower.contains(&pattern.to_lowercase()) {
+                        matched = true;
+                        break;
+                    }
+                }
+            }
+
+            if matched {
+                info.detected_wafs.push(sig.name.to_string());
+            }
+        }
+    }
+
+    // Active detection (quick probe)
+    let base = target.trim_end_matches('/');
+    let probe_url = format!("{}/?test={}", base, urlencoding_simple("' OR 1=1 --"));
+    if let Ok(resp) = client.get(&probe_url).await {
+        let status = resp.status().as_u16();
+        if WAF_BLOCK_STATUSES.contains(&status) {
+            info.active_blocking = true;
+        }
+    }
+
+    info
 }
 
 /// Simple URL encoding for probe payloads

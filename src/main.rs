@@ -122,6 +122,10 @@ enum Commands {
         #[arg(long, value_delimiter = ',')]
         extra_template_dirs: Option<Vec<String>>,
 
+        /// Directory containing Nuclei-compatible templates
+        #[arg(long)]
+        nuclei_templates: Option<String>,
+
         /// Run scanner modules concurrently
         #[arg(long)]
         concurrent: bool,
@@ -153,6 +157,10 @@ enum Commands {
         /// OOB interaction timeout in seconds
         #[arg(long, default_value_t = 10)]
         oob_timeout: u64,
+
+        /// Scan profile (quick, standard, full, api, ci) — mutually exclusive with --modules
+        #[arg(long)]
+        profile: Option<String>,
 
         /// Enable JavaScript rendering for SPA crawling (requires browser feature)
         #[arg(long)]
@@ -364,6 +372,7 @@ async fn main() -> std::result::Result<(), Box<dyn std::error::Error>> {
             auth_cookie,
             templates_dir,
             extra_template_dirs,
+            nuclei_templates,
             concurrent,
             oob,
             oob_host,
@@ -372,6 +381,7 @@ async fn main() -> std::result::Result<(), Box<dyn std::error::Error>> {
             oob_smtp_port,
             oob_ftp_port,
             oob_timeout,
+            profile,
             render,
             render_wait,
             verbose,
@@ -398,6 +408,15 @@ async fn main() -> std::result::Result<(), Box<dyn std::error::Error>> {
                 }
             };
 
+            // Validate --profile and --modules are mutually exclusive
+            if profile.is_some() && modules.is_some() {
+                eprintln!(
+                    "  {} --profile and --modules are mutually exclusive",
+                    "Error:".red().bold()
+                );
+                std::process::exit(1);
+            }
+
             config::merge_cli_args(
                 &mut scan_config,
                 target,
@@ -409,6 +428,52 @@ async fn main() -> std::result::Result<(), Box<dyn std::error::Error>> {
                 wordlist,
                 header,
             );
+
+            // Apply scan profile if specified
+            let mut profile_fail_on: Option<String> = None;
+            if let Some(ref profile_name) = profile {
+                match profile_name.as_str() {
+                    "quick" => {
+                        scan_config.modules = vec![
+                            "headers".into(), "ssl".into(), "cookies".into(), "waf".into(),
+                        ];
+                    }
+                    "standard" => {
+                        scan_config.modules = vec![
+                            "headers".into(), "ssl".into(), "cookies".into(), "cors".into(),
+                            "discovery".into(), "templates".into(), "info_disclosure".into(),
+                            "secrets".into(),
+                        ];
+                    }
+                    "full" => {
+                        scan_config.modules = vec![
+                            "headers".into(), "ssl".into(), "cookies".into(), "cors".into(),
+                            "info_disclosure".into(), "discovery".into(), "injection".into(),
+                            "api".into(), "templates".into(), "waf".into(), "websocket".into(),
+                            "dast".into(), "graphql".into(), "secrets".into(),
+                        ];
+                    }
+                    "api" => {
+                        scan_config.modules = vec![
+                            "headers".into(), "ssl".into(), "api".into(), "injection".into(),
+                            "graphql".into(), "templates".into(), "secrets".into(),
+                        ];
+                    }
+                    "ci" => {
+                        scan_config.modules = vec![
+                            "templates".into(), "secrets".into(), "injection".into(),
+                        ];
+                        profile_fail_on = Some("high".to_string());
+                    }
+                    other => {
+                        eprintln!(
+                            "  {} Unknown profile '{}'. Available: quick, standard, full, api, ci",
+                            "Error:".red().bold(), other
+                        );
+                        std::process::exit(1);
+                    }
+                }
+            }
 
             // Configure authentication
             scan_config.auth = match auth_type.as_str() {
@@ -452,6 +517,7 @@ async fn main() -> std::result::Result<(), Box<dyn std::error::Error>> {
             if let Some(dirs) = extra_template_dirs {
                 scan_config.extra_template_dirs = dirs;
             }
+            scan_config.nuclei_templates_dir = nuclei_templates;
             if concurrent {
                 scan_config.concurrent = true;
             }
@@ -622,8 +688,9 @@ async fn main() -> std::result::Result<(), Box<dyn std::error::Error>> {
 
             println!("\n  {} {}", "Report saved to:".bold(), output_file.green());
 
-            // Exit code based on --fail-on threshold
-            if let Some(ref threshold) = fail_on {
+            // Exit code based on --fail-on threshold (or profile default)
+            let effective_fail_on = fail_on.or(profile_fail_on);
+            if let Some(ref threshold) = effective_fail_on {
                 let fail_severity = match threshold.to_lowercase().as_str() {
                     "critical" => Some(Severity::Critical),
                     "high" => Some(Severity::High),

@@ -21,6 +21,9 @@ pub struct Crawler<'a> {
     max_depth: u32,
     max_urls: usize,
     concurrency: usize,
+    render_enabled: bool,
+    #[cfg_attr(not(feature = "browser"), allow(dead_code))]
+    render_wait_ms: u64,
 }
 
 impl<'a> Crawler<'a> {
@@ -30,6 +33,8 @@ impl<'a> Crawler<'a> {
             max_depth: config.max_depth,
             max_urls: 500,
             concurrency: config.threads.max(1),
+            render_enabled: config.render_enabled,
+            render_wait_ms: config.render_wait_ms,
         }
     }
 
@@ -151,9 +156,83 @@ impl<'a> Crawler<'a> {
             current_layer = next_layer;
         }
 
-        let result = discovered.lock().await.clone();
+        let mut result = discovered.lock().await.clone();
+
+        // Browser rendering pass: re-visit URLs to discover JS-rendered content
+        if self.render_enabled {
+            result = self.render_pass(result, &base_url).await;
+        }
+
         info!("Crawler finished: {} URLs discovered", result.len());
         result
+    }
+
+    /// Renders pages with headless browser to discover additional URLs
+    #[cfg(feature = "browser")]
+    async fn render_pass(&self, urls: Vec<String>, base_url: &Url) -> Vec<String> {
+        use browser::BrowserRenderer;
+
+        let renderer = match BrowserRenderer::new().await {
+            Ok(r) => r,
+            Err(e) => {
+                warn!("Browser rendering unavailable: {e}. Continuing with HTTP-only crawl.");
+                return urls;
+            }
+        };
+
+        let base_host = base_url.host_str().unwrap_or("").to_string();
+        let mut all_urls: HashSet<String> = urls.iter().map(|u| normalize_url(u)).collect();
+        let mut result = urls;
+
+        // Render a subset of discovered URLs to find JS-generated content
+        let render_limit = 20.min(result.len());
+        for url in result.iter().take(render_limit).cloned().collect::<Vec<_>>() {
+            match renderer.render(&url, self.render_wait_ms).await {
+                Ok(page) => {
+                    // Add URLs from rendered DOM
+                    for new_url in page.urls {
+                        if let Ok(parsed) = Url::parse(&new_url) {
+                            if parsed.host_str() == Some(&base_host) {
+                                let normalized = normalize_url(&new_url);
+                                if !all_urls.contains(&normalized) {
+                                    all_urls.insert(normalized);
+                                    result.push(new_url);
+                                }
+                            }
+                        }
+                    }
+
+                    // Also extract URLs from rendered HTML using same parsers
+                    if let Ok(page_url) = Url::parse(&url) {
+                        let html_urls = extractor::extract_from_html(&page_url, &page.html);
+                        for new_url in html_urls {
+                            if let Ok(parsed) = Url::parse(&new_url) {
+                                if parsed.host_str() == Some(&base_host) {
+                                    let normalized = normalize_url(&new_url);
+                                    if !all_urls.contains(&normalized) {
+                                        all_urls.insert(normalized);
+                                        result.push(new_url);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                Err(e) => {
+                    debug!("Browser render failed for {url}: {e}");
+                }
+            }
+        }
+
+        info!("Browser rendering discovered {} additional URLs", result.len().saturating_sub(render_limit));
+        result
+    }
+
+    /// Stub when browser feature is not enabled
+    #[cfg(not(feature = "browser"))]
+    async fn render_pass(&self, urls: Vec<String>, _base_url: &Url) -> Vec<String> {
+        warn!("Browser rendering requested but 'browser' feature not enabled. Compile with: cargo build --features browser");
+        urls
     }
 }
 

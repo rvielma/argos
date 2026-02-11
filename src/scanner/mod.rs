@@ -26,6 +26,8 @@ use std::sync::Arc;
 use tokio::task::JoinSet;
 use tracing::{error, info};
 
+pub use waf::WafInfo;
+
 /// Trait that all scanner modules must implement
 #[async_trait]
 pub trait Scanner: Send + Sync {
@@ -47,6 +49,8 @@ pub trait Scanner: Send + Sync {
 /// Orchestrates the execution of all registered scanner modules
 pub struct ScanEngine {
     scanners: Vec<Arc<dyn Scanner>>,
+    /// WAF detection info shared between modules
+    waf_info: tokio::sync::Mutex<Option<WafInfo>>,
 }
 
 impl ScanEngine {
@@ -54,6 +58,7 @@ impl ScanEngine {
     pub fn new() -> Self {
         Self {
             scanners: Vec::new(),
+            waf_info: tokio::sync::Mutex::new(None),
         }
     }
 
@@ -101,6 +106,19 @@ impl ScanEngine {
         let mut crawler = Crawler::new(&client, config);
         let crawled_urls = crawler.crawl(&config.target).await;
         info!("Crawler discovered {} URLs", crawled_urls.len());
+
+        // Run WAF detection first if WAF or injection modules are enabled
+        let waf_info = if config.modules.iter().any(|m| m == "waf" || m == "injection") {
+            info!("Running WAF detection");
+            let info = waf::detect_waf(&client, &config.target).await;
+            if !info.detected_wafs.is_empty() {
+                info!("WAF detected: {}", info.detected_wafs.join(", "));
+            }
+            Some(info)
+        } else {
+            None
+        };
+        self.waf_info.lock().await.clone_from(&waf_info);
 
         let enabled_scanners: Vec<Arc<dyn Scanner>> = self
             .scanners

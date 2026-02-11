@@ -1,0 +1,153 @@
+name: 'Argos Security Scan'
+description: 'Run Argos Panoptes web security scanner against a target'
+author: 'Argos Panoptes'
+branding:
+  icon: 'shield'
+  color: 'blue'
+
+inputs:
+  target:
+    description: 'Target URL to scan'
+    required: true
+  modules:
+    description: 'Comma-separated list of modules to run'
+    required: false
+    default: ''
+  profile:
+    description: 'Scan profile: quick, standard, full, api, ci'
+    required: false
+    default: 'standard'
+  fail-on:
+    description: 'Exit with code 1 if findings at or above this severity (critical, high, medium, low, info)'
+    required: false
+    default: ''
+  format:
+    description: 'Output format: html, json, sarif'
+    required: false
+    default: 'sarif'
+  version:
+    description: 'Argos version to use (tag name or "latest")'
+    required: false
+    default: 'latest'
+  extra-args:
+    description: 'Additional CLI arguments to pass to argos'
+    required: false
+    default: ''
+
+outputs:
+  report-path:
+    description: 'Path to the generated report file'
+    value: ${{ steps.scan.outputs.report-path }}
+  findings-count:
+    description: 'Total number of findings'
+    value: ${{ steps.scan.outputs.findings-count }}
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Determine OS and architecture
+      id: platform
+      shell: bash
+      run: |
+        OS=$(uname -s | tr '[:upper:]' '[:lower:]')
+        ARCH=$(uname -m)
+        case "$ARCH" in
+          x86_64) ARCH="x86_64" ;;
+          aarch64|arm64) ARCH="aarch64" ;;
+          *) echo "Unsupported architecture: $ARCH"; exit 1 ;;
+        esac
+        echo "os=$OS" >> $GITHUB_OUTPUT
+        echo "arch=$ARCH" >> $GITHUB_OUTPUT
+
+    - name: Download Argos
+      shell: bash
+      run: |
+        VERSION="${{ inputs.version }}"
+        OS="${{ steps.platform.outputs.os }}"
+        ARCH="${{ steps.platform.outputs.arch }}"
+
+        if [ "$VERSION" = "latest" ]; then
+          DOWNLOAD_URL=$(gh api repos/${{ github.repository_owner }}/argos/releases/latest --jq ".assets[] | select(.name | contains(\"${OS}\") and contains(\"${ARCH}\")) | .browser_download_url" 2>/dev/null || true)
+          if [ -z "$DOWNLOAD_URL" ]; then
+            DOWNLOAD_URL=$(gh api repos/${{ github.repository_owner }}/argos/releases/latest --jq '.assets[0].browser_download_url')
+          fi
+        else
+          DOWNLOAD_URL=$(gh api "repos/${{ github.repository_owner }}/argos/releases/tags/${VERSION}" --jq ".assets[] | select(.name | contains(\"${OS}\") and contains(\"${ARCH}\")) | .browser_download_url" 2>/dev/null || true)
+          if [ -z "$DOWNLOAD_URL" ]; then
+            DOWNLOAD_URL=$(gh api "repos/${{ github.repository_owner }}/argos/releases/tags/${VERSION}" --jq '.assets[0].browser_download_url')
+          fi
+        fi
+
+        echo "Downloading Argos from: $DOWNLOAD_URL"
+        curl -sL "$DOWNLOAD_URL" -o argos-binary
+        chmod +x argos-binary
+        sudo mv argos-binary /usr/local/bin/argos
+
+    - name: Run Argos scan
+      id: scan
+      shell: bash
+      run: |
+        ARGS="scan -t ${{ inputs.target }}"
+
+        # Profile or modules
+        if [ -n "${{ inputs.modules }}" ]; then
+          ARGS="$ARGS -m ${{ inputs.modules }}"
+        elif [ -n "${{ inputs.profile }}" ]; then
+          ARGS="$ARGS --profile ${{ inputs.profile }}"
+        fi
+
+        # Output format
+        FORMAT="${{ inputs.format }}"
+        ARGS="$ARGS --format $FORMAT"
+
+        # Fail-on threshold
+        if [ -n "${{ inputs.fail-on }}" ]; then
+          ARGS="$ARGS --fail-on ${{ inputs.fail-on }}"
+        fi
+
+        # Extra arguments
+        if [ -n "${{ inputs.extra-args }}" ]; then
+          ARGS="$ARGS ${{ inputs.extra-args }}"
+        fi
+
+        # Determine output extension
+        case "$FORMAT" in
+          sarif) EXT="sarif.json" ;;
+          json) EXT="json" ;;
+          *) EXT="html" ;;
+        esac
+        OUTPUT="argos-results.$EXT"
+        ARGS="$ARGS -o $OUTPUT"
+
+        echo "Running: argos $ARGS"
+        set +e
+        argos $ARGS
+        SCAN_EXIT=$?
+        set -e
+
+        echo "report-path=$OUTPUT" >> $GITHUB_OUTPUT
+
+        # Count findings from JSON output (if available)
+        if [ -f "argos-results.json" ]; then
+          COUNT=$(python3 -c "import json; d=json.load(open('argos-results.json')); print(len(d.get('findings',[])))" 2>/dev/null || echo "0")
+          echo "findings-count=$COUNT" >> $GITHUB_OUTPUT
+        else
+          echo "findings-count=0" >> $GITHUB_OUTPUT
+        fi
+
+        exit $SCAN_EXIT
+
+    - name: Upload SARIF to GitHub Security
+      if: inputs.format == 'sarif' && always()
+      uses: github/codeql-action/upload-sarif@v3
+      with:
+        sarif_file: argos-results.sarif.json
+      continue-on-error: true
+
+    - name: Upload report artifact
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: argos-security-report
+        path: argos-results.*
+        retention-days: 30
