@@ -61,7 +61,14 @@ impl super::Scanner for DastScanner {
             forms_html.len()
         );
 
-        // CSRF checks
+        // CSRF checks — use pre-collected crawler forms first
+        if !config.crawled_forms.is_empty() {
+            info!("DAST: checking {} pre-collected forms for CSRF", config.crawled_forms.len());
+            let crawler_csrf = csrf::check_csrf_from_forms(client, &config.crawled_forms).await;
+            findings.extend(crawler_csrf);
+        }
+
+        // Also check forms from fetched pages (may find additional forms)
         for (url, html) in &forms_html {
             let csrf_findings = csrf::check_csrf(client, url, html).await;
             findings.extend(csrf_findings);

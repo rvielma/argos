@@ -10,6 +10,7 @@ pub mod sqli;
 pub mod ssti;
 pub mod xss;
 
+use crate::crawler::extractor::FormInfo;
 use crate::error::Result;
 use crate::http::HttpClient;
 use crate::models::{Finding, ScanConfig, Severity};
@@ -20,7 +21,6 @@ use std::collections::HashMap;
 use tracing::{debug, info};
 use url::Url;
 
-// Re-export serde_json for JSON body injection point extraction
 use serde_json;
 
 /// Represents a prepared test request: (method, url, headers, optional body)
@@ -271,6 +271,36 @@ impl InjectionScanner {
             }
         }
 
+        points
+    }
+
+    /// Converts pre-collected crawler forms into injection points
+    fn forms_to_injection_points(forms: &[FormInfo]) -> Vec<InjectionPoint> {
+        let mut points = Vec::new();
+        for form in forms {
+            let params: Vec<String> = form
+                .inputs
+                .iter()
+                .filter(|(name, input_type, _)| {
+                    !name.is_empty()
+                        && input_type != "submit"
+                        && input_type != "button"
+                        && input_type != "image"
+                        && input_type != "reset"
+                        && !Self::is_security_param(name)
+                })
+                .map(|(name, _, _)| name.clone())
+                .collect();
+
+            if !params.is_empty() && !Self::is_oauth_url(&form.action) {
+                points.push(InjectionPoint {
+                    url: form.action.clone(),
+                    params,
+                    point_type: PointType::QueryParam,
+                    original_body: None,
+                });
+            }
+        }
         points
     }
 
@@ -778,20 +808,66 @@ impl super::Scanner for InjectionScanner {
         // Collect injection points from all crawled URLs
         let mut injection_points = Vec::new();
 
+        // Phase 1: Use pre-collected forms from crawler (no extra HTTP requests)
+        if !config.crawled_forms.is_empty() {
+            let form_points = Self::forms_to_injection_points(&config.crawled_forms);
+            info!(
+                "Using {} injection points from {} crawler forms",
+                form_points.len(),
+                config.crawled_forms.len()
+            );
+            injection_points.extend(form_points);
+        }
+
+        // Phase 2: Fetch pages for headers, cookies, JSON bodies, and additional forms
         let urls_to_check: Vec<&str> = if crawled_urls.is_empty() {
             vec![config.target.as_str()]
         } else {
             crawled_urls.iter().map(|s| s.as_str()).collect()
         };
 
+        // Track form URLs from crawler to avoid duplicate extraction
+        let crawler_form_urls: std::collections::HashSet<String> = config
+            .crawled_forms
+            .iter()
+            .map(|f| f.action.clone())
+            .collect();
+
+        // Resolve base host/domain for subdomain-aware filtering
+        let base_host = Url::parse(&config.target)
+            .ok()
+            .and_then(|u| u.host_str().map(|h| h.to_string()))
+            .unwrap_or_default();
+        let base_domain = {
+            let parts: Vec<&str> = base_host.split('.').collect();
+            if parts.len() >= 2 {
+                parts[parts.len() - 2..].join(".")
+            } else {
+                base_host.clone()
+            }
+        };
+        let include_subdomains = config.include_subdomains;
+
         for url in urls_to_check.iter().take(50) {
-            // Skip junk URLs (JS code, template literals, etc.) and OAuth/SSO flows
             if Self::is_junk_url(url) || Self::is_oauth_url(url) {
                 debug!("Skipping URL: {url}");
                 continue;
             }
+
+            // Subdomain-aware host filtering
+            if let Ok(parsed) = Url::parse(url) {
+                let host = parsed.host_str().unwrap_or("");
+                let in_scope = if include_subdomains {
+                    host == base_host || host.ends_with(&format!(".{base_domain}"))
+                } else {
+                    host == base_host
+                };
+                if !in_scope {
+                    continue;
+                }
+            }
+
             if let Ok(response) = client.get(url).await {
-                // Extract Set-Cookie headers for cookie injection points
                 let set_cookies: Vec<String> = response
                     .headers()
                     .get_all("set-cookie")
@@ -809,9 +885,28 @@ impl super::Scanner for InjectionScanner {
 
                 let body = response.text().await.unwrap_or_default();
 
-                // Standard injection points (forms, query params, links)
-                let points = Self::extract_injection_points(url, &body);
-                injection_points.extend(points);
+                // Extract forms only from pages NOT already covered by crawler forms
+                if !crawler_form_urls.contains(*url) {
+                    let points = Self::extract_injection_points(url, &body);
+                    injection_points.extend(points);
+                } else {
+                    // Still extract query params from URL itself (not covered by form extraction)
+                    if let Ok(parsed) = Url::parse(url) {
+                        let params: Vec<String> = parsed
+                            .query_pairs()
+                            .map(|(k, _)| k.to_string())
+                            .filter(|k| !k.is_empty() && !Self::is_security_param(k))
+                            .collect();
+                        if !params.is_empty() {
+                            injection_points.push(InjectionPoint {
+                                url: url.to_string(),
+                                params,
+                                point_type: PointType::QueryParam,
+                                original_body: None,
+                            });
+                        }
+                    }
+                }
 
                 // Header injection points (one per URL)
                 injection_points.push(Self::extract_header_points(url));

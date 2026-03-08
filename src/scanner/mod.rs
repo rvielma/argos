@@ -98,14 +98,21 @@ impl ScanEngine {
 
     /// Runs all enabled scanner modules and collects results
     pub async fn run(&self, config: &ScanConfig) -> Result<ScanResult> {
+        let mut config = config.clone();
         let mut result = ScanResult::new(&config.target);
-        let client = HttpClient::from_config(config).await?;
+        let client = HttpClient::from_config(&config).await?;
 
-        // Run crawler first to discover URLs
+        // Run crawler first to discover URLs and forms
         info!("Starting crawler on {}", config.target);
-        let mut crawler = Crawler::new(&client, config);
-        let crawled_urls = crawler.crawl(&config.target).await;
-        info!("Crawler discovered {} URLs", crawled_urls.len());
+        let mut crawler = Crawler::new(&client, &config);
+        let crawl_result = crawler.crawl_full(&config.target).await;
+        let crawled_urls = crawl_result.urls;
+        config.crawled_forms = crawl_result.forms;
+        info!(
+            "Crawler discovered {} URLs, {} forms",
+            crawled_urls.len(),
+            config.crawled_forms.len()
+        );
 
         // Run WAF detection first if WAF or injection modules are enabled
         let waf_info = if config.modules.iter().any(|m| m == "waf" || m == "injection") {
@@ -131,7 +138,7 @@ impl ScanEngine {
             self.run_concurrent(
                 &enabled_scanners,
                 &client,
-                config,
+                &config,
                 &crawled_urls,
                 &mut result,
             )
@@ -140,7 +147,7 @@ impl ScanEngine {
             self.run_sequential(
                 &enabled_scanners,
                 &client,
-                config,
+                &config,
                 &crawled_urls,
                 &mut result,
             )

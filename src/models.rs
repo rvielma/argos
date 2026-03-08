@@ -324,6 +324,9 @@ pub struct ScanConfig {
     /// Include subdomains in crawl scope
     #[serde(default)]
     pub include_subdomains: bool,
+    /// Pre-collected forms from crawler (not serialized)
+    #[serde(skip)]
+    pub crawled_forms: Vec<crate::crawler::extractor::FormInfo>,
 }
 
 fn default_template_clustering() -> bool {
@@ -404,6 +407,7 @@ impl Default for ScanConfig {
             nuclei_templates_dir: None,
             max_urls: 500,
             include_subdomains: false,
+            crawled_forms: Vec::new(),
         }
     }
 }

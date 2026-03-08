@@ -1,5 +1,6 @@
 //! CSRF (Cross-Site Request Forgery) detection
 
+use crate::crawler::extractor::FormInfo;
 use crate::http::HttpClient;
 use crate::models::{Confidence, Finding, Severity};
 use scraper::{Html, Selector};
@@ -89,6 +90,103 @@ pub async fn check_csrf(client: &HttpClient, url: &str, html: &str) -> Vec<Findi
                 .with_owasp("A01:2021 Broken Access Control");
 
                 findings.push(finding);
+            }
+        }
+    }
+
+    findings
+}
+
+/// Checks pre-collected crawler forms for CSRF vulnerabilities
+pub async fn check_csrf_from_forms(client: &HttpClient, forms: &[FormInfo]) -> Vec<Finding> {
+    let mut findings = Vec::new();
+
+    for form_info in forms {
+        let method = form_info.method.to_lowercase();
+        if method != "post" && method != "put" && method != "delete" {
+            continue;
+        }
+
+        let has_csrf_token = form_info.inputs.iter().any(|(name, input_type, _)| {
+            let lower = name.to_lowercase();
+            input_type == "hidden"
+                && CSRF_FIELD_NAMES
+                    .iter()
+                    .any(|&csrf_name| lower.contains(csrf_name))
+        });
+
+        let fields: Vec<(String, String)> = form_info
+            .inputs
+            .iter()
+            .filter(|(name, _, _)| {
+                let lower = name.to_lowercase();
+                !CSRF_FIELD_NAMES
+                    .iter()
+                    .any(|&csrf_name| lower.contains(csrf_name))
+            })
+            .map(|(name, _, value)| {
+                (
+                    name.clone(),
+                    value.clone().unwrap_or_else(|| "test".to_string()),
+                )
+            })
+            .collect();
+
+        let form_data = FormData {
+            method,
+            action: form_info.action.clone(),
+            form_url: form_info.action.clone(),
+            has_csrf_token,
+            fields,
+        };
+
+        if !form_data.has_csrf_token {
+            findings.push(
+                Finding::new(
+                    "Missing CSRF Token",
+                    format!(
+                        "POST form at {} does not contain a CSRF protection token.",
+                        form_data.form_url
+                    ),
+                    Severity::Medium,
+                    "CSRF",
+                    &form_data.form_url,
+                )
+                .with_confidence(Confidence::Tentative)
+                .with_evidence(format!(
+                    "Form method={} action={} has no CSRF token field",
+                    form_data.method, form_data.action
+                ))
+                .with_recommendation(
+                    "Add a CSRF token to all state-changing forms. Use framework-provided \
+                     CSRF protection (e.g., Django csrf_token, Rails authenticity_token).",
+                )
+                .with_cwe("CWE-352")
+                .with_owasp("A01:2021 Broken Access Control"),
+            );
+        } else {
+            let validated = check_csrf_enforcement(client, &form_data).await;
+            if !validated {
+                findings.push(
+                    Finding::new(
+                        "CSRF Token Not Enforced",
+                        format!(
+                            "The form at {} has a CSRF token field but the server accepts \
+                             submissions without it.",
+                            form_data.form_url
+                        ),
+                        Severity::High,
+                        "CSRF",
+                        &form_data.form_url,
+                    )
+                    .with_confidence(Confidence::Confirmed)
+                    .with_evidence("Form submitted successfully without CSRF token")
+                    .with_recommendation(
+                        "Ensure the server validates the CSRF token on every state-changing request.",
+                    )
+                    .with_cwe("CWE-352")
+                    .with_owasp("A01:2021 Broken Access Control"),
+                );
             }
         }
     }
