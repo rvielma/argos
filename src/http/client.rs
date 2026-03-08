@@ -12,6 +12,9 @@ use tokio::sync::{Mutex, Semaphore};
 use tokio::time::sleep;
 use tracing::{debug, warn};
 
+/// Number of consecutive errors before a host is circuit-broken (skipped)
+const HOST_ERROR_THRESHOLD: u32 = 5;
+
 /// Adaptive rate limiting state shared across cloned clients
 #[derive(Debug, Default)]
 struct AdaptiveState {
@@ -23,6 +26,8 @@ struct AdaptiveState {
     waf_detected: bool,
     /// Last Retry-After value from server (seconds)
     last_retry_after: Option<u64>,
+    /// Per-host consecutive error counter for circuit breaking
+    host_errors: HashMap<String, u32>,
 }
 
 /// HTTP client wrapper with rate limiting and request counting
@@ -192,6 +197,14 @@ impl HttpClient {
         None
     }
 
+    /// Extracts the host from a URL for circuit breaker tracking
+    fn extract_host(url: &str) -> String {
+        url::Url::parse(url)
+            .ok()
+            .and_then(|u| u.host_str().map(|h| h.to_string()))
+            .unwrap_or_default()
+    }
+
     /// Executes a request with retry logic, rate limiting, and adaptive backoff
     async fn request_with_retry<F>(&self, build_request: F) -> Result<Response>
     where
@@ -199,6 +212,27 @@ impl HttpClient {
     {
         const MAX_RETRIES: u32 = 3;
         const INITIAL_BACKOFF_MS: u64 = 500;
+
+        // Circuit breaker: check if host has exceeded error threshold
+        let req_url = {
+            let req = build_request();
+            let url_str = req
+                .build()
+                .map(|r| r.url().to_string())
+                .unwrap_or_default();
+            url_str
+        };
+        let host = Self::extract_host(&req_url);
+        if !host.is_empty() {
+            let state = self.adaptive.lock().await;
+            if let Some(&count) = state.host_errors.get(&host) {
+                if count >= HOST_ERROR_THRESHOLD {
+                    return Err(ArgosError::ScanError(format!(
+                        "Host {host} circuit-broken after {count} consecutive errors"
+                    )));
+                }
+            }
+        }
 
         // Apply configured rate limiting
         if let Some(delay) = self.rate_limit_delay {
@@ -337,6 +371,10 @@ impl HttpClient {
                                 state.current_delay_ms = 0;
                             }
                         }
+                        // Reset host error counter on success
+                        if !host.is_empty() {
+                            state.host_errors.remove(&host);
+                        }
                     }
 
                     return Ok(response);
@@ -345,6 +383,16 @@ impl HttpClient {
                     warn!("Request failed (attempt {attempt}): {e}");
                     last_error = Some(ArgosError::HttpError(e));
                 }
+            }
+        }
+
+        // Track host error for circuit breaker
+        if !host.is_empty() {
+            let mut state = self.adaptive.lock().await;
+            let count = state.host_errors.entry(host.clone()).or_insert(0);
+            *count += 1;
+            if *count == HOST_ERROR_THRESHOLD {
+                warn!("Host {host} circuit-broken after {count} consecutive errors, skipping future requests");
             }
         }
 
