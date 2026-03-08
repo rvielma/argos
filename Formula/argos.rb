@@ -1,7 +1,7 @@
 class Argos < Formula
   desc "Web Security Scanner for Healthcare Environments"
   homepage "https://github.com/rvielma/argos"
-  version "2.1.2"
+  version "2.2.0"
   license "MIT"
 
   on_macos do
