@@ -482,19 +482,7 @@ async fn test_ssti_detection() {
         .mount(&mock_server)
         .await;
 
-    // Catch-all: SSTI payload requests return "1337" with extra content (>100 bytes diff from baseline)
-    Mock::given(method("GET"))
-        .and(path("/render"))
-        .respond_with(
-            ResponseTemplate::new(200)
-                .set_body_string(
-                    "<html><body><div class=\"template-output\"><h1>Template Rendered</h1><p>The computed result of your expression is: 1337</p><p>Template engine processed the input successfully and returned the evaluated value above.</p></div></body></html>"
-                ),
-        )
-        .mount(&mock_server)
-        .await;
-
-    // Specific mocks override catch-all (mounted later = higher priority)
+    // Specific mocks first (wiremock 0.6: first registered match wins)
     Mock::given(method("GET"))
         .and(path("/render"))
         .and(query_param("tpl", "argosbaselinetest123"))
@@ -521,6 +509,18 @@ async fn test_ssti_detection() {
         .respond_with(
             ResponseTemplate::new(200)
                 .set_body_string("<html><body><p>Result: none</p></body></html>"),
+        )
+        .mount(&mock_server)
+        .await;
+
+    // Catch-all: any other /render request returns "1337" (>100 bytes diff from baseline)
+    Mock::given(method("GET"))
+        .and(path("/render"))
+        .respond_with(
+            ResponseTemplate::new(200)
+                .set_body_string(
+                    "<html><body><div class=\"template-output\"><h1>Template Rendered</h1><p>The computed result of your expression is: 1337</p><p>Template engine processed the input successfully and returned the evaluated value above.</p></div></body></html>"
+                ),
         )
         .mount(&mock_server)
         .await;

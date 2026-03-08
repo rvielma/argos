@@ -221,41 +221,15 @@ impl super::Scanner for TemplateScanner {
         if config.template_clustering {
             let cluster = TemplateCluster::from_templates(templates);
 
-            // Execute clustered templates: one request per path, evaluate all templates
-            for (key, cluster_templates) in &cluster.clusters {
-                let path = key.strip_prefix("GET:").unwrap_or(key);
-                let url = format!(
-                    "{}/{}",
-                    config.target.trim_end_matches('/'),
-                    path.trim_start_matches('/')
-                );
-
-                match client.get(&url).await {
-                    Ok(response) => {
-                        let status_code = response.status().as_u16();
-                        let resp_headers: Vec<(String, String)> = response
-                            .headers()
-                            .iter()
-                            .map(|(k, v)| (k.to_string(), v.to_str().unwrap_or("").to_string()))
-                            .collect();
-                        let body = response.text().await.unwrap_or_default();
-
-                        for tmpl in cluster_templates {
-                            let f = engine::evaluate_template_against_response(
-                                tmpl,
-                                status_code,
-                                &resp_headers,
-                                &body,
-                                &url,
-                            );
-                            findings.extend(f);
-                        }
-                    }
-                    Err(e) => {
-                        tracing::debug!("Cluster request to {} failed: {}", url, e);
-                    }
-                }
-            }
+            // Execute clustered templates in parallel: one request per path
+            let cluster_findings = execute_clusters_parallel(
+                client,
+                &config.target,
+                &cluster.clusters,
+                config.threads,
+            )
+            .await;
+            findings.extend(cluster_findings);
 
             // Execute unclustered templates in parallel
             findings.extend(
@@ -277,6 +251,70 @@ impl super::Scanner for TemplateScanner {
 
         Ok(findings)
     }
+}
+
+/// Execute clustered templates concurrently: one HTTP request per unique path,
+/// evaluate all matching templates against each response
+async fn execute_clusters_parallel(
+    client: &HttpClient,
+    target: &str,
+    clusters: &std::collections::HashMap<String, Vec<CveTemplate>>,
+    max_concurrent: usize,
+) -> Vec<Finding> {
+    let semaphore = Arc::new(Semaphore::new(max_concurrent.max(1)));
+    let mut set = JoinSet::new();
+
+    for (key, cluster_templates) in clusters {
+        let sem = Arc::clone(&semaphore);
+        let client = client.clone();
+        let path = key.strip_prefix("GET:").unwrap_or(key).to_string();
+        let url = format!(
+            "{}/{}",
+            target.trim_end_matches('/'),
+            path.trim_start_matches('/')
+        );
+        let templates = cluster_templates.clone();
+
+        set.spawn(async move {
+            let _permit = sem.acquire().await;
+            let mut findings = Vec::new();
+            match client.get(&url).await {
+                Ok(response) => {
+                    let status_code = response.status().as_u16();
+                    let resp_headers: Vec<(String, String)> = response
+                        .headers()
+                        .iter()
+                        .map(|(k, v)| (k.to_string(), v.to_str().unwrap_or("").to_string()))
+                        .collect();
+                    let body = response.text().await.unwrap_or_default();
+
+                    for tmpl in &templates {
+                        let f = engine::evaluate_template_against_response(
+                            tmpl,
+                            status_code,
+                            &resp_headers,
+                            &body,
+                            &url,
+                        );
+                        findings.extend(f);
+                    }
+                }
+                Err(e) => {
+                    tracing::debug!("Cluster request to {} failed: {}", url, e);
+                }
+            }
+            findings
+        });
+    }
+
+    let mut findings = Vec::new();
+    while let Some(result) = set.join_next().await {
+        if let Ok(f) = result {
+            findings.extend(f);
+        }
+    }
+
+    findings
 }
 
 /// Execute templates concurrently with a semaphore-based concurrency limit
