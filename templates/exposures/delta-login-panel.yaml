@@ -1,0 +1,21 @@
+id: delta-login-panel
+name: Delta Controls Admin Login Panel - Detect
+severity: info
+confidence: tentative
+description: Delta Controls admin login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- delta
+- discovery
+requests:
+- method: GET
+  path: /deltaweb/hmi_login.asp
+  matchers:
+  - type: body
+    words:
+    - Delta Controls ORCAview
+  - type: status
+    status:
+    - 200
+  condition: and

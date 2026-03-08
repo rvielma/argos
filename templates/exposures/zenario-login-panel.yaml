@@ -1,0 +1,22 @@
+id: zenario-login-panel
+name: Zenario Admin Login Panel - Detect
+severity: info
+confidence: tentative
+description: Zenario admin login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- zenario
+- tribalsystems
+- discovery
+requests:
+- method: GET
+  path: /zenario/admin/welcome.php
+  matchers:
+  - type: status
+    status:
+    - 200
+  - type: body
+    words:
+    - Welcome to Zenario
+  condition: and

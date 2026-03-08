@@ -1,0 +1,30 @@
+id: mrtg-detect
+name: Detect MRTG
+severity: info
+confidence: tentative
+description: The Multi Router Traffic Grapher
+reference: https://oss.oetiker.ch/mrtg/
+tags:
+- tech
+- mrtg
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: status
+    status:
+    - 200
+  - type: body
+    words:
+    - MRTG Index Page
+    - Multi Router Traffic Grapher
+  condition: and
+- method: GET
+  path: /mrtg/
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /MRTG/
+  matchers: *id001
+  condition: and

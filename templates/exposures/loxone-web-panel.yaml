@@ -1,0 +1,23 @@
+id: loxone-web-panel
+name: Loxone WebInterface Panel - Detect
+severity: info
+confidence: confirmed
+description: Loxone WebInterface Panel - Detect
+tags:
+- panel
+- login
+- loxone
+- detect
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Webinterface</title>
+    - loxone
+  - type: status
+    status:
+    - 200
+  condition: and

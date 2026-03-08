@@ -1,0 +1,22 @@
+id: phalcon-framework-source
+name: Phalcon Framework - Source Code Leakage
+severity: high
+confidence: tentative
+description: Phalcon Framework source code was discovered.
+tags:
+- exposure
+- debug
+- phalcon
+- vuln
+requests:
+- method: GET
+  path: /anything_here
+  matchers:
+  - type: body
+    words:
+    - Phalcon Framework
+    - AnythingHereController
+  - type: status
+    status:
+    - 200
+  condition: and

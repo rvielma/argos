@@ -1,0 +1,26 @@
+id: aem-offloading-browser
+name: Adobe AEM Offloading Browser
+severity: medium
+confidence: tentative
+description: Adobe AEM Offloading Browser is exposed.
+reference: https://raw.githubusercontent.com/danielmiessler/SecLists/master/Discovery/Web-Content/aem2.txt
+tags:
+- misconfig
+- aem
+- adobe
+- vuln
+requests:
+- method: GET
+  path: /libs/granite/offloading/content/view.html
+  matchers:
+  - type: body
+    words:
+    - Offloading Browser
+    - '>CLUSTER</th>'
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

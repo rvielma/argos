@@ -1,0 +1,27 @@
+id: umbraco-login
+name: Umbraco Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Umbraco login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- umbraco
+- detect
+- discovery
+requests:
+- method: GET
+  path: /umbraco
+  matchers: &id001
+  - type: body
+    words:
+    - Umbraco.Sys
+    - <umb-auth
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /umbraco/login
+  matchers: *id001
+  condition: and

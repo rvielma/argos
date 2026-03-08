@@ -1,0 +1,25 @@
+id: mitel-panel-detect
+name: Mitel Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Mitel login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- mitel
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - Mitel Networks Corporation
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /server-common/cgi-bin/login
+  matchers: *id001
+  condition: and

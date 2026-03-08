@@ -1,0 +1,26 @@
+id: ioncube-loader-wizard
+name: ioncube Loader Wizard Disclosure
+severity: medium
+confidence: tentative
+description: An ioncube Loader Wizard was discovered.
+reference: CWE-200
+tags:
+- ioncube
+- disclosure
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /ioncube/loader-wizard.php
+  matchers: &id001
+  - type: body
+    words:
+    - ionCube Loader Wizard
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /loader-wizard.php
+  matchers: *id001
+  condition: and

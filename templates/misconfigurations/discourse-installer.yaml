@@ -1,0 +1,25 @@
+id: discourse-installer
+name: Discourse Installer Exposure
+severity: high
+confidence: confirmed
+description: Discourse is susceptible to the Installation page exposure due to misconfiguration.
+tags:
+- misconfig
+- discourse
+- install
+- vuln
+requests:
+- method: GET
+  path: /finish-installation/register
+  matchers:
+  - type: body
+    words:
+    - Discourse Setup
+    - Register Admin Account
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

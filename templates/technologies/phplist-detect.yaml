@@ -1,0 +1,21 @@
+id: phplist-detect
+name: phpList - Detect
+severity: info
+confidence: confirmed
+description: phpList is an open source newsletter manager.
+reference: https://www.phplist.org/
+tags:
+- tech
+- phplist
+- detect
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - content="phpList
+    - phpList Ltd
+    - phpList</a>
+  condition: or

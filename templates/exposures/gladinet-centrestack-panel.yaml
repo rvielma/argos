@@ -1,0 +1,23 @@
+id: gladinet-centrestack-panel
+name: CentreStack Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Gladinet CentreStack login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- centrestack
+- login
+- gladinet
+- discovery
+requests:
+- method: GET
+  path: /portal/loginpage.aspx
+  matchers:
+  - type: body
+    words:
+    - CentreStack - Login
+  - type: status
+    status:
+    - 200
+  condition: and

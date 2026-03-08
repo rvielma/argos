@@ -1,0 +1,25 @@
+id: kubelet-pods
+name: Kubelet Scan
+severity: info
+confidence: tentative
+description: Scans for kubelet pods
+tags:
+- tech
+- k8s
+- kubernetes
+- devops
+- kubelet
+- pods
+- discovery
+requests:
+- method: GET
+  path: /pods
+  matchers:
+  - type: status
+    status:
+    - 200
+  - type: body
+    words:
+    - '"PodList":'
+    - '"items":'
+  condition: and

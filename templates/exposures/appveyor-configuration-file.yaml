@@ -1,0 +1,27 @@
+id: appveyor-configuration-file
+name: AppVeyor Configuration Page - Detect
+severity: medium
+confidence: confirmed
+description: AppVeyor configuration page was detected.
+reference: CWE-200
+tags:
+- config
+- exposure
+- devops
+- vuln
+requests:
+- method: GET
+  path: /.appveyor.yml
+  matchers: &id001
+  - type: body
+    words:
+    - 'install:'
+    - 'test_script:'
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /appveyor.yml
+  matchers: *id001
+  condition: and

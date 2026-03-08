@@ -1,0 +1,23 @@
+id: jsherp-boot-panel
+name: JshERP Boot Panel - Detect
+severity: info
+confidence: confirmed
+description: JshERP Boot Panel - Detect
+tags:
+- panel
+- jsherp
+- login
+- detect
+- discovery
+requests:
+- method: GET
+  path: /user/login
+  matchers:
+  - type: body
+    words:
+    - jshERP-boot
+    - ERP系统
+  - type: status
+    status:
+    - 200
+  condition: and

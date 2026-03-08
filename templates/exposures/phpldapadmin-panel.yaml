@@ -1,0 +1,29 @@
+id: phpldapadmin-panel
+name: PHP LDAP Admin Panel - Detect
+severity: info
+confidence: confirmed
+description: PHP LDAP Admin Panel - Detect
+tags:
+- php
+- phpldapadmin
+- panel
+- detect
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - phpLDAPadmin (
+    - /projects/phpldapadmin
+    - alt="phpLDAPadmin logo
+  condition: and
+- method: GET
+  path: /phpldapadmin
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /htdocs/index.php
+  matchers: *id001
+  condition: and

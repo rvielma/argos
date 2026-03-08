@@ -1,0 +1,23 @@
+id: posthog-admin-panel
+name: PostHog Login Panel - Detect
+severity: info
+confidence: confirmed
+description: PostHog login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- posthog
+- discovery
+requests:
+- method: GET
+  path: /login?next=/
+  matchers:
+  - type: body
+    words:
+    - <title>PostHog</title>
+    - content="PostHog
+    - POSTHOG_HOST
+  - type: status
+    status:
+    - 200
+  condition: and

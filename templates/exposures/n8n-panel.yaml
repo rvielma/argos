@@ -1,0 +1,24 @@
+id: n8n-panel
+name: n8n Panel - Detect
+severity: info
+confidence: confirmed
+description: The worlds most popular workflow automation platform for technical teams
+reference: https://n8n.io/
+tags:
+- panel
+- n8n
+- login
+- detect
+- discovery
+- ai
+requests:
+- method: GET
+  path: /signin
+  matchers:
+  - type: body
+    words:
+    - <title>n8n.io
+  - type: status
+    status:
+    - 200
+  condition: and

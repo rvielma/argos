@@ -1,0 +1,24 @@
+id: fortinet-fortimanager-panel
+name: Fortinet FortiManager Panel - Detect
+severity: info
+confidence: tentative
+description: Fortinet FortiManager panel was detected.
+reference: CWE-200
+tags:
+- panel
+- fortinet
+- fortios
+- fortimanager
+- detect
+- discovery
+requests:
+- method: GET
+  path: /p/login/
+  matchers:
+  - type: body
+    words:
+    - FortiManager
+  - type: status
+    status:
+    - 200
+  condition: and

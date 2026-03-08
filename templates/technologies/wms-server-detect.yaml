@@ -1,0 +1,18 @@
+id: wms-server-detect
+name: Wms-Server detect
+severity: info
+confidence: confirmed
+description: Wms-Server detect
+tags:
+- tech
+- wms
+- httpserver
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: header
+    words:
+    - WMSServer/
+  condition: or

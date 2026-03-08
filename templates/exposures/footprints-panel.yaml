@@ -1,0 +1,26 @@
+id: footprints-panel
+name: FootPrints Service Core Login Panel - Detect
+severity: info
+confidence: confirmed
+description: FootPrints Service Core login panel was detected.
+reference: CWE-200
+tags:
+- tech
+- panel
+- footprints
+- discovery
+requests:
+- method: GET
+  path: /MRcgi/MRlogin.pl
+  matchers: &id001
+  - type: body
+    words:
+    - FootPrints Service Core Login
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /MRcgi/MRentrancePage.pl
+  matchers: *id001
+  condition: and

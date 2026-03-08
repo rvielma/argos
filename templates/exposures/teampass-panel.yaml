@@ -1,0 +1,25 @@
+id: teampass-panel
+name: TeamPass Panel - Detect
+severity: info
+confidence: confirmed
+description: TeamPass panel was detected.
+reference: CWE-200
+tags:
+- panel
+- teampass
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: regex
+    regex:
+    - <title>(.*)Teampass(.*)</title>
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /teampass
+  matchers: *id001
+  condition: and

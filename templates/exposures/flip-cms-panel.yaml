@@ -1,0 +1,22 @@
+id: flip-cms-panel
+name: FlipCMS Login Panel - Detect
+severity: info
+confidence: confirmed
+description: FlipCMS login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- flip
+- cms
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Flip CMS</title>
+  - type: status
+    status:
+    - 200
+  condition: and

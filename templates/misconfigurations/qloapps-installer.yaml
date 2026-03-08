@@ -1,0 +1,22 @@
+id: qloapps-installer
+name: QloApps - Installation
+severity: high
+confidence: confirmed
+description: QloApps Installation Assistant panel exposure.
+tags:
+- install
+- qloapps
+- misconfig
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /install/
+  matchers:
+  - type: body
+    words:
+    - <title>QloApps Installation
+  - type: status
+    status:
+    - 200
+  condition: and

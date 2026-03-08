@@ -1,0 +1,23 @@
+id: posteio-admin-panel
+name: Poste.io Admin Panel - Detect
+severity: info
+confidence: confirmed
+description: Poste.io login panel was detected.
+tags:
+- panel
+- poste
+- login
+- detect
+- discovery
+requests:
+- method: GET
+  path: /admin/login
+  matchers:
+  - type: body
+    words:
+    - poste<span
+    - Administration login
+  - type: status
+    status:
+    - 200
+  condition: and

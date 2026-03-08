@@ -1,0 +1,22 @@
+id: azure-kubernetes-service
+name: Detect Azure Kubernetes Service
+severity: info
+confidence: tentative
+description: Detect Azure Kubernetes Service
+tags:
+- tech
+- azure
+- k8s
+- kubernetes
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Welcome to Azure Kubernetes Service (AKS)</title>
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,22 @@
+id: openvpn-router-management
+name: OpenVPN Server Router Management Panel - Detect
+severity: info
+confidence: confirmed
+description: OpenVPN Server Router Management Panel was detected.
+reference: CWE-200
+tags:
+- panel
+- openvpn
+- router
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Router Management - Server OpenVPN
+  - type: status
+    status:
+    - 200
+  condition: and

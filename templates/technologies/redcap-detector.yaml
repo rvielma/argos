@@ -1,0 +1,21 @@
+id: redcap-detector
+name: REDCap detector
+severity: info
+confidence: tentative
+description: REDCap detector
+tags:
+- redcap
+- tech
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - REDCap
+    - Vanderbilt University
+  - type: status
+    status:
+    - 200
+  condition: and

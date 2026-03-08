@@ -1,0 +1,33 @@
+id: bigip-config-utility
+name: BIG-IP Configuration Utility detected
+severity: info
+confidence: tentative
+description: BIG-IP Configuration Utility detected
+tags:
+- tech
+- bigip
+- discovery
+requests:
+- method: GET
+  path: /tmui/login.jsp
+  matchers: &id001
+  - type: body
+    words:
+    - Welcome to the BIG-IP
+    - Configuration Utility
+  condition: or
+- method: GET
+  path: /tmui/tmui/login/welcome.jsp
+  matchers: *id001
+  condition: or
+- method: GET
+  path: /mgmt/tm/sys/management-ip
+  matchers:
+  - type: header
+    words:
+    - 'Www-Authenticate: Basic realm'
+    - Enterprise Manager
+  - type: body
+    words:
+    - check your user-id and password and try again
+  condition: or

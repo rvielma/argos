@@ -1,0 +1,22 @@
+id: influxdb-panel
+name: InfluxDB Admin Interface Panel - Detect
+severity: info
+confidence: tentative
+description: InfluxDB admin interface panel was detected.
+reference: CWE-200
+tags:
+- panel
+- influxdb
+- influxdata
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>InfluxDB - Admin Interface</title>
+  - type: status
+    status:
+    - 200
+  condition: and

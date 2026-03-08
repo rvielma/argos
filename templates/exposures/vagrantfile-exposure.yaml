@@ -1,0 +1,28 @@
+id: vagrantfile-exposure
+name: Vagrantfile Exposure
+severity: low
+confidence: confirmed
+description: Vagrantfile is exposed to external users.
+tags:
+- config
+- exposure
+- vagrant
+- oss
+- files
+- vuln
+requests:
+- method: GET
+  path: /Vagrantfile
+  matchers:
+  - type: body
+    words:
+    - ./vagrant/config/vagrant-local.yml
+    - ./vagrant/config/vagrant-local.example.yml
+  - type: header
+    words:
+    - application/json
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

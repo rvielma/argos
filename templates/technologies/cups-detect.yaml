@@ -1,0 +1,25 @@
+id: cups-detect
+name: CUPS - Detect
+severity: info
+confidence: confirmed
+description: An instance running CUPS was detected.
+tags:
+- cups
+- tech
+- detect
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Web Interface is Disabled - CUPS
+    - Forbidden - CUPS
+    - 'Server: CUPS'
+  - type: status
+    status:
+    - 200
+    - 404
+    - 403
+  condition: and

@@ -1,0 +1,19 @@
+id: wp-license-file
+name: WordPress license file disclosure
+severity: info
+confidence: tentative
+description: Leaked WordPress license file.
+tags:
+- wordpress
+- vuln
+requests:
+- method: GET
+  path: /license.txt
+  matchers:
+  - type: body
+    words:
+    - WordPress - Web publishing software
+  - type: status
+    status:
+    - 200
+  condition: and

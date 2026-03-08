@@ -1,0 +1,22 @@
+id: unauth-xproxy-dashboard
+name: X-Proxy Dashboard Panel - Detect
+severity: info
+confidence: tentative
+description: X-Proxy Dashboard panel was detected.
+reference: CWE-200
+tags:
+- xproxy
+- panel
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>X-Proxy</title>
+    - Dashboard</a>
+  - type: status
+    status:
+    - 200
+  condition: and

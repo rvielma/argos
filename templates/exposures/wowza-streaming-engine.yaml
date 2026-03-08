@@ -1,0 +1,20 @@
+id: wowza-streaming-engine
+name: Wowza Streaming Engine Manager Panel - Detect
+severity: info
+confidence: tentative
+description: Wowza Streaming Engine Manager panel was detected.
+tags:
+- panel
+- wowza
+- discovery
+requests:
+- method: GET
+  path: /enginemanager/ftu/welcome.htm
+  matchers:
+  - type: body
+    words:
+    - <title>Wowza Streaming Engine Manager</title>
+  - type: status
+    status:
+    - 200
+  condition: and

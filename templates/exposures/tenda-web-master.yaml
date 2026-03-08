@@ -1,0 +1,22 @@
+id: tenda-web-master
+name: Tenda Web Master Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Tenda Web Master login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- tenda
+- router
+- discovery
+requests:
+- method: GET
+  path: /login.html
+  matchers:
+  - type: body
+    words:
+    - <title>Tenda Web Master</title>
+  - type: status
+    status:
+    - 200
+  condition: and

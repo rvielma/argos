@@ -1,0 +1,22 @@
+id: graylog-api-browser
+name: Detect Graylog REST API
+severity: info
+confidence: tentative
+description: Detect Graylog REST API
+tags:
+- tech
+- graylog
+- discovery
+requests:
+- method: GET
+  path: /api/api-browser/
+  matchers:
+  - type: body
+    words:
+    - Graylog
+    - REST API browser
+    - swagger
+  - type: status
+    status:
+    - 200
+  condition: and

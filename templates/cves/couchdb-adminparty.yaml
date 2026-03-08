@@ -1,0 +1,22 @@
+id: couchdb-adminparty
+name: CouchDB Admin Default - Detect
+severity: high
+confidence: tentative
+description: CouchDB is susceptible to requests in the context of an admin user.
+reference: CWE-200
+tags:
+- couchdb
+- vuln
+requests:
+- method: GET
+  path: /_users/_all_docs
+  matchers:
+  - type: header
+    words:
+    - CouchDB/
+    - Erlang OTP/
+  - type: body
+    words:
+    - total_rows
+    - offset
+  condition: and

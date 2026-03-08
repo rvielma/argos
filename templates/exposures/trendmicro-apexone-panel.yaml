@@ -1,0 +1,24 @@
+id: trendmicro-apexone-panel
+name: Trend Micro Apex One Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Trend Micro Apex One login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- trendmicro
+- login
+- detect
+- discovery
+requests:
+- method: GET
+  path: /officescan/console/html/cgi/cgiChkMasterPwd.exe
+  matchers:
+  - type: body
+    words:
+    - officescan
+    - Trend Micro
+  - type: status
+    status:
+    - 200
+  condition: and

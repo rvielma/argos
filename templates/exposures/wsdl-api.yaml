@@ -1,0 +1,18 @@
+id: wsdl-api
+name: WSDL API - Detect
+severity: info
+confidence: tentative
+description: WSDL API was detected.
+reference: CWE-200
+tags:
+- exposure
+- api
+- discovery
+requests:
+- method: GET
+  path: /?wsdl
+  matchers:
+  - type: body
+    words:
+    - wsdl:definitions
+  condition: or

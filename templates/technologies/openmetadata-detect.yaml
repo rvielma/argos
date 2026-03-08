@@ -1,0 +1,26 @@
+id: openmetadata-detect
+name: OpenMetadata - Detect
+severity: info
+confidence: tentative
+description: Detects a OpenMetadata server, a unified metadata platform for data discovery, data observability, and data governance
+  powered by a central metadata repository, in-depth column level lineage, and seamless team collaboration.
+reference: https://github.com/open-metadata/OpenMetadata
+tags:
+- tech
+- openmetadata
+- detect
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>OpenMetadata
+    - content="OpenMetadata
+    - /openmetadata.bundle
+  - type: status
+    status:
+    - 200
+    - 404
+  condition: and

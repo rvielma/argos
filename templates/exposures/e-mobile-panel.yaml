@@ -1,0 +1,30 @@
+id: e-mobile-panel
+name: E-mobile Panel - Detect
+severity: info
+confidence: confirmed
+description: E-mobile panel was detected.
+reference: CWE-200
+tags:
+- panel
+- e-mobile
+- discovery
+requests:
+- method: GET
+  path: /login.do?
+  matchers: &id001
+  - type: body
+    words:
+    - E-Mobile&nbsp;
+    - Weaver E-Mobile
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /login/login.do?
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /manager/login.do?
+  matchers: *id001
+  condition: and

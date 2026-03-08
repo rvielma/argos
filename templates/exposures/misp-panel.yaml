@@ -1,0 +1,22 @@
+id: misp-panel
+name: MISP Threat Intelligence Sharing Platform Panel - Detect
+severity: info
+confidence: confirmed
+description: MISP Threat Intelligence Sharing Platform Panel - Detect
+tags:
+- panel
+- misp
+- discovery
+requests:
+- method: GET
+  path: /users/login
+  matchers:
+  - type: body
+    words:
+    - https://github.com/MISP/MISP
+    - <title>Users - MISP</title>
+  - type: status
+    status:
+    - 200
+    - 500
+  condition: and

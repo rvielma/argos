@@ -1,0 +1,24 @@
+id: wordpress-plugins-lifterlms
+name: WordPress Plugin lifterlms Listing
+severity: info
+confidence: tentative
+description: Searches for sensitive directories present in the lifterlms plugin.
+reference: https://www.exploit-db.com/ghdb/6420
+tags:
+- wordpress
+- listing
+- plugin
+- edb
+- vuln
+requests:
+- method: GET
+  path: /wp-content/plugins/lifterlms/
+  matchers:
+  - type: body
+    words:
+    - Index of
+    - /wp-content/plugins/lifterlms/
+  - type: status
+    status:
+    - 200
+  condition: and

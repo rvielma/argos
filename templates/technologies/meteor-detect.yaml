@@ -1,0 +1,19 @@
+id: meteor-detect
+name: Meteor.js Framework - Detect
+severity: info
+confidence: confirmed
+description: Detects the presence of Meteor.js, an open-source isomorphic JavaScript web framework written using Node.js.
+reference: https://www.meteor.com/
+tags:
+- tech
+- discovery
+- meteor
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - __meteor_runtime_config__
+    - __meteor-css__
+  condition: or

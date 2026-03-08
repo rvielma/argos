@@ -1,0 +1,37 @@
+id: angular-json
+name: Angular JSON File Exposure
+severity: info
+confidence: confirmed
+description: Angular JSON File Exposure
+tags:
+- exposure
+- angularjs
+- files
+- vuln
+requests:
+- method: GET
+  path: /.angular-cli.json
+  matchers: &id001
+  - type: body
+    words:
+    - '"root":'
+    - '"config":'
+  - type: header
+    words:
+    - application/json
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /angular-cli.json
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /angular.json
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /.angular.json
+  matchers: *id001
+  condition: and

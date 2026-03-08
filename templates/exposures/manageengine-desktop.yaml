@@ -1,0 +1,23 @@
+id: manageengine-desktop
+name: ZOHO ManageEngine Desktop Panel - Detect
+severity: info
+confidence: tentative
+description: ZOHO ManageEngine desktop panel was detected.
+reference: CWE-200
+tags:
+- panel
+- zoho
+- manageengine
+- zohocorp
+- discovery
+requests:
+- method: GET
+  path: /configurations
+  matchers:
+  - type: body
+    words:
+    - <title>ManageEngine Desktop Central 10</title>
+  - type: status
+    status:
+    - 200
+  condition: and

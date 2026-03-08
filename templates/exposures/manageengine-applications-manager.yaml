@@ -1,0 +1,23 @@
+id: manageengine-applications-manager
+name: ZOHO ManageEngine Applications Manager Panel - Detected
+severity: info
+confidence: tentative
+description: ZOHO ManageEngine panel was detected.
+reference: CWE-200
+tags:
+- panel
+- zoho
+- manageengine
+- zohocorp
+- discovery
+requests:
+- method: GET
+  path: /index.do
+  matchers:
+  - type: body
+    words:
+    - <title>Applications Manager Login Screen</title>
+  - type: status
+    status:
+    - 200
+  condition: and

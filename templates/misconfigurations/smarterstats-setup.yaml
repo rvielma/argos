@@ -1,0 +1,25 @@
+id: smarterstats-setup
+name: SmarterStats Setup Exposure
+severity: high
+confidence: confirmed
+description: SmarterStats Setup is exposed.
+tags:
+- misconfig
+- smarterstats
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /Admin/frmWelcome.aspx
+  matchers:
+  - type: body
+    words:
+    - SmarterStats - SmarterStats
+    - Create System Administrator
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,27 @@
+id: prestashop-installer
+name: Prestashop Installer Exposure
+severity: high
+confidence: confirmed
+description: Prestashop is susceptible to the Installation page exposure due to misconfiguration.
+tags:
+- misconfig
+- prestashop
+- exposure
+- install
+- vuln
+requests:
+- method: GET
+  path: /install/index.php
+  matchers:
+  - type: body
+    words:
+    - <title>PrestaShop Installation Assistant</title>
+    - <li>System configuration</li>
+    - <li>Store installation</li>
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

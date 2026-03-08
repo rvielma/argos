@@ -1,0 +1,21 @@
+id: cgi-test-page
+name: CGI Test page
+severity: info
+confidence: tentative
+description: CGI Test page
+tags:
+- cgi
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /cgi-bin/test/test.cgi
+  matchers:
+  - type: body
+    words:
+    - HTTP_ACCEPT
+    - HTTP_ACCEPT_ENCODING
+  - type: status
+    status:
+    - 200
+  condition: and

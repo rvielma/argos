@@ -1,0 +1,19 @@
+id: prometheus-exporter
+name: Prometheus exporter detect
+severity: info
+confidence: tentative
+description: Prometheus exporter detector
+reference: https://github.com/prometheus/prometheus/wiki/Default-port-allocations
+tags:
+- prometheus
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Exporter
+    - <a href="/metrics">Metrics</a>
+  condition: and

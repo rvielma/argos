@@ -1,0 +1,24 @@
+id: sidekiq-dashboard
+name: Sidekiq Dashboard Panel - Detect
+severity: medium
+confidence: tentative
+description: Sidekiq Dashboard panel was detected.
+reference: CWE-200
+tags:
+- unauth
+- panel
+- sidekiq
+- contribsys
+- discovery
+requests:
+- method: GET
+  path: /sidekiq
+  matchers:
+  - type: body
+    words:
+    - <title>Sidekiq</title>
+    - <title>Sidekiq Enterprise</title>
+  - type: status
+    status:
+    - 200
+  condition: and

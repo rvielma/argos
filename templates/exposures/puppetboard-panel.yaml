@@ -1,0 +1,23 @@
+id: puppetboard-panel
+name: Puppetboard Panel - Detect
+severity: info
+confidence: confirmed
+description: Puppetboard panel was detected.
+reference: CWE-200
+tags:
+- panel
+- puppet
+- exposure
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <a href="https://github.com/voxpupuli/puppetboard" target="_blank">
+    - puppetboard.css" rel="stylesheet"
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,22 @@
+id: dataease-panel
+name: Dataease - Login Panel
+severity: info
+confidence: confirmed
+description: Dataease Login Panel is discovered
+reference: https://github.com/dataease/dataease
+tags:
+- login
+- panel
+- dataease
+- discovery
+requests:
+- method: GET
+  path: /#/login?redirect=%2F
+  matchers:
+  - type: body
+    words:
+    - DataEase doesn't work
+  - type: status
+    status:
+    - 200
+  condition: and

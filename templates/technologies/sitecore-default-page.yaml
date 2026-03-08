@@ -1,0 +1,23 @@
+id: sitecore-default-page
+name: Sitecore Default Page - Detect
+severity: info
+confidence: confirmed
+description: Detect Sitecore Content Management System (CMS).
+reference: https://www.sitecore.com/
+tags:
+- tech
+- sitecore
+- cms
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Welcome to Sitecore
+    - alt="Sitecore"
+  - type: status
+    status:
+    - 200
+  condition: and

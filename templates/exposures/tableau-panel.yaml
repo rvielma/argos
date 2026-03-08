@@ -1,0 +1,22 @@
+id: tableau-panel
+name: Tableau Python Server Panel - Detect
+severity: info
+confidence: tentative
+description: Tableau Python Server panel was detected.
+reference: CWE-200
+tags:
+- tableau
+- panel
+- python
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Tableau Python Server</title>
+  - type: status
+    status:
+    - 200
+  condition: and

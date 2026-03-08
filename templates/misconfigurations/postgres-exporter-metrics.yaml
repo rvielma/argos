@@ -1,0 +1,23 @@
+id: postgres-exporter-metrics
+name: Postgres Exporter Metrics
+severity: low
+confidence: confirmed
+description: Postgres Exporter Metrics is exposed.
+tags:
+- postgres
+- exposure
+- debug
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /metrics
+  matchers:
+  - type: body
+    words:
+    - postgres
+    - '# HELP'
+  - type: status
+    status:
+    - 200
+  condition: and

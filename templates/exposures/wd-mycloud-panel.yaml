@@ -1,0 +1,28 @@
+id: wd-mycloud-panel
+name: WD My Cloud Panel - Detect
+severity: info
+confidence: confirmed
+description: WD My Cloud Panel - Detect
+reference: https://www.zerodayinitiative.com/blog/2023/4/19/cve-2022-29844-a-classic-buffer-overflow-on-the-western-digital-my-cloud-pro-series-pr4100
+tags:
+- panel
+- login
+- mycloud
+- wd
+- detect
+- western_digital
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - WDMyCloud
+    - Cloud_Connection_StatusID
+    - my_cloud_os
+    - WD Privacy Statement
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,22 @@
+id: omniampx-panel
+name: Omnia MPX Node Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Omnia MPX Node login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- omnia
+- omniampx
+- discovery
+requests:
+- method: GET
+  path: /login
+  matchers:
+  - type: body
+    words:
+    - Omnia MPX Node | Login
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,21 @@
+id: impresscms-detect
+name: ImpressCMS Detect
+severity: info
+confidence: tentative
+description: ImpressCMS Detect
+reference: https://github.com/ImpressCMS
+tags:
+- tech
+- impresscms
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: regex
+    regex:
+    - (?i)(ImpressCMS)
+  - type: status
+    status:
+    - 200
+  condition: and

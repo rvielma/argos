@@ -1,0 +1,22 @@
+id: jenkins-api-panel
+name: Jenkins API Panel - Detect
+severity: info
+confidence: tentative
+description: Jenkins API panel was detected.
+reference: CWE-200
+tags:
+- panel
+- api
+- jenkins
+- discovery
+requests:
+- method: GET
+  path: /api/xml
+  matchers:
+  - type: body
+    words:
+    - hudson.model.Hudson
+  - type: status
+    status:
+    - 200
+  condition: and

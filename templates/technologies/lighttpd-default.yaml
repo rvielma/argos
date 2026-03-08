@@ -1,0 +1,20 @@
+id: lighttpd-default
+name: lighttpd Default Page
+severity: info
+confidence: tentative
+description: lighttpd Default Page
+tags:
+- tech
+- lighttpd
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Powered by lighttpd</title>
+  - type: status
+    status:
+    - 200
+  condition: and

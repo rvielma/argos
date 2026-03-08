@@ -1,0 +1,16 @@
+id: mochiweb-detect
+name: MochiWeb - Detect
+severity: info
+confidence: confirmed
+description: Detected servers using the MochiWeb framework through the Server header.
+tags:
+- tech
+- mochiweb
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: regex
+    regex:
+    - MochiWeb
+  condition: or

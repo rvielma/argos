@@ -1,0 +1,19 @@
+id: kafka-consumer-monitor
+name: Apache Kafka Consumer Offset Monitor Panel - Detect
+severity: info
+confidence: tentative
+description: Apache Kafka Consumer Offset Monitor panel was detected.
+reference: CWE-200
+tags:
+- panel
+- kafka
+- apache
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Kafka Consumer Offset Monitor</title>
+  condition: or

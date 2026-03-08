@@ -1,0 +1,22 @@
+id: apache-guacamole
+name: Apache Guacamole Login Page and version detection
+severity: info
+confidence: tentative
+description: Apache Guacamole Login Page and version detection
+tags:
+- apache
+- guacamole
+- tech
+- login
+- discovery
+requests:
+- method: GET
+  path: /translations/en.json
+  matchers:
+  - type: body
+    words:
+    - Apache Guacamole
+  - type: status
+    status:
+    - 200
+  condition: and

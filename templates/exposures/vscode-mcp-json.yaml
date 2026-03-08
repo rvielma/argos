@@ -1,0 +1,29 @@
+id: vscode-mcp-json
+name: Visual Studio Code MCP Configuration ("mcp.json") Exposure
+severity: low
+confidence: confirmed
+description: Detected exposed VS Code MCP (Model Context Protocol) configuration files (mcp.json) which may contain sensitive
+  information including API keys, server endpoints, authentication tokens, and tool configurations for AI assistants and language
+  models.
+reference: https://code.visualstudio.com/docs/copilot/chat/mcp-servers
+tags:
+- exposure
+- vscode
+- config
+- mcp
+requests:
+- method: GET
+  path: /mcp.json
+  matchers: &id001
+  - type: body
+    words:
+    - '"mcpServers": {'
+    - '"args":'
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /.mcp.json
+  matchers: *id001
+  condition: and

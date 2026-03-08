@@ -1,0 +1,27 @@
+id: symfony-properties-ini
+name: Symfony properties.ini File Disclosure
+severity: info
+confidence: confirmed
+description: Symfony properties.ini File Disclosure
+tags:
+- symfony
+- exposure
+- files
+- vuln
+requests:
+- method: GET
+  path: /properties.ini
+  matchers: &id001
+  - type: body
+    words:
+    - name=
+    - author=
+    - orm=
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /config/properties.ini
+  matchers: *id001
+  condition: and

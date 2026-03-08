@@ -1,0 +1,23 @@
+id: apache-apollo-panel
+name: Apache Apollo Panel - Detect
+severity: info
+confidence: confirmed
+description: Apache Apollo Panel - Detect
+tags:
+- panel
+- apache
+- apollo
+- login
+- detect
+- discovery
+requests:
+- method: GET
+  path: /console/index.html
+  matchers:
+  - type: body
+    words:
+    - Apache Apollo - Admin Console
+  - type: status
+    status:
+    - 200
+  condition: and

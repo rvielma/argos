@@ -1,0 +1,41 @@
+id: elasticsearch
+name: ElasticSearch Information Disclosure
+severity: low
+confidence: confirmed
+description: Internal information is exposed in elasticsearch to external users.
+tags:
+- elastic
+- unauth
+- elasticsearch
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /?pretty
+  matchers: &id001
+  - type: body
+    words:
+    - '"took":'
+    - '"number" :'
+    - '"number_of_nodes"'
+  - type: header
+    words:
+    - application/json
+    - application/vnd.api+json
+    - text/plain
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /_cat/indices?v
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /_all/_search
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /_cluster/health?pretty
+  matchers: *id001
+  condition: and

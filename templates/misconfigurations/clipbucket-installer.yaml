@@ -1,0 +1,22 @@
+id: clipbucket-installer
+name: ClipBucket Installer - Exposure
+severity: high
+confidence: confirmed
+description: ClipBucket is susceptible to the Installation page exposure due to misconfiguration.
+tags:
+- misconfig
+- clipbucket
+- install
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /cb_install/
+  matchers:
+  - type: regex
+    regex:
+    - <title>ClipBucket ([a-z0-9.]+) STABLE Installer</title>
+  - type: status
+    status:
+    - 200
+  condition: and

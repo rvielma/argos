@@ -1,0 +1,24 @@
+id: jboss-web-console
+name: JBoss Management Console Server Information Page - Detect
+severity: info
+confidence: confirmed
+description: JBoss Management Console server information page was detected.
+reference: CWE-200
+tags:
+- jboss
+- unauth
+- edb
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /web-console/ServerInfo.jsp
+  matchers:
+  - type: body
+    words:
+    - Application Server
+    - Management Console
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,23 @@
+id: mixpanel-detect
+name: Mixpanel Analytics - Detect
+severity: info
+confidence: confirmed
+description: Detected the presence of Mixpanel, a business analytics service.
+reference: https://mixpanel.com/
+tags:
+- tech
+- discovery
+- mixpanel
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - cdn.mxpnl.com
+    - window.mixpanel
+    - mixpanel-2-latest.min.js
+  - type: status
+    status:
+    - 200
+  condition: and

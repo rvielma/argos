@@ -1,0 +1,27 @@
+id: monitorix-exposure
+name: Monitorix Panel - Detect
+severity: info
+confidence: tentative
+description: Monitorix panel was detected.
+reference: CWE-200
+tags:
+- monitorix
+- exposure
+- logs
+- panel
+- discovery
+requests:
+- method: GET
+  path: /monitorix-cgi/monitorix.cgi?mode=localhost&graph=all&when=1day
+  matchers:
+  - type: body
+    words:
+    - <!-- graph table begins -->
+    - Global kernel usage</b>
+    - Kernel usage per processor</b>
+    - <!-- graph table ends -->
+    - 1day.png'
+  - type: status
+    status:
+    - 200
+  condition: and

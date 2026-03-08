@@ -1,0 +1,17 @@
+id: default-apache2-ubuntu-page
+name: Apache2 Ubuntu Default Page
+severity: info
+confidence: tentative
+description: Apache2 Ubuntu Default Page
+tags:
+- tech
+- apache
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - '<title>Apache2 Ubuntu Default Page: It works</title>'
+  condition: or

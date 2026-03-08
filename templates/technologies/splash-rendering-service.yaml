@@ -1,0 +1,23 @@
+id: splash-rendering-service
+name: Splash - Detect
+severity: info
+confidence: confirmed
+description: Splash rendering service was detected.
+reference: CWE-200
+tags:
+- tech
+- splash
+- detect
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Splash
+    - splash.loadExample
+  - type: status
+    status:
+    - 200
+  condition: and

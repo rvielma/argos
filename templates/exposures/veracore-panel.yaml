@@ -1,0 +1,24 @@
+id: veracore-panel
+name: Veracore Login - Detect
+severity: info
+confidence: confirmed
+description: A veracore login panel was detected.
+reference: https://www.advantive.com/brands/veracore/
+tags:
+- panel
+- veracore
+- login
+- detect
+- discovery
+requests:
+- method: GET
+  path: /veracore/Home/#systems
+  matchers:
+  - type: body
+    words:
+    - VeraCore
+    - /veracore/img/LoginLogo.png
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,20 @@
+id: druid-console-exposure
+name: Alibaba Druid Panel - Detect
+severity: info
+confidence: tentative
+description: Alibaba Druid panel was detected.
+reference: CWE-200
+tags:
+- panel
+- alibaba
+- druid
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - src="/druid.js"
+    - href="/druid.css"
+  condition: or

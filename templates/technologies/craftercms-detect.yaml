@@ -1,0 +1,19 @@
+id: craftercms-detect
+name: CrafterCMS - Detect
+severity: info
+confidence: confirmed
+description: CrafterCMS was detected.
+reference: https://craftercms.org/
+tags:
+- tech
+- craftercms
+- detect
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: header
+    words:
+    - CrafterCMS
+  condition: or

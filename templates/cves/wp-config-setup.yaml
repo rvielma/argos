@@ -1,0 +1,21 @@
+id: wp-config-setup
+name: WordPress Setup Configuration
+severity: high
+confidence: tentative
+description: Exposed Wordpress Setup Configuration.
+reference: https://smaranchand.com.np/2020/04/misconfigured-wordpress-takeover-to-remote-code-execution/
+tags:
+- wordpress
+- setup
+- vuln
+requests:
+- method: GET
+  path: /wp-admin/setup-config.php?step=1
+  matchers:
+  - type: body
+    words:
+    - Below you should enter your database connection details.
+  - type: status
+    status:
+    - 200
+  condition: and

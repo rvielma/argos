@@ -1,0 +1,24 @@
+id: oxf-phaas-panel
+name: OXF Phishing as a Service Panel - Detect
+severity: info
+confidence: confirmed
+description: OXF Phishing as a Service Panel was discovered.
+reference: https://x.com/solostalking/status/1946069612090495059
+tags:
+- c2
+- oxf
+- phishing
+- panel
+- login
+- vuln
+requests:
+- method: GET
+  path: /login
+  matchers:
+  - type: body
+    words:
+    - <title>Login · OXF Panel
+  - type: status
+    status:
+    - 200
+  condition: and

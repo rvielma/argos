@@ -1,0 +1,20 @@
+id: dbt-docs-panel
+name: dbt Docs Panel - Detect
+severity: info
+confidence: tentative
+description: dbt Docs panel was detected.
+tags:
+- panel
+- dbt
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>dbt Docs</title>
+  - type: status
+    status:
+    - 200
+  condition: and

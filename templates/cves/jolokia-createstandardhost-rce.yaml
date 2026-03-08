@@ -1,0 +1,22 @@
+id: jolokia-createstandardhost-rce
+name: Jolokia file write to RCE jfr
+severity: critical
+confidence: tentative
+description: File read and file write to RCE by deploying a vhost with MBeanFactory/createStandardHost and DiagnosticCommand/jfrStart
+reference: https://github.com/laluka/jolokia-exploitation-toolkit
+tags:
+- jolokia
+- rce
+- vuln
+requests:
+- method: GET
+  path: /jolokia/list
+  matchers:
+  - type: status
+    status:
+    - 200
+  - type: body
+    words:
+    - '"desc":"Create a new StandardHost"'
+    - '"desc":"Array of Diagnostic Commands Arguments and Options"'
+  condition: and

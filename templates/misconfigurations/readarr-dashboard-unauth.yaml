@@ -1,0 +1,25 @@
+id: readarr-dashboard-unauth
+name: Readarr Dashboard - Unauthenticated
+severity: medium
+confidence: confirmed
+description: Exposure of Readarr dashboard which can lead to sensitive information disclosure.
+tags:
+- readarr
+- dashboard
+- unauth
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Readarr</title>
+  - type: body
+    words:
+    - Login - Readarr
+  - type: status
+    status:
+    - 200
+  condition: and

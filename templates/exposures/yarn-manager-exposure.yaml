@@ -1,0 +1,21 @@
+id: yarn-manager-exposure
+name: Apache YARN ResourceManager Panel - Detect
+severity: low
+confidence: tentative
+description: Apache YARN ResourceManager panel was detected.
+tags:
+- panel
+- apache
+- yarn
+- exposure
+- discovery
+requests:
+- method: GET
+  path: /cluster/cluster
+  matchers:
+  - type: body
+    words:
+    - hadoop
+    - resourcemanager
+    - 'logged in as: dr.who'
+  condition: or

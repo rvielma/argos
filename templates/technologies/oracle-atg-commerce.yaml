@@ -1,0 +1,24 @@
+id: oracle-atg-commerce
+name: Oracle ATG Commerce Panel - Detect
+severity: info
+confidence: confirmed
+description: Oracle ATG Commerce panel was detected.
+reference: CWE-200
+tags:
+- tech
+- oracle
+- atg
+- commerce
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: header
+    words:
+    - x-atg-version
+    - atg_session_id
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,21 @@
+id: loxone-panel
+name: Loxone Intercom Video Panel - Detect
+severity: info
+confidence: confirmed
+description: Loxone Intercom Video panel was detected.
+reference: CWE-200
+tags:
+- panel
+- loxone
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Loxone Intercom Video</title>
+  - type: status
+    status:
+    - 200
+  condition: and

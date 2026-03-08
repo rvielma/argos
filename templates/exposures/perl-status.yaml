@@ -1,0 +1,21 @@
+id: perl-status
+name: Apache Mod_perl Status Page - Detect
+severity: medium
+confidence: tentative
+description: Apache mod_perl status page was detected.
+reference: CWE-200
+tags:
+- config
+- exposure
+- apache
+- status
+- vuln
+requests:
+- method: GET
+  path: /perl-status
+  matchers:
+  - type: body
+    words:
+    - <title>Apache2::Status
+    - Perl version
+  condition: or

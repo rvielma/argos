@@ -1,0 +1,24 @@
+id: solr-panel-exposure
+name: Apache Solr Admin Panel - Detect
+severity: info
+confidence: confirmed
+description: Apache Solr admin panel was detected.
+reference: CWE-200
+tags:
+- panel
+- solr
+- apache
+- admin
+- discovery
+requests:
+- method: GET
+  path: /solr/
+  matchers: &id001
+  - type: body
+    words:
+    - <title>Solr Admin</title>
+  condition: and
+- method: GET
+  path: /
+  matchers: *id001
+  condition: and

@@ -1,0 +1,25 @@
+id: caldera-c2
+name: Caldera C2 - Detect
+severity: info
+confidence: confirmed
+description: MITRE Caldera™ is a cyber security platform designed to easily automate adversary emulation, assist manual red-teams,
+  and automate incident response.
+reference: https://github.com/mitre/caldera
+tags:
+- c2
+- ir
+- osint
+- caldera
+- panel
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Login | CALDERA</title>
+  - type: status
+    status:
+    - 200
+  condition: and

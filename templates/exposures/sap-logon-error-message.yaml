@@ -1,0 +1,23 @@
+id: sap-logon-error-message
+name: SAP Logon Error Message
+severity: info
+confidence: confirmed
+description: Identifies "Logon Error Message" in the SAP Internet Communication Framework which returns a 404 status code.
+tags:
+- sap
+- logon
+- error
+- log
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Logon Error Message
+    - SAP Internet Communication Framework Team
+  - type: status
+    status:
+    - 404
+  condition: and

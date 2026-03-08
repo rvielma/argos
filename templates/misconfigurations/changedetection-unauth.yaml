@@ -1,0 +1,22 @@
+id: changedetection-unauth
+name: Changedetection.io Dashboard - Exposure
+severity: medium
+confidence: confirmed
+description: Changedetection.io unauth panel detected.
+tags:
+- changedetection
+- unauth
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - SETTINGS</a>
+    - Change Detection
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,22 @@
+id: samsung-smarttv-debug
+name: Samsung SmartTV Debug Config
+severity: info
+confidence: confirmed
+description: Samsung SmartTV Debug Config
+tags:
+- samsung
+- tech
+- iot
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Debug Config</title>
+    - MultiScreen Service
+  - type: status
+    status:
+    - 200
+  condition: and

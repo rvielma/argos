@@ -1,0 +1,35 @@
+id: apache-axis-detect
+name: apache-axis-detect
+severity: info
+confidence: confirmed
+description: Axis and Axis2 detection
+tags:
+- tech
+- axis2
+- middleware
+- apache
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - Validate
+    - Welcome
+    - Axis
+    - deployed
+    - installation
+    - Admin
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /axis2/
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /axis/
+  matchers: *id001
+  condition: and

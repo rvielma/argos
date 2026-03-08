@@ -1,0 +1,21 @@
+id: android-debug-database-exposed
+name: Android Debug Manager
+severity: low
+confidence: tentative
+description: Android Debug Manger is exposed.
+tags:
+- unauth
+- android
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Android Debug Database</title>
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,25 @@
+id: nagios-panel
+name: Nagios Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Nagios login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- nagios
+- discovery
+requests:
+- method: GET
+  path: /nagios
+  matchers: &id001
+  - type: header
+    words:
+    - Nagios Access
+  - type: status
+    status:
+    - 401
+  condition: and
+- method: GET
+  path: /nagios3
+  matchers: *id001
+  condition: and

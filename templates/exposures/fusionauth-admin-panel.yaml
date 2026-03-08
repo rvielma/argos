@@ -1,0 +1,28 @@
+id: fusionauth-admin-panel
+name: FusionAuth Admin Panel - Detect
+severity: info
+confidence: confirmed
+description: FusionAuth Admin Panel - Detect
+tags:
+- panel
+- fusionauth
+- detect
+- login
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - <title>Login | FusionAuth
+    - FusionAuth.OAuth2
+    - content="FusionAuth
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /oauth2/authorize
+  matchers: *id001
+  condition: and

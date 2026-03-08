@@ -1,0 +1,23 @@
+id: microweber-install
+name: Microweber Exposed Installation - Detected
+severity: high
+confidence: confirmed
+description: Microweber Installation page was exposed.
+tags:
+- misconfig
+- microweber
+- install
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Installation</title>
+    - Database Server
+    - Login Information
+  - type: status
+    status:
+    - 200
+  condition: and

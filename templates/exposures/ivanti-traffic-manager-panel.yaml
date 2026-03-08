@@ -1,0 +1,23 @@
+id: ivanti-traffic-manager-panel
+name: Ivanti Traffic Manager Panel - Detect
+severity: info
+confidence: confirmed
+description: An Ivanti Traffic Manager Login Panel was detected.
+reference: https://www.ivanti.com/resources/v/doc/ivi/2528/2ef03e8ed03d
+tags:
+- detect
+- traffic-manager
+- panel
+- login
+- discovery
+requests:
+- method: GET
+  path: /apps/zxtm/login.cgi
+  matchers:
+  - type: body
+    words:
+    - Login (Virtual Traffic Manager
+  - type: status
+    status:
+    - 200
+  condition: and

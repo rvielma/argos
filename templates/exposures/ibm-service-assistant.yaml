@@ -1,0 +1,24 @@
+id: ibm-service-assistant
+name: IBM Service Assistant Login Panel - Detect
+severity: info
+confidence: tentative
+description: IBM Service Assistant login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- ibm
+- service
+- login
+- detect
+- discovery
+requests:
+- method: GET
+  path: /service/
+  matchers:
+  - type: body
+    words:
+    - <title>Welcome to Service Assistant</title>
+  - type: status
+    status:
+    - 200
+  condition: and

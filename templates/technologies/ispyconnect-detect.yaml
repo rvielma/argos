@@ -1,0 +1,20 @@
+id: ispyconnect-detect
+name: iSpyConnect - Detect
+severity: info
+confidence: confirmed
+description: iSpyConnect - Detect
+tags:
+- tech
+- ispy
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - iSpy is running
+  - type: header
+    words:
+    - 'Server: iSpy'
+  condition: or

@@ -1,0 +1,22 @@
+id: subrion-login
+name: Subrion Admin Panel Login Panel - Detect
+severity: info
+confidence: tentative
+description: Subrion Admin Panel login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- subrion
+- intelliants
+- discovery
+requests:
+- method: GET
+  path: /panel
+  matchers:
+  - type: body
+    words:
+    - <h1>Welcome to<br>Subrion Admin Panel</h1>
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,37 @@
+id: wordpress-detect
+name: WordPress Detect
+severity: info
+confidence: confirmed
+description: WordPress Detect
+tags:
+- tech
+- wordpress
+- cms
+- wp
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: regex
+    regex:
+    - <generator>https?:\/\/wordpress\.org.*</generator>
+    - wp-login.php
+    - name="generator" content="wordpress
+    - <link[^>]+s\d+\.wp\.com
+    - <!-- This site is optimized with the Yoast (?:WordPress )?SEO plugin v([\d.]+) -
+    - <!--[^>]+WP-Super-Cache
+    - /wp-content/uploads/(.*)
+  condition: and
+- method: GET
+  path: /wp-admin/install.php
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /feed/
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /?feed=rss2
+  matchers: *id001
+  condition: and

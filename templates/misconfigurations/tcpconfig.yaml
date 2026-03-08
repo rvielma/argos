@@ -1,0 +1,23 @@
+id: tcpconfig
+name: Rockwell Automation TCP/IP Configuration Information - Detect
+severity: medium
+confidence: tentative
+description: TCP/IP configuration information was detected.
+reference: CWE-200
+tags:
+- config
+- edb
+- logs
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /tcpconfig.html
+  matchers:
+  - type: body
+    words:
+    - TCP/IP Configuration
+  - type: status
+    status:
+    - 200
+  condition: and

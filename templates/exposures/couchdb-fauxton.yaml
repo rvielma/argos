@@ -1,0 +1,19 @@
+id: couchdb-fauxton
+name: Apache CouchDB Fauxton Panel - Detect
+severity: info
+confidence: tentative
+description: Apache CouchDB Fauxton panel was detected.
+reference: CWE-200
+tags:
+- panel
+- apache
+- couchdb
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Project Fauxton</title>
+  condition: or

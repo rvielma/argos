@@ -1,0 +1,22 @@
+id: openerp-database
+name: Odoo OpenERP Database Selector Panel - Detect
+severity: info
+confidence: tentative
+description: Odoo OpenERP database selector panel was detected.
+reference: CWE-200
+tags:
+- openerp
+- panel
+- odoo
+- discovery
+requests:
+- method: GET
+  path: /web/database/selector/
+  matchers:
+  - type: body
+    words:
+    - <title>Odoo</title>
+  - type: status
+    status:
+    - 200
+  condition: and

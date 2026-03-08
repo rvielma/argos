@@ -1,0 +1,23 @@
+id: matrix-homeserver-detect
+name: Matrix Homeserver - Version Detection
+severity: info
+confidence: confirmed
+description: Extract the Matrix homeserver name and version
+tags:
+- tech
+- matrix
+- synapse
+- discovery
+requests:
+- method: GET
+  path: /_matrix/federation/v1/version
+  matchers:
+  - type: body
+    words:
+    - '"server":'
+    - '"name":'
+    - '"version":'
+  - type: body
+    words:
+    - application/json
+  condition: and

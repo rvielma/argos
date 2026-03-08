@@ -1,0 +1,23 @@
+id: sap-cloud-analytics
+name: SAP Analytics Cloud Panel - Detect
+severity: info
+confidence: confirmed
+description: SAP Analytics Cloud panel was detected.
+reference: CWE-200
+tags:
+- panel
+- sap
+- cloudanalytics
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - SAP Analytics Cloud
+    - /approuter/
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,22 @@
+id: microsoft-exchange-panel
+name: Microsoft Exchange Admin Center Login Panel - Detect
+severity: info
+confidence: tentative
+description: Microsoft Exchange Admin Center login panel was detected.
+reference: CWE-200
+tags:
+- microsoft
+- panel
+- exchange
+- discovery
+requests:
+- method: GET
+  path: /owa/auth/logon.aspx?replaceCurrent=1&url=/ecp
+  matchers:
+  - type: status
+    status:
+    - 200
+  - type: body
+    words:
+    - Exchange Admin Center
+  condition: and

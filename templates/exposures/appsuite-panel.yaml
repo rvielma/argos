@@ -1,0 +1,23 @@
+id: appsuite-panel
+name: Appsuite Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Appsuite Login Panel - Detect
+tags:
+- panel
+- appsuite
+- detect
+- open-xchange
+- discovery
+requests:
+- method: GET
+  path: /appsuite/
+  matchers:
+  - type: body
+    words:
+    - /appsuite
+    - io-ox-login
+  - type: status
+    status:
+    - 200
+  condition: and

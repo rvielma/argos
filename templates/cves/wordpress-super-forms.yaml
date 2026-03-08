@@ -1,0 +1,23 @@
+id: wordpress-super-forms
+name: WordPress super-forms Plugin Directory Listing
+severity: low
+confidence: tentative
+description: Searches for sensitive directories present in the super-forms plugin.
+reference: https://www.exploit-db.com/ghdb/6776
+tags:
+- listing
+- plugin
+- edb
+- wordpress
+- vuln
+requests:
+- method: GET
+  path: /wp-content/plugins/super-forms/
+  matchers:
+  - type: body
+    words:
+    - Index of /wp-content/plugins/super-forms/
+  - type: status
+    status:
+    - 200
+  condition: and

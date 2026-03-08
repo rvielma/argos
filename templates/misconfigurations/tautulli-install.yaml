@@ -1,0 +1,22 @@
+id: tautulli-install
+name: Tautulli - Exposed Installation
+severity: high
+confidence: confirmed
+description: Tautulli is susceptible to the Installation page exposure due to misconfiguration.
+tags:
+- misconfig
+- tautulli
+- install
+- vuln
+requests:
+- method: GET
+  path: /welcome
+  matchers:
+  - type: body
+    words:
+    - <title>Tautulli - Welcome
+    - Tautulli Setup Wizard
+  - type: status
+    status:
+    - 200
+  condition: and

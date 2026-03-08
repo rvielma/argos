@@ -1,0 +1,27 @@
+id: esmtprc-config
+name: eSMTP - Config Discovery
+severity: high
+confidence: tentative
+description: eSMTP configuration was discovered.
+reference: https://linux.die.net/man/5/esmtprc
+tags:
+- esmtp
+- config
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /.esmtprc
+  matchers:
+  - type: header
+    words:
+    - text/plain
+  - type: body
+    words:
+    - hostname
+    - username
+    - password
+  - type: status
+    status:
+    - 200
+  condition: and

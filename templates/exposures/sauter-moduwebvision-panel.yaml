@@ -1,0 +1,23 @@
+id: sauter-moduwebvision-panel
+name: SAUTER moduWeb Vision Panel - Detect
+severity: info
+confidence: confirmed
+description: Sauter moduWeb Vision was detected.
+reference: https://www.sauter-controls.com
+tags:
+- panel
+- moduweb
+- sauter
+- login
+- discovery
+requests:
+- method: GET
+  path: /login
+  matchers:
+  - type: body
+    words:
+    - <title>SAUTER moduWeb Vision</title>
+  - type: status
+    status:
+    - 200
+  condition: and

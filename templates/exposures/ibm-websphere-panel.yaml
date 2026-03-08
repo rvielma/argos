@@ -1,0 +1,26 @@
+id: ibm-websphere-panel
+name: IBM WebSphere Portal Login Panel - Detect
+severity: info
+confidence: tentative
+description: IBM WebSphere Portal login panel was detected.
+reference: CWE-200
+tags:
+- ibm
+- websphere
+- panel
+- discovery
+requests:
+- method: GET
+  path: /wps/portal
+  matchers:
+  - type: status
+    status:
+    - 200
+  - type: body
+    words:
+    - IBM WebSphere Portal
+    - IBMPortalWeb
+  - type: regex
+    regex:
+    - 'Content-Location: .+'
+  condition: and

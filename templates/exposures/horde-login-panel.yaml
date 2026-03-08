@@ -1,0 +1,25 @@
+id: horde-login-panel
+name: Horde Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Horde login panel was detected.
+reference: CWE-200
+tags:
+- horde
+- panel
+- discovery
+requests:
+- method: GET
+  path: /horde/login.php
+  matchers: &id001
+  - type: body
+    words:
+    - HordeLogin.user
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /login.php
+  matchers: *id001
+  condition: and

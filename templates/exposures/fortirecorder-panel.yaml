@@ -1,0 +1,24 @@
+id: fortirecorder-panel
+name: FortiRecorder Panel - Detect
+severity: info
+confidence: confirmed
+description: FortiRecorder Panel was discovered.
+reference: https://www.fortinet.com/content/dam/fortinet/assets/data-sheets/FortiRecorder.pdf
+tags:
+- fortinet
+- fortirecorder
+- login
+- panel
+- discovery
+requests:
+- method: GET
+  path: /admin/
+  matchers:
+  - type: body
+    words:
+    - FortiRecorder Admin
+    - Log In
+  - type: status
+    status:
+    - 200
+  condition: and

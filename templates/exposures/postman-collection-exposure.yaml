@@ -1,0 +1,45 @@
+id: postman-collection-exposure
+name: Postman Collection Exposure
+severity: low
+confidence: confirmed
+description: Detected exposed Postman collection JSON files that contained API endpoints and environment details. These files
+  were publicly accessible and disclosed authentication headers and other sensitive information.
+reference: https://medium.com/@utkarshporwal24/exposed-postman-collections-ed6086b96ba5
+tags:
+- api
+- postman
+- exposure
+- discovery
+requests:
+- method: GET
+  path: /postman.json
+  matchers: &id001
+  - type: regex
+    regex:
+    - (?i)content-type:\s*application/(json|vnd\.postman\.[^;\s]+)
+  - type: regex
+    regex:
+    - (?i)"info"\s*:\s*\{\s*"name"\s*:\s*".+?"
+  - type: regex
+    regex:
+    - (?i)"item"\s*:\s*\[
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /docs/postman.json
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /api/postman.json
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /postman_collection.json
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /collections/postman.json
+  matchers: *id001
+  condition: and

@@ -1,0 +1,22 @@
+id: dedecms-openredirect
+name: DedeCMS - Open Redirect
+severity: medium
+confidence: confirmed
+description: DedeCMS contains an open redirect vulnerability. An attacker can redirect a user to a malicious site and possibly
+  obtain sensitive information, modify data, and/or execute unauthorized operations.
+reference: CWE-601
+tags:
+- dedecms
+- redirect
+- vuln
+requests:
+- method: GET
+  path: /plus/download.php?open=1&link=aHR0cHM6Ly9pbnRlcmFjdC5zaA==
+  matchers:
+  - type: header
+    words:
+    - 'Location: https://interact.sh'
+  - type: status
+    status:
+    - 302
+  condition: and

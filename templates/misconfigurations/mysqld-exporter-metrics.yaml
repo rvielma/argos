@@ -1,0 +1,24 @@
+id: mysqld-exporter-metrics
+name: MySQL Exporter Panel - Detect
+severity: info
+confidence: confirmed
+description: MYSQL Exporter panel was detected.
+reference: CWE-200
+tags:
+- mysqld
+- exposure
+- debug
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /metrics
+  matchers:
+  - type: body
+    words:
+    - mysqld
+    - '# HELP'
+  - type: status
+    status:
+    - 200
+  condition: and

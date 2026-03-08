@@ -1,0 +1,20 @@
+id: red-lion-panel
+name: Red Lion Control Panel - Detect
+severity: info
+confidence: confirmed
+description: Red Lion Control Panel - Detect
+tags:
+- panel
+- redlion
+- detect
+- iot
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Red Lion</a>
+    - Red Lion Controls</a>
+  condition: or

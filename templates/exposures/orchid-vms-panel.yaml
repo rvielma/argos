@@ -1,0 +1,22 @@
+id: orchid-vms-panel
+name: Orchid Core VMS Panel - Detect
+severity: info
+confidence: tentative
+description: Orchid Core VMS panel was detected.
+reference: CWE-200
+tags:
+- panel
+- orchid
+- ipconfigure
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Orchid Core VMS - IPConfigure, Inc.</title>
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,24 @@
+id: amcrest-login
+name: Amcrest Login
+severity: info
+confidence: tentative
+description: An Amcrest LDAP user login was discovered.
+reference: CWE-200
+tags:
+- panel
+- camera
+- amcrest
+- edb
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Amcrest Technologies
+    - LDAPUser
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,29 @@
+id: imageresizer-debug-exposure
+name: ImageResizer Debug - Information Exposure
+severity: low
+confidence: confirmed
+description: The ImageResizer debug endpoint exposes sensitive server configuration and path information.
+reference: https://world.optimizely.com/blogs/Eric-Pettersson/Dates/2016/4/hide-resizer-debug-ashx-from-your-website/
+tags:
+- exposure
+- debug
+- imageresizer
+- config
+requests:
+- method: GET
+  path: /resizer.debug.ashx
+  matchers: &id001
+  - type: body
+    words:
+    - ImageResizer.
+    - Diagnostics
+    - 'Configuration:'
+    - 'Registered plugins:'
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /resizer.debug
+  matchers: *id001
+  condition: and

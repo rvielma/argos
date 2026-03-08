@@ -1,0 +1,50 @@
+id: opencart-detect
+name: OpenCart Detection
+severity: info
+confidence: tentative
+description: An instance running OpenCart is detected by looking for specific HTTP headers, HTML tags, and known endpoints.
+tags:
+- opencart
+- detect
+- tech
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - Powered by OpenCart
+    - X-Powered-By-OpenCart
+    - OpenCart Store
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /robots.txt
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /sitemap.xml
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /favicon.ico
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /admin
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /catalog/view/javascript/opencart.js
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /index.php?route=common/home
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /oc-admin
+  matchers: *id001
+  condition: and

@@ -1,0 +1,22 @@
+id: netgear-version-detect
+name: NETGEAR Router Panel - Detect
+severity: info
+confidence: tentative
+description: NETGEAR router panel was detected.
+reference: CWE-200
+tags:
+- panel
+- router
+- netgear
+- discovery
+requests:
+- method: GET
+  path: /currentsetting.htm
+  matchers:
+  - type: status
+    status:
+    - 200
+  - type: regex
+    regex:
+    - ^((((Re(adyShareSupportedLevel|gionTag)|InternetConnectionStatus|SOAPVersion|Firmware|Model)|Region)|LoginMethod)|ParentalControlSupported)=
+  condition: and

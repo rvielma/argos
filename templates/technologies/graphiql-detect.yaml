@@ -1,0 +1,21 @@
+id: graphiql-detect
+name: GraphiQL Detect
+severity: info
+confidence: tentative
+description: Detects the GraphiQL application
+tags:
+- tech
+- graphiql
+- graphql
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>GraphiQL
+  - type: status
+    status:
+    - 200
+  condition: and

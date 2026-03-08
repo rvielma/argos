@@ -1,0 +1,24 @@
+id: claris-filemaker-webdirect
+name: Claris FileMaker WebDirect Panel - Detect
+severity: info
+confidence: confirmed
+description: Claris FileMaker WebDirect panel was detected.
+reference: CWE-200
+tags:
+- panel
+- edb
+- discovery
+requests:
+- method: GET
+  path: /fmi/webd/
+  matchers:
+  - type: body
+    words:
+    - <title>Claris FileMaker WebDirect</title>
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

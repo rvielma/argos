@@ -1,0 +1,22 @@
+id: cudatel-panel
+name: CudaTel Login Panel - Detect
+severity: info
+confidence: confirmed
+description: CudaTel login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- cudatel
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - CudaTel Communications Server
+    - alt="CudaTel
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,23 @@
+id: rethinkdb-admin-console
+name: RethinkDB Administration Console - Detect
+severity: medium
+confidence: confirmed
+description: RethinkDB Administration Console was detected.
+reference: CWE-200
+tags:
+- misconfig
+- rethinkdb
+- console
+- dashboard
+- vuln
+requests:
+- method: GET
+  path: /#dashboard
+  matchers:
+  - type: body
+    words:
+    - RethinkDB Administration Console
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,26 @@
+id: gloo-unauth
+name: Unauthenticated Gloo UI
+severity: high
+confidence: tentative
+description: Gloo UI is exposed to external users.
+tags:
+- unauth
+- gloo
+- vuln
+requests:
+- method: GET
+  path: /fed.rpc.solo.io.GlooInstanceApi/ListClusterDetails
+  matchers:
+  - type: body
+    words:
+    - gke-remote
+  - type: header
+    words:
+    - application/grpc-web+proto
+  - type: status
+    status:
+    - 200
+  condition: and
+  headers:
+    Content-type: application/grpc-web+proto
+    Referer: '{{BaseURL}}/admin/'

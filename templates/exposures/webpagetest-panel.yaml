@@ -1,0 +1,18 @@
+id: webpagetest-panel
+name: WebPageTest Login Panel - Detect
+severity: info
+confidence: tentative
+description: WebPageTest login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- webpagetest
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - WebPageTest - Website Performance and Optimization Test
+  condition: or

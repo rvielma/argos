@@ -1,0 +1,22 @@
+id: grav-cms-detect
+name: Grav CMS Detect
+severity: info
+confidence: tentative
+description: Detects Grav CMS
+reference: https://github.com/getgrav/grav
+tags:
+- tech
+- grav
+- cms
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: header
+    words:
+    - 'Set-Cookie: grav-site-'
+  - type: body
+    words:
+    - <meta name="generator" content="GravCMS" />
+  condition: or

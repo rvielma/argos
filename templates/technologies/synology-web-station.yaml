@@ -1,0 +1,22 @@
+id: synology-web-station
+name: Synology Web Station Page - Detect
+severity: info
+confidence: tentative
+description: Synology Web Station page was detected.
+reference: CWE-200
+tags:
+- tech
+- synology
+- edb
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Hello! Welcome to Synology Web Station!</title>
+  - type: status
+    status:
+    - 200
+  condition: and

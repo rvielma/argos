@@ -1,0 +1,23 @@
+id: multilaser-pro-setup
+name: Multilaser Pro Setup Page - Detect
+severity: high
+confidence: confirmed
+description: This allows the user to access quick setup settings and configuration page through /wizard.htm.
+tags:
+- misconfig
+- multilaser
+- setup
+- config
+- vuln
+requests:
+- method: GET
+  path: /wizard.htm
+  matchers:
+  - type: body
+    words:
+    - Setup Wizard
+    - multilaser.png
+  - type: status
+    status:
+    - 200
+  condition: and

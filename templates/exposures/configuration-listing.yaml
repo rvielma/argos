@@ -1,0 +1,25 @@
+id: configuration-listing
+name: Sensitive Configuration Files Listing - Detect
+severity: medium
+confidence: tentative
+description: Listing of sensitive configuration files containing items such as usernames, passwords, and IP addresses was
+  detected.
+reference: CWE-200
+tags:
+- config
+- listing
+- exposure
+- edb
+- vuln
+requests:
+- method: GET
+  path: /config/
+  matchers:
+  - type: body
+    words:
+    - Index of /config
+    - Parent Directory
+  - type: status
+    status:
+    - 200
+  condition: and

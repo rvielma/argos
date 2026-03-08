@@ -1,0 +1,23 @@
+id: uvdesk-install
+name: UVDesk Installation Wizard
+severity: high
+confidence: confirmed
+description: UVDesk is susceptible to the Installation page exposure due to misconfiguration.
+tags:
+- misconfig
+- uvdesk
+- install
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - UVDesk Helpdesk Community Edition
+    - Installation Wizard
+  - type: status
+    status:
+    - 200
+  condition: and

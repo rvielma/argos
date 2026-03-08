@@ -1,0 +1,24 @@
+id: strapi-cms-detect
+name: Strapi CMS detect
+severity: info
+confidence: tentative
+description: Open source Node.js Headless CMS to easily build customisable APIs
+reference: https://github.com/strapi/strapi
+tags:
+- tech
+- strapi
+- cms
+- discovery
+requests:
+- method: GET
+  path: /admin/init
+  matchers:
+  - type: body
+    words:
+    - '"data"'
+    - '"uuid"'
+    - '"hasAdmin"'
+  - type: status
+    status:
+    - 200
+  condition: and

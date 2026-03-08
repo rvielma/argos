@@ -1,0 +1,21 @@
+id: powerjob-panel
+name: PowerJob Login Panel - Detect
+severity: info
+confidence: confirmed
+description: PowerJob login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- powerjob
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>PowerJob</title>
+  - type: status
+    status:
+    - 200
+  condition: and

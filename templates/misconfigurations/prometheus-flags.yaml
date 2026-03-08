@@ -1,0 +1,27 @@
+id: prometheus-flags
+name: Prometheus flags API endpoint
+severity: info
+confidence: tentative
+description: The flags endpoint provides a full path to the configuration file. If the file is stored in the home directory,
+  it may leak a username.
+reference: https://jfrog.com/blog/dont-let-prometheus-steal-your-fire/
+tags:
+- prometheus
+- leak
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /api/v1/status/flags
+  matchers:
+  - type: status
+    status:
+    - 200
+  - type: body
+    words:
+    - '"data":'
+    - '"config.file":'
+  - type: header
+    words:
+    - application/json
+  condition: and

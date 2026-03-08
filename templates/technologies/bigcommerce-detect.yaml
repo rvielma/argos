@@ -1,0 +1,50 @@
+id: bigcommerce-detect
+name: BigCommerce Detection
+severity: info
+confidence: confirmed
+description: An instance running BigCommerce is detected by looking for specific HTTP headers, HTML tags, and known endpoints.
+tags:
+- bigcommerce
+- detect
+- tech
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - Powered by BigCommerce
+    - X-BigCommerce-Request-Id
+    - bigcommerce.com
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /robots.txt
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /sitemap.xml
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /favicon.ico
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /bigcommerce.js
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /stores
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /cart
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /admin
+  matchers: *id001
+  condition: and

@@ -1,0 +1,22 @@
+id: neobox-panel
+name: Neobox Web Server Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Neobox Web Server login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- neobox
+- webserver
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - ng-app="NeoboxUI" ng-controller="GlobalCtrl">
+  - type: status
+    status:
+    - 200
+  condition: and

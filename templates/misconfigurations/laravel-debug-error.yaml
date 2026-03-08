@@ -1,0 +1,26 @@
+id: laravel-debug-error
+name: Larvel Debug Method Enabled
+severity: medium
+confidence: tentative
+description: Larvel Debug method is enabled.
+tags:
+- debug
+- laravel
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - <title>Whoops! There was an error
+  condition: and
+- method: GET
+  path: /this-should-not-exist,.<>!@#$%^&*()_+
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /%00
+  matchers: *id001
+  condition: and

@@ -1,0 +1,22 @@
+id: shoppable-token
+name: Shoppable Service Auth Token
+severity: info
+confidence: tentative
+description: Shoppable Service Auth Token
+reference: https://ask.shoppable.com/knowledge/quick-start-api-guide
+tags:
+- exposure
+- shoppable
+- token
+- auth
+- service
+- generic
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - data-shoppable-auth-token
+  condition: or

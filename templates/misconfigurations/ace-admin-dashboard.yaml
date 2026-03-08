@@ -1,0 +1,26 @@
+id: ace-admin-dashboard
+name: Ace Admin Dashboard - Detect
+severity: medium
+confidence: confirmed
+description: Ace Admin dashboard page was detected.
+reference: CWE-200
+tags:
+- misconfig
+- exposure
+- aceadmin
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Dashboard - Ace Admin
+    - overview & stats
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

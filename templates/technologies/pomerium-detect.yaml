@@ -1,0 +1,27 @@
+id: pomerium-detect
+name: Pomerium Detect
+severity: info
+confidence: confirmed
+description: A Pomerium SSO Panel was detected.
+reference: https://www.pomerium.com/
+tags:
+- pomerium
+- sso
+- detect
+- tech
+- discovery
+requests:
+- method: GET
+  path: /.pomerium/index.js
+  matchers:
+  - type: body
+    words:
+    - https://pomerium.com/docs
+    - https://discuss.pomerium.com
+  - type: body
+    words:
+    - text/javascript
+  - type: status
+    status:
+    - 200
+  condition: and

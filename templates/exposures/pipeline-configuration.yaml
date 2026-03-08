@@ -1,0 +1,23 @@
+id: pipeline-configuration
+name: Pipeline Configuration Exposure
+severity: info
+confidence: confirmed
+description: Pipeline Configuration Exposure
+tags:
+- devops
+- exposure
+- cicd
+- files
+- vuln
+requests:
+- method: GET
+  path: /pipeline.yaml
+  matchers:
+  - type: body
+    words:
+    - 'system:'
+    - 'project_name:'
+  - type: status
+    status:
+    - 200
+  condition: and

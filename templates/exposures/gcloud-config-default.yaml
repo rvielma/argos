@@ -1,0 +1,28 @@
+id: gcloud-config-default
+name: Google Cloud Default Config - Detect
+severity: info
+confidence: confirmed
+description: Google Cloud default configuration was detected.
+reference: CWE-200
+tags:
+- google
+- cloud
+- devops
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /configurations/config_default
+  matchers: &id001
+  - type: body
+    words:
+    - '[core]'
+    - account
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /.config/gcloud/configurations/config_default
+  matchers: *id001
+  condition: and

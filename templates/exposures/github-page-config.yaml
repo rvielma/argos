@@ -1,0 +1,24 @@
+id: github-page-config
+name: Github pages config file
+severity: info
+confidence: tentative
+description: Find github pages config file.
+tags:
+- github
+- exposure
+- config
+- files
+- vuln
+requests:
+- method: GET
+  path: /_config.yml
+  matchers:
+  - type: status
+    status:
+    - 200
+  - type: body
+    words:
+    - jekyll
+    - title
+    - baseurl
+  condition: and

@@ -1,0 +1,27 @@
+id: desktop-ini-exposure
+name: desktop.ini exposure
+severity: info
+confidence: tentative
+description: desktop.ini exposure
+tags:
+- exposure
+- config
+- files
+- vuln
+requests:
+- method: GET
+  path: /desktop.ini
+  matchers:
+  - type: header
+    words:
+    - application/json
+    - application/html
+  - type: body
+    words:
+    - '[.ShellClassInfo]'
+    - '[LocalizedFileNames]'
+    - '[ViewState]'
+  - type: status
+    status:
+    - 200
+  condition: and

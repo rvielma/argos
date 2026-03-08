@@ -1,0 +1,27 @@
+id: portainer-init-deploy
+name: Portainer - Init Deploy Discovery
+severity: medium
+confidence: confirmed
+description: Portainer initialization deployment files were discovered.
+reference: CWE-200
+tags:
+- portainer
+- exposure
+- docker
+- devops
+- disclosure
+- vuln
+requests:
+- method: GET
+  path: /api/users/admin/check
+  matchers:
+  - type: body
+    words:
+    - No administrator account found inside the database
+  - type: header
+    words:
+    - application/json
+  - type: status
+    status:
+    - 404
+  condition: and

@@ -1,0 +1,23 @@
+id: strapi-admin-installer
+name: Strapi Admin - Installer
+severity: critical
+confidence: confirmed
+description: Strapi Admin Registration enabled was detected.
+tags:
+- misconfig
+- exposure
+- strapi
+- install
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Welcome to your Strapi app
+    - Click to create the first administration
+  - type: status
+    status:
+    - 200
+  condition: and

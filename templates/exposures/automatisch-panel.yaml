@@ -1,0 +1,26 @@
+id: automatisch-panel
+name: Automatisch Panel - Detect
+severity: info
+confidence: confirmed
+description: The open source Zapier alternative.
+reference: https://automatisch.io/
+tags:
+- panel
+- automatisch
+- detect
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - <title>Automatisch
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /login
+  matchers: *id001
+  condition: and

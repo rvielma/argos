@@ -1,0 +1,23 @@
+id: thinfinity-virtualui-panel
+name: Thinfinity VirtualUI Panel - Detect
+severity: info
+confidence: tentative
+description: Thinfinity VirtualUI panel was detected.
+reference: CWE-200
+tags:
+- panel
+- thinfinity
+- virtualui
+- cybelesoft
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Thinfinity VirtualUI</title>
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,65 @@
+id: jkstatus-manager
+name: JK Status Manager - Detect
+severity: low
+confidence: confirmed
+description: Exposed JKStatus manager which is a web-based tool that allows administrators to monitor and manage the connections
+  between the Apache HTTP Server and the Tomcat application server.
+reference: https://github.com/PortSwigger/j2ee-scan/blob/master/src/main/java/burp/j2ee/issues/impl/JKStatus.java
+tags:
+- config
+- jk
+- status
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - JK Status Manager
+  condition: or
+  headers:
+    X-Forwarded-For: 127.0.0.1
+- method: GET
+  path: /status
+  matchers: *id001
+  condition: or
+  headers:
+    X-Forwarded-For: 127.0.0.1
+- method: GET
+  path: /jkstatus
+  matchers: *id001
+  condition: or
+  headers:
+    X-Forwarded-For: 127.0.0.1
+- method: GET
+  path: /jkstatus-auth
+  matchers: *id001
+  condition: or
+  headers:
+    X-Forwarded-For: 127.0.0.1
+- method: GET
+  path: /jk-status
+  matchers: *id001
+  condition: or
+  headers:
+    X-Forwarded-For: 127.0.0.1
+- method: GET
+  path: /jkmanager
+  matchers: *id001
+  condition: or
+  headers:
+    X-Forwarded-For: 127.0.0.1
+- method: GET
+  path: /jkmanager-auth
+  matchers: *id001
+  condition: or
+  headers:
+    X-Forwarded-For: 127.0.0.1
+- method: GET
+  path: /jdkstatus
+  matchers: *id001
+  condition: or
+  headers:
+    X-Forwarded-For: 127.0.0.1

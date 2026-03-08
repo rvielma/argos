@@ -1,0 +1,21 @@
+id: fastcgi-test-page
+name: FastCGI Test Page
+severity: info
+confidence: confirmed
+description: FastCGI test page was discovered.
+tags:
+- tech
+- fastcgi
+- discovery
+requests:
+- method: GET
+  path: /test/fcgi/test.html
+  matchers:
+  - type: body
+    words:
+    - FastCGI test page
+    - FastCGI possibilities test page
+  - type: status
+    status:
+    - 200
+  condition: and

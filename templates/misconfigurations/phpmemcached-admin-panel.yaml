@@ -1,0 +1,19 @@
+id: phpmemcached-admin-panel
+name: phpMemcachedAdmin Panel
+severity: medium
+confidence: confirmed
+description: phpMemcachedAdmin Panel is exposed.
+tags:
+- phpmemcached
+- exposure
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - phpMemcachedAdmin
+    - Execute Commands on Servers
+  condition: and

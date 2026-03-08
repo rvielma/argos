@@ -1,0 +1,24 @@
+id: celonis-login-panel
+name: Celonis Login - Panel
+severity: info
+confidence: confirmed
+description: Detects Celonis Process Intelligence login panels.
+reference: https://www.celonis.com
+tags:
+- panel
+- celonis
+- login
+- detect
+- discovery
+requests:
+- method: GET
+  path: /welcome
+  matchers:
+  - type: body
+    words:
+    - Amazing insights. Better results.
+    - draw-celonis-logo
+  - type: status
+    status:
+    - 200
+  condition: and

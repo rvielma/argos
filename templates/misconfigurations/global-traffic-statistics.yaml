@@ -1,0 +1,25 @@
+id: global-traffic-statistics
+name: Global Traffic Statistics Exposure
+severity: low
+confidence: confirmed
+description: Global Traffic Statistics page is exposed.
+tags:
+- misconfig
+- global
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Global Traffic Statistics
+    - Listening on
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

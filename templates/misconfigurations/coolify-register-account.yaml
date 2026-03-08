@@ -1,0 +1,22 @@
+id: coolify-register-account
+name: Coolify Register User Account - Enabled
+severity: medium
+confidence: confirmed
+description: Exposed Coolify user register page.
+tags:
+- coolify
+- register
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /register
+  matchers:
+  - type: body
+    words:
+    - Password again
+    - Coolify
+  - type: status
+    status:
+    - 200
+  condition: and

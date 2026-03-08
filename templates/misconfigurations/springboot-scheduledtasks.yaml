@@ -1,0 +1,33 @@
+id: springboot-scheduledtasks
+name: Spring Boot Scheduledtasks Actuator Panel - Detect
+severity: info
+confidence: confirmed
+description: Spring Boot Scheduledtasks Actuator panel was detected.
+reference: CWE-200
+tags:
+- misconfig
+- springboot
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /scheduledtasks
+  matchers: &id001
+  - type: body
+    words:
+    - cron
+    - fixedDelay
+  - type: header
+    words:
+    - application/json
+    - application/vnd.spring-boot.actuator
+    - application/vnd.spring-boot.actuator.v1+json
+    - application/vnd.spring-boot.actuator.v2+json
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /actuator/scheduledtasks
+  matchers: *id001
+  condition: and

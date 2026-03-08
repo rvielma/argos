@@ -1,0 +1,22 @@
+id: saia-pcd-panel
+name: Saia PCD Web Server Panel - Detect
+severity: info
+confidence: tentative
+description: Saia PCD Web Server panel was detected.
+tags:
+- saia
+- login
+- panel
+- pcd
+- discovery
+requests:
+- method: GET
+  path: /pwdform.htm
+  matchers:
+  - type: body
+    words:
+    - <title>Saia PCD Web Server</title>
+  - type: status
+    status:
+    - 200
+  condition: and

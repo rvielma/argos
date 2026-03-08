@@ -1,0 +1,26 @@
+id: dubbo-admin-default-login
+name: Apache Dubbo - Default Admin Discovery
+severity: high
+confidence: tentative
+description: Apache Dubbo default admin credentials were discovered.
+reference: CWE-522
+tags:
+- dubbo
+- apache
+- default-login
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Dubbo Admin</title>
+    - /sysinfo/versions
+    - '{{username}}'', ''/logout'')'
+  - type: status
+    status:
+    - 200
+  condition: and
+  headers:
+    Content-Type: application/x-www-form-urlencoded

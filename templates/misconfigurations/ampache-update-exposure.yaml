@@ -1,0 +1,25 @@
+id: ampache-update-exposure
+name: Ampache Update Page Exposure
+severity: low
+confidence: confirmed
+description: Ampache update page is exposed.
+tags:
+- misconfig
+- ampache
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /update.php
+  matchers:
+  - type: body
+    words:
+    - Ampache Update
+  - type: body
+    words:
+    - No Update Needed
+    - No updates needed
+  - type: status
+    status:
+    - 200
+  condition: and

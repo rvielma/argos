@@ -1,0 +1,25 @@
+id: bottle-debug
+name: Bottle debug mode enabled
+severity: info
+confidence: confirmed
+description: Bottle debug mode enabled
+reference: https://bottlepy.org/docs/dev/tutorial.html#debug-mode
+tags:
+- bottle
+- exposure
+- debug
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - 'Sorry, the requested URL '
+    - ' caused an error:'
+  - type: body
+    words:
+    - <tt>&#039;{{BaseURL}}&#039;</tt>
+    - <tt>&#039;{{BaseURL}}/&#039;</tt>
+  condition: and

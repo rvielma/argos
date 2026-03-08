@@ -1,0 +1,22 @@
+id: viewpoint-system-status
+name: ViewPoint System Status
+severity: low
+confidence: tentative
+description: ViewPoint System status page is exposed.
+tags:
+- status
+- exposure
+- viewpoint
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>ViewPoint System Status</title>
+  - type: status
+    status:
+    - 200
+  condition: and

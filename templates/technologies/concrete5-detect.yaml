@@ -1,0 +1,49 @@
+id: concrete5-detect
+name: Concrete5 Detection
+severity: info
+confidence: confirmed
+description: An instance running Concrete5 is detected by looking for specific HTTP headers, HTML tags, and known endpoints.
+tags:
+- concrete5
+- detect
+- tech
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - Powered by Concrete5
+    - X-Powered-By-Concrete5
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /robots.txt
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /sitemap.xml
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /favicon.ico
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /index.php
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /concrete/js/build/
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /concrete/block/
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /dashboard/
+  matchers: *id001
+  condition: and

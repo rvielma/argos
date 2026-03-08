@@ -1,0 +1,19 @@
+id: strapi-page
+name: Strapi API - Detect
+severity: info
+confidence: tentative
+description: Strapi API was detected.
+reference: CWE-200
+tags:
+- api
+- strapi
+- exposure
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Welcome to your Strapi app</title>
+  condition: or

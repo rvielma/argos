@@ -1,0 +1,28 @@
+id: oqtane-cms-db
+name: Oqtane CMS Database - Detect
+severity: info
+confidence: confirmed
+description: Detect which database distribution the target oqtane cms use.
+reference: CWE-200
+tags:
+- detect
+- tech
+- api
+- cms
+- discovery
+requests:
+- method: GET
+  path: /api/database
+  matchers:
+  - type: body
+    words:
+    - controlType"
+    - Oqtane
+    - dbType"
+  - type: body
+    words:
+    - application/json
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,26 @@
+id: moleculer-microservices
+name: Moleculer Microservices Project
+severity: low
+confidence: confirmed
+description: Moleculer microservice was able to be accessed with no required authentication in place.
+tags:
+- misconfig
+- microservice
+- moleculer
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Moleculer Microservices Project
+    - Service/Action name
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

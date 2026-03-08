@@ -1,0 +1,20 @@
+id: apostrophecms-detect
+name: ApostropheCMS - Detect
+severity: info
+confidence: confirmed
+description: Detected the presence of ApostropheCMS, a full-stack content management system built on Node.js and MongoDB.
+reference: https://apostrophecms.com/
+tags:
+- tech
+- cms
+- apostrophe
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: regex
+    regex:
+    - (?i)window\.apos\s*=
+    - (?i)/modules/apostrophe-
+  condition: or

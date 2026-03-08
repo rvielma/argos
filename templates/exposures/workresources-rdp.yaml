@@ -1,0 +1,21 @@
+id: workresources-rdp
+name: RDWeb RemoteApp and Desktop Connections - Web Access
+severity: info
+confidence: tentative
+description: RDWeb RemoteApp and Desktop Connections does not display.
+reference: CWE-200
+tags:
+- panel
+- workresources
+- discovery
+requests:
+- method: GET
+  path: /RDWeb/Pages/en-US/login.aspx
+  matchers:
+  - type: body
+    words:
+    - '<title>Error: Unable to display RD Web Access</title>'
+  - type: status
+    status:
+    - 200
+  condition: and

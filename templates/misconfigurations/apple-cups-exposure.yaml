@@ -1,0 +1,23 @@
+id: apple-cups-exposure
+name: Apple CUPS Sources - Exposure
+severity: info
+confidence: confirmed
+description: Apple CUPS Sources was exposed.
+reference: https://github.com/apple/cups
+tags:
+- apple
+- cups
+- exposure
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: regex
+    regex:
+    - <title>Home \- CUPS ([0-9.]+)<\/title>
+  - type: status
+    status:
+    - 200
+  condition: and

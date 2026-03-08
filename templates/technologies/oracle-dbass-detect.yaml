@@ -1,0 +1,20 @@
+id: oracle-dbass-detect
+name: Oracle DBaaS Monitor Detect
+severity: info
+confidence: tentative
+description: Oracle DBaaS Monitor Detect
+tags:
+- oracle
+- tech
+- discovery
+requests:
+- method: GET
+  path: /dbaas_monitor/login
+  matchers:
+  - type: body
+    words:
+    - <title>DBaaS Monitor</title>
+  - type: status
+    status:
+    - 200
+  condition: and

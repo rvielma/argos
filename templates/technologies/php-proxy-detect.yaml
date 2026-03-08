@@ -1,0 +1,25 @@
+id: php-proxy-detect
+name: PHP Proxy Detect
+severity: info
+confidence: tentative
+description: PHP Proxy Detect
+tags:
+- tech
+- php
+- proxy
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - <title>PHP-Proxy</title>
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /proxy
+  matchers: *id001
+  condition: and

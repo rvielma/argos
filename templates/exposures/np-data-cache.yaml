@@ -1,0 +1,23 @@
+id: np-data-cache
+name: NP Data Cache Panel - Detect
+severity: info
+confidence: confirmed
+description: NP Data Cache panel was detected.
+reference: CWE-200
+tags:
+- np
+- panel
+- cache
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - NP Data Cache
+    - Server logs (if subscribed)
+  - type: status
+    status:
+    - 200
+  condition: and

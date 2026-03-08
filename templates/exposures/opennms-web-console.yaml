@@ -1,0 +1,23 @@
+id: opennms-web-console
+name: OpenNMS Web Console Login Panel - Detect
+severity: info
+confidence: tentative
+description: OpenNMS Web Console login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- login
+- edb
+- opennms
+- discovery
+requests:
+- method: GET
+  path: /opennms/login.jsp
+  matchers:
+  - type: body
+    words:
+    - OpenNMS Web Console
+  - type: status
+    status:
+    - 200
+  condition: and

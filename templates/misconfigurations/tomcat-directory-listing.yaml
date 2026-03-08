@@ -1,0 +1,28 @@
+id: tomcat-directory-listing
+name: Apache Tomcat - Directory Listing Enabled
+severity: medium
+confidence: confirmed
+description: Directory listing is enabled on the Apache Tomcat server, allowing users to view the contents of web directories.This
+  could lead to unauthorized access to sensitive files and potential information disclosure.
+reference: https://isms.kisa.or.kr
+tags:
+- tomcat
+- misconfig
+- listing
+- kisa
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Directory Listing For
+    - <a href=
+  - type: regex
+    regex:
+    - (?i)content-type:.*text/html
+  - type: status
+    status:
+    - 200
+  condition: and

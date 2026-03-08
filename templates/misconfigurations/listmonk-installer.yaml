@@ -1,0 +1,24 @@
+id: listmonk-installer
+name: Listmonk Installer Exposure
+severity: high
+confidence: confirmed
+description: Listmonk is susceptible to the Installation page exposure due to misconfiguration.
+tags:
+- misconfig
+- listmonk
+- install
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /admin/login?next=%2Fadmin
+  matchers:
+  - type: body
+    words:
+    - This is a fresh install
+    - Super Admin account
+    - listmonk
+  - type: status
+    status:
+    - 200
+  condition: and

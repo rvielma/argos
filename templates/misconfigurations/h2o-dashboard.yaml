@@ -1,0 +1,27 @@
+id: h2o-dashboard
+name: H2O Dashboard - Exposure
+severity: high
+confidence: confirmed
+description: H2o dashboard by default has no authentication and can lead to RCE on the host.
+tags:
+- misconfig
+- exposure
+- h2o
+- ml
+- unauth
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: header
+    words:
+    - X-H2o-Build-Project-Version
+    - X-H2o-Cluster-Id
+  - type: body
+    words:
+    - H2O Flow
+  - type: status
+    status:
+    - 200
+  condition: and

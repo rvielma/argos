@@ -1,0 +1,22 @@
+id: oracle-webcenter-sites
+name: Oracle WebCenter Sites
+severity: info
+confidence: confirmed
+description: Oracle WebCenter Sites
+tags:
+- tech
+- oracle
+- webcenter
+- discovery
+requests:
+- method: GET
+  path: /welcome_webcenter.html
+  matchers:
+  - type: body
+    words:
+    - FOR ORACLE
+    - WebCenter Framework
+  - type: status
+    status:
+    - 200
+  condition: and

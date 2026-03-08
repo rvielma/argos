@@ -1,0 +1,28 @@
+id: manageengine-adselfservice
+name: ZOHO ManageEngine ADSelfService Plus - Detect
+severity: info
+confidence: confirmed
+description: ZOHO ManageEngine ADSelfService panel was detected.
+reference: CWE-200
+tags:
+- panel
+- zoho
+- manageengine
+- zohocorp
+- discovery
+requests:
+- method: GET
+  path: /authorization.do
+  matchers: &id001
+  - type: body
+    words:
+    - <title>ADSelfService Plus</title>
+    - '"PRODUCT_NAME":"ManageEngine ADSelfService'
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /servlet/GetProductVersion
+  matchers: *id001
+  condition: and

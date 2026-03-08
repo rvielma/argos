@@ -1,0 +1,23 @@
+id: aem-bulkeditor
+name: AEM BulkEditor
+severity: info
+confidence: tentative
+description: AEM BulkEditor
+reference: https://raw.githubusercontent.com/danielmiessler/SecLists/master/Discovery/Web-Content/aem2.txt
+tags:
+- misconfig
+- aem
+- adobe
+- editor
+- vuln
+requests:
+- method: GET
+  path: /etc/importers/bulkeditor.html
+  matchers:
+  - type: body
+    words:
+    - <title>AEM BulkEditor</title>
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,22 @@
+id: axigen-webmail
+name: Axigen WebMail PanelDetection
+severity: info
+confidence: tentative
+description: An Axigen webmail panel was discovered.
+reference: CWE-200
+tags:
+- axigen
+- panel
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: regex
+    regex:
+    - (?i)(Axigen WebMail)
+    - <title>Axigen Standard Webmail - (.*)</title>
+  - type: status
+    status:
+    - 200
+  condition: and

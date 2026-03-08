@@ -1,0 +1,23 @@
+id: ocomon-panel
+name: OcoMon Login Panel - Detect
+severity: info
+confidence: confirmed
+description: a tiny helpdesk system written in php
+reference: CWE-200
+tags:
+- panel
+- ocomon
+- oss
+- ocomon_project
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: regex
+    regex:
+    - (?i)(OcoMon)
+  - type: body
+    words:
+    - open_form/ticket_form_open.php
+  condition: and

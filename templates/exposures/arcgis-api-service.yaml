@@ -1,0 +1,26 @@
+id: arcgis-api-service
+name: ArcGIS REST Services Directory - Detect
+severity: info
+confidence: confirmed
+description: Check for the existence of the "/arcgis/rest/services" path on an ArcGIS server.
+reference: https://enterprise.arcgis.com/en/
+tags:
+- panel
+- arcgis
+- rest
+- api
+- detect
+- esri
+- discovery
+requests:
+- method: GET
+  path: /arcgis/rest/services
+  matchers:
+  - type: body
+    words:
+    - REST Services Directory
+    - ArcGIS
+  - type: status
+    status:
+    - 200
+  condition: and

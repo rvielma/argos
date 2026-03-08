@@ -1,0 +1,25 @@
+id: request-baskets-exposure
+name: Request Baskets - Exposure
+severity: low
+confidence: confirmed
+description: Request Baskets is exposed.
+reference: https://notes.sjtu.edu.cn/s/MUUhEymt7#
+tags:
+- misconfig
+- requests-baskets
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /web
+  matchers:
+  - type: body
+    words:
+    - <title>Request Baskets</title>
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

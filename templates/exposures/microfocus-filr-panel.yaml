@@ -1,0 +1,29 @@
+id: microfocus-filr-panel
+name: Micro Focus Filr Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Micro Focus Filr login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- microfocus
+- filr
+- detect
+- discovery
+requests:
+- method: GET
+  path: /filr/login
+  matchers: &id001
+  - type: body
+    words:
+    - Micro Focus Filr
+    - Filr Appliance
+  - type: status
+    status:
+    - 404
+    - 200
+  condition: and
+- method: GET
+  path: /login
+  matchers: *id001
+  condition: and

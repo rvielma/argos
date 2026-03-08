@@ -1,0 +1,28 @@
+id: wp-links-opml
+name: WordPress wp-links-opml.php - Version Disclosure
+severity: info
+confidence: confirmed
+description: WordPress wp-links-opml.php file was publicly accessible and expossed the WordPress version in the generator
+  tag.
+reference: https://www.acunetix.com/vulnerabilities/web/wordpress-version-disclosed/
+tags:
+- exposure
+- wordpress
+- wp
+- version
+- files
+requests:
+- method: GET
+  path: /wp-links-opml.php
+  matchers:
+  - type: body
+    words:
+    - generator=
+    - WordPress/
+  - type: header
+    words:
+    - text/xml
+  - type: status
+    status:
+    - 200
+  condition: and

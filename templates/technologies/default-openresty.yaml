@@ -1,0 +1,17 @@
+id: default-openresty
+name: OpenResty Default Page
+severity: info
+confidence: tentative
+description: OpenResty Default Page
+tags:
+- tech
+- openresty
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Welcome to OpenResty!</title>
+  condition: or

@@ -1,0 +1,24 @@
+id: burp-rest-api-detect
+name: Burp Rest API Server Running
+severity: info
+confidence: tentative
+description: Burp Rest API Server Running
+reference: https://portswigger.net/burp/documentation/enterprise/api-reference
+tags:
+- burp
+- tech
+- discovery
+requests:
+- method: GET
+  path: /v0.1/
+  matchers:
+  - type: body
+    words:
+    - <title>Burp API</title>
+  - type: header
+    words:
+    - X-Burp-Version
+  - type: status
+    status:
+    - 200
+  condition: and

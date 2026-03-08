@@ -1,0 +1,31 @@
+id: remotely-registration-enabled
+name: Remotely Registration Enabled
+severity: high
+confidence: confirmed
+description: Checks if the Remotely self-hosted remote desktop and collaboration web application has its user registration
+  endpoint enabled, potentially allowing anyone to register without invitation.
+reference: https://github.com/lucent-sea/Remotely
+tags:
+- remotely
+- registration
+- exposure
+- misconfig
+requests:
+- method: GET
+  path: /Identity/Account/Register
+  matchers: &id001
+  - type: body
+    words:
+    - Create a new account.
+    - Remotely
+  - type: body
+    words:
+    - Registration is disabled.
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /Account/Register
+  matchers: *id001
+  condition: and

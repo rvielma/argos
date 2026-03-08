@@ -1,0 +1,25 @@
+id: kubernetes-mirantis
+name: Mirantis Kubernetes Engine Panel - Detect
+severity: info
+confidence: confirmed
+description: Mirantis Kubernetes Engine panel was detected.
+reference: CWE-200
+tags:
+- tech
+- kubernetes
+- devops
+- kube
+- k8s
+- panel
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Mirantis Kubernetes Engine
+  - type: status
+    status:
+    - 200
+  condition: and

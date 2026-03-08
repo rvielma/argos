@@ -1,0 +1,20 @@
+id: vbulletin-detect
+name: vBulletin Detect
+severity: info
+confidence: confirmed
+description: vBulletin is a proprietary forum and community publishing software written in PHP.
+reference: https://www.vbulletin.com/
+tags:
+- tech
+- vbulletin
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Powered By vBulletin
+    - content="vBulletin
+    - id="vbulletin_css
+  condition: or

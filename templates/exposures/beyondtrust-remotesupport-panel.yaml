@@ -1,0 +1,22 @@
+id: beyondtrust-remotesupport-panel
+name: BeyondTrust Remote Support Panel - Detect
+severity: info
+confidence: confirmed
+description: Detect BeyondTrust Remote Support Panel.
+tags:
+- panel
+- detect
+- beyondtrust
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: status
+    status:
+    - 200
+  - type: body
+    words:
+    - BeyondTrust Remote Support
+    - powered_by_text
+  condition: and

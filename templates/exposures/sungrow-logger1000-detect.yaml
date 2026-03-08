@@ -1,0 +1,26 @@
+id: sungrow-logger1000-detect
+name: SUNGROW Logger1000 Panel - Detect
+severity: info
+confidence: confirmed
+description: SUNGROW (Solar Energy Inverter Monitoring Devices) Logger1000 panel was detected.
+reference: CWE-200
+tags:
+- panel
+- logger1000
+- sungrow
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - htmlWebpackPlugin.options.title
+    - logger
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

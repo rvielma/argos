@@ -1,0 +1,33 @@
+id: springboot-beans
+name: Detect Springboot Beans Actuator
+severity: low
+confidence: tentative
+description: Displays a complete list of all the Spring beans in the application
+tags:
+- springboot
+- exposure
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /beans
+  matchers: &id001
+  - type: body
+    words:
+    - '"type"'
+    - '"beans"'
+    - '"dependencies"'
+    - '"scope"'
+  - type: status
+    status:
+    - 200
+  - type: header
+    words:
+    - application/json
+    - application/vnd.spring-boot.actuator
+    - application/vnd.spring-boot.actuator.v1+json
+  condition: and
+- method: GET
+  path: /actuator/beans
+  matchers: *id001
+  condition: and

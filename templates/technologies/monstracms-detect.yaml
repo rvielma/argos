@@ -1,0 +1,22 @@
+id: monstracms-detect
+name: MonstraCMS Detection
+severity: info
+confidence: confirmed
+description: MonstraCMS Detection
+reference: https://github.com/monstra-cms/monstra/
+tags:
+- tech
+- monstra
+- monstracms
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - content="Powered by Monstra
+  - type: status
+    status:
+    - 200
+  condition: and

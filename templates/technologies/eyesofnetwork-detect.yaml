@@ -1,0 +1,22 @@
+id: eyesofnetwork-detect
+name: EyesOfNetwork Detect
+severity: info
+confidence: tentative
+description: EyesOfNetwork detection
+reference: https://www.eyesofnetwork.com/en
+tags:
+- tech
+- cisa
+- eyesofnetwork
+- discovery
+requests:
+- method: GET
+  path: /login.php
+  matchers:
+  - type: body
+    words:
+    - <title>EyesOfNetwork</title>
+  - type: status
+    status:
+    - 200
+  condition: and

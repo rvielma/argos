@@ -1,0 +1,21 @@
+id: open-web-analytics-panel
+name: Open Web Analytics Login - Detect
+severity: info
+confidence: confirmed
+description: Detects the presence of Open Web Analytics login page.
+tags:
+- open-web-analytics
+- login
+- panel
+- discovery
+requests:
+- method: GET
+  path: /index.php?owa_do=base.loginForm
+  matchers:
+  - type: body
+    words:
+    - OWA.config.main_url
+  - type: status
+    status:
+    - 200
+  condition: and

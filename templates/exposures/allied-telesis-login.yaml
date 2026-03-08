@@ -1,0 +1,25 @@
+id: allied-telesis-login
+name: Allied Telesis Device GUI Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Allied Telesis Device GUI login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- allied
+- allied_telesis
+- discovery
+requests:
+- method: GET
+  path: /public/login.html
+  matchers:
+  - type: body
+    words:
+    - <title>Allied Telesis Device GUI</title>
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,28 @@
+id: iot-vdme-simulator
+name: IoT vDME Simulator Panel - Detect
+severity: medium
+confidence: confirmed
+description: loT vDME Simulator panel was detected. Exposure IoT vDME Simulator panel allows anonymous access to create new
+  Items.
+reference: CWE-200
+tags:
+- exposure
+- misconfig
+- panel
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>IoT vDME Simulator</title>
+    - Configuration Repository
+    - Current configuration
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,17 @@
+id: default-movable-page
+name: Movable Default Page
+severity: info
+confidence: tentative
+description: Movable Default Page
+tags:
+- tech
+- movable
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Welcome to Movable Type</title>
+  condition: or

@@ -1,0 +1,20 @@
+id: database-error
+name: Database Error
+severity: info
+confidence: tentative
+description: Database Error
+tags:
+- misconfig
+- database
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Database Error</title>
+  - type: status
+    status:
+    - 500
+  condition: and

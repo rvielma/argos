@@ -1,0 +1,22 @@
+id: esxi-system
+name: ESXi System Login Panel - Detect
+severity: info
+confidence: tentative
+description: ESXi System login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- esxi
+- vmware
+- discovery
+requests:
+- method: GET
+  path: /ui/#/login
+  matchers:
+  - type: body
+    words:
+    - ng-app="esxUiApp"
+  - type: status
+    status:
+    - 200
+  condition: and

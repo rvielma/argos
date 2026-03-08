@@ -1,0 +1,20 @@
+id: mikrotik-routeros-old
+name: MikroTik RouterOS Admin Login Panel - Detect
+severity: info
+confidence: confirmed
+description: MikroTik RouterOS admin login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- login
+- mikrotik
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - mikrotik routeros > administration
+    - configuration page
+  condition: or

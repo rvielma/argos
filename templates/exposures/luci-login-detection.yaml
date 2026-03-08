@@ -1,0 +1,21 @@
+id: luci-login-detection
+name: LuCi Login Panel - Detect
+severity: info
+confidence: tentative
+description: LuCi login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- login
+- discovery
+requests:
+- method: GET
+  path: /cgi-bin/luci
+  matchers:
+  - type: status
+    status:
+    - 200
+  - type: body
+    words:
+    - Authorization Required
+  condition: and

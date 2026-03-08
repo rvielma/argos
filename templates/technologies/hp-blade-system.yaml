@@ -1,0 +1,22 @@
+id: hp-blade-system
+name: HP BladeSystem Onboard Administrator Panel - Detector
+severity: info
+confidence: tentative
+description: HPBladeSystem Onboard Administrator panel was detected.
+reference: CWE-200
+tags:
+- panel
+- hp
+- tech
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>HP BladeSystem Onboard Administrator</title>
+  - type: status
+    status:
+    - 200
+  condition: and

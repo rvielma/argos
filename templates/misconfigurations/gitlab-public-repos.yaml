@@ -1,0 +1,24 @@
+id: gitlab-public-repos
+name: GitLab public repositories
+severity: info
+confidence: tentative
+description: GitLab public repositories
+reference: https://twitter.com/ldionmarcil/status/1370052344562470922
+tags:
+- gitlab
+- exposure
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /api/v4/projects
+  matchers:
+  - type: header
+    words:
+    - 'Set-Cookie: _gitlab_session='
+  - type: body
+    words:
+    - name_with_namespace
+  condition: and
+  headers:
+    Cookie: _gitlab_session=

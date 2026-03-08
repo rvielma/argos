@@ -1,0 +1,22 @@
+id: keenetic-web-login
+name: Keenetic Web Login Panel - Detect
+severity: info
+confidence: tentative
+description: Keenetic Web login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- keenetic
+- edb
+- discovery
+requests:
+- method: GET
+  path: /login#goto=%2Fdashboard
+  matchers:
+  - type: body
+    words:
+    - <title ng-bind="$root.title">Keenetic Web</title>
+  - type: status
+    status:
+    - 200
+  condition: and

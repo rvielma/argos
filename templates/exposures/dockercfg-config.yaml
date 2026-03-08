@@ -1,0 +1,29 @@
+id: dockercfg-config
+name: Detect .dockercfg
+severity: high
+confidence: tentative
+description: Docker registry authentication data
+tags:
+- docker
+- exposure
+- config
+- vuln
+requests:
+- method: GET
+  path: /.dockercfg
+  matchers: &id001
+  - type: body
+    words:
+    - '"email":'
+    - '"auth":'
+  - type: header
+    words:
+    - text/plain
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /.docker/config.json
+  matchers: *id001
+  condition: and

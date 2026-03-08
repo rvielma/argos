@@ -1,0 +1,20 @@
+id: hp-media-vault-detect
+name: HP Media Vault Detect
+severity: info
+confidence: tentative
+description: HP Media Vault Detect
+tags:
+- tech
+- hp
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>HP Media Vault
+  - type: status
+    status:
+    - 200
+  condition: and

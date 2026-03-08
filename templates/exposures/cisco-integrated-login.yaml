@@ -1,0 +1,22 @@
+id: cisco-integrated-login
+name: Cisco Integrated Management Controller Login Panel - Detect
+severity: info
+confidence: tentative
+description: Cisco Integrated Management Controller login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- cisco
+- edb
+- discovery
+requests:
+- method: GET
+  path: /login.html
+  matchers:
+  - type: body
+    words:
+    - <title>Cisco Integrated Management Controller Login</title>
+  - type: status
+    status:
+    - 200
+  condition: and

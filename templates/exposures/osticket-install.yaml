@@ -1,0 +1,29 @@
+id: osticket-install
+name: osTicket Installer Panel - Detect
+severity: critical
+confidence: confirmed
+description: osTicket installer panel was detected.
+reference: CWE-284
+tags:
+- panel
+- osticket
+- install
+- discovery
+requests:
+- method: GET
+  path: /upload/setup/install.php
+  matchers: &id001
+  - type: body
+    words:
+    - <title>osTicket Installer
+  - type: body
+    words:
+    - already installed
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /setup/install.php
+  matchers: *id001
+  condition: and

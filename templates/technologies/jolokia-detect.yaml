@@ -1,0 +1,26 @@
+id: jolokia-detect
+name: Jolokia Detection
+severity: info
+confidence: tentative
+description: Jolokia Detection
+tags:
+- tech
+- jolokia
+- discovery
+requests:
+- method: GET
+  path: /jolokia/version
+  matchers: &id001
+  - type: body
+    words:
+    - '"timestamp":'
+    - '"protocol":'
+    - '"agent":'
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /actuator/jolokia/version
+  matchers: *id001
+  condition: and

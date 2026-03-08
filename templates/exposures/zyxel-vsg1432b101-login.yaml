@@ -1,0 +1,23 @@
+id: zyxel-vsg1432b101-login
+name: Zyxel VSG1432-B101 - Login Detection
+severity: info
+confidence: confirmed
+description: Zyxel VSG1432-B101 - Login Detection
+tags:
+- tech
+- zyxel
+- modem
+- router
+- panel
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - 'Welcome to ZyXEL VSG1432-B101::'
+  - type: status
+    status:
+    - 200
+  condition: and

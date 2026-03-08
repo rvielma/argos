@@ -1,0 +1,24 @@
+id: cisco-network-config
+name: Cisco System Network Configuration Page - Detect
+severity: info
+confidence: tentative
+description: Cisco System Network configuration page was detected. Page lists whole network configuration and internal logs
+  of Cisco IP phones.
+reference: CWE-200
+tags:
+- exposure
+- cisco
+- edb
+- config
+- vuln
+requests:
+- method: GET
+  path: /CGI/Java/Serviceability?adapter=device.statistics.configuration
+  matchers:
+  - type: body
+    words:
+    - Network Configuration
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,24 @@
+id: mezzanine-cms-detect
+name: Mezzanine CMS - Detect
+severity: info
+confidence: tentative
+description: Detects instances of Mezzanine CMS based on unique fingerprints and identifiers.
+tags:
+- detect
+- mezzanine
+- cms
+- tech
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - powered by Mezzanine
+    - Welcome to Mezzanine
+    - Mezzanine version
+  - type: regex
+    regex:
+    - (?i)mezzanine\s+(v[0-9.]+)
+    - (?i)<title>Mezzanine CMS
+  condition: or

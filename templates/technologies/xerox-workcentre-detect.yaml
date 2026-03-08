@@ -1,0 +1,22 @@
+id: xerox-workcentre-detect
+name: Xerox Workcentre Detect
+severity: info
+confidence: confirmed
+description: Xerox Workcentre Detect
+tags:
+- tech
+- xerox
+- workcentre
+- discovery
+requests:
+- method: GET
+  path: /index.dhtml
+  matchers:
+  - type: body
+    words:
+    - XEROX WORKCENTRE
+    - /header.php?tab=status
+  - type: status
+    status:
+    - 200
+  condition: and

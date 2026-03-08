@@ -1,0 +1,29 @@
+id: jboss-soa-platform
+name: JBoss SOA Platform Login Panel - Detect
+severity: info
+confidence: confirmed
+description: JBoss SOA Platform login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- jboss
+- soa
+- redhat
+- detect
+- discovery
+requests:
+- method: GET
+  path: /css/footer.js
+  matchers: &id001
+  - type: body
+    words:
+    - Welcome to the JBoss SOA Platform
+    - 'JBoss Enterprise SOA Platform: Embedded ESB Server'
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /
+  matchers: *id001
+  condition: and

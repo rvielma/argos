@@ -1,0 +1,23 @@
+id: poste-io-installer
+name: Poste.io - Installer
+severity: high
+confidence: confirmed
+description: Poste.io is susceptible to the Installation page exposure due to misconfiguration.
+tags:
+- misconfig
+- exposure
+- poste-io
+- install
+- vuln
+requests:
+- method: GET
+  path: /admin/install/server
+  matchers:
+  - type: body
+    words:
+    - Initial server configuration
+    - poste
+  - type: status
+    status:
+    - 200
+  condition: and

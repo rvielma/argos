@@ -1,0 +1,17 @@
+id: empirecms-detect
+name: EmpireCMS Detect
+severity: info
+confidence: tentative
+description: EmpireCMS Detect
+tags:
+- tech
+- empirecms
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: regex
+    regex:
+    - <meta (.*)EmpireCMS(.*)>
+  condition: or

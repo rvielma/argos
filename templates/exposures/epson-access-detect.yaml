@@ -1,0 +1,26 @@
+id: epson-access-detect
+name: Epson Device Unauthorized Access Detect
+severity: info
+confidence: tentative
+description: A publicly available Epson device panel (printer, scanner, etc.) was detected.
+reference: CWE-668
+tags:
+- iot
+- printer
+- panel
+- unauth
+- epson
+- edb
+- discovery
+requests:
+- method: GET
+  path: /PRESENTATION/EPSONCONNECT
+  matchers:
+  - type: body
+    words:
+    - Epson Connect
+    - /IMAGE/EPSONLOGO.PNG
+  - type: status
+    status:
+    - 200
+  condition: and

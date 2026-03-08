@@ -1,0 +1,22 @@
+id: apache-hbase-unauth
+name: Apache Hbase Unauth
+severity: medium
+confidence: tentative
+description: Apache Hbase is exposed.
+tags:
+- apache
+- unauth
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /conf
+  matchers:
+  - type: body
+    words:
+    - <name>hbase.defaults.for.version</name>
+    - <source>hbase-default.xml</source>
+  - type: status
+    status:
+    - 200
+  condition: and

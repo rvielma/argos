@@ -1,0 +1,19 @@
+id: neos-detect
+name: Neos CMS detection
+severity: info
+confidence: tentative
+description: Neos CMS was detected.
+reference: CWE-200
+tags:
+- tech
+- neos
+- cms
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - This website is powered by Neos
+  condition: or

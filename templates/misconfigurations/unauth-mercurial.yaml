@@ -1,0 +1,22 @@
+id: unauth-mercurial
+name: Unauthenticated Mercurial Detect
+severity: high
+confidence: confirmed
+description: Mercurial repositories index is disclosed.
+tags:
+- misconfig
+- unauth
+- mercurial
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Mercurial Repositories
+    - Last modified
+  - type: status
+    status:
+    - 200
+  condition: and

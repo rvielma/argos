@@ -1,0 +1,22 @@
+id: default-cakephp-page
+name: CakePHP Default Page
+severity: info
+confidence: confirmed
+description: CakePHP Default Page
+tags:
+- tech
+- cakephp
+- default-page
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Welcome to CakePHP
+    - CakePHP Issues
+  - type: status
+    status:
+    - 200
+  condition: and

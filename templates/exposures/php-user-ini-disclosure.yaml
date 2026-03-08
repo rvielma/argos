@@ -1,0 +1,31 @@
+id: php-user-ini-disclosure
+name: Php User.ini Disclosure
+severity: medium
+confidence: tentative
+description: PHP user.ini file is exposed.
+reference: https://github.com/detectify/ugly-duckling/blob/master/modules/crowdsourced/php-user-ini-disclosure.json
+tags:
+- exposure
+- config
+- files
+- vuln
+requests:
+- method: GET
+  path: /user.ini
+  matchers: &id001
+  - type: body
+    words:
+    - assert
+    - highlight
+    - opcache
+    - mssql
+    - oci8
+    - agent
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /.user.ini
+  matchers: *id001
+  condition: and

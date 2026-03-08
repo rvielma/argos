@@ -1,0 +1,22 @@
+id: nimsoft-wasp
+name: Nimsoft Wasp Detection
+severity: info
+confidence: tentative
+description: Detect Nimsoft Wasp WebPage
+tags:
+- nimsoft
+- exposure
+- tech
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - 'Powered by <b>Nimsoft WASP '
+    - <title>WASP</title>
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,22 @@
+id: default-apache-miracle
+name: Default Apache Miracle Linux Web Server Page
+severity: info
+confidence: confirmed
+description: Default Apache Miracle Linux Web Server Page
+tags:
+- tech
+- default-page
+- apache
+- miracle
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <TITLE>Apache Miracle Linux Web Server</TITLE>
+  - type: status
+    status:
+    - 200
+  condition: and

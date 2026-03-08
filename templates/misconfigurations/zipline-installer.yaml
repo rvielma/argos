@@ -1,0 +1,25 @@
+id: zipline-installer
+name: Zipline - Installer
+severity: critical
+confidence: confirmed
+description: Zipline installer setup was detected.
+reference: https://zipline.diced.sh/docs/get-started/docker
+tags:
+- misconfig
+- setup
+- zipline
+- installer
+- vuln
+requests:
+- method: GET
+  path: /setup
+  matchers:
+  - type: body
+    words:
+    - Setup Zipline
+    - Configuration
+    - Create a super-admin account
+  - type: status
+    status:
+    - 200
+  condition: and

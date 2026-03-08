@@ -1,0 +1,28 @@
+id: jellyseerr-login-panel
+name: Jellyseerr Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Jellyseerr Login Panel - Detect
+reference: https://github.com/Fallenbagel/jellyseerr
+tags:
+- panel
+- jellyseerr
+- detect
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - Jellyseerr</title>
+    - content="Jellyseerr
+    - applicationTitle":"Jellyseerr
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /login
+  matchers: *id001
+  condition: and

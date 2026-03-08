@@ -1,0 +1,27 @@
+id: grafana-metrics-exposure
+name: Grafana Metrics Endpoint - Information Disclosure
+severity: low
+confidence: confirmed
+description: Detected Grafana metrics endpoint exposed without authentication revealed sensitive infrastructure information,
+  including version, edition, user counts, dashboard statistics, datasources, and database connection details.
+reference: CWE-200
+tags:
+- grafana
+- exposure
+- metrics
+- misconfig
+requests:
+- method: GET
+  path: /metrics
+  matchers:
+  - type: status
+    status:
+    - 200
+  - type: body
+    words:
+    - grafana_build_info
+    - '# TYPE grafana_'
+  - type: header
+    words:
+    - text/plain
+  condition: and

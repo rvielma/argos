@@ -1,0 +1,24 @@
+id: mspcontrol-login
+name: MSPControl Login Panel - Detect
+severity: info
+confidence: tentative
+description: MSPControl login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- mspcontrol
+- discovery
+requests:
+- method: GET
+  path: /Default.aspx?pid=Login
+  matchers:
+  - type: body
+    words:
+    - MSPControl - Sign In
+    - Sign In to Control Panel
+  - type: status
+    status:
+    - 200
+  condition: and
+  headers:
+    Cookie: UserCulture=en-US

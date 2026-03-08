@@ -1,0 +1,30 @@
+id: gitlab-public-snippets
+name: GitLab public snippets
+severity: info
+confidence: tentative
+description: GitLab public snippets
+reference: https://gist.github.com/vysecurity/20311c29d879e0aba9dcffbe72a88b10
+tags:
+- gitlab
+- exposure
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /explore/snippets
+  matchers: &id001
+  - type: body
+    words:
+    - <title>Snippets · Explore · GitLab</title>
+  - type: status
+    status:
+    - 200
+  - type: body
+    words:
+    - No snippets found
+    - Nothing here.
+  condition: and
+- method: GET
+  path: /-/snippets
+  matchers: *id001
+  condition: and

@@ -1,0 +1,24 @@
+id: busybox-repository-browser
+name: Busybox Repository Browser - Detect
+severity: info
+confidence: confirmed
+description: Busybox Repository Browser was detected.
+reference: https://github.com/mirror/busybox
+tags:
+- detect
+- busybox
+- oss
+- panel
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Busybox Repository Browser
+    - index</a>
+  - type: status
+    status:
+    - 200
+  condition: and

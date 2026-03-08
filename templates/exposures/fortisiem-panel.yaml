@@ -1,0 +1,22 @@
+id: fortisiem-panel
+name: Fortinet FortiSIEM - Panel
+severity: info
+confidence: confirmed
+description: FortiSIEM login panel was discovered.
+tags:
+- panel
+- fortinet
+- login
+- discovery
+requests:
+- method: GET
+  path: /phoenix/login.html
+  matchers:
+  - type: body
+    words:
+    - <title>Login</title>
+    - loginToFlexDiv
+  - type: status
+    status:
+    - 200
+  condition: and

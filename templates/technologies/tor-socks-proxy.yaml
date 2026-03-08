@@ -1,0 +1,23 @@
+id: tor-socks-proxy
+name: Detect tor SOCKS proxy
+severity: info
+confidence: tentative
+description: Detect tor SOCKS proxy
+tags:
+- tech
+- tor
+- proxy
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - This is a SOCKS Proxy
+    - HTTPTunnelPort
+    - SOCKSPort
+  - type: status
+    status:
+    - 501
+  condition: and

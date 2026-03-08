@@ -1,0 +1,29 @@
+id: lightstreamer-dashboard-exposure
+name: Lightstreamer Dashboard Exposure
+severity: medium
+confidence: confirmed
+description: Detected exposed Lightstreamer Server dashboard that may reveal server configuration,real-time monitoring data,
+  session information, and internal infrastructure details.
+reference: https://lightstreamer.com/
+tags:
+- exposure
+- lightstreamer
+- dashboard
+- misconfig
+- unauth
+requests:
+- method: GET
+  path: /dashboard/
+  matchers: &id001
+  - type: body
+    words:
+    - Lightstreamer Monitoring Dashboard
+    - performance
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /lightstreamer/dashboard/
+  matchers: *id001
+  condition: and

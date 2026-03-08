@@ -1,0 +1,23 @@
+id: beyondtrust-login-server
+name: BeyondTrust Privileged Access Management Login - Detect
+severity: info
+confidence: tentative
+description: BeyondTrust Privileged Access Management login panel was detected.
+reference: CWE-200
+tags:
+- beyondtrust
+- pam
+- panel
+- discovery
+requests:
+- method: GET
+  path: /WebConsole/api/security/auth/loginServers
+  matchers:
+  - type: status
+    status:
+    - 200
+  - type: regex
+    regex:
+    - '"DomainName":"(.*)"'
+    - '"domains":'
+  condition: and

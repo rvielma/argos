@@ -1,0 +1,24 @@
+id: cyber-stealer-panel
+name: Cyber Stealer C2 Panel - Detect
+severity: info
+confidence: confirmed
+description: Cyber Stealer C2 Login Panel was discovered.
+reference: https://x.com/solostalking/status/1947143367336534254
+tags:
+- c2
+- cyber-stealer
+- stealer
+- panel
+- login
+- vuln
+requests:
+- method: GET
+  path: /webpanel/panel/login.php
+  matchers:
+  - type: body
+    words:
+    - <title>Cyber Stealer - Secure Access
+  - type: status
+    status:
+    - 200
+  condition: and

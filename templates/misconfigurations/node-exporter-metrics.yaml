@@ -1,0 +1,26 @@
+id: node-exporter-metrics
+name: Detect Node Exporter Metrics
+severity: low
+confidence: tentative
+description: Information Disclosure of Garbage Collection
+tags:
+- node
+- exposure
+- debug
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /metrics
+  matchers:
+  - type: body
+    words:
+    - node_cooling_device_cur_state{name=
+    - node_network_carrier{device=
+    - node_network_flags{device=
+    - node_cpu_seconds_total{cpu=
+    - node_filesystem_files{device=
+  - type: status
+    status:
+    - 200
+  condition: and

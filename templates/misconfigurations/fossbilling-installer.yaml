@@ -1,0 +1,22 @@
+id: fossbilling-installer
+name: FOSSBilling - Installation
+severity: high
+confidence: confirmed
+description: FOSSBilling installation dashboard has been detected.
+tags:
+- fossbilling
+- install
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /install/install.php
+  matchers:
+  - type: body
+    words:
+    - <title>FOSSBilling setup
+    - <title>FOSSBilling Installation
+  - type: status
+    status:
+    - 200
+  condition: and

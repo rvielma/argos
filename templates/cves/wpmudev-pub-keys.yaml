@@ -1,0 +1,23 @@
+id: wpmudev-pub-keys
+name: Wpmudev Dashboard Pub Key
+severity: medium
+confidence: tentative
+description: Wpmudev Wordpress Plugin public key leaked.
+reference: https://www.exploit-db.com/ghdb/6443
+tags:
+- wordpress
+- edb
+- vuln
+requests:
+- method: GET
+  path: /wp-content/plugins/wpmudev-updates/keys/
+  matchers:
+  - type: body
+    words:
+    - Index of /
+    - .pub
+    - wpmudev
+  - type: status
+    status:
+    - 200
+  condition: and

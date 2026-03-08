@@ -1,0 +1,20 @@
+id: metasploit-setup-page
+name: Metasploit Setup and Configuration Page - Detect
+severity: info
+confidence: confirmed
+description: Metasploit setup and configuration page was detected.
+reference: CWE-200
+tags:
+- panel
+- metasploit
+- setup
+- rapid7
+- discovery
+requests:
+- method: GET
+  path: /users/new
+  matchers:
+  - type: body
+    words:
+    - Metasploit - Setup and Configuration
+  condition: and

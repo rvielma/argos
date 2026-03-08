@@ -1,0 +1,22 @@
+id: supertokens-login-panel
+name: Supertokens Login Panel - Detect
+severity: info
+confidence: tentative
+description: A Supertokens login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- login
+- supertokens
+- discovery
+requests:
+- method: GET
+  path: /auth
+  matchers:
+  - type: body
+    words:
+    - <title>SuperTokens + React
+  - type: status
+    status:
+    - 200
+  condition: and

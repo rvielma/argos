@@ -1,0 +1,25 @@
+id: lucy-admin-panel
+name: Lucy Security Admin Panel
+severity: info
+confidence: confirmed
+description: Lucy Security Admin Panel
+tags:
+- tech
+- lucy
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - title="Lucy"
+    - aria-label="Lucy
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /admin/login
+  matchers: *id001
+  condition: and

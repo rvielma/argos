@@ -1,0 +1,22 @@
+id: wuzhicms-detect
+name: Wuzhicms Detected
+severity: info
+confidence: tentative
+description: Wuzhicms was detected.
+reference: CWE-200
+tags:
+- tech
+- wuzhicms
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Powered by wuzhicms
+    - 五指CMS
+  - type: status
+    status:
+    - 200
+  condition: and

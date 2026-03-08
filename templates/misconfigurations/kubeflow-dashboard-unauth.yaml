@@ -1,0 +1,26 @@
+id: kubeflow-dashboard-unauth
+name: Kubeflow Unauth
+severity: high
+confidence: tentative
+description: Kubeflow internal data is exposed.
+reference: https://github.com/kubeflow/kubeflow
+tags:
+- kubeflow
+- unauth
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /pipeline/apis/v1beta1/runs?page_size=5&sort_by=created_at%20desc
+  matchers:
+  - type: body
+    words:
+    - '{"runs":[{"id":'
+    - resource_references
+  - type: header
+    words:
+    - application/json
+  - type: status
+    status:
+    - 200
+  condition: and

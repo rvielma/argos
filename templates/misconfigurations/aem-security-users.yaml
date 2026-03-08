@@ -1,0 +1,27 @@
+id: aem-security-users
+name: Adobe AEM Security Users Exposure
+severity: medium
+confidence: tentative
+description: Adobe AEM Security Users are exposed.
+reference: https://raw.githubusercontent.com/danielmiessler/SecLists/master/Discovery/Web-Content/aem2.txt
+tags:
+- misconfig
+- aem
+- adobe
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /libs/granite/security/content/useradmin.html
+  matchers:
+  - type: body
+    words:
+    - AEM Security | Users
+    - trackingelement="create user"
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

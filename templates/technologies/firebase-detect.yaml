@@ -1,0 +1,18 @@
+id: firebase-detect
+name: firebase detect
+severity: low
+confidence: tentative
+description: firebase detect
+reference: http://ghostlulz.com/google-exposed-firebase-database/
+tags:
+- tech
+- firebase
+- discovery
+requests:
+- method: GET
+  path: /.settings/rules.json?auth=FIREBASE_SECRET
+  matchers:
+  - type: body
+    words:
+    - Could not parse auth token
+  condition: or

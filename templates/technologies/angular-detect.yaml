@@ -1,0 +1,19 @@
+id: angular-detect
+name: Angular detect
+severity: info
+confidence: confirmed
+description: Angular is a development platform for building mobile and desktop web applications using Typescript/JavaScript
+  and other languages.
+reference: https://github.com/angular/angular
+tags:
+- tech
+- angular
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - ng-version=
+  condition: and

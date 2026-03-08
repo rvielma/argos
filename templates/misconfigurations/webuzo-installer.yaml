@@ -1,0 +1,26 @@
+id: webuzo-installer
+name: Webuzo Installer
+severity: high
+confidence: confirmed
+description: Webuzo is susceptible to the Installation page exposure due to misconfiguration.
+tags:
+- misconfig
+- webuzo
+- install
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /install.php
+  matchers:
+  - type: body
+    words:
+    - Webuzo Installer
+    - Webuzo Initial Setup
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

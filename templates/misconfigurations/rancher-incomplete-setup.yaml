@@ -1,0 +1,24 @@
+id: rancher-incomplete-setup
+name: Rancher - Incomplete Setup Exposure
+severity: low
+confidence: confirmed
+description: Detected Rancher installation was found with an incomplete first-time setup. The bootstrap login page was publicly
+  accessible at /dashboard/auth/login, indicating an unconfigured instance that could have been targeted for unauthorized
+  setup completion.
+reference: https://rancher.com/docs/rancher/v2.6/en/installation/
+tags:
+- rancher
+- misconfig
+- exposure
+requests:
+- method: GET
+  path: /v3/settings/first-login
+  matchers:
+  - type: body
+    words:
+    - '"value":"true"'
+    - '"name":"first-login"'
+  - type: status
+    status:
+    - 200
+  condition: and

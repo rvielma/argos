@@ -1,0 +1,22 @@
+id: dqs-superadmin-panel
+name: DQS Superadmin Login Panel - Detect
+severity: info
+confidence: confirmed
+description: DQS Superadmin login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- dqs
+- superadmin
+- discovery
+requests:
+- method: GET
+  path: /#/login
+  matchers:
+  - type: body
+    words:
+    - DQS | Superadmin
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,23 @@
+id: secnet-info-leak
+name: Secnet Intelligent Routing System actpt_5g.data - Information Leak
+severity: high
+confidence: confirmed
+description: Secnet Intelligent Routing System is exposed.
+reference: https://mp.weixin.qq.com/s/lNlI5ZtUJG50ipS0WfytUw
+tags:
+- info-leak
+- secnet
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /actpt_5g.data
+  matchers:
+  - type: body
+    words:
+    - '"http_username":'
+    - '"http_passwd":'
+  - type: status
+    status:
+    - 200
+  condition: and

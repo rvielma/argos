@@ -1,0 +1,23 @@
+id: spip-detect
+name: SPIP - Detect
+severity: info
+confidence: tentative
+description: Detects a SPIP and SPIP version.
+reference: https://www.spip.net/
+tags:
+- spip
+- tech
+- detect
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: regex
+    regex:
+    - 'Composed-By: SPIP'
+    - 'X-Spip-Cache:'
+  - type: status
+    status:
+    - 200
+  condition: and

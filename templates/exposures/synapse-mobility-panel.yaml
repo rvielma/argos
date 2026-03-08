@@ -1,0 +1,21 @@
+id: synapse-mobility-panel
+name: Synapse Mobility Login Panel - Detect
+severity: info
+confidence: tentative
+description: Synapse Mobility login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- synapse
+- discovery
+requests:
+- method: GET
+  path: /pureweb/server/login.jsp
+  matchers:
+  - type: body
+    words:
+    - <title>Synapse Mobility Login</title>
+  - type: status
+    status:
+    - 200
+  condition: and

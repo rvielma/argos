@@ -1,0 +1,22 @@
+id: symantec-epm-login
+name: Symantec Endpoint Protection Manager Login Panel - Detect
+severity: info
+confidence: tentative
+description: Symantec Endpoint Protection Manager login panel was detected.
+reference: CWE-200
+tags:
+- symantec
+- panel
+- login
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Symantec Endpoint Protection Manager</title>
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,29 @@
+id: office-webapps-panel
+name: Office Web Apps Server Panel - Detect
+severity: info
+confidence: confirmed
+description: Microsoft Office Web App Login Panel was discovered.
+reference: CWE-668
+tags:
+- panel
+- office-webapps
+- login
+- microsoft
+- discovery
+requests:
+- method: GET
+  path: /op/generate.aspx
+  matchers: &id001
+  - type: body
+    words:
+    - Provide a link that opens Word
+    - PowerPoint files in a web browser
+  - type: body
+    words:
+    - _OFUError
+    - Wrong file type
+  condition: or
+- method: GET
+  path: /op/wrongfiletype.htm
+  matchers: *id001
+  condition: or

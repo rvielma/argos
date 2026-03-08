@@ -1,0 +1,30 @@
+id: kafka-topics-ui
+name: Apache Kafka Topics Panel - Detect
+severity: info
+confidence: tentative
+description: Apache Kafka Topics panel was detected.
+reference: CWE-200
+tags:
+- panel
+- kafka
+- apache
+- detect
+- provectus
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - <title>Kafka Topics UI - Browse Kafka Data</title>
+    - <title>UI for Apache Kafka</title>
+    - github.com/provectus/kafka-ui
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /info
+  matchers: *id001
+  condition: and

@@ -1,0 +1,23 @@
+id: femtocell-panel
+name: Femtocell Access Point Panel - Detect
+severity: info
+confidence: confirmed
+description: Femtocell Access Point panel was discovered.
+reference: https://en.wikipedia.org/wiki/Femtocell
+tags:
+- femtocell
+- network
+- panel
+- login
+- discovery
+requests:
+- method: GET
+  path: /index.html
+  matchers:
+  - type: body
+    words:
+    - Femtocell Access Point
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,24 @@
+id: nocobase-detect
+name: NocoBase - Detect
+severity: info
+confidence: confirmed
+description: NocoBase is an open source, extensibility-first, low-code platform for building business applications and enterprise
+  solutions.
+tags:
+- tech
+- nocobase
+- detect
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - __nocobase_public
+    - __nocobase_api
+    - __nocobase_ws
+  - type: status
+    status:
+    - 200
+  condition: and

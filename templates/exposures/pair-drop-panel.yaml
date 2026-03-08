@@ -1,0 +1,23 @@
+id: pair-drop-panel
+name: Pair Drop Panel - Detect
+severity: info
+confidence: confirmed
+description: Local file sharing in your browser. Inspired by Apple's AirDrop. Fork of Snapdrop.
+reference: https://github.com/schlagmichdoch/pairdrop
+tags:
+- panel
+- pairdrop
+- login
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>PairDrop
+    - Peer2Peer
+  - type: status
+    status:
+    - 200
+  condition: and

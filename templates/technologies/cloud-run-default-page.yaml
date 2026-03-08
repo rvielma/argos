@@ -1,0 +1,23 @@
+id: cloud-run-default-page
+name: Google Cloud Run Default Page
+severity: info
+confidence: confirmed
+description: Google Cloud Run Default Page
+reference: https://cloud.google.com/run/docs/overview/what-is-cloud-run
+tags:
+- tech
+- cloudrun
+- google
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Congratulations | Cloud Run
+    - alt="A group celebrating
+  - type: status
+    status:
+    - 200
+  condition: and

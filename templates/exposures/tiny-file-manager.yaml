@@ -1,0 +1,23 @@
+id: tiny-file-manager
+name: Tiny File Manager Panel - Detect
+severity: info
+confidence: confirmed
+description: Tiny File Manager panel was detected.
+reference: CWE-200
+tags:
+- panel
+- filemanager
+- login
+- detect
+- discovery
+requests:
+- method: GET
+  path: /index.php
+  matchers:
+  - type: body
+    words:
+    - <title>Tiny File Manager
+  - type: status
+    status:
+    - 200
+  condition: and

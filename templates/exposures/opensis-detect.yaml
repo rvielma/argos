@@ -1,0 +1,27 @@
+id: opensis-detect
+name: OpenSIS Login Panel - Detect
+severity: info
+confidence: tentative
+description: OpenSIS login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- opensis
+- login
+- os4ed
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - <title>openSIS Student Information System</title>
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /opensis/index.php
+  matchers: *id001
+  condition: and

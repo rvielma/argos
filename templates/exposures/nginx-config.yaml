@@ -1,0 +1,27 @@
+id: nginx-config
+name: Nginx Config - Detect
+severity: info
+confidence: tentative
+description: Nginx configuration information was detected.
+reference: CWE-200
+tags:
+- config
+- exposure
+- nginx
+- vuln
+requests:
+- method: GET
+  path: /nginx.conf
+  matchers:
+  - type: body
+    words:
+    - html>
+  - type: body
+    words:
+    - server
+    - listen
+    - server_name
+  - type: status
+    status:
+    - 200
+  condition: and

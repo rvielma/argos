@@ -1,0 +1,21 @@
+id: subrion-cms-detect
+name: Subrion CMS Detect
+severity: info
+confidence: tentative
+description: Subrion CMS Detect
+tags:
+- subrion
+- tech
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - subrion.org" title="Open Source CMS">Subrion CMS
+    - Subrion CMS - Open Source Content Management System
+  - type: status
+    status:
+    - 200
+  condition: and

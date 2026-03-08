@@ -1,0 +1,24 @@
+id: apache-apisix-panel
+name: Apache APISIX Login Panel - Detect
+severity: info
+confidence: tentative
+description: An Apache APISIX login panel was detected.
+reference: CWE-200
+tags:
+- apache
+- apisix
+- panel
+- login
+- detect
+- discovery
+requests:
+- method: GET
+  path: /user/login?redirect=%2F
+  matchers:
+  - type: body
+    words:
+    - <title>Apache APISIX Dashboard</title>
+  - type: status
+    status:
+    - 200
+  condition: and

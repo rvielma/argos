@@ -1,0 +1,22 @@
+id: filestash-admin-config
+name: Filestash Admin Password Configuration
+severity: high
+confidence: confirmed
+description: Filestash is susceptible to the Admin Password Configuration page exposure due to misconfiguration.
+tags:
+- exposure
+- filestash
+- config
+- vuln
+requests:
+- method: GET
+  path: /admin/setup
+  matchers:
+  - type: body
+    words:
+    - <title>Admin Console</title>
+    - component-loader
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,22 @@
+id: nagiosxi-installer
+name: Nagios XI Installer
+severity: high
+confidence: confirmed
+description: Nagios XI is susceptible to the Installation page exposure due to misconfiguration.
+tags:
+- misconfig
+- exposure
+- install
+- nagiosxi
+- vuln
+requests:
+- method: GET
+  path: /nagiosxi/install.php
+  matchers:
+  - type: body
+    words:
+    - Nagios XI Installation
+  - type: status
+    status:
+    - 200
+  condition: and

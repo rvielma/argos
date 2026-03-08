@@ -1,0 +1,24 @@
+id: kube-api-services
+name: Kube API Services
+severity: info
+confidence: tentative
+description: Scans for kube services
+tags:
+- tech
+- k8s
+- kubernetes
+- devops
+- kube
+- discovery
+requests:
+- method: GET
+  path: /api/v1/namespaces/default/services
+  matchers:
+  - type: status
+    status:
+    - 200
+  - type: body
+    words:
+    - '"ServiceList":'
+    - '"items":'
+  condition: and

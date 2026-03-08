@@ -1,0 +1,23 @@
+id: watchguard-panel
+name: Watchguard Login Panel - Detect
+severity: info
+confidence: tentative
+description: Watchguard login panel was detected.
+reference: CWE-200
+tags:
+- watchguard
+- edb
+- panel
+- discovery
+requests:
+- method: GET
+  path: /sslvpn_logon.shtml
+  matchers:
+  - type: body
+    words:
+    - <title>User Authentication
+    - WatchGuard Technologies
+  - type: status
+    status:
+    - 200
+  condition: and

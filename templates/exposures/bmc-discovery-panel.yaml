@@ -1,0 +1,22 @@
+id: bmc-discovery-panel
+name: BMC Discovery Login Panel - Detect
+severity: info
+confidence: confirmed
+description: BMC Discovery login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- bmc
+- discovery
+requests:
+- method: GET
+  path: /ui/
+  matchers:
+  - type: body
+    words:
+    - 'BMC Discovery:'
+    - <span class="logo-product">Discovery</span>
+  - type: status
+    status:
+    - 200
+  condition: and

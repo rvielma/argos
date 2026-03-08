@@ -1,0 +1,23 @@
+id: easy-media-gallery-pro-listing
+name: WordPress Plugin Media Gallery Pro Listing
+severity: info
+confidence: tentative
+description: Searches for sensitive directories present in the easy-media-gallery-pro plugin.
+reference: https://www.exploit-db.com/ghdb/6455
+tags:
+- wordpress
+- listing
+- wp-plugin
+- vuln
+requests:
+- method: GET
+  path: /wp-content/plugins/easy-media-gallery-pro/
+  matchers:
+  - type: body
+    words:
+    - Index of
+    - wp-content/plugins/easy-media-gallery-pro/
+  - type: status
+    status:
+    - 200
+  condition: and

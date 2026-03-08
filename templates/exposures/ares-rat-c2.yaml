@@ -1,0 +1,26 @@
+id: ares-rat-c2
+name: Area Rat C2 - Detect
+severity: info
+confidence: confirmed
+description: Ares is a Python Remote Access Tool.
+reference: https://github.com/montysecurity/C2-Tracker/blob/main/tracker.py
+tags:
+- c2
+- ir
+- osint
+- ares
+- panel
+- rat
+- vuln
+requests:
+- method: GET
+  path: /login
+  matchers:
+  - type: body
+    words:
+    - <title>Ares</title>
+    - 'Passphrase:'
+  - type: status
+    status:
+    - 200
+  condition: and

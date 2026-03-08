@@ -1,0 +1,23 @@
+id: doris-panel
+name: Doris Panel - Detect
+severity: info
+confidence: confirmed
+description: Doris panel detection template.
+tags:
+- doris
+- panel
+- login
+- detect
+- discovery
+requests:
+- method: GET
+  path: /login
+  matchers:
+  - type: body
+    words:
+    - Doris</title>
+    - location.pathname.split
+  - type: status
+    status:
+    - 200
+  condition: and

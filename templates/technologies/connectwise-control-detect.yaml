@@ -1,0 +1,20 @@
+id: connectwise-control-detect
+name: ConnectWise Control  Detect
+severity: info
+confidence: confirmed
+description: ConnectWise Control  Detect
+tags:
+- tech
+- connectwise
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - ConnectWise Control Remote Support Software
+  - type: status
+    status:
+    - 200
+  condition: and

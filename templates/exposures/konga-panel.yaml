@@ -1,0 +1,24 @@
+id: konga-panel
+name: Konga Panel - Detect
+severity: info
+confidence: tentative
+description: Konga panel was detected.
+reference: CWE-200
+tags:
+- tech
+- konga
+- oss
+- panel
+- pantsel
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Konga</title>
+  - type: status
+    status:
+    - 200
+  condition: and

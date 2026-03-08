@@ -1,0 +1,25 @@
+id: redis-exception-error
+name: Redis Exception Connection Error Page
+severity: low
+confidence: confirmed
+description: Redis exception connection error page detected.
+reference: https://www.facebook.com/ExWareLabs/photos/pcb.5563308760399619/5563307330399762/
+tags:
+- exposure
+- redis
+- logs
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - redis.exceptions.ConnectionError
+  - type: header
+    words:
+    - text/plain
+  - type: status
+    status:
+    - 500
+  condition: and

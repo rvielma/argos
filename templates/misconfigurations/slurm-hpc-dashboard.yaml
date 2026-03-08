@@ -1,0 +1,23 @@
+id: slurm-hpc-dashboard
+name: Slurm HPC Dashboard - Detect
+severity: medium
+confidence: confirmed
+description: Slurm HPC Dashboard was detected.
+reference: CWE-200
+tags:
+- misconfig
+- slurm
+- dashboard
+- discovery
+requests:
+- method: GET
+  path: /slurm/
+  matchers:
+  - type: body
+    words:
+    - <title>Slurm HPC Dashboard</title>
+    - content="Slurm HPC dashboard
+  - type: status
+    status:
+    - 200
+  condition: and

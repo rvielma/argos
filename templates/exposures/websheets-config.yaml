@@ -1,0 +1,28 @@
+id: websheets-config
+name: Websheets Configuration File - Detect
+severity: high
+confidence: confirmed
+description: Websheets configuration file was detected.
+reference: CWE-200
+tags:
+- websheets
+- config
+- exposure
+- files
+- vuln
+requests:
+- method: GET
+  path: /ws-config.json
+  matchers: &id001
+  - type: body
+    words:
+    - '"db-password":'
+    - '"db-database":'
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /ws-config.example.json
+  matchers: *id001
+  condition: and

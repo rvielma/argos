@@ -1,0 +1,22 @@
+id: docmosis-tornado-server
+name: Docmosis Tornado Server Exposure
+severity: low
+confidence: confirmed
+description: Docmosis Tornado Server is exposed.
+tags:
+- misconfig
+- tornado
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Docmosis Tornado
+    - href="WebServerDownload.css
+  - type: status
+    status:
+    - 200
+  condition: and

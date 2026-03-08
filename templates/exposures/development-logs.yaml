@@ -1,0 +1,37 @@
+id: development-logs
+name: Discover development log files
+severity: info
+confidence: tentative
+description: Development log file was exposed.
+tags:
+- logs
+- exposure
+- rails
+- vuln
+requests:
+- method: GET
+  path: /log/development.log
+  matchers: &id001
+  - type: body
+    words:
+    - Connecting to database specified by database.yml
+    - Started GET
+  - type: body
+    words:
+    - DEPRECATION WARNING
+    - CREATE TABLE
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /logs/development.log
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /development.log
+  matchers: *id001
+  condition: and

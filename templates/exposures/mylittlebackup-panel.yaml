@@ -1,0 +1,30 @@
+id: mylittlebackup-panel
+name: myLittleBackup Panel - Detect
+severity: info
+confidence: confirmed
+description: myLittleBackup panel was detected.
+reference: CWE-200
+tags:
+- panel
+- mylittlebackup
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: regex
+    regex:
+    - content=".*(myLittleBackup).*
+    - <title>myLittleBackup for SQL Server
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /mlb/
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /mylittlebackup/
+  matchers: *id001
+  condition: and

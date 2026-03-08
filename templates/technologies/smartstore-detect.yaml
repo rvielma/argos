@@ -1,0 +1,22 @@
+id: smartstore-detect
+name: SmartStore Detect
+severity: info
+confidence: tentative
+description: SmartStore Detect
+reference: https://github.com/smartstore/SmartStoreNET
+tags:
+- tech
+- smartstore
+- oss
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: regex
+    regex:
+    - <meta name="generator" content="Smartstore (.*)" />
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,22 @@
+id: hmc-hybris-panel
+name: Hybris Management Console Login Panel - Detect
+severity: info
+confidence: tentative
+description: Hybris Management Console login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- sap
+- discovery
+requests:
+- method: GET
+  path: /hmc/hybris
+  matchers: &id001
+  - type: body
+    words:
+    - hybris Management Console
+  condition: or
+- method: GET
+  path: /hybris/hmc/hybris
+  matchers: *id001
+  condition: or

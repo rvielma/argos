@@ -1,0 +1,24 @@
+id: call-com-installer
+name: Call.com Setup Page - Exposure
+severity: high
+confidence: confirmed
+description: Detects exposed Call.com  Setup page.
+reference: https://cal.com/
+tags:
+- misconfig
+- install
+- exposure
+- cal
+- vuln
+requests:
+- method: GET
+  path: /auth/setup
+  matchers:
+  - type: body
+    words:
+    - Setup | Cal.com
+    - Minimum 15 characters long</li>
+  - type: status
+    status:
+    - 200
+  condition: and

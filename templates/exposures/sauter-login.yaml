@@ -1,0 +1,22 @@
+id: sauter-login
+name: Sauter moduWeb Login Panel - Detect
+severity: info
+confidence: tentative
+description: Sauter moduWeb login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- sauter
+- edb
+- discovery
+requests:
+- method: GET
+  path: /?locale=en
+  matchers:
+  - type: body
+    words:
+    - <title>Sauter moduWeb - Login</title>
+  - type: status
+    status:
+    - 200
+  condition: and

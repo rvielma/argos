@@ -1,0 +1,24 @@
+id: manageengine-servicedesk
+name: ZOHO ManageEngine ServiceDesk Panel - Detect
+severity: info
+confidence: tentative
+description: ZOHO ManageEngine ServiceDesk panel was detected.
+reference: CWE-200
+tags:
+- panel
+- zoho
+- manageengine
+- zohocorp
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>ManageEngine ServiceDesk Plus</title>
+    - <title>ManageEngine ServiceDesk Plus - MSP</title>
+  - type: status
+    status:
+    - 200
+  condition: and

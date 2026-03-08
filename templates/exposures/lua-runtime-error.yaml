@@ -1,0 +1,18 @@
+id: lua-runtime-error
+name: LUA Runtime Error - Page
+severity: info
+confidence: tentative
+description: LUA Runtime Error - Page
+tags:
+- error
+- lua
+- log
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - 'Error 500 : LUA Runtime Error'
+  condition: and

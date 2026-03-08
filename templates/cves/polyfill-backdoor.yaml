@@ -1,0 +1,20 @@
+id: polyfill-backdoor
+name: Polyfill.io - Backdoor
+severity: info
+confidence: confirmed
+description: 'The polyfill.io CDN was suspected to serve malware. Note: it''s not exploitable anymore'
+reference: https://sansec.io/research/polyfill-supply-chain-attack
+tags:
+- cdn
+- polyfill-io
+- backdoor
+- malware
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: regex
+    regex:
+    - <script[^>]* src=['"]https?://([a-zA-Z0-9-]*.)?polyfill.io[/'"]
+  condition: and

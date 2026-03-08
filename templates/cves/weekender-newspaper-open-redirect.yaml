@@ -1,0 +1,20 @@
+id: weekender-newspaper-open-redirect
+name: WordPress Weekender Newspaper 9.0 - Open Redirect
+severity: medium
+confidence: tentative
+description: WordPress Weekender Newspaper theme 9.0 contains an open redirect vulnerability. An attacker can redirect a user
+  to a malicious site and possibly obtain sensitive information, modify data, and/or execute unauthorized operations.
+reference: CWE-601
+tags:
+- wordpress
+- wp-plugin
+- redirect
+- vuln
+requests:
+- method: GET
+  path: /wp-content/themes/weekender/friend.php?id=aHR0cHM6Ly9pbnRlcmFjdC5zaA==
+  matchers:
+  - type: regex
+    regex:
+    - (?m)^(?:Location\s*?:\s*?)(?:https?://|//)?(?:[a-zA-Z0-9\-_\.@]*)interact\.sh.*$
+  condition: or

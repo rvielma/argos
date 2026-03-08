@@ -1,0 +1,22 @@
+id: nuxtjs-config-file
+name: Nuxtjs Config File - File Disclosure
+severity: low
+confidence: confirmed
+description: Nuxtjs Config file is exposed.
+tags:
+- exposure
+- files
+- nuxtjs
+- vuln
+requests:
+- method: GET
+  path: /nuxt.config.js
+  matchers:
+  - type: body
+    words:
+    - export default {
+    - 'buildModules: ['
+  - type: body
+    words:
+    - application/javascript
+  condition: and

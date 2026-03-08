@@ -1,0 +1,23 @@
+id: profittrailer-installer
+name: ProfitTrailer Setup Page - Exposure
+severity: high
+confidence: confirmed
+description: Detects exposed ProfitTrailer Setup page.
+reference: https://profittrailer.com/
+tags:
+- misconfig
+- install
+- exposure
+- profittrailer
+- vuln
+requests:
+- method: GET
+  path: /setup/license
+  matchers:
+  - type: body
+    words:
+    - ProfitTrailer Setup
+  - type: status
+    status:
+    - 200
+  condition: and

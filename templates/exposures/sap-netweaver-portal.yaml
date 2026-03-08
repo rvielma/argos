@@ -1,0 +1,19 @@
+id: sap-netweaver-portal
+name: SAP NetWeaver Portal - Detect
+severity: info
+confidence: tentative
+description: SAP NetWeaver Portal login has been detected. Note that NetWeaver has multiple default passwords as listed in
+  the references.
+reference: CWE-200
+tags:
+- panel
+- sap
+- discovery
+requests:
+- method: GET
+  path: /irj/portal
+  matchers:
+  - type: body
+    words:
+    - <title>SAP&#x20;NetWeaver&#x20;Portal</title>
+  condition: or

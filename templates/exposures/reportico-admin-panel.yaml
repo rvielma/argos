@@ -1,0 +1,29 @@
+id: reportico-admin-panel
+name: Reportico Administration Page - Detect
+severity: info
+confidence: confirmed
+description: Create a simple report using the designer front end in seconds from a single SQL statement. Add expressions,
+  user criteria, charts, groups, aggregations, page headers, page footers, hyperlinks and even custom plugin code.
+reference: https://www.reportico.org/site2/index.php
+tags:
+- panel
+- reportico
+- login
+- detect
+- discovery
+requests:
+- method: GET
+  path: /run.php?project=admin&execute_mode=ADMIN&clear_session=1
+  matchers: &id001
+  - type: body
+    words:
+    - Reportico Administration
+    - reportico_
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /reportico/run.php?project=admin&execute_mode=ADMIN&clear_session=1
+  matchers: *id001
+  condition: and

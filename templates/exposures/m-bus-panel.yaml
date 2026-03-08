@@ -1,0 +1,22 @@
+id: m-bus-panel
+name: M-Bus Converter Web Interface - Detect
+severity: info
+confidence: confirmed
+description: M-Bus Converter Web Interface - Detect
+tags:
+- panel
+- login
+- m-bus
+- detect
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>JC-e converter webinterface</title>
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,22 @@
+id: windows-admin-center-panel
+name: Windows Admin Center Panel - Detection
+severity: info
+confidence: tentative
+description: Detect Windows Admin Center Panel web interface.
+reference: https://github.com/microsoft/Windows-admin-center
+tags:
+- detect
+- windows
+- panel
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: status
+    status:
+    - 403
+  - type: body
+    words:
+    - Windows Admin Center</title>
+  condition: and

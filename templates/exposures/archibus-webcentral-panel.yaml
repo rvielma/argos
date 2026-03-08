@@ -1,0 +1,33 @@
+id: archibus-webcentral-panel
+name: Archibus Web Central Login - Panel Detect
+severity: info
+confidence: confirmed
+description: Archibus Web Central login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- archibus
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - ARCHIBUS
+  - type: body
+    words:
+    - Continue As a Guest
+    - login
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /archibus/login.axvw
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /archibus/schema/ab-core/views/sign-in/ab-sign-in.jsp
+  matchers: *id001
+  condition: and

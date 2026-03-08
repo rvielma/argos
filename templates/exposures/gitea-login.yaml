@@ -1,0 +1,21 @@
+id: gitea-login
+name: Gitea Login Panel - Detect
+severity: info
+confidence: tentative
+description: Gitea login panel was detected.
+reference: CWE-200
+tags:
+- gitea
+- panel
+- discovery
+requests:
+- method: GET
+  path: /user/login
+  matchers:
+  - type: body
+    words:
+    - Powered by Gitea
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,24 @@
+id: dlink-wireless
+name: D-Link Wireless Router Panel - Detect
+severity: info
+confidence: tentative
+description: D-Link Wireless Router panel was detected.
+reference: CWE-200
+tags:
+- dlink
+- router
+- edb
+- panel
+- discovery
+requests:
+- method: GET
+  path: /status.php
+  matchers:
+  - type: body
+    words:
+    - <title>D-LINK SYSTEMS, INC. | WIRELESS ROUTER | HOME</title>
+    - <title>D-LINK SYSTEMS, INC. | WIRELESS ACCESS POINT | HOME</title>
+  - type: status
+    status:
+    - 200
+  condition: and

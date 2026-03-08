@@ -1,0 +1,26 @@
+id: npm-log-file
+name: Publicly accessible NPM Log file
+severity: low
+confidence: confirmed
+description: NPM log file is exposed to external users.
+reference: https://github.com/maurosoria/dirsearch/blob/master/db/dicc.txt
+tags:
+- npm
+- logs
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /npm-debug.log
+  matchers: &id001
+  - type: body
+    words:
+    - info it worked if it ends with ok
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /assets/npm-debug.log
+  matchers: *id001
+  condition: and

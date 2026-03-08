@@ -1,0 +1,26 @@
+id: cgi-printenv
+name: Test CGI Script - Detect
+severity: medium
+confidence: tentative
+description: Test CGI script was detected. Response page returned by this CGI script exposes a list of server environment
+  variables.
+reference: CWE-200
+tags:
+- exposure
+- cgi
+- vuln
+requests:
+- method: GET
+  path: /cgi-bin/printenv.pl
+  matchers:
+  - type: body
+    words:
+    - MYSQL_HOME
+    - OPENSSL_CONF
+    - REMOTE_ADDR
+    - SERVER_ADMIN
+    - 'Environment Variables:'
+  - type: status
+    status:
+    - 200
+  condition: and

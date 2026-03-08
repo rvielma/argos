@@ -1,0 +1,21 @@
+id: wondercms-detect
+name: WonderCMS Detect
+severity: info
+confidence: tentative
+description: WonderCMS Detect
+tags:
+- tech
+- wondercms
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: header
+    words:
+    - 'Set-Cookie: wondercms_'
+  - type: body
+    words:
+    - Powered by WonderCMS
+    - https://www.wondercms.com
+  condition: or

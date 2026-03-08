@@ -1,0 +1,21 @@
+id: splunk-login
+name: Splunk SOAR Login Panel - Detect
+severity: info
+confidence: tentative
+description: Splunk SOAR login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- splunk
+- discovery
+requests:
+- method: GET
+  path: /login?next=/
+  matchers:
+  - type: body
+    words:
+    - <title>Splunk SOAR</title>
+  - type: status
+    status:
+    - 200
+  condition: and

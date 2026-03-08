@@ -1,0 +1,46 @@
+id: ivanti-endpoint-manager
+name: Ivanti Endpoint Manager - Detect
+severity: info
+confidence: confirmed
+description: Detects the presence of Ivanti Endpoint Manager (formerly LANDesk Management Suite) servers.
+reference: CWE-200
+tags:
+- tech
+- ivanti
+- epm
+- detect
+- landdesk
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - Ivanti Endpoint Manager
+    - LANDesk Management
+    - Ivanti(R) Cloud Services
+    - Ivanti Cloud Services Appliance
+    - LANDesk(R) Cloud Services Appliance
+    - LANDesk(R) Management
+  - type: header
+    words:
+    - LANDesk
+    - Ivanti EPM
+  - type: regex
+    regex:
+    - (?i)landdesk.*management
+    - (?i)ivanti.*endpoint\s*manager
+  condition: or
+- method: GET
+  path: /ldlogon.dll
+  matchers: *id001
+  condition: or
+- method: GET
+  path: /core/login
+  matchers: *id001
+  condition: or
+- method: GET
+  path: /webaccess
+  matchers: *id001
+  condition: or

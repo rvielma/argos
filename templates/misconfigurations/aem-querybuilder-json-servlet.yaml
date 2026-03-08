@@ -1,0 +1,54 @@
+id: aem-querybuilder-json-servlet
+name: AEM QueryBuilder Json Servlet
+severity: info
+confidence: tentative
+description: Sensitive information might be exposed via AEMs QueryBuilderServlet or QueryBuilderFeedServlet.
+reference: https://helpx.adobe.com/experience-manager/6-3/sites/developing/using/querybuilder-predicate-reference.html
+tags:
+- aem
+- adobe
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /bin/querybuilder.json
+  matchers: &id001
+  - type: status
+    status:
+    - 200
+  - type: header
+    words:
+    - application/json
+  - type: body
+    words:
+    - success
+    - results
+  condition: and
+- method: GET
+  path: /bin/querybuilder.json.servlet
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /bin///querybuilder.json
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /bin///querybuilder.json.servlet
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /bin/querybuilder.feed
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /bin/querybuilder.feed.servlet
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /bin///querybuilder.feed
+  matchers: *id001
+  condition: and
+- method: GET
+  path: ' ///bin///querybuilder.feed.servlet'
+  matchers: *id001
+  condition: and

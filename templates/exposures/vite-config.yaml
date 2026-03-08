@@ -1,0 +1,26 @@
+id: vite-config
+name: Vite Configuration - File Exposure
+severity: low
+confidence: confirmed
+description: The vite.config.js file is used to customize the behavior of Vite and specify various settings for your project.
+reference: https://vitejs.dev/config/
+tags:
+- devops
+- exposure
+- files
+- vite
+- config
+- vuln
+requests:
+- method: GET
+  path: /vite.config.js
+  matchers:
+  - type: body
+    words:
+    - export default defineConfig
+    - 'plugins:'
+    - laravel
+  - type: status
+    status:
+    - 200
+  condition: and

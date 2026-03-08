@@ -1,0 +1,24 @@
+id: xnat-login
+name: XNAT Login Panel - Detect
+severity: info
+confidence: confirmed
+description: XNAT login panel was detected.
+reference: CWE-200
+tags:
+- xnat
+- panel
+- discovery
+requests:
+- method: GET
+  path: /app/template/Login.vm
+  matchers:
+  - type: body
+    words:
+    - <title>XNAT</title>
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,17 @@
+id: pagespeed-detect
+name: Pagespeed Detection
+severity: info
+confidence: confirmed
+description: Pagespeed Detection
+tags:
+- tech
+- pagespeed
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: header
+    words:
+    - 'X-Mod-Pagespeed:'
+  condition: or

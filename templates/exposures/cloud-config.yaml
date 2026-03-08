@@ -1,0 +1,32 @@
+id: cloud-config
+name: Cloud Config File Exposure
+severity: medium
+confidence: confirmed
+description: Cloud Config file is exposed.
+reference: https://www.exploit-db.com/ghdb/7959
+tags:
+- exposure
+- cloud
+- devops
+- files
+- vuln
+requests:
+- method: GET
+  path: /cloud-config.yml
+  matchers: &id001
+  - type: body
+    words:
+    - ssh_authorized_keys
+    - '#cloud-config'
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /core-cloud-config.yml
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /cloud-config.txt
+  matchers: *id001
+  condition: and

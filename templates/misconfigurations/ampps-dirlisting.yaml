@@ -1,0 +1,32 @@
+id: ampps-dirlisting
+name: AMPPS by Softaculous Panel - Directory Listing - Detect
+severity: info
+confidence: tentative
+description: AMPPS by Softaculous panel directory listing was detected.
+reference: CWE-200
+tags:
+- panel
+- ampps
+- softaculous
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /client/
+  matchers: &id001
+  - type: body
+    words:
+    - <title>[AMPPS] - Web Local</title>
+    - Powered by AMPPS
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /files/
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /icons/
+  matchers: *id001
+  condition: and

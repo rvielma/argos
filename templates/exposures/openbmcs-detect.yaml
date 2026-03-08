@@ -1,0 +1,24 @@
+id: openbmcs-detect
+name: OpenBMCS Login Panel - Detect
+severity: info
+confidence: tentative
+description: OpenBCMS login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- openbmcs
+- detect
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - BMS - Login
+    - Copyright all rights reserved by Open BMCS
+    - OpenBMCS does not support Internet Explorer
+  - type: status
+    status:
+    - 200
+  condition: and

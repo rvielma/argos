@@ -1,0 +1,24 @@
+id: gocd-login
+name: GoCD Login Panel - Detect
+severity: info
+confidence: tentative
+description: GoCD login panel was detected.
+reference: CWE-200
+tags:
+- go
+- panel
+- gocd
+- thoughtworks
+- discovery
+requests:
+- method: GET
+  path: /go/auth/login
+  matchers:
+  - type: body
+    words:
+    - <title>Login - Go</title>
+    - gocd-params
+  - type: status
+    status:
+    - 200
+  condition: and

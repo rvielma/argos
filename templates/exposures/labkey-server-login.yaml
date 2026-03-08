@@ -1,0 +1,29 @@
+id: labkey-server-login
+name: LabKey Server Login Panel - Detect
+severity: info
+confidence: confirmed
+description: LabKey Server login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- labkey
+- discovery
+requests:
+- method: GET
+  path: /labkey/home/login-login.view
+  matchers: &id001
+  - type: body
+    words:
+    - 'TCTU LabKey Server: /home'
+    - Powered by LabKey
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /login/home/login.view
+  matchers: *id001
+  condition: and

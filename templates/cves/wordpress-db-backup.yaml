@@ -1,0 +1,21 @@
+id: wordpress-db-backup
+name: WordPress DB Backup
+severity: medium
+confidence: tentative
+description: This template checks for exposed database in wordpress.
+tags:
+- wordpress
+- backups
+- vuln
+requests:
+- method: GET
+  path: /wp-content/backup-db/
+  matchers:
+  - type: body
+    words:
+    - Index of /
+    - .sql">
+  - type: status
+    status:
+    - 200
+  condition: and

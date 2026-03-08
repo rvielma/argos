@@ -1,0 +1,21 @@
+id: greenbone-panel
+name: Greenbone Security Assistant Panel - Detect
+severity: info
+confidence: confirmed
+description: Greenbone Security Assistant Web Panel is detected
+tags:
+- panel
+- greenbone
+- login
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Greenbone Security Assistant</title>
+  - type: status
+    status:
+    - 200
+  condition: and

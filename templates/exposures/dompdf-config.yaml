@@ -1,0 +1,44 @@
+id: dompdf-config
+name: DomPDF - Configuration Page
+severity: low
+confidence: confirmed
+description: DOMPDF Configuration page was detected, which contains paths, library versions and other potentially sensitive
+  information
+reference: CWE-200
+tags:
+- config
+- exposure
+- dompdf
+- vuln
+requests:
+- method: GET
+  path: /www/setup.php
+  matchers: &id001
+  - type: body
+    words:
+    - HTML to PDF Converter</title>
+    - <td class="title">DOMPDF_PDF_BACKEND</td>
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /dompdf/dompdf/www/setup.php
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /js/dompdf/www/setup.php
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /portal/application/libraries/dompdf/www/setup.php
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /sites/all/libraries/dompdf/www/setup.php
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /vendor/dompdf/dompdf/www/setup.php
+  matchers: *id001
+  condition: and

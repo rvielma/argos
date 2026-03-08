@@ -1,0 +1,21 @@
+id: notion-detect
+name: Notion Detect
+severity: info
+confidence: confirmed
+description: Notion Detect
+tags:
+- notion
+- tech
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Notion – One workspace. Every team.
+    - Notion Labs, Inc.
+  - type: status
+    status:
+    - 200
+  condition: and

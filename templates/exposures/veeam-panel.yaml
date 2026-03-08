@@ -1,0 +1,24 @@
+id: veeam-panel
+name: Veeam Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Veeam login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- veeam
+- discovery
+requests:
+- method: GET
+  path: /login.aspx
+  matchers:
+  - type: body
+    words:
+    - Login - Veeam ONE Reporter
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

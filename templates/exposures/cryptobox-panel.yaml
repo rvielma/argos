@@ -1,0 +1,23 @@
+id: cryptobox-panel
+name: Cryptobox Panel - Detect
+severity: info
+confidence: confirmed
+description: Cryptobox was detected.
+reference: https://www.ercom.com/solutions/cryptobox-presentation
+tags:
+- panel
+- cryptobox
+- login
+- detect
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Cryptobox</title>
+  - type: status
+    status:
+    - 200
+  condition: and

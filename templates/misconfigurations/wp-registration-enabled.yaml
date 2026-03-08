@@ -1,0 +1,26 @@
+id: wp-registration-enabled
+name: WordPress User Registration Panel - Detect
+severity: info
+confidence: confirmed
+description: WordPress user registration is currently configured so that anyone can register as a user, thereby enabling an
+  attacker to possibly access sensitive data and execute unathorized operations.
+reference: CWE-200
+tags:
+- wordpress
+- wp
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /wp-login.php
+  matchers:
+  - type: body
+    words:
+    - ?action=register"
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

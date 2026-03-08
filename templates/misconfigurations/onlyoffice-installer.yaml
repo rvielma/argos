@@ -1,0 +1,24 @@
+id: onlyoffice-installer
+name: OnlyOffice Wizard Page - Exposure
+severity: high
+confidence: confirmed
+description: Detects exposed OnlyOffice Setup page.
+reference: https://www.onlyoffice.com/
+tags:
+- misconfig
+- install
+- exposure
+- onlyoffice
+- vuln
+requests:
+- method: GET
+  path: /Wizard.aspx
+  matchers:
+  - type: body
+    words:
+    - Portal Setup
+    - onlyoffice
+  - type: status
+    status:
+    - 200
+  condition: and

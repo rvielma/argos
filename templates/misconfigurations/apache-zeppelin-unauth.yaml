@@ -1,0 +1,27 @@
+id: apache-zeppelin-unauth
+name: Apache Zeppelin - Unauthenticated Access
+severity: high
+confidence: confirmed
+description: Apache Zeppelin server was able to be accessed because no authentication was required.
+reference: CWE-285
+tags:
+- misconfig
+- apache
+- zeppelin
+- unauth
+- vuln
+requests:
+- method: GET
+  path: /api/security/ticket
+  matchers:
+  - type: body
+    words:
+    - status":"OK
+    - '"ticket":"anonymous"'
+  - type: header
+    words:
+    - application/json
+  - type: status
+    status:
+    - 200
+  condition: and

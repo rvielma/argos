@@ -1,0 +1,25 @@
+id: steve-login-panel
+name: SteVe Login Panel - Detect
+severity: info
+confidence: confirmed
+description: SteVe login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- steve
+- discovery
+requests:
+- method: GET
+  path: /manager/signin
+  matchers: &id001
+  - type: body
+    words:
+    - SteVe - Steckdosenverwaltung
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /steve/manager/signin
+  matchers: *id001
+  condition: and

@@ -1,0 +1,34 @@
+id: wordpress-imsanity-fpd
+name: WordPress Plugin Imsanity - Full Path Disclosure
+severity: low
+confidence: confirmed
+description: WordPress Imsanity plugin is vulnerable to full path disclosure via direct access to plugin files.
+reference: https://wordpress.org/plugins/imsanity/
+tags:
+- wp
+- wordpress
+- wp-plugin
+- fpd
+- imsanity
+- exposure
+requests:
+- method: GET
+  path: /wp-content/plugins/imsanity/libs/imagecreatefrombmp.php
+  matchers: &id001
+  - type: body
+    words:
+    - Fatal error
+    - plugins/imsanity
+    - 'Uncaught Error:'
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /wp-content/plugins/imsanity/ajax.php
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /wp-content/plugins/imsanity/settings.php
+  matchers: *id001
+  condition: and

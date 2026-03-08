@@ -1,0 +1,34 @@
+id: springboot-liquidbase
+name: Springboot Liquidbase API
+severity: low
+confidence: confirmed
+description: This liquibase endpoint provides information about database changes
+reference: https://docs.spring.io/spring-boot/docs/current/actuator-api/htmlsingle/#liquibase
+tags:
+- misconfig
+- springboot
+- exposure
+- liquibase
+- vuln
+requests:
+- method: GET
+  path: /liquibase
+  matchers: &id001
+  - type: body
+    words:
+    - liquibase
+    - '"FILENAME":"'
+  - type: header
+    words:
+    - application/json
+    - application/vnd.spring-boot.actuator
+    - application/vnd.spring-boot.actuator.v1+json
+    - application/vnd.spring-boot.actuator.v2+json
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /actuator/liquibase
+  matchers: *id001
+  condition: and

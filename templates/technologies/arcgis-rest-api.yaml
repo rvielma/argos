@@ -1,0 +1,24 @@
+id: arcgis-rest-api
+name: ArcGIS Exposed REST API documentation
+severity: info
+confidence: tentative
+description: ArcGIS REST API documentation was discovered.
+reference: CWE-200
+tags:
+- api
+- arcgis
+- cms
+- tech
+- esri
+- discovery
+requests:
+- method: GET
+  path: /server/sdk/rest/index.html
+  matchers:
+  - type: body
+    words:
+    - ArcGIS REST API
+  - type: status
+    status:
+    - 200
+  condition: and

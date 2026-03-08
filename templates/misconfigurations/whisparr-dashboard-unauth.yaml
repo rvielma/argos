@@ -1,0 +1,25 @@
+id: whisparr-dashboard-unauth
+name: Whisparr Dashboard - Unauthenticated
+severity: medium
+confidence: confirmed
+description: Exposure of Whisparr dashboard which can lead to sensitive information disclosure.
+tags:
+- whisparr
+- dashboard
+- unauth
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Whisparr</title>
+  - type: body
+    words:
+    - Login - Whisparr
+  - type: status
+    status:
+    - 200
+  condition: and

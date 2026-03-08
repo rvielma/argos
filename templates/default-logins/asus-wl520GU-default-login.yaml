@@ -1,0 +1,23 @@
+id: asus-wl520GU-default-login
+name: ASUS WL-520GU - Default Login
+severity: high
+confidence: confirmed
+description: ASUS WL-520GU contains a default login vulnerability. The default admin login password 'admin' was found.
+tags:
+- default-login
+- asus
+- wl-520gu
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - ASUS
+    - WL-520GU
+    - return 'Connected
+  - type: status
+    status:
+    - 200
+  condition: and

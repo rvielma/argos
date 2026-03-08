@@ -1,0 +1,24 @@
+id: residential-gateway-login
+name: Residential Gateway Login Panel - Detect
+severity: info
+confidence: tentative
+description: Residential Gateway login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - <title>Login - Residential Gateway</title>
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /cgi-bin/wwwctrl.cgi?action=home
+  matchers: *id001
+  condition: and

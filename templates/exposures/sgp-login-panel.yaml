@@ -1,0 +1,21 @@
+id: sgp-login-panel
+name: SGP Login Panel - Detect
+severity: info
+confidence: tentative
+description: SGP login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- sgp
+- discovery
+requests:
+- method: GET
+  path: /accounts/login?next=/admin/
+  matchers:
+  - type: body
+    words:
+    - <title>SGP</title>
+  - type: status
+    status:
+    - 200
+  condition: and

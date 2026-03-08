@@ -1,0 +1,30 @@
+id: caucho-resin-info-disclosure
+name: Caucho Resin - Information Disclosure
+severity: info
+confidence: tentative
+description: Caucho Resin contains an information disclosure vulnerability. The application does not properly sanitize user-supplied
+  input. An attacker can potentially obtain sensitive information, modify data, and/or execute unauthorized administrative
+  operations in the context of the affected site.
+reference: CWE-200
+tags:
+- exposure
+- resin
+- caucho
+- edb
+- vuln
+requests:
+- method: GET
+  path: /resin-doc/viewfile/?file=/WEB-INF/resin-web.xml
+  matchers: &id001
+  - type: body
+    words:
+    - <web-app
+    - </web-app>
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /%20../web-inf/web.xml
+  matchers: *id001
+  condition: and

@@ -1,0 +1,22 @@
+id: xenmobile-login
+name: Xenmobile Console Login Panel - Detect
+severity: info
+confidence: tentative
+description: Xenmobile Console login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- edb
+- citrix
+- discovery
+requests:
+- method: GET
+  path: /zdm/login_xdm_uc.jsp
+  matchers:
+  - type: body
+    words:
+    - <title>XenMobile - Console - Logon</title>
+  - type: status
+    status:
+    - 200
+  condition: and

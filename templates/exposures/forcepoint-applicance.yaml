@@ -1,0 +1,21 @@
+id: forcepoint-applicance
+name: Forcepoint Appliance
+severity: info
+confidence: tentative
+description: Forcepoint Appliance
+reference: CWE-200
+tags:
+- panel
+- forcepoint
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Forcepoint Appliance</title>
+  - type: status
+    status:
+    - 200
+  condition: and

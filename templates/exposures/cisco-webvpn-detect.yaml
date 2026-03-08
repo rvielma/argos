@@ -1,0 +1,29 @@
+id: cisco-webvpn-detect
+name: Cisco WebVPN Panel - Detect
+severity: info
+confidence: confirmed
+description: Cisco WebVPN panel was detected.
+reference: CWE-200
+tags:
+- panel
+- cisco
+- vpn
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - CISCO
+    - AnyConnect
+    - SSLVPN Service
+  - type: regex
+    regex:
+    - webvpncontext=00@.+
+    - webvpn=
+  condition: and
+- method: GET
+  path: /webvpn.html
+  matchers: *id001
+  condition: and

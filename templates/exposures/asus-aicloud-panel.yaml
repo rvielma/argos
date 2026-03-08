@@ -1,0 +1,24 @@
+id: asus-aicloud-panel
+name: ASUS AiCloud Panel - Detect
+severity: info
+confidence: confirmed
+description: ASUS AiCloud Panel was detected.
+reference: https://www.asus.com/in/content/aicloud/
+tags:
+- panel
+- asus
+- aicloud
+- detect
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - AiCloud</title>
+  - type: status
+    status:
+    - 200
+    - 401
+  condition: and

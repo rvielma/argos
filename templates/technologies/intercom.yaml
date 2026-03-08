@@ -1,0 +1,18 @@
+id: intercom
+name: Intercom widget detection
+severity: info
+confidence: tentative
+description: Intercom widget detection
+reference: https://www.intercom.com
+tags:
+- intercom
+- tech
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - intercom
+  condition: or

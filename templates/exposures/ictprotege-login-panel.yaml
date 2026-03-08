@@ -1,0 +1,22 @@
+id: ictprotege-login-panel
+name: ICT Protege WX Login Panel - Detect
+severity: info
+confidence: confirmed
+description: ICT Protege WX Login Panel - Detect
+reference: CWE-200
+tags:
+- panel
+- ictprotege
+- ict
+- discovery
+requests:
+- method: GET
+  path: /login.htm
+  matchers:
+  - type: body
+    words:
+    - <title>ICT Protege WX&reg;</title>
+  - type: status
+    status:
+    - 200
+  condition: and

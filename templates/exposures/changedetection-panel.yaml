@@ -1,0 +1,25 @@
+id: changedetection-panel
+name: Changedetection.io Panel - Detect
+severity: info
+confidence: confirmed
+description: Change Detection is an open-source service which allows you to detect changes on websites
+reference: https://github.com/dgtlmoon/changedetection.io
+tags:
+- panel
+- changedetection
+- detect
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - changedetection.io</a>
+    - title="Changedetection.io
+    - <title>Change Detection
+    - Change</strong>Detection.io
+  - type: status
+    status:
+    - 200
+  condition: and

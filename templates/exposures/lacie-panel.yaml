@@ -1,0 +1,30 @@
+id: lacie-panel
+name: LaCie Login Panel - Detect
+severity: info
+confidence: tentative
+description: LaCie login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- lacie
+- login
+- edb
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - id_LaCie
+  - type: regex
+    regex:
+    - (?m)<title>([a-zA-Z0-9&#; ]|)+Dashboard<\/title>$
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /dashboard/
+  matchers: *id001
+  condition: and

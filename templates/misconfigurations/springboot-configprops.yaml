@@ -1,0 +1,32 @@
+id: springboot-configprops
+name: Detect Springboot Configprops Actuator
+severity: low
+confidence: tentative
+description: Sensitive environment variables may not be masked
+tags:
+- springboot
+- exposure
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /configprops
+  matchers: &id001
+  - type: body
+    words:
+    - org.springframework.boot.actuate
+    - beans
+    - context
+  - type: status
+    status:
+    - 200
+  - type: header
+    words:
+    - application/json
+    - application/vnd.spring-boot.actuator
+    - application/vnd.spring-boot.actuator.v1+json
+  condition: and
+- method: GET
+  path: /actuator/configprops
+  matchers: *id001
+  condition: and

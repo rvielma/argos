@@ -1,0 +1,24 @@
+id: tiny-file-manager-unauth
+name: Tiny File Manager - Unauthorized Access
+severity: medium
+confidence: confirmed
+description: Unauthenticated Tiny File Manager panel was detected.
+tags:
+- misconfig
+- filemanager
+- detect
+- vuln
+requests:
+- method: GET
+  path: /index.php
+  matchers:
+  - type: body
+    words:
+    - Tiny File Manager
+    - <th>Actions
+    - New Item
+    - Upload
+  - type: status
+    status:
+    - 200
+  condition: and

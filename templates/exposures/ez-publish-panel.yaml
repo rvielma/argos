@@ -1,0 +1,21 @@
+id: ez-publish-panel
+name: eZ Publish Login Panel - Detect
+severity: info
+confidence: confirmed
+description: eZ Publish login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- ez
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - content="eZ Publish
+  - type: header
+    words:
+    - eZ Publish
+  condition: or

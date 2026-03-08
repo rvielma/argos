@@ -1,0 +1,27 @@
+id: moveit-transfer-detect
+name: Moveit File Transfer - Detect
+severity: info
+confidence: confirmed
+description: Moveit File Transfer - Detect
+tags:
+- tech
+- moveit
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - stylesheet_MOVEit
+    - moveit.transfer
+    - MOVEitPopUp
+    - MOVEit Automation
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /human.aspx
+  matchers: *id001
+  condition: and

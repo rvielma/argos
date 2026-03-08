@@ -1,0 +1,23 @@
+id: repetier-server-panel
+name: Repetier Server Panel - Detect
+severity: info
+confidence: confirmed
+description: Repetier Server login panel detected.
+tags:
+- panel
+- repetier
+- detect
+- repetier-server
+- discovery
+requests:
+- method: GET
+  path: /#!/login
+  matchers:
+  - type: body
+    words:
+    - content="Repetier-Server
+    - About Repetier-Server
+  - type: status
+    status:
+    - 200
+  condition: and

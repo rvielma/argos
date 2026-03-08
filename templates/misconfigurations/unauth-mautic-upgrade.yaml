@@ -1,0 +1,25 @@
+id: unauth-mautic-upgrade
+name: Unauthenticated Mautic Upgrade.php Exposure
+severity: high
+confidence: confirmed
+description: Upgrade.php page in Mautic is exposed.
+tags:
+- misconfig
+- unauth
+- mautic
+- vuln
+requests:
+- method: GET
+  path: /upgrade.php
+  matchers:
+  - type: body
+    words:
+    - Upgrade Mautic
+    - Click here to start upgrade
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

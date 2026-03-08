@@ -1,0 +1,23 @@
+id: speedtest-panel
+name: Speedtest Panel - Detection
+severity: info
+confidence: confirmed
+description: Speedtest panel was discovered
+reference: https://github.com/alexjustesen/speedtest-tracker
+tags:
+- speedtest
+- tracker
+- panel
+- login
+- discovery
+requests:
+- method: GET
+  path: /admin/login
+  matchers:
+  - type: body
+    words:
+    - Login -  Speedtest Tracker
+  - type: status
+    status:
+    - 200
+  condition: and

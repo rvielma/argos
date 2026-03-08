@@ -1,0 +1,18 @@
+id: solarwinds-orion
+name: SolarWinds Orion Login Panel - Detect
+severity: info
+confidence: tentative
+description: SolarWinds Orion login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- solarwinds
+- discovery
+requests:
+- method: GET
+  path: /Orion/Login.aspx
+  matchers:
+  - type: body
+    words:
+    - SolarWinds Orion
+  condition: or

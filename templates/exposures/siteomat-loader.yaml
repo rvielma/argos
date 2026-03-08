@@ -1,0 +1,24 @@
+id: siteomat-loader
+name: Orpak SiteOmat Login Panel - Detect
+severity: info
+confidence: tentative
+description: Orpak SiteOmat login panel was detected.
+reference: CWE-200
+tags:
+- siteomat
+- login
+- edb
+- panel
+- orpak
+- discovery
+requests:
+- method: GET
+  path: /login.htm
+  matchers:
+  - type: body
+    words:
+    - <title>SiteOmat Login</title>
+  - type: status
+    status:
+    - 200
+  condition: and

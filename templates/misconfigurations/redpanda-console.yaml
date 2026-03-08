@@ -1,0 +1,24 @@
+id: redpanda-console
+name: Redpanda Console - Exposure
+severity: medium
+confidence: confirmed
+description: Unauthorized access to the Redpanda Console could allow attackers to view or manipulate streaming data, monitor
+  clusters, or access configuration information, leading to potential data leaks or service disruption.
+reference: https://github.com/redpanda-data/console
+tags:
+- misconfig
+- redpanda
+- console
+- streaming
+- vuln
+requests:
+- method: GET
+  path: /overview
+  matchers:
+  - type: body
+    words:
+    - Redpanda Console
+  - type: status
+    status:
+    - 200
+  condition: and

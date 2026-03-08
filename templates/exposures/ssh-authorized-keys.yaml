@@ -1,0 +1,37 @@
+id: ssh-authorized-keys
+name: SSH Authorized Keys File - Detect
+severity: medium
+confidence: tentative
+description: SSH authorized keys file was detected.
+reference: CWE-200
+tags:
+- config
+- exposure
+- ssh
+- vuln
+requests:
+- method: GET
+  path: /.ssh/authorized_keys
+  matchers: &id001
+  - type: body
+    words:
+    - ssh-dss
+    - ssh-ed25519
+    - ssh-rsa
+    - ecdsa-sha2-nistp256
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /_/.ssh/authorized_keys
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /authorized_keys
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /.authorized_keys
+  matchers: *id001
+  condition: and

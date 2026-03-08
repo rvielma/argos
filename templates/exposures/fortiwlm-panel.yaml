@@ -1,0 +1,26 @@
+id: fortiwlm-panel
+name: Fortinet FortiWLM Login Panel - Detect
+severity: info
+confidence: tentative
+description: Fortinet FortiWLM login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- fortinet
+- fortiwlm
+- login
+- discovery
+requests:
+- method: GET
+  path: /wlm/login?next=/wlm
+  matchers:
+  - type: body
+    words:
+    - <title>FortiWLM Login</title>
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

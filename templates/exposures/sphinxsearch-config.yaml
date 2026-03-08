@@ -1,0 +1,49 @@
+id: sphinxsearch-config
+name: Sphinx Search Config - Exposure
+severity: high
+confidence: confirmed
+description: sphinx.conf file contains SQL credentials and is publicly accessible.
+reference: https://github.com/manticorp/SphinxSearch/blob/master/sphinx.conf.example
+tags:
+- sphinx
+- sphinxsearch
+- exposure
+- config
+- vuln
+requests:
+- method: GET
+  path: /config/development.sphinx.conf
+  matchers: &id001
+  - type: body
+    words:
+    - sql_user
+    - sql_pass
+    - indexer
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /config/production.sphinx.conf
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /configs/sphinx.conf
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /search/configs/sphinx.conf
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /sphinx.conf
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /sphinx/sphinx.conf
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /sphinxsearch/sphinx.conf
+  matchers: *id001
+  condition: and

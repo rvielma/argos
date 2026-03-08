@@ -1,0 +1,21 @@
+id: wampserver-homepage
+name: WampServer Panel - Detect
+severity: info
+confidence: confirmed
+description: WampServer panel was detected.
+reference: CWE-200
+tags:
+- panel
+- wampserver
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>WAMPSERVER Homepage</title>
+  - type: status
+    status:
+    - 200
+  condition: and

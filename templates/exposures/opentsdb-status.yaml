@@ -1,0 +1,28 @@
+id: opentsdb-status
+name: OpenTSDB - Detect
+severity: low
+confidence: confirmed
+description: OpenTSDB stats exposed which is commonly used in monitoring and observability scenarios where tracking and analyzing
+  the performance of systems, applications, and infrastructure over time is essential.
+reference: http://opentsdb.net/
+tags:
+- opentsdb
+- exposure
+- logs
+- vuln
+requests:
+- method: GET
+  path: /stats?json
+  matchers:
+  - type: body
+    words:
+    - tsd.connectionmgr.connections
+    - tsd.http
+    - host
+  - type: header
+    words:
+    - application/json
+  - type: status
+    status:
+    - 200
+  condition: and

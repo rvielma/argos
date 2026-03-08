@@ -1,0 +1,21 @@
+id: flowci-panel
+name: FlowCI Panel - Detect
+severity: info
+confidence: tentative
+description: FlowCI panel was detected.
+reference: CWE-200
+tags:
+- panel
+- flowci
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>flow-web-x</title>
+  - type: status
+    status:
+    - 200
+  condition: and

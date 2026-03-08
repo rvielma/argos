@@ -1,0 +1,21 @@
+id: teleport-login-panel
+name: Teleport Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Detects Teleport web login interface exposed at /web/login and version information from /webapi/ping
+reference: https://github.com/gravitational/teleport
+tags:
+- panel
+- teleport
+- login
+- oss
+- discovery
+requests:
+- method: GET
+  path: /webapi/ping
+  matchers:
+  - type: regex
+    regex:
+    - '"server_version"\s*:\s*"\d+\.\d+\.\d+"'
+    - teleport
+  condition: or

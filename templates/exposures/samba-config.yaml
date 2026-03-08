@@ -1,0 +1,24 @@
+id: samba-config
+name: Samba Config - Detect
+severity: info
+confidence: tentative
+description: Samba configuration information was detected.
+reference: CWE-200
+tags:
+- config
+- exposure
+- smb
+- samba
+- vuln
+requests:
+- method: GET
+  path: /smb.conf
+  matchers:
+  - type: body
+    words:
+    - configuration file
+    - samba
+  - type: status
+    status:
+    - 200
+  condition: and

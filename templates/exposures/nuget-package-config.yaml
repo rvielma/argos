@@ -1,0 +1,31 @@
+id: nuget-package-config
+name: NuGet Package.config File Disclosure
+severity: info
+confidence: confirmed
+description: NuGet Package.config File Disclosure
+reference: https://learn.microsoft.com/en-us/nuget/reference/packages-config
+tags:
+- exposure
+- sass
+- devops
+- cicd
+- nuget
+- files
+- vuln
+requests:
+- method: GET
+  path: /packages.config
+  matchers: &id001
+  - type: body
+    words:
+    - <?xml version="1.0" encoding="utf-8"?>
+    - <packages>
+    - </packages>
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /.nuget/packages.config
+  matchers: *id001
+  condition: and

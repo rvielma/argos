@@ -1,0 +1,22 @@
+id: evlink-panel
+name: EVlink Local Controller - Detection
+severity: info
+confidence: confirmed
+description: EVlink Local Controller - Detection
+tags:
+- panel
+- evlink
+- login
+- detect
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - EVlink Local Controller</title>
+  - type: status
+    status:
+    - 200
+  condition: and

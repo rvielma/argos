@@ -1,0 +1,22 @@
+id: ruijie-information-disclosure
+name: Ruijie Login Panel - Detect
+severity: high
+confidence: tentative
+description: Ruijie login panel was detected and leaks authentication credentials.
+reference: CWE-200
+tags:
+- ruijie
+- config
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /login.php
+  matchers:
+  - type: regex
+    regex:
+    - '"role":"super_admin","name":"(.*)","password":"(.*)"'
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,22 @@
+id: web-viewer-panel
+name: Web Viewer for Samsung DVR - Detect
+severity: info
+confidence: confirmed
+description: Web Viewer for Samsung DVR - Detect
+tags:
+- panel
+- web-viewer
+- detect
+- samsung
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Web Viewer for Samsung DVR</title>
+  - type: status
+    status:
+    - 200
+  condition: and

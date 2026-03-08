@@ -1,0 +1,24 @@
+id: uptime-kuma-panel
+name: Uptime Kuma - Panel
+severity: info
+confidence: confirmed
+description: Realtime website and application monitoring tool
+reference: https://github.com/louislam/uptime-kuma
+tags:
+- uptime
+- kuma
+- panel
+- login
+- detect
+- discovery
+requests:
+- method: GET
+  path: /dashboard
+  matchers:
+  - type: body
+    words:
+    - <title>Uptime Kuma</title>
+  - type: status
+    status:
+    - 200
+  condition: and

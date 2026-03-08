@@ -1,0 +1,23 @@
+id: go-mod-disclosure
+name: Go.mod Disclosure
+severity: low
+confidence: confirmed
+description: go.mod internal file is exposed.
+tags:
+- exposure
+- files
+- go
+- vuln
+requests:
+- method: GET
+  path: /go.mod
+  matchers:
+  - type: body
+    words:
+    - module
+    - go
+    - require (
+  - type: status
+    status:
+    - 200
+  condition: and

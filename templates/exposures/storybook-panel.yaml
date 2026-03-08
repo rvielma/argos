@@ -1,0 +1,27 @@
+id: storybook-panel
+name: Storybook Panel - Detect
+severity: info
+confidence: confirmed
+description: Storybook panel was detected.
+reference: CWE-200
+tags:
+- panel
+- storybook
+- workshop
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - <title>Storybook</title>
+    - storybook-
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /?path=/settings/about
+  matchers: *id001
+  condition: and

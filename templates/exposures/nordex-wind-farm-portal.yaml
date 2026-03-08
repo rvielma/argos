@@ -1,0 +1,23 @@
+id: nordex-wind-farm-portal
+name: Nordex Control Wind Farm Portal Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Nordex Control Wind Farm Portal login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- nordex
+- iot
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Nordex Control
+    - Wind Farm Portal
+  - type: status
+    status:
+    - 200
+  condition: and

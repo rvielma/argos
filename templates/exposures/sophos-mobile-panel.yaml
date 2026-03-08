@@ -1,0 +1,18 @@
+id: sophos-mobile-panel
+name: Sophos Mobile Panel - Detect
+severity: info
+confidence: tentative
+description: Sophos Mobile panel was detected.
+reference: CWE-200
+tags:
+- panel
+- sophos
+- discovery
+requests:
+- method: GET
+  path: /login.xhtml?faces-redirect=true
+  matchers:
+  - type: body
+    words:
+    - <title>Sophos Mobile</title>
+  condition: or

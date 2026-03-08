@@ -1,0 +1,24 @@
+id: exposed-jquery-file-upload
+name: BlueImp jQuery-File-Upload - Arbitrary File Upload
+severity: critical
+confidence: tentative
+description: BlueImp jQuery-File-Upload does not require validation to upload files to the server and  does not exclude file
+  types, which can lead to a remote code execution vulnerability.
+reference: CWE-434
+tags:
+- exposure
+- jquery
+- edb
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /jquery-file-upload/server/php/
+  matchers:
+  - type: regex
+    regex:
+    - '^{\"files\":'
+  - type: header
+    words:
+    - text/plain
+  condition: and

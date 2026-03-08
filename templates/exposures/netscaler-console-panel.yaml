@@ -1,0 +1,23 @@
+id: netscaler-console-panel
+name: NetScaler Console - Panel
+severity: info
+confidence: confirmed
+description: NetScaler Console login panel was discovered.
+reference: https://docs.netscaler.com/en-us/netscaler-console-service/overview.html
+tags:
+- netscaler
+- console
+- panel
+- login
+- discovery
+requests:
+- method: GET
+  path: /admin_ui/mas/ent/login.html
+  matchers:
+  - type: body
+    words:
+    - <title>NetScaler Console</title>
+  - type: status
+    status:
+    - 200
+  condition: and

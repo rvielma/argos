@@ -1,0 +1,27 @@
+id: karma-config-js
+name: Karma Configuration File - Detect
+severity: medium
+confidence: confirmed
+description: Karma configuration file was detected.
+reference: CWE-200
+tags:
+- config
+- exposure
+- devops
+- vuln
+requests:
+- method: GET
+  path: /.config/karma.conf.js
+  matchers: &id001
+  - type: body
+    words:
+    - // Karma configuration
+    - module.exports
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /karma.conf.js
+  matchers: *id001
+  condition: and

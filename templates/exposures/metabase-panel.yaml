@@ -1,0 +1,24 @@
+id: metabase-panel
+name: Metabase Login Panel - Detect
+severity: info
+confidence: tentative
+description: Metabase login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- metabase
+- login
+- discovery
+requests:
+- method: GET
+  path: /auth/login
+  matchers:
+  - type: status
+    status:
+    - 200
+  - type: body
+    words:
+    - <title>Metabase</title>
+    - window.MetabaseBootstrap
+    - window.MetabaseRoot
+  condition: and

@@ -1,0 +1,22 @@
+id: aws-redirect
+name: Subdomain takeover AWS S3
+severity: info
+confidence: tentative
+description: Subdomain takeover AWS S3
+reference: https://link.medium.com/fgXKJHR9P7
+tags:
+- aws
+- takeover
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: status
+    status:
+    - 307
+  - type: header
+    words:
+    - 'Location: https://aws.amazon.com/s3/'
+  condition: and

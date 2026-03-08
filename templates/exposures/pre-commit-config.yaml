@@ -1,0 +1,29 @@
+id: pre-commit-config
+name: Pre-commit Configuration File - Detect
+severity: info
+confidence: confirmed
+description: Pre-commit configuration file was detected.
+reference: CWE-200
+tags:
+- exposure
+- devops
+- config
+- cicd
+- vuln
+requests:
+- method: GET
+  path: /.pre-commit-config.yaml
+  matchers: &id001
+  - type: body
+    words:
+    - 'repos:'
+    - 'hooks:'
+    - 'rev:'
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /pre-commit-config.yaml
+  matchers: *id001
+  condition: and

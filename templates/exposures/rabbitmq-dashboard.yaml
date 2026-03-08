@@ -1,0 +1,19 @@
+id: rabbitmq-dashboard
+name: RabbitMQ Management Panel - Detect
+severity: info
+confidence: tentative
+description: RabbitMQ Management panel was detected.
+reference: CWE-200
+tags:
+- panel
+- rabbitmq
+- vmware
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - RabbitMQ Management
+  condition: or

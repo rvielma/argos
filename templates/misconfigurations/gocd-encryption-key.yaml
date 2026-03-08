@@ -1,0 +1,26 @@
+id: gocd-encryption-key
+name: GoCd Encryption Key
+severity: low
+confidence: tentative
+description: GoCd Encryption Key is exposed.
+reference: https://attackerkb.com/assessments/9101a539-4c6e-4638-a2ec-12080b7e3b50
+tags:
+- go
+- gocd
+- exposure
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /go/add-on/business-continuity/api/cipher.aes
+  matchers:
+  - type: status
+    status:
+    - 200
+  - type: regex
+    regex:
+    - ([a-z0-9]){32}
+  - type: header
+    words:
+    - text/plain
+  condition: and

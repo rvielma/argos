@@ -1,0 +1,22 @@
+id: esphome-panel
+name: ESPHome Login Panel - Detect
+severity: info
+confidence: confirmed
+description: ESPHome login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- esphome
+- iot
+- discovery
+requests:
+- method: GET
+  path: /login
+  matchers:
+  - type: body
+    words:
+    - class="esphome-header
+  - type: status
+    status:
+    - 200
+  condition: and

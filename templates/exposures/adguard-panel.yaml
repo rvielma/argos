@@ -1,0 +1,22 @@
+id: adguard-panel
+name: AdGuard Panel - Detect
+severity: info
+confidence: confirmed
+description: AdGuard panel has been detected.
+tags:
+- adguard
+- panel
+- login
+- detect
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - AdGuard Home</title>
+  - type: status
+    status:
+    - 200
+  condition: and

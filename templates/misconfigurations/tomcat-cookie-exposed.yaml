@@ -1,0 +1,24 @@
+id: tomcat-cookie-exposed
+name: Tomcat Cookie Exposed
+severity: low
+confidence: confirmed
+description: Tomcat Cookie is exposed.
+reference: https://medium.com/bugbountywriteup/apache-example-servlet-leads-to-61a2720cac20
+tags:
+- misconfig
+- apache
+- tomcat
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /examples/servlets/servlet/CookieExample
+  matchers:
+  - type: body
+    words:
+    - Cookies Example
+    - 'Your browser is sending the following cookies:'
+  - type: status
+    status:
+    - 200
+  condition: and

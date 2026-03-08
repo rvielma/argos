@@ -1,0 +1,21 @@
+id: softether-vpn-panel
+name: SoftEther VPN Panel - Detect
+severity: info
+confidence: confirmed
+description: SoftEther VPN panel was detected.
+tags:
+- panel
+- vpn
+- softether
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>SoftEther VPN Server</title>
+  - type: status
+    status:
+    - 202
+  condition: and

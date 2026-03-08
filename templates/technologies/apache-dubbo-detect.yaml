@@ -1,0 +1,18 @@
+id: apache-dubbo-detect
+name: Apache dubbo detect
+severity: info
+confidence: tentative
+description: Apache dubbo detect
+tags:
+- apache
+- dubbo
+- tech
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: header
+    words:
+    - Basic realm="dubbo"
+  condition: or

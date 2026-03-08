@@ -1,0 +1,23 @@
+id: unauth-redis-insight
+name: RedisInsight - Unauthenticated Access
+severity: high
+confidence: confirmed
+description: RedisInsight was able to be accessed because no authentication was required.
+reference: https://redis.com/redis-enterprise/redis-insight/
+tags:
+- redis
+- redisinsight
+- unauth
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>RedisInsight</title>
+  - type: status
+    status:
+    - 200
+  condition: and

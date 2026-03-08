@@ -1,0 +1,24 @@
+id: subrion-installer
+name: Subrion CMS Web Installer - Exposure
+severity: high
+confidence: confirmed
+description: Subrion CMS Web Installer has been exposed.
+reference: https://github.com/intelliants/subrion
+tags:
+- subrion
+- cms
+- install
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /install/
+  matchers:
+  - type: body
+    words:
+    - Subrion CMS Web Installer
+    - Installation wizard
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,17 @@
+id: cockpit-detect
+name: Detect Agentejo Cockpit
+severity: info
+confidence: tentative
+description: Detect Agentejo Cockpit
+tags:
+- tech
+- cockpit
+- discovery
+requests:
+- method: GET
+  path: /auth/login
+  matchers:
+  - type: body
+    words:
+    - <title>Authenticate Please!</title>
+  condition: or

@@ -1,0 +1,23 @@
+id: ibm-websphere-admin-panel
+name: IBM WebSphere Application Server Community Edition Admin Login Panel - Detect
+severity: info
+confidence: confirmed
+description: IBM WebSphere Application Server Community Edition admin login panel was detected.
+reference: CWE-200
+tags:
+- websphere
+- panel
+- ibm
+- discovery
+requests:
+- method: GET
+  path: /console
+  matchers:
+  - type: body
+    words:
+    - Administrative Console Login
+    - Log in to the Administrative Console
+  - type: status
+    status:
+    - 200
+  condition: and

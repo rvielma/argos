@@ -1,0 +1,26 @@
+id: mybb-forum-install
+name: MyBB Installation Panel - Detect
+severity: high
+confidence: confirmed
+description: MyBB installation panel was detected.
+reference: CWE-200
+tags:
+- panel
+- mybb
+- forum
+- discovery
+requests:
+- method: GET
+  path: /install/index.php
+  matchers:
+  - type: body
+    words:
+    - MyBB
+    - Installation Wizard
+  - type: body
+    words:
+    - currently locked
+  - type: status
+    status:
+    - 200
+  condition: and

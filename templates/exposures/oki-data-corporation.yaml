@@ -1,0 +1,22 @@
+id: oki-data-corporation
+name: OKI Data Panel - Detect
+severity: info
+confidence: tentative
+description: OKI Data panel was detected.
+reference: CWE-200
+tags:
+- panel
+- oki
+- edb
+- discovery
+requests:
+- method: GET
+  path: /status.htm
+  matchers:
+  - type: body
+    words:
+    - Oki Data Corporation
+  - type: status
+    status:
+    - 200
+  condition: and

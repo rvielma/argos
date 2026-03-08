@@ -1,0 +1,22 @@
+id: gerapy-detect
+name: Gerapy Panel - Detect
+severity: info
+confidence: tentative
+description: Gerapy panel was detected.
+reference: CWE-200
+tags:
+- tech
+- gerapy
+- panel
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Gerapy</title>
+  - type: status
+    status:
+    - 200
+  condition: and

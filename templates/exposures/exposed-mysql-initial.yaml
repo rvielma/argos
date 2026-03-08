@@ -1,0 +1,22 @@
+id: exposed-mysql-initial
+name: mysql.initial Config - Detect
+severity: info
+confidence: tentative
+description: mysql.initial configuration file was detected.
+reference: CWE-200
+tags:
+- config
+- exposure
+- hackerone
+- vuln
+requests:
+- method: GET
+  path: /mysql.initial.sql
+  matchers:
+  - type: body
+    words:
+    - Roundcube Webmail initial database structure
+  - type: status
+    status:
+    - 200
+  condition: and

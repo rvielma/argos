@@ -1,0 +1,17 @@
+id: werkzeug-debugger-detect
+name: Werkzeug debugger console
+severity: info
+confidence: tentative
+description: Werkzeug debugger console
+tags:
+- tech
+- werkzeug
+- discovery
+requests:
+- method: GET
+  path: /console
+  matchers:
+  - type: body
+    words:
+    - <h1>Interactive Console</h1>
+  condition: or

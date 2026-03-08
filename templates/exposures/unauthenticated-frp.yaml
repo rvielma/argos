@@ -1,0 +1,22 @@
+id: unauthenticated-frp
+name: FRPS Dashboard - Detect
+severity: info
+confidence: tentative
+description: FRPS Dashboard panel was detected.
+reference: CWE-200
+tags:
+- frp
+- unauth
+- panel
+- discovery
+requests:
+- method: GET
+  path: /static/
+  matchers:
+  - type: body
+    words:
+    - <title>frps dashboard</title>
+  - type: status
+    status:
+    - 200
+  condition: and

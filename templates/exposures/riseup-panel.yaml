@@ -1,0 +1,26 @@
+id: riseup-panel
+name: Rise Up Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Rise Up login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- riseup
+- discovery
+requests:
+- method: GET
+  path: /Account/login
+  matchers:
+  - type: body
+    words:
+    - cfg.envRiseUp
+    - imgresize.riseup.ai
+    - content.riseup.ai
+  - type: body
+    words:
+    - login-page
+  - type: status
+    status:
+    - 200
+  condition: and

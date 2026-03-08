@@ -1,0 +1,24 @@
+id: manageengine-network-config
+name: Zoho ManageEngine Network Configuration Manager Panel - Detect
+severity: info
+confidence: confirmed
+description: ZOHO ManageEngine Network Configuration Manager was detected.
+reference: CWE-200
+tags:
+- panel
+- zoho
+- manageengine
+- zohocorp
+- discovery
+requests:
+- method: GET
+  path: /apiclient/ember/Login.jsp
+  matchers:
+  - type: body
+    words:
+    - Network Configuration Manager
+    - https://www.manageengine.com
+  - type: status
+    status:
+    - 200
+  condition: and

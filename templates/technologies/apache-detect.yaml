@@ -1,0 +1,20 @@
+id: apache-detect
+name: Apache Detection
+severity: info
+confidence: tentative
+description: Some Apache servers have the version on the response header. The OpenSSL version can be also obtained
+tags:
+- tech
+- apache
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: regex
+    regex:
+    - Apache+
+  - type: status
+    status:
+    - 200
+  condition: and

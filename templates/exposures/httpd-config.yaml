@@ -1,0 +1,23 @@
+id: httpd-config
+name: Apache httpd Config File - Detect
+severity: info
+confidence: tentative
+description: Apache httpd configuration information was detected.
+reference: CWE-200
+tags:
+- config
+- exposure
+- httpd
+- vuln
+requests:
+- method: GET
+  path: /httpd.conf
+  matchers:
+  - type: body
+    words:
+    - LoadModule
+    - '# LoadModule'
+  - type: status
+    status:
+    - 200
+  condition: and

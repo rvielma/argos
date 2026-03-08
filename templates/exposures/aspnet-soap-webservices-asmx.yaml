@@ -1,0 +1,25 @@
+id: aspnet-soap-webservices-asmx
+name: SOAP-based ASP.NET web services ASMX - Detect
+severity: info
+confidence: confirmed
+description: SOAP-based ASP.NET web services collection was detected.
+reference: https://learn.microsoft.com/en-us/troubleshoot/developer/visualstudio/csharp/language-compilers/write-web-service
+tags:
+- config
+- exposure
+- asmx
+- soap
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - .asmx?op=
+    - .asmx?WSDL
+    - .asmx?disco
+  - type: status
+    status:
+    - 200
+  condition: and

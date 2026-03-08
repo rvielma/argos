@@ -1,0 +1,22 @@
+id: fullstory-rum-detect
+name: FullStory RUM - Detect
+severity: info
+confidence: confirmed
+description: Detects FullStory Session Replay & Digital Experience Intelligence artifacts.
+reference: https://www.fullstory.com/
+tags:
+- tech
+- discovery
+- rum
+- fullstory
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - _fs_org
+    - _fs_host
+    - _fs_script
+    - _fs_namespace
+  condition: or

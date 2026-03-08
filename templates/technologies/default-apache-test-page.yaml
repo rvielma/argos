@@ -1,0 +1,17 @@
+id: default-apache-test-page
+name: Apache HTTP Server Test Page
+severity: info
+confidence: tentative
+description: Apache HTTP Server Test Page
+tags:
+- tech
+- apache
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Apache HTTP Server Test Page powered by CentOS</title>
+  condition: or

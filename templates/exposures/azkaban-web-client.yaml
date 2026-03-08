@@ -1,0 +1,21 @@
+id: azkaban-web-client
+name: Azkaban Web Client
+severity: info
+confidence: tentative
+description: An Azkaban web client panel was discovered.
+reference: CWE-200
+tags:
+- panel
+- azkaban
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Azkaban Web Client
+  - type: status
+    status:
+    - 200
+  condition: and

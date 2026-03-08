@@ -1,0 +1,23 @@
+id: adobe-connect-version
+name: Adobe Connect Central Version
+severity: info
+confidence: tentative
+description: Adobe Connect Central Version
+tags:
+- adobe
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /version.txt
+  matchers:
+  - type: body
+    words:
+    - package=
+  - type: header
+    words:
+    - text/plain
+  - type: status
+    status:
+    - 200
+  condition: and

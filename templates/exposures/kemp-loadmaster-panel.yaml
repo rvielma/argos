@@ -1,0 +1,25 @@
+id: kemp-loadmaster-panel
+name: Progress Kemp LoadMaster Panel - Detect
+severity: info
+confidence: confirmed
+description: A Progress Kemp LoadMaster panel was detected.
+reference: https://kemptechnologies.com/
+tags:
+- login
+- progress
+- kemp
+- loadmaster
+- panel
+- detect
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Kemp Login Screen</title>
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,24 @@
+id: mautic-crm-panel
+name: Mautic CRM Login Panel - Detect
+severity: info
+confidence: tentative
+description: Mautic CRM login panel was detected.
+reference: CWE-200
+tags:
+- tech
+- mautic
+- crm
+- panel
+- discovery
+requests:
+- method: GET
+  path: /s/login
+  matchers:
+  - type: body
+    words:
+    - <title>Mautic</title>
+    - var mauticBasePath
+  - type: status
+    status:
+    - 200
+  condition: and

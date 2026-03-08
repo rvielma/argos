@@ -1,0 +1,23 @@
+id: missing-cookie-samesite-strict
+name: Missing Cookie SameSite Strict
+severity: info
+confidence: confirmed
+description: Identified cookies that lacked the samesite=strict attribute, which prevented enforcement of restrictions on
+  cross-domain cookie transmission.
+reference: CWE-693
+tags:
+- misconfig
+- samesite
+- cookie
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: regex
+    regex:
+    - (?i)set-cookie:\s*([^=]+)=[^;]*(?:;|$)
+  - type: regex
+    regex:
+    - (?i)samesite=strict
+  condition: and

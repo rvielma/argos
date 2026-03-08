@@ -1,0 +1,23 @@
+id: teradici-pcoip-panel
+name: Teradici PCoIP Zero Client Login Panel - Detect
+severity: info
+confidence: tentative
+description: Teradici PCoIP Zero Client login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- teradici
+- pcoip
+- discovery
+requests:
+- method: GET
+  path: /login.html
+  matchers:
+  - type: body
+    words:
+    - <h4>PCoIP&#174 Zero Client</h4>
+    - terastyle.css
+  - type: status
+    status:
+    - 200
+  condition: and

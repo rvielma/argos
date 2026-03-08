@@ -1,0 +1,18 @@
+id: defectdojo-panel
+name: DefectDojo Login Panel - Detect
+severity: info
+confidence: tentative
+description: DefectDojo login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- defectdojo
+- discovery
+requests:
+- method: GET
+  path: /login?next=
+  matchers:
+  - type: body
+    words:
+    - <img src="/static/dojo/img/logo.png" alt="DefectDojo Logo
+  condition: or

@@ -1,0 +1,27 @@
+id: eos-http-browser
+name: EOS HTTP Browser
+severity: medium
+confidence: confirmed
+description: EOS HTTP Browser
+reference: https://www.facebook.com/photo/?fbid=634930085344181&set=pcb.634929508677572
+tags:
+- exposure
+- eos
+- httpbrowser
+- panel
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - STAT TEST
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /eos/
+  matchers: *id001
+  condition: and

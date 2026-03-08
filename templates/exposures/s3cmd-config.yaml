@@ -1,0 +1,23 @@
+id: s3cmd-config
+name: S3CMD Configuration - Detect
+severity: info
+confidence: tentative
+description: S3CMD configuration information was detected.
+reference: CWE-200
+tags:
+- amazon
+- config
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /s3cmd.ini
+  matchers:
+  - type: body
+    words:
+    - '[default]'
+    - access_key
+  - type: status
+    status:
+    - 200
+  condition: and

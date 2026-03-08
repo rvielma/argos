@@ -1,0 +1,23 @@
+id: machform-admin-panel
+name: MachForm Admin Panel - Detect
+severity: info
+confidence: confirmed
+description: MachForm Admin panel was detected.
+reference: CWE-200
+tags:
+- panel
+- machform
+- admin
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - alt="MachForm"
+    - <title>MachForm Admin Panel</title>
+  - type: status
+    status:
+    - 200
+  condition: and

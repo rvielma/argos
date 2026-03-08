@@ -1,0 +1,27 @@
+id: solr-admin-query
+name: Solr - Admin Page Access
+severity: high
+confidence: tentative
+description: Solr's admin page was able to be accessed with no authentication requirements in place.
+reference: https://www.exploit-db.com/ghdb/5856
+tags:
+- solr
+- unauth
+- edb
+- misconfig
+- discovery
+requests:
+- method: GET
+  path: /admin/
+  matchers: &id001
+  - type: body
+    words:
+    - <title>Solr admin page</title>
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /solr/admin/
+  matchers: *id001
+  condition: and

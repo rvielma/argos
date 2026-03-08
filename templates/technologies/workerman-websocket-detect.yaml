@@ -1,0 +1,19 @@
+id: workerman-websocket-detect
+name: Workerman Websocket Detection
+severity: info
+confidence: confirmed
+description: Workerman Websocket Detection
+reference: https://www.workerman.net/en/
+tags:
+- tech
+- workerman
+- websocket
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: header
+    words:
+    - workerman/
+  condition: or

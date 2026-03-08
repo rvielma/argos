@@ -1,0 +1,21 @@
+id: tenda-11n-wireless-router-panel
+name: Tenda 11n Wireless Router - Admin Panel
+severity: info
+confidence: tentative
+description: The administrative panel for a Tenda Technology 11n Wireless Router was found.
+reference: CWE-668
+tags:
+- panel
+- tenda
+- discovery
+requests:
+- method: GET
+  path: /login.asp
+  matchers:
+  - type: body
+    words:
+    - <title>Tenda 11N Wireless Router Login Screen</title>
+  - type: status
+    status:
+    - 200
+  condition: and

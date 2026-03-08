@@ -1,0 +1,20 @@
+id: datadog-rum-detect
+name: Datadog Browser RUM - Detect
+severity: info
+confidence: confirmed
+description: Detects Datadog Browser RUM (Real User Monitoring) SDK artifacts in HTML responses.
+reference: https://docs.datadoghq.com/real_user_monitoring/browser/
+tags:
+- tech
+- detect
+- rum
+- datadog
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - DD_RUM.init
+    - DD_RUM.onReady
+  condition: or

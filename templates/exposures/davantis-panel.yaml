@@ -1,0 +1,21 @@
+id: davantis-panel
+name: Davantis Video Analytics Panel - Detect
+severity: info
+confidence: confirmed
+description: Davantis Video Analytics panel was detected.
+reference: CWE-200
+tags:
+- panel
+- davantis
+- discovery
+requests:
+- method: GET
+  path: /index.html
+  matchers:
+  - type: body
+    words:
+    - <title>Davantis</title>
+  - type: status
+    status:
+    - 200
+  condition: and

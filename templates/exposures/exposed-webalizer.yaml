@@ -1,0 +1,23 @@
+id: exposed-webalizer
+name: Webalizer Panel - Detect
+severity: info
+confidence: confirmed
+description: Webalizer panel was detected.
+reference: CWE-200
+tags:
+- panel
+- webalizer
+- edb
+- discovery
+requests:
+- method: GET
+  path: /webalizer/
+  matchers:
+  - type: body
+    words:
+    - Webalizer Version
+    - Usage statistics for
+  - type: status
+    status:
+    - 200
+  condition: and

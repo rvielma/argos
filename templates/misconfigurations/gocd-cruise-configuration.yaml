@@ -1,0 +1,26 @@
+id: gocd-cruise-configuration
+name: GoCd Cruise Configuration disclosure
+severity: high
+confidence: tentative
+description: GoCd Cruise Configuration is exposed.
+reference: https://attackerkb.com/assessments/9101a539-4c6e-4638-a2ec-12080b7e3b50
+tags:
+- go
+- gocd
+- config
+- exposure
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /go/add-on/business-continuity/api/cruise_config
+  matchers:
+  - type: status
+    status:
+    - 200
+  - type: body
+    words:
+    - server agentAutoRegisterKey
+    - webhookSecret
+    - tokenGenerationKey
+  condition: and

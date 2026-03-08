@@ -1,0 +1,21 @@
+id: remote-ui-login
+name: Canon Remote UI Login Panel - Detect
+severity: info
+confidence: tentative
+description: Canon Remote UI login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- edb
+- discovery
+requests:
+- method: GET
+  path: /login.html
+  matchers:
+  - type: body
+    words:
+    - <th>System Manager ID:</th>
+  - type: status
+    status:
+    - 200
+  condition: and

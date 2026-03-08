@@ -1,0 +1,28 @@
+id: symfony-security-config
+name: Symfony Security Configuration File - Detect
+severity: info
+confidence: tentative
+description: Symfony security configuration file was detected.
+reference: CWE-200
+tags:
+- config
+- exposure
+- symfony
+- vuln
+requests:
+- method: GET
+  path: /config/packages/security.yaml
+  matchers: &id001
+  - type: status
+    status:
+    - 200
+  - type: body
+    words:
+    - 'security:'
+    - 'firewalls:'
+    - 'access_control:'
+  condition: and
+- method: GET
+  path: /app/config/security.yml
+  matchers: *id001
+  condition: and

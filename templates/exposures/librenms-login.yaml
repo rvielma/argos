@@ -1,0 +1,21 @@
+id: librenms-login
+name: LibreNMS Login Panel - Detect
+severity: info
+confidence: tentative
+description: LibreNMS login panel was detected.
+reference: CWE-200
+tags:
+- librenms
+- panel
+- discovery
+requests:
+- method: GET
+  path: /login
+  matchers:
+  - type: body
+    words:
+    - <title>LibreNMS</title>
+  - type: status
+    status:
+    - 200
+  condition: and

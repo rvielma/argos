@@ -1,0 +1,21 @@
+id: monstra-installer
+name: Monstra Installation Exposure
+severity: high
+confidence: confirmed
+description: Monstra is susceptible to the Installation page exposure due to misconfiguration.
+tags:
+- misconfig
+- monstra
+- install
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - 'Monstra :: Install'
+  - type: status
+    status:
+    - 200
+  condition: and

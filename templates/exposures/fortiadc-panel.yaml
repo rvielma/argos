@@ -1,0 +1,24 @@
+id: fortiadc-panel
+name: FortiADC Login Panel - Detect
+severity: info
+confidence: confirmed
+description: FortiADC login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- fortinet
+- discovery
+requests:
+- method: GET
+  path: /ui/#navigate/Login
+  matchers:
+  - type: body
+    words:
+    - <title>FortiADC</title>
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

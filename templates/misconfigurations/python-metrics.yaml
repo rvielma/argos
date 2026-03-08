@@ -1,0 +1,24 @@
+id: python-metrics
+name: Detect Python Exposed Metrics
+severity: low
+confidence: tentative
+description: Information Disclosure of Garbage Collection
+reference: https://gist.github.com/ruanbekker/e5b1e7895f62b020ff29b5f40767190c
+tags:
+- exposure
+- devops
+- python
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /metrics
+  matchers:
+  - type: body
+    words:
+    - python_gc_objects_collected_total
+    - python_info
+  - type: status
+    status:
+    - 200
+  condition: and

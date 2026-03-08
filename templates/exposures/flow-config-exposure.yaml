@@ -1,0 +1,26 @@
+id: flow-config-exposure
+name: Flow Configuration - Exposure
+severity: medium
+confidence: tentative
+description: Detects an exposed Flow configuration file. These files may contain sensitive information such as credentials,
+  internal endpoints, or environment settings.
+reference: https://flow.org/en/docs/config/
+tags:
+- exposure
+- config
+- flow
+- devops
+requests:
+- method: GET
+  path: /.flowconfig
+  matchers:
+  - type: body
+    words:
+    - '[include]'
+    - '[ignore]'
+    - build
+    - lib
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,25 @@
+id: repetier-unauth
+name: Repetier Server Dashboard - Unauthenticated
+severity: high
+confidence: confirmed
+description: Repetier Server Dashboard has been exposed.
+tags:
+- repetier
+- dashboard
+- unauth
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /#!/printer/Prusa_I3/print
+  matchers:
+  - type: body
+    words:
+    - Global Settings
+    - Edit Profile
+    - Logout
+    - Clear all Messages
+  - type: status
+    status:
+    - 200
+  condition: and

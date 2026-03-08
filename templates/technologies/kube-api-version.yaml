@@ -1,0 +1,25 @@
+id: kube-api-version
+name: Kube API Version
+severity: info
+confidence: tentative
+description: Searches for exposed Kubernetes API servers which return version information unauthenticated
+tags:
+- tech
+- k8s
+- kubernetes
+- devops
+- kube
+- discovery
+requests:
+- method: GET
+  path: /version
+  matchers:
+  - type: status
+    status:
+    - 200
+  - type: body
+    words:
+    - '"major":'
+    - '"minor":'
+    - '"goVersion":'
+  condition: and

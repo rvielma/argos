@@ -1,0 +1,18 @@
+id: firebase-urls
+name: Google Firebase DB URL Finder
+severity: info
+confidence: tentative
+description: Find firebaseio urls to check for security permissions
+tags:
+- tech
+- firebase
+- google
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: regex
+    regex:
+    - .*?(f|F)(i|I)(r|R)(e|E)(b|B)(a|A)(s|S)(e|E)(i|I)(o|O)[.](c|C)(o|O)(m|M).*?
+  condition: and

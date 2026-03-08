@@ -1,0 +1,20 @@
+id: php-detect
+name: PHP Detect
+severity: info
+confidence: confirmed
+description: PHP Detect
+tags:
+- tech
+- php
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: header
+    words:
+    - PHP
+  - type: status
+    status:
+    - 200
+  condition: and

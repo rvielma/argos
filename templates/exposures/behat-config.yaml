@@ -1,0 +1,29 @@
+id: behat-config
+name: Behat Configuration File - Detect
+severity: medium
+confidence: confirmed
+description: Behat configuration file was detected.
+reference: CWE-200
+tags:
+- exposure
+- behat
+- devops
+- cicd
+- vuln
+requests:
+- method: GET
+  path: /behat.yml
+  matchers: &id001
+  - type: body
+    words:
+    - 'default:'
+    - 'paths:'
+    - 'suites:'
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /behat.yml.dist
+  matchers: *id001
+  condition: and

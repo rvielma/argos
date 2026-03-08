@@ -1,0 +1,25 @@
+id: aws-ec2-autoscale
+name: AWS EC2 Auto Scaling Lab
+severity: info
+confidence: confirmed
+description: AWS EC2 Auto Scaling Lab
+reference: https://www.facebook.com/photo/?fbid=620605120110011&set=a.467014098802448
+tags:
+- exposure
+- ec2
+- aws
+- amazon
+- panel
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - AWS EC2 Auto Scaling Lab
+    - EC2 Instance Metadata
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,26 @@
+id: jira-unauthenticated-screens
+name: Jira Unauthenticated Access to screens
+severity: info
+confidence: tentative
+description: Jira Unauthenticated Access to screens
+reference: https://developer.atlassian.com/cloud/jira/platform/rest/v2/api-group-screens/#api-rest-api-2-screens-get
+tags:
+- atlassian
+- jira
+- vuln
+requests:
+- method: GET
+  path: /rest/api/2/screens
+  matchers:
+  - type: body
+    words:
+    - '"id":'
+    - '"name":'
+    - '"description":'
+  - type: status
+    status:
+    - 200
+  - type: header
+    words:
+    - atlassian.xsrf.token
+  condition: and

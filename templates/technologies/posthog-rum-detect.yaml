@@ -1,0 +1,21 @@
+id: posthog-rum-detect
+name: PostHog Browser RUM - Detect
+severity: info
+confidence: confirmed
+description: Detects PostHog Product Analytics & RUM (Real User Monitoring) SDK artifacts in HTML responses.
+reference: https://posthog.com/docs/integrate/client/js
+tags:
+- tech
+- discovery
+- rum
+- posthog
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: regex
+    regex:
+    - window\.posthog
+    - api_host["']?\s*:\s*["'][^"']*posthog
+    - posthog\.init\s*\(
+  condition: or

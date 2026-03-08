@@ -1,0 +1,22 @@
+id: accellion-detect
+name: Accellion - Detect
+severity: info
+confidence: confirmed
+description: Dectection of Accellion File Transfer Appliance.
+tags:
+- accellion
+- tech
+- detect
+- discovery
+requests:
+- method: GET
+  path: /cfadmin/
+  matchers:
+  - type: body
+    words:
+    - /cfadmin/img/accellion-logo.png
+    - secured by accellion
+  - type: status
+    status:
+    - 200
+  condition: and

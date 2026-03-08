@@ -1,0 +1,17 @@
+id: kodexplorer-detect
+name: KodExplorer-detect
+severity: info
+confidence: tentative
+description: KodExplorer-detect
+tags:
+- kodexplorer
+- tech
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: regex
+    regex:
+    - (?i)<title>.* - Powered by KodExplorer</title>
+  condition: or

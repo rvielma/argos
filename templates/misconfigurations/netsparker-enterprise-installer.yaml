@@ -1,0 +1,26 @@
+id: netsparker-enterprise-installer
+name: Netsparker Enterprise Installer
+severity: info
+confidence: confirmed
+description: Netsparker Enterprise is susceptible to the Installation page exposure due to misconfiguration.
+tags:
+- misconfig
+- exposure
+- install
+- netsparker
+- vuln
+requests:
+- method: GET
+  path: /wizard/database/
+  matchers:
+  - type: body
+    words:
+    - Netsparker Enterprise - Installation Wizard
+    - Netsparker Ltd
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,23 @@
+id: connectwise-setup
+name: ConnectWise Setup Wizard - Exposure
+severity: high
+confidence: confirmed
+description: ConnectWise Setup Wizard - Exposure
+tags:
+- misconfig
+- exposure
+- install
+- connectwise
+- vuln
+requests:
+- method: GET
+  path: /SetupWizard.aspx
+  matchers:
+  - type: body
+    words:
+    - SetupWizardPage
+    - ContentPanel SetupWizard
+  - type: status
+    status:
+    - 200
+  condition: and

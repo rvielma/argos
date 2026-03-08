@@ -1,0 +1,26 @@
+id: beego-admin-dashboard
+name: Beego Admin Dashboard Panel- Detect
+severity: medium
+confidence: confirmed
+description: Beego Admin Dashboard panel was detected.
+reference: CWE-200
+tags:
+- panel
+- beego
+- unauth
+- discovery
+requests:
+- method: GET
+  path: /listconf?command=conf
+  matchers:
+  - type: body
+    words:
+    - Welcome to Beego Admin Dashboard
+    - Configurations
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,21 @@
+id: adguard-installer
+name: AdGuard - Installation
+severity: high
+confidence: confirmed
+description: AdGuard Installation panel has been exposed.
+tags:
+- adguard
+- misconfig
+- install
+- vuln
+requests:
+- method: GET
+  path: /install.html
+  matchers:
+  - type: body
+    words:
+    - Setup AdGuard Home
+  - type: status
+    status:
+    - 200
+  condition: and

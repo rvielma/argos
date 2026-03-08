@@ -1,0 +1,18 @@
+id: pentaho-panel
+name: Pentaho User Console Login Panel - Detect
+severity: info
+confidence: tentative
+description: Pentaho User Console login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- pentaho
+- discovery
+requests:
+- method: GET
+  path: /pentaho/Login
+  matchers:
+  - type: body
+    words:
+    - <title>Pentaho User Console - Login</title>
+  condition: or

@@ -1,0 +1,22 @@
+id: symantec-dlp-login
+name: Symantec Data Loss Prevention Login Panel - Detect
+severity: info
+confidence: tentative
+description: Symantec Data Loss Prevention login panel was detected.
+reference: CWE-200
+tags:
+- symantec
+- panel
+- login
+- discovery
+requests:
+- method: GET
+  path: /ProtectManager/Logon
+  matchers:
+  - type: body
+    words:
+    - <title>Symantec Data Loss Prevention</title>
+  - type: status
+    status:
+    - 200
+  condition: and

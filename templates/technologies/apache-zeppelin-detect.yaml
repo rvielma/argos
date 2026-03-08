@@ -1,0 +1,21 @@
+id: apache-zeppelin-detect
+name: Apache Zeppelin detect
+severity: info
+confidence: tentative
+description: Apache Zeppelin detect
+tags:
+- apache
+- zeppelin
+- tech
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title ng-bind="$root.pageTitle">Zeppelin</title>
+  - type: status
+    status:
+    - 200
+  condition: and

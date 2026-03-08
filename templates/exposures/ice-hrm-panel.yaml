@@ -1,0 +1,25 @@
+id: ice-hrm-panel
+name: ICE HRM Login - Detect
+severity: info
+confidence: confirmed
+description: The ICE HRM login panel was discovered.
+reference: https://icehrm.com
+tags:
+- icehrm
+- login
+- hrm
+- panel
+- web
+- detect
+- discovery
+requests:
+- method: GET
+  path: /app/login.php
+  matchers:
+  - type: regex
+    regex:
+    - (?i)<title>ice hrm login</title>
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,24 @@
+id: skycaiji-install
+name: SkyCaiji - Exposed Installation
+severity: high
+confidence: tentative
+description: SkyCaiji was discovered.
+tags:
+- tech
+- skycaiji
+- exposure
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /index.php?s=/install/index/index
+  matchers:
+  - type: body
+    words:
+    - <title>蓝天采集器 SkyCaiji 安装</title>
+    - https://www.skycaiji.com
+    - <a href="/index.php?s=/Install/Index/step1" class="btn btn-lg btn-success">
+  - type: status
+    status:
+    - 200
+  condition: and

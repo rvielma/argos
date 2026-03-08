@@ -1,0 +1,25 @@
+id: cisco-ucm-detect
+name: Cisco Unified Communications Manager - Detect
+severity: info
+confidence: confirmed
+description: Detected the presence of the Cisco Unified Communications User Management portal.
+reference: https://developer.cisco.com/site/user-data-services/develop-and-test/api-reference/#version
+tags:
+- tech
+- detect
+- cisco
+- ucm
+requests:
+- method: GET
+  path: /cucm-uds/version
+  matchers:
+  - type: status
+    status:
+    - 200
+  - type: body
+    words:
+    - <versionInformation
+    - <version>
+  condition: and
+  headers:
+    Accept: application/xml

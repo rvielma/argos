@@ -1,0 +1,51 @@
+id: tomcat-scripts
+name: Apache Tomcat Example Scripts - Detect
+severity: info
+confidence: tentative
+description: Multiple Apache Tomcat example scripts were detected.
+reference: CWE-200
+tags:
+- apache
+- tomcat
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /examples/servlets/index.html
+  matchers: &id001
+  - type: body
+    words:
+    - JSP Examples
+    - JSP Samples
+    - Servlets Examples
+    - WebSocket Examples
+    - GET based form
+  condition: or
+- method: GET
+  path: /examples/jsp/index.html
+  matchers: *id001
+  condition: or
+- method: GET
+  path: /examples/websocket/index.xhtml
+  matchers: *id001
+  condition: or
+- method: GET
+  path: /examples/servlets/servlet/SessionExample
+  matchers: *id001
+  condition: or
+- method: GET
+  path: /..;/examples/servlets/index.html
+  matchers: *id001
+  condition: or
+- method: GET
+  path: /..;/examples/jsp/index.html
+  matchers: *id001
+  condition: or
+- method: GET
+  path: /..;/examples/websocket/index.xhtml
+  matchers: *id001
+  condition: or
+- method: GET
+  path: /..;/examples/servlets/servlet/SessionExample
+  matchers: *id001
+  condition: or

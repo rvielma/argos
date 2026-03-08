@@ -1,0 +1,25 @@
+id: tasmota-config-webui
+name: Tasmota Configuration Exposure
+severity: medium
+confidence: confirmed
+description: Tasmota configuration is exposed.
+reference: https://github.com/arendst/Tasmota
+tags:
+- misconfig
+- tasmota
+- exposure
+- config
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Firmware
+    - Tasmota
+  - type: body
+    words:
+    - Theo Arends
+    - <h2>Tasmota</h2>
+  condition: or

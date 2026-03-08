@@ -1,0 +1,24 @@
+id: craft-cms-detect
+name: Craft CMS Detect
+severity: info
+confidence: tentative
+description: Detects Craft CMS
+reference: https://craftcms.com
+tags:
+- tech
+- craftcms
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: header
+    words:
+    - 'X-Powered-By: Craft CMS'
+  - type: regex
+    regex:
+    - 'Set-Cookie: (Craft|CRAFT)'
+  - type: regex
+    regex:
+    - (?i)CRAFT_CSRF_TOKEN
+  condition: or

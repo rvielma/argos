@@ -1,0 +1,26 @@
+id: limesurvey-installer
+name: Limesurvey Installer Exposure
+severity: high
+confidence: confirmed
+description: Limesurvey is susceptible to the Installation page exposure due to misconfiguration.
+tags:
+- misconfig
+- limesurvey
+- install
+- vuln
+requests:
+- method: GET
+  path: /index.php?r=installer/welcome
+  matchers:
+  - type: body
+    words:
+    - LimeSurvey installer
+    - Progress
+    - Your preferred language will be used through out the installation process
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

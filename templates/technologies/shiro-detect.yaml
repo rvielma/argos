@@ -1,0 +1,17 @@
+id: shiro-detect
+name: Detect Shiro Framework
+severity: info
+confidence: tentative
+description: Detect Shiro Framework
+tags:
+- tech
+- shiro
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: header
+    words:
+    - rememberMe=deleteMe
+  condition: or

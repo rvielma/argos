@@ -1,0 +1,30 @@
+id: shopware-detect
+name: Shopware CMS detect
+severity: info
+confidence: confirmed
+description: Detects Shopware CMS
+reference: https://github.com/shopware/shopware
+tags:
+- tech
+- shopware
+- cms
+- discovery
+requests:
+- method: GET
+  path: /admin
+  matchers: &id001
+  - type: body
+    words:
+    - Realisiert mit Shopware
+    - Realised with Shopware
+    - Shopware Administration (c) shopware AG
+    - <title>Shopware 5 - Backend (c) shopware AG</title>
+    - Shopware.Application.start
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /backend
+  matchers: *id001
+  condition: and

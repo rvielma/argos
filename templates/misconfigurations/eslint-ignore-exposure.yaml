@@ -1,0 +1,24 @@
+id: eslint-ignore-exposure
+name: Eslint Ignore File Exposure
+severity: low
+confidence: tentative
+description: Eslint Ignore File was exposed.
+reference: https://eslint.org/docs/latest/use/configure/ignore
+tags:
+- eslintignore
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /.eslintignore
+  matchers:
+  - type: body
+    words:
+    - xtscancodes.js
+  - type: body
+    words:
+    - application/octet-stream
+  - type: status
+    status:
+    - 200
+  condition: and

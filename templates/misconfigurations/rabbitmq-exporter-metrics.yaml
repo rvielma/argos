@@ -1,0 +1,23 @@
+id: rabbitmq-exporter-metrics
+name: RabbitMQ Exporter
+severity: low
+confidence: confirmed
+description: RabbitMQ Exporter is exposed.
+tags:
+- rabbitmq
+- exposure
+- debug
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /metrics
+  matchers:
+  - type: body
+    words:
+    - rabbitmq_up
+    - rabbitmq_exporter_build_info
+  - type: status
+    status:
+    - 200
+  condition: and

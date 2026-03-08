@@ -1,0 +1,21 @@
+id: easyscripts-installer
+name: Easyscripts Installer
+severity: high
+confidence: confirmed
+description: Easyscripts is susceptible to the Installation page exposure due to misconfiguration.
+tags:
+- misconfig
+- easyscripts
+- installer
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Installer - Easyscripts
+  - type: status
+    status:
+    - 200
+  condition: and

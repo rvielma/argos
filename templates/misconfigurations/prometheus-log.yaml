@@ -1,0 +1,29 @@
+id: prometheus-log
+name: Exposed Prometheus
+severity: low
+confidence: tentative
+description: Prometheus instance is exposed.
+tags:
+- prometheus
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /prometheus
+  matchers: &id001
+  - type: body
+    words:
+    - gateway_request_total
+    - logback_events_total
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /actuator/prometheus
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /actuator/prometheus;%2f..%2f..%2f
+  matchers: *id001
+  condition: and

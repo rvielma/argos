@@ -1,0 +1,21 @@
+id: materialize-css-detect
+name: Materialize CSS - Detect
+severity: info
+confidence: confirmed
+description: Detected the presence of Materialize, a modern responsive front-end framework based on Material Design.
+reference: https://materializecss.com/
+tags:
+- tech
+- materialize
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: regex
+    regex:
+    - (?i)href=["'][^"']*materialize(?:[\.-]min)?\.css
+    - (?i)src=["'][^"']*materialize(?:[\.-]min)?\.js
+    - (?i)class=["'][^"']*waves-effect
+    - (?i)class=["'][^"']*materialize-textarea
+  condition: or

@@ -1,0 +1,17 @@
+id: adfs-detect
+name: ADFS Detect
+severity: info
+confidence: tentative
+description: Detects ADFS with forms-based authentication enabled.
+tags:
+- tech
+- adfs
+- discovery
+requests:
+- method: GET
+  path: /adfs/ls/idpinitiatedsignon.aspx
+  matchers:
+  - type: body
+    words:
+    - /adfs/portal/css/style.css
+  condition: and

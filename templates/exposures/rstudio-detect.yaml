@@ -1,0 +1,21 @@
+id: rstudio-detect
+name: RStudio Panel - Detect
+severity: info
+confidence: tentative
+description: RStudio panel was detected.
+reference: CWE-200
+tags:
+- panel
+- rstudio
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: header
+    words:
+    - RStudio
+  - type: status
+    status:
+    - 302
+  condition: and

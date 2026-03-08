@@ -1,0 +1,32 @@
+id: filezilla-exposed
+name: Filezilla
+severity: medium
+confidence: tentative
+description: Filezilla internal file is exposed.
+tags:
+- exposure
+- files
+- vuln
+requests:
+- method: GET
+  path: /filezilla.xml
+  matchers: &id001
+  - type: body
+    words:
+    - <FileZilla
+    - <Servers>
+  - type: header
+    words:
+    - xml
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /sitemanager.xml
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /FileZilla.xml
+  matchers: *id001
+  condition: and

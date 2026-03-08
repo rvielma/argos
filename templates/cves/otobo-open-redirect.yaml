@@ -1,0 +1,20 @@
+id: otobo-open-redirect
+name: Otobo - Open Redirect
+severity: medium
+confidence: tentative
+description: Otobo contains an open redirect vulnerability. An attacker can redirect a user to a malicious site and possibly
+  obtain sensitive information, modify data, and/or execute unauthorized operations.
+reference: CWE-601
+tags:
+- redirect
+- otobo
+- huntr
+- vuln
+requests:
+- method: GET
+  path: /otobo/index.pl?Action=ExternalURLJump;URL=http://www.interact.sh
+  matchers:
+  - type: regex
+    regex:
+    - (?m)^(?:Location\s*?:\s*?)(?:https?:\/\/|\/\/|\/\\\\|\/\\)(?:[a-zA-Z0-9\-_\.@]*)interact\.sh\/?(\/|[^.].*)?$
+  condition: or

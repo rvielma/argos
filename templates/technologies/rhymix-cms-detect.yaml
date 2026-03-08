@@ -1,0 +1,21 @@
+id: rhymix-cms-detect
+name: Rhymix CMS Detect
+severity: info
+confidence: tentative
+description: Detects Rhymix CMS
+reference: https://github.com/rhymix/rhymix
+tags:
+- tech
+- rhymix
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: header
+    words:
+    - rx_sesskey1
+  - type: body
+    words:
+    - <meta name="generator" content="Rhymix" />
+  condition: or

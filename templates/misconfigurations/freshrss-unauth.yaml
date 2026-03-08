@@ -1,0 +1,24 @@
+id: freshrss-unauth
+name: Freshrss Admin Dashboard - Exposed
+severity: high
+confidence: confirmed
+description: Freshrss Admin Dashboard has been exposed.
+tags:
+- freshrss
+- misconfig
+- unauth
+- exposed
+- vuln
+requests:
+- method: GET
+  path: /i/?a=logs
+  matchers:
+  - type: body
+    words:
+    - a=logout
+    - FreshRSS
+    - c=user&amp;a=profile
+  - type: status
+    status:
+    - 200
+  condition: and

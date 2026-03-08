@@ -1,0 +1,22 @@
+id: saia-web-server
+name: Saia PCD Web-Server Configuration Page - Detect
+severity: info
+confidence: tentative
+description: Saia PCD Web-Server configuration page was detected.
+reference: CWE-200
+tags:
+- edb
+- config
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /loadtextfile.htm#programinfo
+  matchers:
+  - type: body
+    words:
+    - <title>Saia PCD Web Server</title>
+  - type: status
+    status:
+    - 200
+  condition: and

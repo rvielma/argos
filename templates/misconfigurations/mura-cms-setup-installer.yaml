@@ -1,0 +1,23 @@
+id: mura-cms-setup-installer
+name: Mura CMS Setup Page - Exposure
+severity: high
+confidence: confirmed
+description: Detects exposed Mura CMS Setup page.
+reference: https://www.murasoftware.com/mura-cms/
+tags:
+- misconfig
+- install
+- exposure
+- mura-cms
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Mura CMS - Setup
+  - type: status
+    status:
+    - 200
+  condition: and

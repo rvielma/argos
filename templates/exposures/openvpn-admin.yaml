@@ -1,0 +1,32 @@
+id: openvpn-admin
+name: OpenVPN Admin Login Panel - Detect
+severity: info
+confidence: confirmed
+description: OpenVPN Admin login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- openvpn
+- admin
+- config
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - <title>OpenVPN-Admin
+    - <title>OpenVPN Admin
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /login
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /index.php
+  matchers: *id001
+  condition: and

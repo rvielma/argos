@@ -1,0 +1,21 @@
+id: vmware-horizon-daas
+name: Desktop Portal VMware Horizon DaaS Trade Platform
+severity: info
+confidence: confirmed
+description: Desktop Portal VMware Horizon DaaS Trade Platform
+tags:
+- panel
+- vmware
+- discovery
+requests:
+- method: GET
+  path: /index.action
+  matchers:
+  - type: body
+    words:
+    - <title>Desktop Portal | VMware&reg; Horizon DaaS&trade; Platform</title>
+    - Desktop Portal | VMware Horizon DaaS
+  - type: status
+    status:
+    - 200
+  condition: and

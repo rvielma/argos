@@ -1,0 +1,22 @@
+id: f-secure-policy-manager
+name: F-Secure Policy Manager Server Login Panel - Detect
+severity: info
+confidence: tentative
+description: F-Secure Policy Manager Server login panel was detected.
+reference: CWE-200
+tags:
+- login
+- panel
+- withsecure
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>F-Secure Policy Manager Server</title>
+  - type: status
+    status:
+    - 200
+  condition: and

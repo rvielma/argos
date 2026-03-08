@@ -1,0 +1,23 @@
+id: nperf-server-detect
+name: nPerf Server - Detect
+severity: info
+confidence: confirmed
+description: A nperf panel was detected.
+reference: https://www.nperf.com
+tags:
+- tech
+- nperf
+- detect
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>nPerfServer</title>
+  - type: header
+    words:
+    - Nperfserver-Remote-Endpoint
+    - nPerf/
+  condition: or

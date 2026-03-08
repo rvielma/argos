@@ -1,0 +1,25 @@
+id: editor-exposure
+name: Editor Configuration File - Detect
+severity: low
+confidence: confirmed
+description: Editor configuration file was detected.
+tags:
+- config
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /.editorconfig
+  matchers:
+  - type: body
+    words:
+    - = true
+    - indent_style
+  - type: header
+    words:
+    - application/json
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

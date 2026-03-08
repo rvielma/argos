@@ -1,0 +1,21 @@
+id: nginx-version
+name: Nginx version detect
+severity: info
+confidence: tentative
+description: Some nginx servers have the version on the response header. Useful when you need to find specific CVEs on your
+  targets.
+tags:
+- tech
+- nginx
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: regex
+    regex:
+    - nginx/[0-9.]+
+  - type: status
+    status:
+    - 200
+  condition: and

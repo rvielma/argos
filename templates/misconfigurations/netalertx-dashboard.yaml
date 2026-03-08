@@ -1,0 +1,29 @@
+id: netalertx-dashboard
+name: NetAlert X Admin Dashboard - Exposed
+severity: medium
+confidence: confirmed
+description: Unauthorized access to the NetAlert X Admin Dashboard.
+reference: https://github.com/jokob-sk/NetAlertX
+tags:
+- netalertx
+- unauth
+- dashboard
+- misconfig
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - <title>NetAlertX
+    - Sign out</a>
+    - My Devices
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /devices.php
+  matchers: *id001
+  condition: and

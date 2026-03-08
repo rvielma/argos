@@ -1,0 +1,23 @@
+id: cyberoam-ssl-vpn-panel
+name: Cyberoam SSL VPN Panel - Detect
+severity: info
+confidence: tentative
+description: Cyberoam SSL VPN panel was detected.
+reference: CWE-200
+tags:
+- panel
+- cyberoam
+- vpn
+- sophos
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Cyberoam SSL VPN Portal</title>
+  - type: status
+    status:
+    - 200
+  condition: and

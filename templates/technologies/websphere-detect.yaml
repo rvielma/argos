@@ -1,0 +1,18 @@
+id: websphere-detect
+name: IBM WebSphere Application Server
+severity: info
+confidence: tentative
+description: Detects servers running IBM WebSphere Application Server via the Server header.
+reference: https://www.ibm.com/products/websphere-application-server
+tags:
+- tech
+- websphere
+- ibm
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: regex
+    regex:
+    - (?i)WebSphere Application Server
+  condition: or

@@ -1,0 +1,22 @@
+id: lighttpd-config-file
+name: Lighttpd Config File - File Disclosure
+severity: low
+confidence: confirmed
+description: Lighttpd Config file is exposed.
+tags:
+- exposure
+- files
+- lighttpd
+- vuln
+requests:
+- method: GET
+  path: /lighttpd.conf
+  matchers:
+  - type: body
+    words:
+    - server.document-root =
+    - server.port =
+  - type: body
+    words:
+    - application/octet-stream
+  condition: and

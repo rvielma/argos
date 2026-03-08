@@ -1,0 +1,24 @@
+id: arcserve-panel
+name: ArcServe Panel - Detect
+severity: info
+confidence: confirmed
+description: ArcServe Panel - Detect
+reference: https://twitter.com/HunterMapping/status/1674267368359444480
+tags:
+- panel
+- login
+- arcserve
+- detect
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Arcserve UDP
+    - /arcserve.js
+  - type: status
+    status:
+    - 200
+  condition: and

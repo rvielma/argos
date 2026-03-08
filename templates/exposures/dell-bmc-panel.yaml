@@ -1,0 +1,23 @@
+id: dell-bmc-panel
+name: Dell BMC Panel - Detect
+severity: info
+confidence: confirmed
+description: Dell BMC web panel was detected.
+reference: CWE-200
+tags:
+- panel
+- bmc
+- dell
+- login
+- discovery
+requests:
+- method: GET
+  path: /login.html
+  matchers:
+  - type: body
+    words:
+    - <title>Dell Remote Management Controller</title>
+  - type: status
+    status:
+    - 200
+  condition: and

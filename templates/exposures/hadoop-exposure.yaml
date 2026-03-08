@@ -1,0 +1,19 @@
+id: hadoop-exposure
+name: Apache Hadoop Panel - Detect
+severity: info
+confidence: tentative
+description: Apache Hadoop panel was detected.
+reference: CWE-200
+tags:
+- panel
+- apache
+- hadoop
+- discovery
+requests:
+- method: GET
+  path: /dfshealth.html
+  matchers:
+  - type: body
+    words:
+    - <div class="navbar-brand">Hadoop</div>
+  condition: or

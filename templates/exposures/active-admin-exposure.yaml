@@ -1,0 +1,19 @@
+id: active-admin-exposure
+name: ActiveAdmin Admin Dasboard Exposure
+severity: info
+confidence: tentative
+description: An ActiveAdmin Admin dashboard was discovered.
+reference: CWE-200
+tags:
+- panel
+- activeadmin
+- discovery
+requests:
+- method: GET
+  path: /admin/login
+  matchers:
+  - type: body
+    words:
+    - active_admin_content
+    - active_admin-
+  condition: or

@@ -1,0 +1,38 @@
+id: jetbrains-webservers
+name: JetBrains WebServers File - Detect
+severity: info
+confidence: confirmed
+description: JetBrains webservers file was detected. The file contains webserver credentials with encoded passwords.
+reference: CWE-200
+tags:
+- jetbrains
+- config
+- edb
+- files
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /.idea/WebServers.xml
+  matchers: &id001
+  - type: body
+    words:
+    - <?xml
+    - WebServers
+    - </project>
+  - type: header
+    words:
+    - application/xml
+    - text/xml
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /.idea/webServers.xml
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /.idea/webservers.xml
+  matchers: *id001
+  condition: and

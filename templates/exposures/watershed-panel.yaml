@@ -1,0 +1,24 @@
+id: watershed-panel
+name: Watershed Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Watershed login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- watershed
+- discovery
+requests:
+- method: GET
+  path: /app/outside.html#/signin
+  matchers:
+  - type: body
+    words:
+    - Watershed LRS
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

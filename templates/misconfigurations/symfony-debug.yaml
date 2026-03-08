@@ -1,0 +1,37 @@
+id: symfony-debug
+name: Symfony Debug Mode
+severity: high
+confidence: confirmed
+description: A Symfony installations 'debug' interface is enabled, allowing the disclosure and possible execution of arbitrary
+  code.
+reference: https://github.com/synacktiv/eos
+tags:
+- symfony
+- debug
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: header
+    words:
+    - 'x-debug-token-link:'
+    - /_profiler/
+  - type: body
+    words:
+    - debug mode</a> is enabled.
+    - id="sfWebDebugSymfony"
+  condition: or
+- method: GET
+  path: /admin_dev.php
+  matchers: *id001
+  condition: or
+- method: GET
+  path: /index_dev.php
+  matchers: *id001
+  condition: or
+- method: GET
+  path: /app_dev.php
+  matchers: *id001
+  condition: or

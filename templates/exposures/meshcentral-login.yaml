@@ -1,0 +1,21 @@
+id: meshcentral-login
+name: MeshCentral Login Panel - Detect
+severity: info
+confidence: tentative
+description: MeshCentral login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- meshcentral
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>MeshCentral - Login</title>
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,23 @@
+id: hp-ilo-serial-key-disclosure
+name: HP iLO Serial Key - Detect
+severity: medium
+confidence: tentative
+description: HP iLO serial key was detected.
+reference: CWE-200
+tags:
+- exposure
+- config
+- vuln
+requests:
+- method: GET
+  path: /xmldata?item=CpqKey
+  matchers:
+  - type: body
+    words:
+    - LTYPE
+    - LNAME
+    - KEY
+  - type: status
+    status:
+    - 200
+  condition: and

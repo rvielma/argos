@@ -1,0 +1,23 @@
+id: kenesto-login
+name: Kenesto - Login Detect
+severity: info
+confidence: tentative
+description: Kenesto login panel was discovered.
+reference: CWE-200
+tags:
+- login
+- tech
+- kenesto
+- panel
+- discovery
+requests:
+- method: GET
+  path: /Kenesto/Account/LogOn?ReturnUrl=%2fkenesto
+  matchers:
+  - type: body
+    words:
+    - <title>Welcome To Kenesto&reg;</title>
+  - type: status
+    status:
+    - 200
+  condition: and

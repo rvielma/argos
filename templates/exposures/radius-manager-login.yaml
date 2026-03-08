@@ -1,0 +1,34 @@
+id: radius-manager-login
+name: Radius Manager Admininstration Control Panel Login Panel - Detect
+severity: info
+confidence: tentative
+description: Radius Manager Administration Control Panel login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- radius
+- edb
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - <title>Radius Manager - User Control Panel</title>
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /admin.php
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /radiusmanager/user.php
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /user.php
+  matchers: *id001
+  condition: and

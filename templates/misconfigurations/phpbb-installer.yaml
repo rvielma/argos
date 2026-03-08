@@ -1,0 +1,26 @@
+id: phpbb-installer
+name: phpBB Installation File Exposure
+severity: high
+confidence: confirmed
+description: phpBB is susceptible to the Installation page exposure due to misconfiguration.
+tags:
+- misconfig
+- phpbb
+- install
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /install/app.php
+  matchers:
+  - type: body
+    words:
+    - Installation Panel
+    - Introduction
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

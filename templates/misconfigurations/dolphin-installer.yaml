@@ -1,0 +1,22 @@
+id: dolphin-installer
+name: Dolphin Installer - Exposure
+severity: high
+confidence: confirmed
+description: Dolphin is susceptible to the Installation page exposure due to misconfiguration.
+tags:
+- misconfig
+- dolphin
+- install
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /install.php
+  matchers:
+  - type: body
+    words:
+    - Dolphin Installation
+  - type: status
+    status:
+    - 200
+  condition: and

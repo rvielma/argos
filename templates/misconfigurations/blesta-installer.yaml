@@ -1,0 +1,26 @@
+id: blesta-installer
+name: Blesta Installer Exposure
+severity: high
+confidence: confirmed
+description: Blesta is susceptible to the Installation page exposure due to misconfiguration.
+tags:
+- misconfig
+- blesta
+- install
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /index.php/install
+  matchers:
+  - type: body
+    words:
+    - Blesta Installer
+    - Install via Web Browser
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,22 @@
+id: versa-flexvnf-panel
+name: Versa FlexVNF Panel - Detect
+severity: info
+confidence: confirmed
+description: Versa FlexVNF panel was detected.
+reference: CWE-200
+tags:
+- panel
+- versa
+- flexvnf
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Flex VNF Web-UI
+  - type: status
+    status:
+    - 200
+  condition: and

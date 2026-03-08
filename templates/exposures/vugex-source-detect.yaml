@@ -1,0 +1,21 @@
+id: vugex-source-detect
+name: Vugex Framework Source Code - Detect
+severity: medium
+confidence: confirmed
+description: Detects the presence of exposed Vugex Framework source code by identifying common files and directories associated
+  with the framework.
+tags:
+- vugex
+- framework
+- disclosure
+- info-leak
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: regex
+    regex:
+    - '@framework\s+Vugex Framework'
+    - require_once\s+'?/var/www/scripts/help.php'?
+  condition: or

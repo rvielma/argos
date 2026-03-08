@@ -1,0 +1,21 @@
+id: ibm-openadmin-panel
+name: IBM OpenAdmin Tool - Panel
+severity: info
+confidence: confirmed
+description: IBM OpenAdmin Tool - Panel
+tags:
+- openadmin
+- login
+- panel
+- discovery
+requests:
+- method: GET
+  path: /openadmin/index.php
+  matchers:
+  - type: body
+    words:
+    - class="oat oneui"
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,22 @@
+id: dockge-panel
+name: Dockge Panel - Detect
+severity: info
+confidence: confirmed
+description: A fancy, easy-to-use and reactive self-hosted docker compose.yaml stack-oriented manager
+reference: https://github.com/louislam/dockge
+tags:
+- panel
+- dockge
+- login
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Dockge</title>
+  - type: status
+    status:
+    - 200
+  condition: and

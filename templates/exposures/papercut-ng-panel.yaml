@@ -1,0 +1,25 @@
+id: papercut-ng-panel
+name: PaperCut NG Panel - Detect
+severity: info
+confidence: confirmed
+description: PaperCut is a print management system. Log in to manage your print quotas, see your print history and configure
+  your system.
+reference: CWE-200
+tags:
+- panel
+- papercut
+- detect
+- papercut-ng
+- discovery
+requests:
+- method: GET
+  path: /user
+  matchers:
+  - type: body
+    words:
+    - content="PaperCut
+    - <title>PaperCut Login
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,21 @@
+id: kavita-panel-detect
+name: Kavita Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Kavita login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- kavita
+- discovery
+requests:
+- method: GET
+  path: /login
+  matchers:
+  - type: body
+    words:
+    - <title>Kavita
+  - type: status
+    status:
+    - 200
+  condition: and

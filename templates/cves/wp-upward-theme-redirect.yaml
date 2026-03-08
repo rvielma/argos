@@ -1,0 +1,24 @@
+id: wp-upward-theme-redirect
+name: WordPress Upward Themes <1.5 - Open Redirect
+severity: medium
+confidence: confirmed
+description: WordPress Upward Themes 1.5 accepts a user-controlled input that specifies a link to an external site, and uses
+  that link in a Redirect. This simplifies phishing attacks. An http parameter may contain a URL value and could cause the
+  web application to redirect the request to the specified URL. By modifying the URL value to a malicious site, an attacker
+  may successfully launch a phishing scam and steal user credentials.
+reference: https://cxsecurity.com/issue/WLB-2020030133
+tags:
+- wordpress
+- wp-theme
+- wp
+- upward
+- redirect
+- vuln
+requests:
+- method: GET
+  path: /wp-content/themes/Upward/go.php?https://interact.sh
+  matchers:
+  - type: regex
+    regex:
+    - (?m)^(?:Location\s*?:\s*?)(?:https?://|//)?(?:[a-zA-Z0-9\-_\.@]*)interact\.sh.*$
+  condition: or

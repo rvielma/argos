@@ -1,0 +1,25 @@
+id: radarr-dashboard-unauth
+name: Radarr Dashboard - Unauthenticated
+severity: medium
+confidence: confirmed
+description: Exposure of Radarr dashboard which can lead to sensitive information disclosure.
+tags:
+- radarr
+- dashboard
+- unauth
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Radarr</title>
+  - type: body
+    words:
+    - Login - Radarr
+  - type: status
+    status:
+    - 200
+  condition: and

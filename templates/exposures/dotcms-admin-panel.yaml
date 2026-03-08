@@ -1,0 +1,19 @@
+id: dotcms-admin-panel
+name: dotAdmin Login Panel- Detect
+severity: info
+confidence: tentative
+description: dotAdmin login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- dotcms
+- cms
+- discovery
+requests:
+- method: GET
+  path: /dotAdmin/
+  matchers:
+  - type: body
+    words:
+    - <title>dotCMS Content Management Platform</title>
+  condition: and

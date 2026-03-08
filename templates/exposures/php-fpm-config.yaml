@@ -1,0 +1,23 @@
+id: php-fpm-config
+name: PHP-FPM Configuration Page - Detect
+severity: info
+confidence: tentative
+description: PHP-FPM configuration page was detected.
+reference: CWE-200
+tags:
+- config
+- exposure
+- php
+- vuln
+requests:
+- method: GET
+  path: /php-fpm.conf
+  matchers:
+  - type: body
+    words:
+    - FPM Configuration
+    - Pool Definitions
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,26 @@
+id: sogo-detect
+name: SOGo Detect
+severity: info
+confidence: confirmed
+description: This template will detect a running SOGo instance
+reference: https://www.sogo.nu/
+tags:
+- sogo
+- tech
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - content="SOGo Web Interface"
+    - sg-default="SOGo
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /SOGo
+  matchers: *id001
+  condition: and

@@ -1,0 +1,25 @@
+id: cisco-esa-panel
+name: Cisco Email Security Appliance - Panel
+severity: info
+confidence: confirmed
+description: Detected Cisco Email Security Appliance login panel.
+reference: CWE-200
+tags:
+- login
+- cisco
+- panel
+- email
+- discovery
+requests:
+- method: GET
+  path: /login
+  matchers:
+  - type: body
+    words:
+    - Email Security Appliance
+    - Email Security Virtual Appliance
+    - IronPort C
+  - type: body
+    words:
+    - action:Login
+  condition: and

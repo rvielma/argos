@@ -1,0 +1,23 @@
+id: dzs-zoomsounds-listing
+name: WordPress Plugin dzs zoomsounds
+severity: info
+confidence: tentative
+description: Searches for sensitive directories present in the dzs-zoomsounds plugin.
+tags:
+- wordpress
+- listing
+- wp-plugin
+- wp
+- vuln
+requests:
+- method: GET
+  path: /wp-content/plugins/dzs-zoomsounds/
+  matchers:
+  - type: body
+    words:
+    - Index of
+    - /wp-content/plugins/dzs-zoomsounds
+  - type: status
+    status:
+    - 200
+  condition: and

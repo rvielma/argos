@@ -1,0 +1,21 @@
+id: fireware-xtm-user-authentication
+name: Fireware XTM Login Panel - Detect
+severity: info
+confidence: tentative
+description: Fireware XTM login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- watchguard
+- discovery
+requests:
+- method: GET
+  path: /sslvpn_logon.shtml
+  matchers:
+  - type: body
+    words:
+    - <title>User Authentication
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,23 @@
+id: weblogic-login
+name: Oracle WebLogic Login Panel - Detect
+severity: info
+confidence: tentative
+description: Oracle WebLogic login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- oracle
+- weblogic
+- login
+- discovery
+requests:
+- method: GET
+  path: /console/login/LoginForm.jsp
+  matchers:
+  - type: body
+    words:
+    - WebLogic
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,22 @@
+id: mantisbt-panel
+name: MantisBT Login Panel - Detect
+severity: info
+confidence: confirmed
+description: MantisBT login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- mantisbt
+- discovery
+requests:
+- method: GET
+  path: /login_page.php
+  matchers:
+  - type: body
+    words:
+    - 'title="MantisBT: Text Search"'
+    - 'title="MantisBT: Issue Id"'
+  - type: status
+    status:
+    - 200
+  condition: and

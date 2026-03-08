@@ -1,0 +1,38 @@
+id: config-properties
+name: Config Properties Exposure
+severity: high
+confidence: confirmed
+description: Config Properties were exposed.
+reference: https://twitter.com/win3zz/status/1657624974851702784/photo/1
+tags:
+- exposure
+- config
+- properties
+- vuln
+requests:
+- method: GET
+  path: /config.properties
+  matchers: &id001
+  - type: regex
+    regex:
+    - jdbc:[a-z:]+://[A-Za-z0-9\.\-_:;=/@?,&]+
+    - ((?i)password|pwd|pass|secretkey)=
+  - type: header
+    words:
+    - text/plain
+    - bytes
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /config.properties.bak
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /ui_config.properties
+  matchers: *id001
+  condition: and

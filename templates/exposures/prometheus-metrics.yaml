@@ -1,0 +1,42 @@
+id: prometheus-metrics
+name: Prometheus Metrics - Detect
+severity: medium
+confidence: tentative
+description: Prometheus metrics page was detected.
+reference: CWE-200
+tags:
+- exposure
+- prometheus
+- hackerone
+- config
+- vuln
+requests:
+- method: GET
+  path: /metrics
+  matchers: &id001
+  - type: body
+    words:
+    - cpu_seconds_total
+    - http_request_duration_seconds
+    - process_virtual_memory_bytes
+    - process_start_time_seconds
+  - type: body
+    words:
+    - lvm_
+    - kube
+    - namedprocess
+    - mysqld
+    - collectd_
+    - libvirt_
+    - mongodb
+    - blackbox_
+    - haproxy_
+    - rabbitmq_
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /api/metrics
+  matchers: *id001
+  condition: and

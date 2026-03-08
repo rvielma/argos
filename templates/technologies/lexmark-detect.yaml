@@ -1,0 +1,21 @@
+id: lexmark-detect
+name: Lexmark Device Detect
+severity: info
+confidence: tentative
+description: Lexmark Device Detect
+tags:
+- tech
+- airtame
+- printer
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: regex
+    regex:
+    - <title>Lexmark (.*)</title>
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,21 @@
+id: gemweb-plus-panel
+name: GEMweb Plus 500 Login Panel - Detect
+severity: info
+confidence: tentative
+description: GEMweb Plus 500 login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- gemweb
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>GEMweb Plus 500</title>
+  - type: status
+    status:
+    - 200
+  condition: and

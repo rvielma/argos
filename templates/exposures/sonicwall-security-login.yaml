@@ -1,0 +1,25 @@
+id: sonicwall-security-login
+name: SonicWall Network Security Login - Detect
+severity: info
+confidence: confirmed
+description: SonicWall Network Security Login panel was detected.
+tags:
+- panel
+- sonicwall
+- login
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - SonicWall Network Security Login
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /sonicui/7/login/
+  matchers: *id001
+  condition: and

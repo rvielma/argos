@@ -1,0 +1,21 @@
+id: weatherlink-configuration
+name: WeatherLinkIP Configuration Panel - Detect
+severity: info
+confidence: tentative
+description: WeatherLinkIP configuration panel was detected.
+reference: CWE-200
+tags:
+- panel
+- edb
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>WeatherLinkIP Configuration</title>
+  - type: status
+    status:
+    - 200
+  condition: and

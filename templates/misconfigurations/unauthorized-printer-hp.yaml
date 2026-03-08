@@ -1,0 +1,26 @@
+id: unauthorized-printer-hp
+name: Unauthorized HP office pro printer
+severity: high
+confidence: tentative
+description: HP office pro printer web access is exposed.
+tags:
+- hp
+- iot
+- unauth
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: regex
+    regex:
+    - <title>(HP Officejet Pro([ 0-9A-Za-z]+)|HP Designjet([ 0-9A-Za-z]+).*)<\/title>
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /hp/device/webAccess/index.htm?content=security
+  matchers: *id001
+  condition: and

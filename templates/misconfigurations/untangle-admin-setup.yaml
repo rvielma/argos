@@ -1,0 +1,23 @@
+id: untangle-admin-setup
+name: Untangle Exposed Admin Signup
+severity: medium
+confidence: confirmed
+description: Untangle Exposed Admin Signup is exposed publicly.
+tags:
+- misconfig
+- untangle
+- admin
+- setup
+- vuln
+requests:
+- method: GET
+  path: /setup/setup.do
+  matchers:
+  - type: body
+    words:
+    - <title>Setup Wizard</title>
+    - java.untangle.com
+  - type: status
+    status:
+    - 200
+  condition: and

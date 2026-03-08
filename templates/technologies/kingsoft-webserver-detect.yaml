@@ -1,0 +1,20 @@
+id: kingsoft-webserver-detect
+name: Kingsoft Web Server Detect
+severity: info
+confidence: tentative
+description: Kingsoft Web Server Detect
+tags:
+- tech
+- kingsoft
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Welcome to Kingsoft Web Server!</title>
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,23 @@
+id: secure-login-panel
+name: Secure Login Service Login Panel - Detect
+severity: info
+confidence: tentative
+description: Secure Login Service login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- sls
+- login
+- service
+- discovery
+requests:
+- method: GET
+  path: /login/sls/auth
+  matchers:
+  - type: status
+    status:
+    - 200
+  - type: body
+    words:
+    - <title>Secure Login Service</title>
+  condition: and

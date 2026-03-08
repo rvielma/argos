@@ -1,0 +1,24 @@
+id: iomega-emc-shared-nas
+name: Iomega LenovoEMC NAS Login Panel - Detect
+severity: info
+confidence: tentative
+description: Iomega LenovoEMC NAS login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- discovery
+requests:
+- method: GET
+  path: /cp/Shares?user=&protocol=webaccess&v=2.3
+  matchers:
+  - type: status
+    status:
+    - 200
+  - type: body
+    words:
+    - '"access":"read"'
+    - '"access":"readwrite"'
+  - type: header
+    words:
+    - iomega
+  condition: and

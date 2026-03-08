@@ -1,0 +1,39 @@
+id: cacti-fpd
+name: Cacti - Full Path Disclosure
+severity: low
+confidence: tentative
+description: Detected a Full Path Disclosure (FPD) in Cacti when the log file is not writable. The error message reveals the
+  absolute path of the log file on the server.
+tags:
+- cacti
+- fpd
+- exposure
+- path
+- misconfig
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - System log file is not available for writing
+    - please enable write access
+  - type: regex
+    regex:
+    - Log:\s+([a-zA-Z0-9/\\_.-]+cacti\.log)
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /cacti/
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /index.php
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /cacti/index.php
+  matchers: *id001
+  condition: and

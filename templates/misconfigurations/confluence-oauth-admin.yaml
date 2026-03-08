@@ -1,0 +1,27 @@
+id: confluence-oauth-admin
+name: Confluence OAuth Administration Endpoint
+severity: info
+confidence: confirmed
+description: Confluence OAuth Administration Endpoint
+tags:
+- misconfig
+- jira
+- confluence
+- atlassian
+- vuln
+requests:
+- method: GET
+  path: /plugins/servlet/oauth/view-consumer-info
+  matchers: &id001
+  - type: body
+    words:
+    - <title>OAuth Consumer Information
+    - OAuth Administration
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /confluence/plugins/servlet/oauth/view-consumer-info
+  matchers: *id001
+  condition: and

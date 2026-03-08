@@ -1,0 +1,26 @@
+id: magnolia-panel
+name: Magnolia CMS Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Magnolia CMS login panel was detected.
+reference: CWE-200
+tags:
+- magnolia
+- panel
+- login
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - Magnolia is a registered trademark
+  - type: header
+    words:
+    - text/html
+  condition: and
+- method: GET
+  path: /.magnolia/admincentral
+  matchers: *id001
+  condition: and

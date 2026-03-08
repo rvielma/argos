@@ -1,0 +1,28 @@
+id: livehelperchat-detect
+name: Live Helper Chat Detect
+severity: info
+confidence: confirmed
+description: Live Helper Chat Detect
+tags:
+- livehelperchat
+- tech
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: regex
+    regex:
+    - (?i)Live.Helper.Chat
+  - type: regex
+    regex:
+    - (?i)Copyright.\(c\).2019.Remigijus.Kiminas
+  condition: or
+- method: GET
+  path: /doc/CHANGELOG.txt
+  matchers: *id001
+  condition: or
+- method: GET
+  path: /doc/README.txt
+  matchers: *id001
+  condition: or

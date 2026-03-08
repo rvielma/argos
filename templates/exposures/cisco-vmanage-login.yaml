@@ -1,0 +1,21 @@
+id: cisco-vmanage-login
+name: Cisco vManage Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Cisco vManage login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- cisco
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Cisco vManage</title>
+  - type: status
+    status:
+    - 200
+  condition: and

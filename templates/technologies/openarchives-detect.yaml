@@ -1,0 +1,23 @@
+id: openarchives-detect
+name: openarchives - Detection
+severity: info
+confidence: confirmed
+description: Detects Open Archives Initiative instance
+reference: https://www.openarchives.org/
+tags:
+- tech
+- openarchive
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - OAI-PMH
+    - www.openarchives.org
+    - </OAI-PMH
+  - type: status
+    status:
+    - 200
+  condition: and

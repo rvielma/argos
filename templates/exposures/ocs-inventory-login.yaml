@@ -1,0 +1,25 @@
+id: ocs-inventory-login
+name: OCS Inventory Login Panel - Detect
+severity: info
+confidence: confirmed
+description: OCS Inventory login panel was detected.
+reference: CWE-200
+tags:
+- ocs-inventory
+- panel
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - <title>OCS Inventory
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /ocsreports
+  matchers: *id001
+  condition: and

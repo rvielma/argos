@@ -1,0 +1,21 @@
+id: zabbix-error
+name: Zabbix Panel - Detect
+severity: info
+confidence: tentative
+description: Zabbix panel was detected.
+reference: CWE-200
+tags:
+- zabbix
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Warning [refreshed every 30 sec.]</title>
+  - type: status
+    status:
+    - 200
+  condition: and

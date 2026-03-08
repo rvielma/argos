@@ -1,0 +1,21 @@
+id: aem-bg-servlet
+name: AEM BG-Servlets
+severity: info
+confidence: tentative
+description: AEM BG-Servlets
+reference: https://www.slideshare.net/0ang3el/hunting-for-security-bugs-in-aem-webapps-129262212
+tags:
+- aem
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /system/bgservlets/test.css
+  matchers:
+  - type: status
+    status:
+    - 200
+  - type: body
+    words:
+    - <br/>Flushing output<br/>
+  condition: and

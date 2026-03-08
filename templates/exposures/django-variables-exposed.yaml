@@ -1,0 +1,39 @@
+id: django-variables-exposed
+name: Django Config - Detect
+severity: info
+confidence: confirmed
+description: Django configuration information was detected, which could reveal web application framework exceptions that could
+  indicate exploitation attempts.
+reference: CWE-200
+tags:
+- exposure
+- config
+- django
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - seeing this error because you have <code>DEBUG = True</code>
+    - SuspiciousOperation
+    - DisallowedHost
+    - DisallowedModelAdminLookup
+    - DisallowedModelAdminToField
+    - DisallowedRedirect
+    - InvalidSessionKey
+    - RequestDataTooBig
+    - SuspiciousFileOperation
+    - SuspiciousMultipartForm
+    - SuspiciousSession
+    - TooManyFieldsSent
+    - PermissionDenied
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 400
+    - 500
+  condition: and

@@ -1,0 +1,21 @@
+id: total-web-solutions-panel
+name: Total Web Solutions Panel - Detect
+severity: info
+confidence: confirmed
+description: Total Web Solutions panel was detected.
+reference: CWE-200
+tags:
+- panel
+- edb
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Total Web Solutions</title>
+  - type: status
+    status:
+    - 200
+  condition: and

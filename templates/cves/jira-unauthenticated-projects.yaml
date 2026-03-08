@@ -1,0 +1,19 @@
+id: jira-unauthenticated-projects
+name: Jira Unauthenticated Projects
+severity: info
+confidence: tentative
+description: Jira Unauthenticated Projects
+tags:
+- atlassian
+- jira
+- vuln
+requests:
+- method: GET
+  path: /rest/api/2/project?maxResults=100
+  matchers:
+  - type: body
+    words:
+    - projects
+    - startAt
+    - maxResults
+  condition: or

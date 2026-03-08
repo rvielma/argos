@@ -1,0 +1,21 @@
+id: completeview-web-panel
+name: CompleteView Panel - Detect
+severity: info
+confidence: confirmed
+description: CompleteView panel was detected.
+reference: CWE-200
+tags:
+- panel
+- completeview
+- discovery
+requests:
+- method: GET
+  path: /en-US/login?return=/live-view
+  matchers:
+  - type: body
+    words:
+    - CompleteView Web Client
+  - type: status
+    status:
+    - 200
+  condition: and

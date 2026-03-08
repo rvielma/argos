@@ -1,0 +1,25 @@
+id: infoblox-nios-panel
+name: Infoblox NIOS Login Panel - Detect
+severity: info
+confidence: tentative
+description: Infoblox NIOS login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- infoblox
+- nios
+- login
+- detect
+- discovery
+requests:
+- method: GET
+  path: /ui/
+  matchers:
+  - type: body
+    words:
+    - <title>Infoblox Grid
+    - <title>Infoblox System
+  - type: status
+    status:
+    - 200
+  condition: and

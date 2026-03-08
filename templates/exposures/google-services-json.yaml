@@ -1,0 +1,32 @@
+id: google-services-json
+name: Google Service Json
+severity: low
+confidence: confirmed
+description: google-services.json internal file is exposed.
+reference: https://www.exploit-db.com/ghdb/6886
+tags:
+- google
+- cloud
+- exposure
+- files
+- vuln
+requests:
+- method: GET
+  path: /google-services.json
+  matchers: &id001
+  - type: body
+    words:
+    - storage_bucket
+    - oauth_client
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /app/google-services.json
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /android/app/google-services.json
+  matchers: *id001
+  condition: and

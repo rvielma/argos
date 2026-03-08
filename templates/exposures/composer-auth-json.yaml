@@ -1,0 +1,27 @@
+id: composer-auth-json
+name: Composer-auth Json File Disclosure
+severity: low
+confidence: confirmed
+description: Composer Auth Josn file is disclosed.
+reference: https://www.exploit-db.com/ghdb/5768
+tags:
+- exposure
+- devops
+- files
+- vuln
+requests:
+- method: GET
+  path: /.composer-auth.json
+  matchers: &id001
+  - type: body
+    words:
+    - github-oauth
+    - github.com
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /vendor/webmozart/assert/.composer-auth.json
+  matchers: *id001
+  condition: and

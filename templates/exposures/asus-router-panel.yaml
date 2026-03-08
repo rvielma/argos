@@ -1,0 +1,24 @@
+id: asus-router-panel
+name: Asus Router Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Asus router login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- asus
+- router
+- iot
+- discovery
+requests:
+- method: GET
+  path: /Main_Login.asp
+  matchers:
+  - type: body
+    words:
+    - <title>ASUS Login</title>
+    - Sign in with your ASUS router account
+  - type: status
+    status:
+    - 200
+  condition: and

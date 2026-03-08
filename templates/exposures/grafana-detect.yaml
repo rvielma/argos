@@ -1,0 +1,23 @@
+id: grafana-detect
+name: Grafana Login Panel - Detect
+severity: info
+confidence: tentative
+description: Grafana login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- grafana
+- detect
+- discovery
+requests:
+- method: GET
+  path: /login
+  matchers: &id001
+  - type: body
+    words:
+    - <title>Grafana</title>
+  condition: or
+- method: GET
+  path: /graph/login
+  matchers: *id001
+  condition: or

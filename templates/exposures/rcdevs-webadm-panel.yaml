@@ -1,0 +1,38 @@
+id: rcdevs-webadm-panel
+name: RCDevs WebADM Panel - Detect
+severity: info
+confidence: confirmed
+description: RCDevs WebADM Login Panel was detected.
+reference: https://www.rcdevs.com/solutions/
+tags:
+- panel
+- rcdevs
+- webadm
+- login
+- detect
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - WebADM
+    - RCDevs Security
+    - www.rcdevs.com
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /webapps/index.php
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /websrvs/index.php
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /admin/login_uid.php
+  matchers: *id001
+  condition: and

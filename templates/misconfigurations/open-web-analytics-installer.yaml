@@ -1,0 +1,22 @@
+id: open-web-analytics-installer
+name: Open Web Analytics Installer - Exposure
+severity: high
+confidence: confirmed
+description: Open Web Analytics is susceptible to the Installation page exposure due to misconfiguration.
+tags:
+- misconfig
+- open-web-analytics
+- install
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /install.php
+  matchers:
+  - type: body
+    words:
+    - Installation - Open Web Analytics
+  - type: status
+    status:
+    - 200
+  condition: and

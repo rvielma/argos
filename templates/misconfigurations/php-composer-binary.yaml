@@ -1,0 +1,23 @@
+id: php-composer-binary
+name: PHP Composer Binary - Exposure
+severity: info
+confidence: confirmed
+description: This Nuclei template checks if the specified endpoints have publically accessible PHP Composer Binary.
+tags:
+- php
+- composer
+- exposure
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /composer
+  matchers:
+  - type: body
+    words:
+    - /usr/bin/env php
+    - <?php
+  - type: status
+    status:
+    - 200
+  condition: and

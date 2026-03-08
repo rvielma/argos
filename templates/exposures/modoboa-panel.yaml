@@ -1,0 +1,26 @@
+id: modoboa-panel
+name: Modoboa Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Modoboa login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- modoboa
+- mail
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - Welcome to Modoboa
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /accounts/login/?next=/
+  matchers: *id001
+  condition: and

@@ -1,0 +1,28 @@
+id: quilium-panel
+name: Quilium Panel - Detect
+severity: info
+confidence: confirmed
+description: Quilium CMS Login Panel was detected.
+reference: https://www.quilium.io/
+tags:
+- panel
+- quilium
+- login
+- detect
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - content="CMS Quilium
+    - Quilium</a>
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /en/login
+  matchers: *id001
+  condition: and

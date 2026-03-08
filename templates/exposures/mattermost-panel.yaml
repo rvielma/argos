@@ -1,0 +1,21 @@
+id: mattermost-panel
+name: Mattermost Login - Panel
+severity: info
+confidence: confirmed
+description: Mattermost Login Panel was discovered.
+tags:
+- login
+- mattermost
+- panel
+- discovery
+requests:
+- method: GET
+  path: /login
+  matchers:
+  - type: body
+    words:
+    - content="Mattermost"
+  - type: status
+    status:
+    - 200
+  condition: and

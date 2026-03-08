@@ -1,0 +1,26 @@
+id: autoset-detect
+name: AutoSet Page - Detect
+severity: info
+confidence: confirmed
+description: AutoSet Page - Detect
+reference: http://autoset.net/xe/
+tags:
+- tech
+- php
+- autoset
+- apache
+- panel
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>AutoSet
+    - alt">AutoSet
+    - logo-map logo-autoset
+  - type: status
+    status:
+    - 200
+  condition: and

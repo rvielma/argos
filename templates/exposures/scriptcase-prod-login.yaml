@@ -1,0 +1,27 @@
+id: scriptcase-prod-login
+name: ScriptCase Production Environment Login
+severity: info
+confidence: confirmed
+description: ScriptCase Production Environment Login
+reference: https://www.scriptcase.com.br
+tags:
+- panel
+- scriptcase
+- discovery
+requests:
+- method: GET
+  path: /prod/lib/php/
+  matchers: &id001
+  - type: regex
+    regex:
+    - (?i)(ScriptCase)
+    - (?i)(NetMake)
+    - (?i)(Login)
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /scriptcase/prod/lib/php/
+  matchers: *id001
+  condition: and

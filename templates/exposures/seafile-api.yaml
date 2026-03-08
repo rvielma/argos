@@ -1,0 +1,26 @@
+id: seafile-api
+name: Seafile API - Detect
+severity: info
+confidence: confirmed
+description: Seafile API was detected.
+reference: https://download.seafile.com/published/web-api/home.md
+tags:
+- exposure
+- api
+- detect
+- discovery
+requests:
+- method: GET
+  path: /api2/server-info/
+  matchers:
+  - type: body
+    words:
+    - seafile-basic
+    - seafile-pro
+  - type: header
+    words:
+    - application/json
+  - type: status
+    status:
+    - 200
+  condition: and

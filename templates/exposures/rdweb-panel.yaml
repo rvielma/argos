@@ -1,0 +1,27 @@
+id: rdweb-panel
+name: RD Web Access Panel - Detect
+severity: info
+confidence: confirmed
+description: RD web access panel was discovered.
+reference: https://rdweb.wvd.microsoft.com/webclient
+tags:
+- panel
+- login
+- rdp
+- web-access
+- Microsoft
+- detect
+- microsoft
+- discovery
+requests:
+- method: GET
+  path: /RDWeb/
+  matchers:
+  - type: header
+    words:
+    - TSWAFeatureCheckCookie=true; path=/RDWeb/
+  - type: body
+    words:
+    - <rdp-client-top-view>
+    - Microsoft Remote Desktop
+  condition: or

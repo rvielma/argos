@@ -1,0 +1,28 @@
+id: unauth-jupyter-lab
+name: Jupyter Lab - Unauthenticated Access
+severity: critical
+confidence: tentative
+description: JupyterLab was able to be accessed without authentication.
+reference: CWE-288
+tags:
+- unauth
+- jupyter
+- jupyterlab
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /lab/api/settings/
+  matchers:
+  - type: body
+    words:
+    - '"id":'
+    - '"settings"'
+    - '"schema":'
+  - type: header
+    words:
+    - application/json
+  - type: status
+    status:
+    - 200
+  condition: and

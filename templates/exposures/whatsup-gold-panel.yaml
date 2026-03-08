@@ -1,0 +1,26 @@
+id: whatsup-gold-panel
+name: Whatsup Gold Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Whatsup Gold login panel was detected.
+reference: https://www.whatsupgold.com/
+tags:
+- panel
+- whatsup-gold
+- detect
+- discovery
+requests:
+- method: GET
+  path: /NmConsole
+  matchers: &id001
+  - type: body
+    words:
+    - <title>WhatsUp Gold</title>
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /
+  matchers: *id001
+  condition: and

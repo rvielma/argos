@@ -1,0 +1,20 @@
+id: veriz0wn-osint
+name: Veriz0wn OSINT - Detect
+severity: info
+confidence: confirmed
+description: Veriz0wn OSINT - Detect
+tags:
+- veriz0wn
+- panel
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - 'Veriz0wn : OSINT'
+  - type: status
+    status:
+    - 200
+  condition: and

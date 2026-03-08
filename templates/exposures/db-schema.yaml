@@ -1,0 +1,30 @@
+id: db-schema
+name: Discover db schema files
+severity: info
+confidence: tentative
+description: This file is auto-generated from the current state of the database.
+tags:
+- exposure
+- backup
+- files
+- vuln
+requests:
+- method: GET
+  path: /db/schema.rb
+  matchers: &id001
+  - type: body
+    words:
+    - This file is auto-generated from the current state of the database.
+    - ActiveRecord::Schema.define
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /database/schema.rb
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /schema.rb
+  matchers: *id001
+  condition: and

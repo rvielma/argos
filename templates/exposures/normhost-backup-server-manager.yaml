@@ -1,0 +1,21 @@
+id: normhost-backup-server-manager
+name: Normhost Backup Server Manager Panel - Detect
+severity: info
+confidence: confirmed
+description: Normhost Backup server manager panel was detected.
+reference: CWE-200
+tags:
+- panel
+- normhost
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - content="Normhost Backup server manager
+  - type: status
+    status:
+    - 401
+  condition: and

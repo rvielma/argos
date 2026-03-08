@@ -1,0 +1,23 @@
+id: emlog-installer
+name: Emlog Pro - Installation
+severity: high
+confidence: confirmed
+description: Emlog Pro Installation page has been exposed.
+tags:
+- emlog
+- install
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /install.php
+  matchers:
+  - type: body
+    words:
+    - '>MySQL'
+    - install.php?action=install
+    - emlog
+  - type: status
+    status:
+    - 200
+  condition: and

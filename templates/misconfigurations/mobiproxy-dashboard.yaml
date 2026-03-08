@@ -1,0 +1,25 @@
+id: mobiproxy-dashboard
+name: MobiProxy Dashboard - Detect
+severity: medium
+confidence: confirmed
+description: MobiProxy dashboard was detected.
+reference: CWE-200
+tags:
+- dashboard
+- exposure
+- mobiproxy
+- misconfig
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>MobiProxy
+    - Dashboard
+    - Setting
+  - type: status
+    status:
+    - 200
+  condition: and

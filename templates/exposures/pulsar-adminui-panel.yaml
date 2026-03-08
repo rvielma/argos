@@ -1,0 +1,24 @@
+id: pulsar-adminui-panel
+name: Pulsar Admin UI Panel - Detect
+severity: info
+confidence: confirmed
+description: Pulsar admin UI panel was detected.
+reference: CWE-200
+tags:
+- panel
+- pulsar
+- pulsarui
+- admin
+- apache
+- discovery
+requests:
+- method: GET
+  path: /#/login?redirect=%2F
+  matchers:
+  - type: body
+    words:
+    - Pulsar Admin UI
+  - type: status
+    status:
+    - 200
+  condition: and

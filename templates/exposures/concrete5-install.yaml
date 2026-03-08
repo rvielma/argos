@@ -1,0 +1,28 @@
+id: concrete5-install
+name: Concrete5 Install Panel
+severity: critical
+confidence: confirmed
+description: A Concrete5 installation panel was discovered.
+reference: https://documentation.concretecms.org/developers/introduction/installing-concrete-cms
+tags:
+- panel
+- install
+- concrete
+- cms
+- concrete5
+- discovery
+requests:
+- method: GET
+  path: /index.php/install
+  matchers: &id001
+  - type: body
+    words:
+    - <title>Install concrete5</title>
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /concrete5/index.php/install
+  matchers: *id001
+  condition: and

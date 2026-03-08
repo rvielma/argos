@@ -1,0 +1,25 @@
+id: projectsend-login
+name: ProjectSend Login Panel - Detect
+severity: info
+confidence: tentative
+description: ProjectSend login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- projectsend
+- edb
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: regex
+    regex:
+    - Provided by <a href="https?:\/\/www\.projectsend\.org\/" target="_blank">ProjectSend<\/a>
+  - type: body
+    words:
+    - id="login_form"
+  - type: status
+    status:
+    - 200
+  condition: and

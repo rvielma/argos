@@ -1,0 +1,24 @@
+id: flask-redis-docker
+name: Flask Redis Queue Docker - Exposure
+severity: low
+confidence: confirmed
+description: Flask Redis Queue Docker is exposed.
+reference: https://www.facebook.com/photo/?fbid=623621413141715&set=a.467014098802448
+tags:
+- misconfig
+- exposure
+- flask
+- redis
+- docker
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Flask + Redis Queue + Docker</title>
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,25 @@
+id: avtech-avn801-camera-panel
+name: Avtech AVN801 Network Camera Admin Panel - Detect
+severity: info
+confidence: tentative
+description: An Avtech AVN801 Network Camera administration panel was detected.
+reference: CWE-200
+tags:
+- panel
+- avtech
+- iot
+- camera
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - IP Surveillance for Your Life
+    - avtech
+    - /cgi-bin/guest/Login.cgi?rnd=
+  - type: status
+    status:
+    - 200
+  condition: and

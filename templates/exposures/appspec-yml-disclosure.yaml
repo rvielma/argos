@@ -1,0 +1,30 @@
+id: appspec-yml-disclosure
+name: Appspec YML/YAML - Detect
+severity: medium
+confidence: tentative
+description: Appspec YML and YAML files are susceptible to information disclosure.
+reference: CWE-200
+tags:
+- exposure
+- config
+- vuln
+requests:
+- method: GET
+  path: /appspec.yml
+  matchers: &id001
+  - type: body
+    words:
+    - 'version:'
+    - 'os:'
+    - 'files:'
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /appspec.yaml
+  matchers: *id001
+  condition: and

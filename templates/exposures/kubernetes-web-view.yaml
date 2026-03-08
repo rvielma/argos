@@ -1,0 +1,31 @@
+id: kubernetes-web-view
+name: Kubernetes Local Cluster Web View Panel- Detect
+severity: medium
+confidence: confirmed
+description: Kubernetes local cluster web view panel discovered.
+reference: CWE-200
+tags:
+- panel
+- misconfig
+- kubernetes
+- k8s
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - Kubernetes Web View</title>
+    - a href="https://codeberg.org/hjacobs/kube-web-view
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /clusters/local
+  matchers: *id001
+  condition: and

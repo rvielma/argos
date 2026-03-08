@@ -1,0 +1,22 @@
+id: alfresco-detect
+name: Alfresco CMS Detection
+severity: info
+confidence: tentative
+description: Alfresco CMS was discovered.
+reference: CWE-200
+tags:
+- alfresco
+- tech
+- panel
+- discovery
+requests:
+- method: GET
+  path: /alfresco/api/-default-/public/cmis/versions/1.1/atom
+  matchers:
+  - type: body
+    words:
+    - org\/alfresco\/api\/opencmis\/OpenCMIS.get
+  - type: header
+    words:
+    - application/json
+  condition: and

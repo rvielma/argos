@@ -1,0 +1,20 @@
+id: zimbra-detect
+name: Zimbra Detect
+severity: info
+confidence: tentative
+description: Send a GET request to js file on Zimbra server to obtain version information
+tags:
+- tech
+- zimbra
+- discovery
+requests:
+- method: GET
+  path: /js/zimbraMail/share/model/ZmSettings.js
+  matchers:
+  - type: body
+    words:
+    - Zimbra Collaboration Suite Web Client
+  - type: header
+    words:
+    - application/x-javascript
+  condition: and

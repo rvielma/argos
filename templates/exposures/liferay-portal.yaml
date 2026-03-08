@@ -1,0 +1,32 @@
+id: liferay-portal
+name: Liferay Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Liferay login panel was detected,
+reference: CWE-200
+tags:
+- panel
+- liferay
+- portal
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: header
+    words:
+    - Liferay-Portal
+  - type: body
+    words:
+    - <title>json-web-services-api</title>
+    - There are no services matching that phrase.
+    - Unable to deserialize object
+  condition: or
+- method: GET
+  path: /api/jsonws
+  matchers: *id001
+  condition: or
+- method: GET
+  path: /api/jsonws/invoke
+  matchers: *id001
+  condition: or

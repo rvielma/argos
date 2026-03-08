@@ -1,0 +1,25 @@
+id: gilacms-detect
+name: GilaCMS Detect
+severity: info
+confidence: tentative
+description: GilaCMS Detect
+tags:
+- tech
+- gilacms
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - Homepage | Gila CMS
+    - <meta name="generator" content="Gila CMS">
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /user
+  matchers: *id001
+  condition: and

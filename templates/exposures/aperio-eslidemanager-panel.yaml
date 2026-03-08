@@ -1,0 +1,23 @@
+id: aperio-eslidemanager-panel
+name: Aperio eSlideManager - Panel
+severity: info
+confidence: confirmed
+description: Aperio eSlideManager Login Panel was discovered.
+reference: https://www.leicabiosystems.com/digital-pathology/eslidemanager/
+tags:
+- aperio
+- eslidemanager
+- login
+- panel
+- discovery
+requests:
+- method: GET
+  path: /login.php
+  matchers:
+  - type: body
+    words:
+    - <TITLE>eSlideManager - Login</TITLE>
+  - type: status
+    status:
+    - 200
+  condition: and

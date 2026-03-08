@@ -1,0 +1,24 @@
+id: akamai-arl-xss
+name: Open Akamai ARL - Cross-Site Scripting
+severity: high
+confidence: tentative
+description: Open Akamai ARL contains a cross-site scripting vulnerability. An attacker can execute arbitrary script in the
+  browser of an unsuspecting user in the context of the affected site.
+reference: CWE-79
+tags:
+- akamai
+- xss
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /7/0/33/1d/www.citysearch.com/search?what=x&where=place%22%3E%3Csvg+onload=confirm(document.domain)%3E
+  matchers:
+  - type: body
+    words:
+    - '"><svg onload=confirm(document.domain)>'
+    - Suggestions for improving the results
+  - type: header
+    words:
+    - text/html
+  condition: and

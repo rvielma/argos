@@ -1,0 +1,25 @@
+id: wazuh-panel
+name: Wazuh Login Panel
+severity: info
+confidence: tentative
+description: Wazuh - The Open Source Security Platform
+reference: https://github.com/wazuh/wazuh
+tags:
+- panel
+- wazuh
+- login
+- discovery
+requests:
+- method: GET
+  path: /app/login
+  matchers:
+  - type: body
+    words:
+    - '&quot;id&quot;:&quot;wazuh&quot;'
+    - '&quot;title&quot;:&quot;Wazuh&quot;'
+    - '&quot;icon&quot;:&quot;plugins/wazuh/img/icon_blue.png&quot;'
+    - '&quot;url&quot;:&quot;/app/wazuh&quot;'
+  - type: status
+    status:
+    - 200
+  condition: and

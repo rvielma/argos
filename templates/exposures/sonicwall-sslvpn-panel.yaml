@@ -1,0 +1,22 @@
+id: sonicwall-sslvpn-panel
+name: SonicWall Virtual Office SSL VPN Login Panel - Detect
+severity: info
+confidence: tentative
+description: SonicWall Virtual Office SSL VPN login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- sonicwall
+- discovery
+requests:
+- method: GET
+  path: /cgi-bin/welcome
+  matchers:
+  - type: body
+    words:
+    - <title>Virtual Office</title>
+  - type: header
+    words:
+    - SonicWALL SSLVPN Web Server
+    - SonicWALL SSL-VPN Web Server
+  condition: or

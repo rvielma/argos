@@ -1,0 +1,24 @@
+id: mantisbt-anonymous-login
+name: mantisbt - Anonymous Login
+severity: medium
+confidence: confirmed
+description: mantisbt Anonymous login were discovered.
+tags:
+- default-logins
+- anonymous
+- mantisbt
+- default-login
+- vuln
+requests:
+- method: GET
+  path: /my_view_page.php
+  matchers:
+  - type: body
+    words:
+    - '"user-info">anonymous</span>'
+    - My View
+    - Roadmap
+  - type: status
+    status:
+    - 200
+  condition: and

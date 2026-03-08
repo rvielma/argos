@@ -1,0 +1,23 @@
+id: phpunit
+name: phpunit.xml File Disclosure
+severity: info
+confidence: tentative
+description: Phpunit.xml was created by Romain Bourdon for the development of WampServer 3.1. Phpunit.xml is packaged with
+  WampServer 3.1.9 and XAMPP 5.6.40.
+reference: CWE-200
+tags:
+- exposure
+- files
+- vuln
+requests:
+- method: GET
+  path: /phpunit.xml
+  matchers:
+  - type: body
+    words:
+    - <phpunit
+    - </phpunit>
+  - type: status
+    status:
+    - 200
+  condition: and

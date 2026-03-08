@@ -1,0 +1,23 @@
+id: jotform-api-key
+name: Jotform API Key
+severity: info
+confidence: confirmed
+description: Jotform API Key
+reference: https://www.jotform.com/help/253-how-to-create-a-jotform-api-key/
+tags:
+- token
+- exposure
+- jotform
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - jotform
+    - api
+  - type: regex
+    regex:
+    - '[0-9a-fA-F]{32}'
+  condition: and

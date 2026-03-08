@@ -1,0 +1,21 @@
+id: graphite-browser
+name: Graphite Browser Login Panel - Detect
+severity: info
+confidence: tentative
+description: Graphite Browser login panel was detected.
+reference: CWE-200
+tags:
+- graphite
+- panel
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Graphite Browser</title>
+  - type: status
+    status:
+    - 200
+  condition: and

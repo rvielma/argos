@@ -1,0 +1,21 @@
+id: symantec-pgp-global-directory
+name: Symantec PGP Global Directory Panel - Detect
+severity: info
+confidence: tentative
+description: Symantec PGP Global Directory panel was detected.
+reference: CWE-200
+tags:
+- symantec
+- panel
+- discovery
+requests:
+- method: GET
+  path: /vkd/GetWelcomeScreen.event
+  matchers:
+  - type: body
+    words:
+    - <TITLE>PGP Global Directory</TITLE>
+  - type: status
+    status:
+    - 200
+  condition: and

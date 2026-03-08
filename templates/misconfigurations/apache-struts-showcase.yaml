@@ -1,0 +1,28 @@
+id: apache-struts-showcase
+name: Apache Struts - ShowCase Application Exposure
+severity: low
+confidence: confirmed
+description: Apache Structs ShowCase Application is exposed.
+reference: https://github.com/PortSwigger/j2ee-scan/blob/master/src/main/java/burp/j2ee/issues/impl/ApacheStrutsWebConsole.java
+tags:
+- apache
+- struts
+- showcase
+- misconfig
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - <title>Struts2 Showcase
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /struts2-showcase/showcase.action
+  matchers: *id001
+  condition: and

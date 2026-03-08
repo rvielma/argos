@@ -1,0 +1,23 @@
+id: webmodule-ee-panel
+name: Webmodule Login Panel - Detect
+severity: info
+confidence: tentative
+description: Webmodule login panel was detected.
+reference: CWE-200
+tags:
+- edb
+- panel
+- webmodule-ee
+- login
+- discovery
+requests:
+- method: GET
+  path: /webmodule-ee/login.seam
+  matchers:
+  - type: body
+    words:
+    - <title>Webmodule</title>
+  - type: status
+    status:
+    - 200
+  condition: and

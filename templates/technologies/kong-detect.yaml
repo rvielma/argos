@@ -1,0 +1,22 @@
+id: kong-detect
+name: Detect Kong
+severity: info
+confidence: tentative
+description: The Cloud-Native API Gateway
+reference: https://github.com/Kong/kong
+tags:
+- tech
+- kong
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: header
+    words:
+    - 'server: kong'
+    - x-kong-response-latency
+    - x-kong-upstream-latency
+    - x-kong-proxy-latency
+    - x-kong-admin-request-id
+  condition: or

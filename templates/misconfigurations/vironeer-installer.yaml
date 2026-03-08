@@ -1,0 +1,22 @@
+id: vironeer-installer
+name: Vironeer Installer - Exposure
+severity: high
+confidence: confirmed
+description: Vironeer is susceptible to the Installation page exposure due to misconfiguration.
+tags:
+- misconfig
+- vironeer
+- install
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /install/information/database
+  matchers:
+  - type: body
+    words:
+    - Vironeer Installer
+  - type: status
+    status:
+    - 200
+  condition: and

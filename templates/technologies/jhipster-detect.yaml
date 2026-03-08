@@ -1,0 +1,24 @@
+id: jhipster-detect
+name: JHipster Detect
+severity: info
+confidence: confirmed
+description: JHipster Detect
+tags:
+- tech
+- jhipster
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - JHipster
+    - '@jhipster'
+    - Welcome, Java Hipster!
+    - jhipster-error
+  condition: or
+- method: GET
+  path: /i18n/en.json
+  matchers: *id001
+  condition: or

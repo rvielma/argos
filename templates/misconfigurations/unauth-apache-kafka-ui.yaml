@@ -1,0 +1,28 @@
+id: unauth-apache-kafka-ui
+name: Apache Kafka - Unauthorized UI Exposure
+severity: medium
+confidence: confirmed
+description: Unauthorized access to apache kakfa UI.
+reference: https://www.acunetix.com/vulnerabilities/web/apache-kafka-unauthorized-access-vulnerability
+tags:
+- misconfig
+- apache
+- kafka
+- unauth
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - <title>UI for Apache Kafka</title>
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /ui/clusters/kafka-ui/brokers
+  matchers: *id001
+  condition: and

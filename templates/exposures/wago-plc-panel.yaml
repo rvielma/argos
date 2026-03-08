@@ -1,0 +1,22 @@
+id: wago-plc-panel
+name: WAGO PLC Panel - Detect
+severity: info
+confidence: tentative
+description: WAGO PLC panel was detected.
+reference: CWE-200
+tags:
+- panel
+- wago
+- discovery
+requests:
+- method: GET
+  path: /plc/webvisu.htm
+  matchers:
+  - type: body
+    words:
+    - <TITLE>CoDeSys WebVisualization</TITLE>
+    - webvisu.jar,minml.jar
+  - type: header
+    words:
+    - WAGO_Webs
+  condition: and

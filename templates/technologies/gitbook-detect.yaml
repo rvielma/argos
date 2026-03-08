@@ -1,0 +1,24 @@
+id: gitbook-detect
+name: GitBook Detect
+severity: info
+confidence: confirmed
+description: GitBook is a collaborative documentation tool that allows anyone to document anything—such as products and APIs—and
+  share knowledge through a user-friendly online platform.
+reference: https://www.gitbook.com/
+tags:
+- tech
+- gitbook
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - gitbook.page.hasChanged
+    - <meta name="generator" content="GitBook
+  - type: regex
+    regex:
+    - <title>.*[Gg]it[bB]ook</title>
+    - <title>.*· [Gg]it[bB]ook.*</title>
+  condition: or

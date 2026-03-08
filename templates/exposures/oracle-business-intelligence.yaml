@@ -1,0 +1,34 @@
+id: oracle-business-intelligence
+name: Oracle Business Intelligence Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Oracle Business Intelligence login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- oracle
+- login
+- detect
+- discovery
+requests:
+- method: GET
+  path: /saw.dll?bieehome&startPage=1
+  matchers: &id001
+  - type: body
+    words:
+    - <title>Oracle Business Intelligence Sign In</title>
+    - <title>Oracle Business Intelligence</title>
+    - Oracle BI Presentation Services
+    - use Oracle BIEE
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /analytics/saw.dll?bieehome&startPage=1
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /analytics/saw.dll?Dashboard
+  matchers: *id001
+  condition: and

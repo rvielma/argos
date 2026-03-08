@@ -1,0 +1,25 @@
+id: token-info-json
+name: Token Info Json File
+severity: info
+confidence: confirmed
+description: Token Info Json File
+tags:
+- exposure
+- files
+- vuln
+requests:
+- method: GET
+  path: /wp-content/plugins/constant-contact-forms/vendor/constantcontact/constantcontact/test/Json/Auth/token_info.json
+  matchers: &id001
+  - type: body
+    words:
+    - '"client_id":'
+    - '"user_name":'
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /wp-content/plugins/constant-contact-api-old/vendor/constantcontact/constantcontact/test/Json/Auth/token_info.json
+  matchers: *id001
+  condition: and

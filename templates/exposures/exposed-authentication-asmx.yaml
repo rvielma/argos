@@ -1,0 +1,22 @@
+id: exposed-authentication-asmx
+name: Authentication.asmx - Detect
+severity: info
+confidence: tentative
+description: Authentication Web Service authentication.asmx file was detected.
+reference: CWE-200
+tags:
+- config
+- exposure
+- edb
+- vuln
+requests:
+- method: GET
+  path: /_vti_bin/Authentication.asmx?op=Mode
+  matchers:
+  - type: body
+    words:
+    - Authentication Web Service
+  - type: status
+    status:
+    - 200
+  condition: and

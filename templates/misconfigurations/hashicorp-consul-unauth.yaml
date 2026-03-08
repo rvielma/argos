@@ -1,0 +1,26 @@
+id: hashicorp-consul-unauth
+name: Hashicorp Consul API Unauthenticated
+severity: medium
+confidence: confirmed
+description: In HashiCorp Consul's API without authentication arises when Consul is improperly secured, exposing its endpoints
+  to unauthorized access.
+reference: https://www.acunetix.com/vulnerabilities/web/hashicorp-consul-api-is-accessible-without-authentication/
+tags:
+- hashicorp
+- consul
+- unauth
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /v1/health/service/consul
+  matchers:
+  - type: body
+    words:
+    - Node
+    - Service
+    - consul-network-segment
+  - type: status
+    status:
+    - 200
+  condition: and

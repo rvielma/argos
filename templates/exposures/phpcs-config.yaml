@@ -1,0 +1,28 @@
+id: phpcs-config
+name: PHP_CodeSniffer Configuration Exposure - Detect
+severity: info
+confidence: confirmed
+description: PHP_CodeSniffer configuration file was detected.
+reference: CWE-200
+tags:
+- devops
+- exposure
+- php
+- phpcs
+- vuln
+requests:
+- method: GET
+  path: /phpcs.xml
+  matchers:
+  - type: body
+    words:
+    - ruleset name
+    - rule ref=
+    - <file>
+  - type: header
+    words:
+    - application/xml
+  - type: status
+    status:
+    - 200
+  condition: and

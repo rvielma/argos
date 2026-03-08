@@ -1,0 +1,25 @@
+id: regify-panel
+name: Regify Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Regify Login Panel was detected.
+reference: https://www.regify.com/
+tags:
+- panel
+- regify
+- login
+- detect
+- discovery
+requests:
+- method: GET
+  path: /phpLogin.php
+  matchers:
+  - type: body
+    words:
+    - regify
+    - regibill
+    - regify_default.css
+  - type: status
+    status:
+    - 200
+  condition: and

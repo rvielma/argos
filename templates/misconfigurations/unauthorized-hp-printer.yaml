@@ -1,0 +1,23 @@
+id: unauthorized-hp-printer
+name: Unauthorized HP Printer
+severity: high
+confidence: tentative
+description: HP Printer is exposed.
+tags:
+- hp
+- iot
+- unauth
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /SSI/Auth/ip_snmp.htm
+  matchers:
+  - type: body
+    words:
+    - HP
+    - <h1>SNMP</h1>
+  - type: status
+    status:
+    - 200
+  condition: and

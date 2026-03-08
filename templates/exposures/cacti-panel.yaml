@@ -1,0 +1,28 @@
+id: cacti-panel
+name: Cacti Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Cacti login panel was detected.
+reference: CWE-200
+tags:
+- cacti
+- login
+- panel
+- detect
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - <title>Login to Cacti</title>
+    - The Cacti Group
+  - type: regex
+    regex:
+    - Cacti+
+  condition: or
+- method: GET
+  path: /cacti/
+  matchers: *id001
+  condition: or

@@ -1,0 +1,25 @@
+id: jboss-web-service
+name: JBoss Web Service Console - Detect
+severity: low
+confidence: confirmed
+description: The JBoss Web Service console discloses the details of the remote system, The console displays all the web services
+  and exposed by the system leading to a potential information disclosure.
+reference: https://github.com/PortSwigger/j2ee-scan/blob/master/src/main/java/burp/j2ee/issues/impl/JBossWS.java
+tags:
+- jboss
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /jbossws/services
+  matchers:
+  - type: body
+    words:
+    - JBossWS/Services</div>
+  - type: body
+    words:
+    - no endpoints deployed
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,28 @@
+id: totemomail-panel
+name: Totemomail Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Totemomail login panel was detected.
+reference: CWE-200
+tags:
+- totemomail
+- panel
+- totemo
+- discovery
+requests:
+- method: GET
+  path: /responsiveUI/
+  matchers: &id001
+  - type: body
+    words:
+    - /responsiveUI/javax.faces.resource/images/totemomail_logo.svg.xhtml
+    - /responsiveUI/javax.faces.resource/css/custom.css.xhtml?con=totemo
+    - '<title>WebMail login: totemomail® WebMail</title>'
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /responsiveUI/webmail/folder.xhtml
+  matchers: *id001
+  condition: and

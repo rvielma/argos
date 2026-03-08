@@ -1,0 +1,33 @@
+id: nextjs-vite-public-env
+name: Next.js / Vite Public ENV Exposure
+severity: medium
+confidence: confirmed
+description: 'Identified public environment variables exposed to the client in Next.js (__NEXT_DATA__.env) and Vite applications
+  through runtime configurations.
+
+  Extended to detect any exposed Supabase URL on the page, regardless of variable name.'
+reference: https://nextjs.org/docs/app/building-your-application/configuring/environment-variables
+tags:
+- exposure
+- env
+- nextjs
+- vite
+- supabase
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: regex
+    regex:
+    - (?i)"NEXT_PUBLIC_SUPABASE_URL"\s*:\s*"https?://[a-z0-9\.\-:/]+"
+    - (?i)"NEXT_PUBLIC_SUPABASE_ANON_KEY"\s*:\s*"[A-Za-z0-9\.\-_]{20,}"
+    - (?i)\bVITE_SUPABASE_URL\b"\s*:\s*"https?://[a-z0-9\.\-:/]+"
+    - (?i)\bVITE_SUPABASE_ANON_KEY\b"\s*:\s*"[A-Za-z0-9\.\-_]{20,}"
+    - (?i)window\.__env\s*=\s*\{[^}]*?(SUPABASE_(URL|ANON_KEY))[^}]*?\}
+    - (?i)__NEXT_DATA__.*?"env"\s*:\s*\{[^}]*?NEXT_PUBLIC_[A-Z0-9_]{2,}
+    - (?i)\bVITE_[A-Z0-9_]{2,}"\s*:\s*"[^"]{3,}
+  - type: status
+    status:
+    - 200
+  condition: and

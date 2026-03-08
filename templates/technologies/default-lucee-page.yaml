@@ -1,0 +1,17 @@
+id: default-lucee-page
+name: Lucee Default Page
+severity: info
+confidence: tentative
+description: Lucee Default Page
+tags:
+- tech
+- lucee
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Rapid web development with Lucee!</title>
+  condition: or

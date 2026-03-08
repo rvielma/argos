@@ -1,0 +1,21 @@
+id: s3-torrent
+name: Amazon S3 Torrent Download - Detect
+severity: info
+confidence: tentative
+description: Amazon S3 Torrent download was detected, which can allow a malicious user to download files.
+reference: CWE-200
+tags:
+- misconfig
+- aws
+- s3
+- bucket
+- vuln
+requests:
+- method: GET
+  path: /?torrent
+  matchers:
+  - type: body
+    words:
+    - RequestTorrentOfBucketError
+    - s3-tracker
+  condition: or

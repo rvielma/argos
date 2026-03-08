@@ -1,0 +1,23 @@
+id: oracle-containers-panel
+name: Oracle Containers for J2EE 10g Panel - Detect
+severity: info
+confidence: tentative
+description: Oracle Containers for J2EE 10g panel was detected.
+reference: CWE-200
+tags:
+- panel
+- oracle
+- containers
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Welcome to Oracle Containers for J2EE 10g
+    - Administration Guide is included
+  - type: status
+    status:
+    - 200
+  condition: and

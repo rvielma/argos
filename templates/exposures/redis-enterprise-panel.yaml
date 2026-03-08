@@ -1,0 +1,22 @@
+id: redis-enterprise-panel
+name: Redis Enterprise - Detect
+severity: info
+confidence: confirmed
+description: Redis Enterprise - Detect
+tags:
+- panel
+- redis
+- enterprise
+- discovery
+requests:
+- method: GET
+  path: /#/login
+  matchers:
+  - type: body
+    words:
+    - Enterprise-Class Redis for Developers
+    - cm/config/environment
+  - type: status
+    status:
+    - 200
+  condition: and

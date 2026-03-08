@@ -1,0 +1,20 @@
+id: ecology-detect
+name: Ecology Detection
+severity: info
+confidence: confirmed
+description: Ecology Detection
+tags:
+- ecology
+- tech
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: header
+    words:
+    - ecology_JSessionid
+  - type: status
+    status:
+    - 200
+  condition: and

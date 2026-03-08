@@ -1,0 +1,30 @@
+id: open-stack-dashboard-login
+name: OpenStack Dashboard Login Panel - Detect
+severity: info
+confidence: tentative
+description: OpenStack Dashboard login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- openstack
+- edb
+- discovery
+requests:
+- method: GET
+  path: /dashboard/auth/login/
+  matchers: &id001
+  - type: body
+    words:
+    - <title>Login - OpenStack Dashboard</title>
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /horizon/auth/login/?next=/horizon/
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /auth/login/?next=/
+  matchers: *id001
+  condition: and

@@ -1,0 +1,18 @@
+id: gunicorn-detect
+name: Detect Gunicorn Server
+severity: info
+confidence: tentative
+description: Gunicorn Python WSGI HTTP Server for UNIX
+reference: https://github.com/benoitc/gunicorn
+tags:
+- tech
+- gunicorn
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: regex
+    regex:
+    - gunicorn+
+  condition: and

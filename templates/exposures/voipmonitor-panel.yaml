@@ -1,0 +1,23 @@
+id: voipmonitor-panel
+name: VoIPmonitor Login Panel - Detect
+severity: info
+confidence: tentative
+description: VoIPmonitor login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- voipmonitor
+- login
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: status
+    status:
+    - 200
+  - type: body
+    words:
+    - appShareUrl = 'share.voipmonitor.org'
+    - VoIPmonitor
+  condition: and

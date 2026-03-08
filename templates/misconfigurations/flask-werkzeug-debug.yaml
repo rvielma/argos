@@ -1,0 +1,22 @@
+id: flask-werkzeug-debug
+name: Flask Werkzeug Debugger Exposure
+severity: low
+confidence: confirmed
+description: Flask Werkzeug Debugger is exposed.
+tags:
+- werkzeug
+- exposure
+- debug
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Werkzeug powered traceback interpreter
+  - type: status
+    status:
+    - 500
+  condition: and

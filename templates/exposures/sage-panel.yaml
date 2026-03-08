@@ -1,0 +1,23 @@
+id: sage-panel
+name: Sage X3 Login Panel - Detect
+severity: info
+confidence: tentative
+description: Sage X3 login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- sage
+- login
+- discovery
+requests:
+- method: GET
+  path: /auth/login/page
+  matchers:
+  - type: body
+    words:
+    - <title>Sage  X3</title>
+    - '''/auth/sage-id/registerStart'''
+  - type: status
+    status:
+    - 200
+  condition: and

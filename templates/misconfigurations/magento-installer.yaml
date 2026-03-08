@@ -1,0 +1,26 @@
+id: magento-installer
+name: Magento Installation Wizard
+severity: high
+confidence: confirmed
+description: Magento is susceptible to the Installation page exposure due to misconfiguration.
+tags:
+- misconfig
+- magento
+- install
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /index.php/install/
+  matchers:
+  - type: body
+    words:
+    - Magento Installation Wizard
+    - Welcome to Magento's Installation Wizard!
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

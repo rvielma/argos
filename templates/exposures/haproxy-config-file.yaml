@@ -1,0 +1,23 @@
+id: haproxy-config-file
+name: Haproxy Config - File Disclosure
+severity: low
+confidence: confirmed
+description: Haproxy Config file is exposed.
+reference: https://www.haproxy.com/documentation/haproxy-configuration-manual/latest/
+tags:
+- exposure
+- files
+- haproxy
+- vuln
+requests:
+- method: GET
+  path: /haproxy.cfg
+  matchers:
+  - type: body
+    words:
+    - /var/run/haproxy.pid
+    - pidfile
+  - type: body
+    words:
+    - text/plain
+  condition: and

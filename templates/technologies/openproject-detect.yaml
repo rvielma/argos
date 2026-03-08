@@ -1,0 +1,36 @@
+id: openproject-detect
+name: OpenProject - Detect
+severity: info
+confidence: confirmed
+description: OpenProject is an open source web-based project management software.
+reference: https://www.openproject.org/
+tags:
+- tech
+- openproject
+- api
+- detect
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: regex
+    regex:
+    - .*OpenProject.Foundation.\(OPF\)
+    - <generator uri=.*openproject.org.*>
+  - type: body
+    words:
+    - OpenProject
+    - instanceName
+  - type: header
+    words:
+    - _open_project_session
+  condition: or
+- method: GET
+  path: /api/v3
+  matchers: *id001
+  condition: or
+- method: GET
+  path: /activity.atom
+  matchers: *id001
+  condition: or

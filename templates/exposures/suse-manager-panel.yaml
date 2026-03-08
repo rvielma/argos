@@ -1,0 +1,24 @@
+id: suse-manager-panel
+name: SUSE Manager Server - Panel
+severity: info
+confidence: tentative
+description: SUSE Manager login panel detected.
+tags:
+- panel
+- detect
+- suse
+- login
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>SUSE Manager - Sign In</title>
+    - <title>SUSE Multi-Linux Manager - Sign In</title>
+    - <title>Uyuni - Sign In</title>
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,21 @@
+id: solarwinds-servuftp-detect
+name: SolarWinds Serv-U File Server Panel - Detect
+severity: info
+confidence: tentative
+description: SolarWinds Serv-U File Server panel was detected.
+reference: CWE-200
+tags:
+- solarwinds
+- panel
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: regex
+    regex:
+    - Serv-U
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,22 @@
+id: netsparker-panel
+name: Netsparker Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Netsparker login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- netsparker
+- discovery
+requests:
+- method: GET
+  path: /account/signin?ReturnUrl=%2f
+  matchers:
+  - type: body
+    words:
+    - Netsparker Ltd
+    - Netsparker Enterprise
+  - type: status
+    status:
+    - 200
+  condition: and

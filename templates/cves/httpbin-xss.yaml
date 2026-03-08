@@ -1,0 +1,26 @@
+id: httpbin-xss
+name: HTTPBin - Cross-Site Scripting
+severity: high
+confidence: tentative
+description: HTTPBin contains a cross-site scripting vulnerability which can allow an attacker to execute arbitrary script.
+  This can allow the attacker to steal cookie-based authentication credentials and launch other attacks.
+reference: CWE-79
+tags:
+- xss
+- httpbin
+- oss
+- vuln
+requests:
+- method: GET
+  path: /base64/PHNjcmlwdD5hbGVydChkb2N1bWVudC5kb21haW4pPC9zY3JpcHQ+
+  matchers:
+  - type: regex
+    regex:
+    - ^<script>alert\(document.domain\)</script>$
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,22 @@
+id: perfsonar-toolkit
+name: perfSONAR Toolkit - Exposure
+severity: medium
+confidence: confirmed
+description: perfSONAR Toolkit is exposed.
+reference: https://www.facebook.com/photo?fbid=619180260252497&set=pcb.619180283585828
+tags:
+- misconfig
+- perfsonar
+- toolkit
+- vuln
+requests:
+- method: GET
+  path: /toolkit/
+  matchers:
+  - type: body
+    words:
+    - <title>perfSONAR Toolkit</title>
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,21 @@
+id: sailsjs-detect
+name: Sails.js Framework - Detect
+severity: info
+confidence: confirmed
+description: Detects the presence of the Sails.js, a realtime MVC framework for Node.js.
+reference: https://sailsjs.com/
+tags:
+- tech
+- discovery
+- sailsjs
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: header
+    words:
+    - 'X-Powered-By: Sails'
+  - type: regex
+    regex:
+    - (?i)set-cookie:\s*sails\.sid=
+  condition: and

@@ -1,0 +1,39 @@
+id: alfacgiapi-wordpress
+name: alfacgiapi
+severity: low
+confidence: tentative
+description: Searches for sensitive directories present in the alfacgiapi plugin.
+reference: https://www.exploit-db.com/ghdb/6999
+tags:
+- wordpress
+- listing
+- vuln
+requests:
+- method: GET
+  path: /wp-includes/ALFA_DATA/
+  matchers: &id001
+  - type: body
+    words:
+    - Index of
+  - type: body
+    words:
+    - /wp-content/plugins/
+    - /wp-includes/ALFA_DATA/
+    - /ALFA_DATA/alfacgiapi/
+    - /cgi-bin/ALFA_DATA/alfacgiapi/
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /wp-content/uploads/alm_templates/ALFA_DATA/alfacgiapi/
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /ALFA_DATA/alfacgiapi/
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /cgi-bin/ALFA_DATA/alfacgiapi/
+  matchers: *id001
+  condition: and

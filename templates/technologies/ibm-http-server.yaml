@@ -1,0 +1,20 @@
+id: ibm-http-server
+name: Default IBM HTTP Server
+severity: info
+confidence: tentative
+description: Default IBM HTTP Server
+tags:
+- tech
+- ibm
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>IBM HTTP Server</title>
+  - type: status
+    status:
+    - 200
+  condition: and

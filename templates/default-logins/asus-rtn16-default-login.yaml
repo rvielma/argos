@@ -1,0 +1,24 @@
+id: asus-rtn16-default-login
+name: ASUS RT-N16 - Default Login
+severity: high
+confidence: confirmed
+description: ASUS RT-N16 contains a default login vulnerability. Default admin login password 'admin' was found.
+tags:
+- default-login
+- asus
+- rt-n16
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - ASUS
+    - RT-N16
+    - System Status
+    - Network Map
+  - type: status
+    status:
+    - 200
+  condition: and

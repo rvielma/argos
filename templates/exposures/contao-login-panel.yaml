@@ -1,0 +1,22 @@
+id: contao-login-panel
+name: Contao Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Contao login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- contao
+- discovery
+requests:
+- method: GET
+  path: /contao/login
+  matchers:
+  - type: body
+    words:
+    - Contao Open Source CMS
+    - <h1>Login</h1>
+  - type: status
+    status:
+    - 200
+  condition: and

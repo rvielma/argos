@@ -1,0 +1,29 @@
+id: bigip-apm-detect
+name: BIGIP APM - Detect
+severity: info
+confidence: confirmed
+description: BIGIP APM - Detect
+reference: https://my.f5.com/manage/s/article/K000138683
+tags:
+- bigip
+- tech
+- f5
+- detect
+- discovery
+requests:
+- method: GET
+  path: /pre/config.php?version=2.0
+  matchers: &id001
+  - type: body
+    words:
+    - F5 Networks
+    - <PROFILE VERSION=
+    - <VERSION>
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /pre/config.php?version=3.0
+  matchers: *id001
+  condition: and

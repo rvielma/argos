@@ -1,0 +1,20 @@
+id: shoutcast-server
+name: SHOUTcast Server Panel - Detect
+severity: info
+confidence: tentative
+description: SHOUTcast Server panel was detected.
+reference: CWE-200
+tags:
+- panel
+- discovery
+requests:
+- method: GET
+  path: /index.html
+  matchers:
+  - type: body
+    words:
+    - <title>SHOUTcast Server</title>
+  - type: status
+    status:
+    - 200
+  condition: and

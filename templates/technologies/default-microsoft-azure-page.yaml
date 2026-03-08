@@ -1,0 +1,18 @@
+id: default-microsoft-azure-page
+name: Microsoft Azure Default Page
+severity: info
+confidence: tentative
+description: Microsoft Azure Default Page
+tags:
+- tech
+- azure
+- microsoft
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Microsoft Azure App Service - Welcome</title>
+  condition: or

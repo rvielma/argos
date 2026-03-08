@@ -1,0 +1,20 @@
+id: aerocms-detect
+name: AeroCMS Detect
+severity: info
+confidence: confirmed
+description: AeroCMS Detect
+tags:
+- tech
+- aerocms
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: regex
+    regex:
+    - content="(.*)AeroCMS(.*)
+  - type: status
+    status:
+    - 200
+  condition: and

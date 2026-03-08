@@ -1,0 +1,18 @@
+id: mobileiron-sentry
+name: MobileIron Sentry Panel - Detect
+severity: info
+confidence: confirmed
+description: MobileIron Sentry panel was detected.
+reference: https://help.ivanti.com/mi/help/en_us/sntry/9.9.0/gdcl/Content/SentryGuide/MobileIron_Sentry_overvi.htm
+tags:
+- panel
+- mobileiron
+- discovery
+requests:
+- method: GET
+  path: /mics/login.jsp
+  matchers:
+  - type: body
+    words:
+    - MobileIron System Manager
+  condition: or

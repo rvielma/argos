@@ -1,0 +1,23 @@
+id: ovpn-config-exposed
+name: OVPN Configuration Download Page - Detect
+severity: low
+confidence: confirmed
+description: OVPS configuration download page was detected.
+reference: CWE-200
+tags:
+- config
+- ovpn
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - OVPN Config Download
+    - Config List
+  - type: status
+    status:
+    - 200
+  condition: and

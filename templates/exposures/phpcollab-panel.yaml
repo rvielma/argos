@@ -1,0 +1,22 @@
+id: phpcollab-panel
+name: phpCollab Login Panel - Detect
+severity: info
+confidence: tentative
+description: phpCollab login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- phpcollab
+- login
+- discovery
+requests:
+- method: GET
+  path: /general/login.php
+  matchers:
+  - type: body
+    words:
+    - <title>PhpCollab</title>
+  - type: status
+    status:
+    - 200
+  condition: and

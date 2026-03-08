@@ -1,0 +1,23 @@
+id: web-ftp-detect
+name: Web FTP Detection
+severity: info
+confidence: tentative
+description: Web FTP Detection
+reference: https://www.exploit-db.com/ghdb/7013
+tags:
+- webftp
+- tech
+- ftp
+- discovery
+requests:
+- method: GET
+  path: /cgi-bin/upload/web-ftp.cgi
+  matchers:
+  - type: body
+    words:
+    - Web-FTP
+    - square login
+  - type: status
+    status:
+    - 200
+  condition: and

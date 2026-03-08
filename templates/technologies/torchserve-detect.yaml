@@ -1,0 +1,23 @@
+id: torchserve-detect
+name: TorchServe API Description - Detect
+severity: info
+confidence: confirmed
+description: Detects the presence of TorchServe APIs.
+tags:
+- tech
+- pytorch
+- api
+- discovery
+requests:
+- method: GET
+  path: /api-description
+  matchers:
+  - type: body
+    words:
+    - TorchServe APIs"
+    - '"apiDescription"'
+    - 'operationId":'
+  - type: body
+    words:
+    - application/json
+  condition: and

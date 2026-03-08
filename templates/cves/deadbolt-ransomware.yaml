@@ -1,0 +1,17 @@
+id: deadbolt-ransomware
+name: Deadbolt Ransomware Detection
+severity: info
+confidence: tentative
+description: Deadbolt Ransomware Detection
+tags:
+- ransomware
+- deadbolt
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>ALL YOUR FILES HAVE BEEN LOCKED BY DEADBOLT.</title>
+  condition: or

@@ -1,0 +1,29 @@
+id: plesk-stat
+name: Webalizer Log Analyzer Configuration - Detect
+severity: medium
+confidence: tentative
+description: Webalizer log analyzer configuration was detected.
+reference: CWE-200
+tags:
+- config
+- exposure
+- plesk
+- vuln
+requests:
+- method: GET
+  path: /plesk-stat/
+  matchers:
+  - type: status
+    status:
+    - 200
+  - type: body
+    words:
+    - Index of /plesk-stat
+    - Parent Directory
+  - type: body
+    words:
+    - anon_ftpstat
+    - ftpstat
+    - webstat-ssl
+    - webstat
+  condition: and

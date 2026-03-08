@@ -1,0 +1,24 @@
+id: kubernetes-operational-view-detect
+name: Kubernetes Operational View Detect
+severity: info
+confidence: confirmed
+description: Kubernetes Operational View Detect
+reference: https://github.com/hjacobs/kube-ops-view
+tags:
+- tech
+- k8s
+- kubernetes
+- devops
+- kube
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Kubernetes Operational View
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,24 @@
+id: pulsar360-admin-panel
+name: Pulsar360 Admin Panel - Detect
+severity: info
+confidence: confirmed
+description: Pulsar360 admin panel was detected.
+reference: CWE-200
+tags:
+- panel
+- pulsar360
+- pulsar
+- admin
+- discovery
+requests:
+- method: GET
+  path: /admin/config.php
+  matchers:
+  - type: body
+    words:
+    - Pulsar Admin
+    - User Control Panel
+  - type: status
+    status:
+    - 200
+  condition: and

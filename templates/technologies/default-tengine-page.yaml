@@ -1,0 +1,22 @@
+id: default-tengine-page
+name: Tengine Default Page
+severity: info
+confidence: confirmed
+description: Tengine Default Page
+tags:
+- tech
+- tengine
+- default-page
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Welcome to tengine
+    - Thank you for using tengine
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,24 @@
+id: nzbget-panel
+name: NZBGet Login Panel - Detect
+severity: info
+confidence: confirmed
+description: NZBGet login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- nzbget
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>NZBGet</title>
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

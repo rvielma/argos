@@ -1,0 +1,18 @@
+id: bigbluebutton-login
+name: BigBlueButton Login Panel
+severity: info
+confidence: tentative
+description: A BigBlueButton login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- bigbluebutton
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - content="BigBlueButton
+  condition: and

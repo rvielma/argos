@@ -1,0 +1,23 @@
+id: plesk-obsidian-login
+name: Plesk Obsidian Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Plesk Obsidian login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- plesk
+- login
+- edb
+- discovery
+requests:
+- method: GET
+  path: /login_up.php
+  matchers:
+  - type: body
+    words:
+    - Plesk Obsidian
+  - type: status
+    status:
+    - 200
+  condition: and

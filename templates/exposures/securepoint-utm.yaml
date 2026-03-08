@@ -1,0 +1,21 @@
+id: securepoint-utm
+name: Securepoint UTM Admin Panel - Detect
+severity: info
+confidence: tentative
+description: Securepoint UTM admin panel was detected.
+reference: CWE-200
+tags:
+- securepoint
+- panel
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: status
+    status:
+    - 200
+  - type: regex
+    regex:
+    - <title>Securepoint UTM v11 - (.*)</title>
+  condition: and

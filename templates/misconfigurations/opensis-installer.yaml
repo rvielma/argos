@@ -1,0 +1,25 @@
+id: opensis-installer
+name: openSIS Installation Wizard
+severity: high
+confidence: confirmed
+description: openSIS is susceptible to the Installation page exposure due to misconfiguration.
+tags:
+- misconfig
+- opensis
+- install
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /install/index.php
+  matchers:
+  - type: body
+    words:
+    - openSIS Installer
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

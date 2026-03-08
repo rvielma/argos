@@ -1,0 +1,21 @@
+id: rustici-content-controller
+name: Rustici Content Controller Panel - Detect
+severity: info
+confidence: confirmed
+description: Rustici Content Controller panel was detected.
+reference: CWE-200
+tags:
+- panel
+- rustici
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Rustici Content Controller</title>
+  - type: status
+    status:
+    - 200
+  condition: and

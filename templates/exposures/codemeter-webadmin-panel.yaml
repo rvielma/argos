@@ -1,0 +1,24 @@
+id: codemeter-webadmin-panel
+name: CodeMeter - WebAdmin Panel Access
+severity: info
+confidence: tentative
+description: CodeMeter WebAdmin panel was accessed.
+reference: CWE-668
+tags:
+- codemeter
+- webadmin
+- panel
+- wibu
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: header
+    words:
+    - 'Set-Cookie: CmWebAdminSession'
+  - type: status
+    status:
+    - 301
+    - 302
+  condition: and

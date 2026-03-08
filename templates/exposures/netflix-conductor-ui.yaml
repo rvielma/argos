@@ -1,0 +1,24 @@
+id: netflix-conductor-ui
+name: Netflix Conductor UI Panel - Detect
+severity: info
+confidence: tentative
+description: Netflix Conductor UI panel was detected.
+reference: CWE-200
+tags:
+- webserver
+- netflix
+- conductor
+- panel
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: status
+    status:
+    - 200
+  - type: body
+    words:
+    - <title>Conductor UI</title>
+    - <title>Workflow UI</title>
+  condition: and

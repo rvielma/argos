@@ -1,0 +1,35 @@
+id: cvent-panel-detect
+name: Cvent Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Cvent login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- cvent
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - Cvent Inc
+    - Cvent, Inc.
+  condition: or
+- method: GET
+  path: /Login.aspx
+  matchers: *id001
+  condition: or
+- method: GET
+  path: /manager/login.aspx
+  matchers: *id001
+  condition: or
+- method: GET
+  path: /GDSHost/Default.aspx
+  matchers: *id001
+  condition: or
+- method: GET
+  path: /events/EventRsvp.aspx
+  matchers: *id001
+  condition: or

@@ -1,0 +1,19 @@
+id: versa-analytics-server
+name: Versa Analytics Server Detection
+severity: info
+confidence: confirmed
+description: Versa Analytics Server Detection
+reference: https://versa-networks.com/products/components/
+tags:
+- tech
+- versa
+- analytics
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: header
+    words:
+    - Versa-Analytics-Server
+  condition: and

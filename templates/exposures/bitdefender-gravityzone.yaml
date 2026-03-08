@@ -1,0 +1,21 @@
+id: bitdefender-gravityzone
+name: Bitdefender GravityZone Panel - Detect
+severity: info
+confidence: confirmed
+description: Bitdefender GravityZone panel was detected.
+reference: CWE-200
+tags:
+- panel
+- bitdefender
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Bitdefender GravityZone</title>
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,25 @@
+id: envoy-admin-exposure
+name: Envoy Admin Exposure
+severity: medium
+confidence: confirmed
+description: Envoy Admin page exposed.
+reference: https://www.envoyproxy.io/docs/envoy/latest/
+tags:
+- misconfig
+- envoy
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Envoy Admin</title>
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

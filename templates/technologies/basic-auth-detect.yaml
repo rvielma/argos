@@ -1,0 +1,21 @@
+id: basic-auth-detect
+name: Basic Auth Detection
+severity: info
+confidence: tentative
+description: Basic Auth Detection
+tags:
+- tech
+- basic
+- auth
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: regex
+    regex:
+    - '(?i)www-authenticate: basic'
+  - type: status
+    status:
+    - 401
+  condition: and

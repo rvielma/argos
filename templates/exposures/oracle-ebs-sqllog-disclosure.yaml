@@ -1,0 +1,27 @@
+id: oracle-ebs-sqllog-disclosure
+name: Oracle EBS - SQL Log Disclosure
+severity: medium
+confidence: tentative
+description: An Oracle EBS SQL log was discovered.
+reference: CWE-200
+tags:
+- oracle
+- ebs
+- logs
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /OA_HTML/bin/sqlnet.log
+  matchers:
+  - type: body
+    words:
+    - DESCRIPTION=
+    - USER=
+  - type: header
+    words:
+    - text/plain
+  - type: status
+    status:
+    - 200
+  condition: and

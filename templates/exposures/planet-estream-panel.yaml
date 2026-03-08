@@ -1,0 +1,25 @@
+id: planet-estream-panel
+name: Planet eStream Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Planet eStream login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- planet
+- estream
+- planetestream
+- discovery
+requests:
+- method: GET
+  path: /Login.aspx
+  matchers:
+  - type: body
+    words:
+    - Login - Planet eStream
+    - Powered by Planet eStream
+    - aria-label="Planet eStream Website
+  - type: status
+    status:
+    - 200
+  condition: and

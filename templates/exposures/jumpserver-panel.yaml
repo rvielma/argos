@@ -1,0 +1,41 @@
+id: jumpserver-panel
+name: JumpServer Login Panel - Detect
+severity: info
+confidence: confirmed
+description: JumpServer Open Source Bastion Host login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- jumpserver
+- login
+- discovery
+requests:
+- method: GET
+  path: /core/auth/login/
+  matchers: &id001
+  - type: regex
+    regex:
+    - '(?i)<title>(
+
+      .*)JumpServer Open Source Bastion Host(
+
+      .*)</title>'
+    - '(?i)<title>(
+
+      .*)JumpServer 开源堡垒机(
+
+      .*)</title>'
+    - '(?i)<title>
+
+      *Jumpserver.*?
+
+      *</title>'
+    - (?i)>Welcome to the Jumpserver.*?</h2>
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /users/login/
+  matchers: *id001
+  condition: and

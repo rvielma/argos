@@ -1,0 +1,22 @@
+id: phoronix-panel
+name: Phoronix Test Suite Panel - Detect
+severity: info
+confidence: tentative
+description: Phoronix Test Suite panel was detected.
+reference: CWE-200
+tags:
+- panel
+- phoronix
+- phoronix-media
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: regex
+    regex:
+    - <title>Phoronix Test Suite (.*) - Phoromatic - Welcome</title>
+  - type: status
+    status:
+    - 200
+  condition: and

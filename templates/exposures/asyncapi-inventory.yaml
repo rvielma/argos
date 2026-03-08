@@ -1,0 +1,52 @@
+id: asyncapi-inventory
+name: AsyncAPI Spec Inventory
+severity: info
+confidence: tentative
+description: Detected publicly accessible AsyncAPI specification files (YAML/JSON), which might have exposed message channels,
+  server endpoints, and security schemes.
+reference: https://www.asyncapi.com/docs/reference/specification
+tags:
+- exposure
+- asyncapi
+- api
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: regex
+    regex:
+    - (?i)\basyncapi\s*:\s*['"]?[0-9.]+
+    - (?i)"asyncapi"\s*:\s*"([0-9.]+)"
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /asyncapi
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /asyncapi.yaml
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /asyncapi.yml
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /asyncapi.json
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /api/asyncapi
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /api/docs/asyncapi
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /docs/asyncapi
+  matchers: *id001
+  condition: and

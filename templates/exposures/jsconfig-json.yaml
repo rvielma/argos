@@ -1,0 +1,27 @@
+id: jsconfig-json
+name: Visual Studio Code jsconfig.json - Detect
+severity: info
+confidence: confirmed
+description: Visual Studio Code jsconfig.json was detected.
+reference: https://code.visualstudio.com/docs/languages/jsconfig
+tags:
+- devops
+- exposure
+- jsconfig
+- config
+- vuln
+requests:
+- method: GET
+  path: /jsconfig.json
+  matchers:
+  - type: body
+    words:
+    - '"compilerOptions": {'
+    - '"typeAcquisition": {'
+  - type: header
+    words:
+    - application/json
+  - type: status
+    status:
+    - 200
+  condition: and

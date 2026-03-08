@@ -1,0 +1,22 @@
+id: cisco-finesse-login
+name: Cisco Finesse Login Panel - Detect
+severity: info
+confidence: tentative
+description: Cisco Finesse login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- cisco
+- edb
+- discovery
+requests:
+- method: GET
+  path: /desktop/container/landing.jsp?locale=en_US
+  matchers:
+  - type: body
+    words:
+    - <title id="page_title">Sign in to Cisco Finesse</title>
+  - type: status
+    status:
+    - 200
+  condition: and

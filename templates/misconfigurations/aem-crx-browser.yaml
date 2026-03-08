@@ -1,0 +1,26 @@
+id: aem-crx-browser
+name: Adobe AEM CRX Browser Exposure
+severity: info
+confidence: tentative
+description: Adobe AEM CRX Browser Exposure
+reference: https://raw.githubusercontent.com/danielmiessler/SecLists/master/Discovery/Web-Content/aem2.txt
+tags:
+- misconfig
+- aem
+- adobe
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /crx/explorer/browser/index.jsp
+  matchers:
+  - type: body
+    words:
+    - '<title>Content Explorer - UserID: anonymous | Workspace: crx.default</title>'
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

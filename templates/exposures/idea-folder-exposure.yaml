@@ -1,0 +1,28 @@
+id: idea-folder-exposure
+name: Public .idea Folder containing files with sensitive data
+severity: info
+confidence: tentative
+description: Searches for .idea Folder by querying the /.idea and a few other files with sensitive data.
+tags:
+- phpstorm
+- jetbrains
+- idea
+- exposure
+- files
+- vuln
+requests:
+- method: GET
+  path: /.idea/deployment.xml
+  matchers: &id001
+  - type: status
+    status:
+    - 200
+  - type: body
+    words:
+    - <?xml version=
+    - <project version
+  condition: and
+- method: GET
+  path: /.idea/workspace.xml
+  matchers: *id001
+  condition: and

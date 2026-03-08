@@ -1,0 +1,25 @@
+id: oracle-cgi-printenv
+name: Oracle CGI printenv - Information Disclosure
+severity: medium
+confidence: tentative
+description: Oracle CGI printenv component is susceptible to an information disclosure vulnerability.
+reference: CWE-200
+tags:
+- exposure
+- oracle
+- config
+- vuln
+requests:
+- method: GET
+  path: /cgi-bin/printenv
+  matchers:
+  - type: body
+    words:
+    - DOCUMENT_ROOT="
+  - type: header
+    words:
+    - text/plain
+  - type: status
+    status:
+    - 200
+  condition: and

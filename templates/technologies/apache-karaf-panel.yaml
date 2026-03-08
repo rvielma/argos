@@ -1,0 +1,18 @@
+id: apache-karaf-panel
+name: Apache Karaf Detect
+severity: info
+confidence: confirmed
+description: Apache Karaf Detect
+tags:
+- tech
+- apache
+- karaf
+- discovery
+requests:
+- method: GET
+  path: /system/console
+  matchers:
+  - type: header
+    words:
+    - realm="karaf
+  condition: or

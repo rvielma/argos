@@ -1,0 +1,22 @@
+id: achecker-panel
+name: AChecker Login - Panel Detect
+severity: info
+confidence: tentative
+description: AChecker login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- achecker
+- discovery
+requests:
+- method: GET
+  path: /checker/login.php
+  matchers:
+  - type: body
+    words:
+    - ': Web Accessibility Checker</title>'
+    - AChecker - Copyright
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,17 @@
+id: default-ssltls-test-page
+name: SSL/TLS-aware Test Page
+severity: info
+confidence: tentative
+description: SSL/TLS-aware Test Page
+tags:
+- tech
+- ssltls
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <TITLE>Test Page for the SSL/TLS-aware Apache Installation on Web Site</TITLE>
+  condition: or

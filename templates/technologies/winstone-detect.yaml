@@ -1,0 +1,21 @@
+id: winstone-detect
+name: Winstone Servlet Engine
+severity: info
+confidence: tentative
+description: Detected servers running the Winstone Servlet Engine via the Server or X-Powered-By headers.
+tags:
+- tech
+- winstone
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: regex
+    regex:
+    - (?i)Server:\s*Winstone Servlet Engine\s*v?[0-9.]+
+    - (?i)Winstone/[0-9.]+
+  - type: regex
+    regex:
+    - (?i)X-Powered-By:\s*Servlet/[0-9.]+\s*\(Winstone/[0-9.]+\)
+  condition: or

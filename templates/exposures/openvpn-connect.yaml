@@ -1,0 +1,21 @@
+id: openvpn-connect
+name: OpenVPN Connect Panel - Detect
+severity: info
+confidence: confirmed
+description: OpenVPN Connect panel was detected.
+reference: CWE-200
+tags:
+- panel
+- openvpn
+- connect
+- vpn
+- discovery
+requests:
+- method: GET
+  path: /?src=connect
+  matchers:
+  - type: body
+    words:
+    - content="OpenVPN Connect
+    - <title>OpenVPN Connect</title>
+  condition: or

@@ -1,0 +1,21 @@
+id: sitecore-login
+name: Sitecore Login Panel - Detect
+severity: info
+confidence: tentative
+description: Sitecore login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- sitecore
+- discovery
+requests:
+- method: GET
+  path: /sitecore/login/default.aspx
+  matchers:
+  - type: body
+    words:
+    - /sitecore/shell/Themes/Standard/Default/Login.css
+  - type: status
+    status:
+    - 200
+  condition: and

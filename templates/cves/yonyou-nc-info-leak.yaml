@@ -1,0 +1,24 @@
+id: yonyou-nc-info-leak
+name: Yonyou UFIDA NC - Information Exposure
+severity: medium
+confidence: confirmed
+description: After logging in and visiting the address where the information was leaked, you will have permission to upload
+  files. Then just go back to the homepage and view the published content directly.
+reference: https://mp.weixin.qq.com/s/Lu6Zd9LP3PQsb8uzTIcANQ
+tags:
+- yonyou
+- nc
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /service/~iufo/com.ufida.web.action.ActionServlet?TableSelectedID&TreeSelectedID&action=nc.ui.iufo.release.InfoReleaseAction&method=createBBSRelease
+  matchers:
+  - type: body
+    words:
+    - iufo/web/images/usericon.gif
+    - /iufo/web/images/tree/tree_plus.gif
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,21 @@
+id: ibm-sterling-detect
+name: IBM Sterling File Gateway Detect
+severity: info
+confidence: tentative
+description: IBM Sterling File Gateway Detect
+tags:
+- tech
+- sterling
+- ibm
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Welcome to IBM Sterling File Gateway
+  - type: status
+    status:
+    - 200
+  condition: and

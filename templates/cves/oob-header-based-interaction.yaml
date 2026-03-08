@@ -1,0 +1,24 @@
+id: oob-header-based-interaction
+name: Header Based Generic OOB Interaction
+severity: info
+confidence: tentative
+description: The remote server fetched a spoofed URL from the request headers.
+reference: https://github.com/PortSwigger/collaborator-everywhere
+tags:
+- oast
+- ssrf
+- generic
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - http
+  - type: body
+    words:
+    - dns
+  condition: or
+  headers:
+    Cache-Control: no-transform

@@ -1,0 +1,25 @@
+id: octobercms-detect
+name: OctoberCMS detect
+severity: info
+confidence: tentative
+description: Detects OctoberCMS
+reference: https://github.com/octobercms/october
+tags:
+- tech
+- octobercms
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: header
+    words:
+    - october_session
+  - type: body
+    words:
+    - OctoberCMS
+  condition: or
+- method: GET
+  path: /modules/system/assets/js/framework.combined-min.js
+  matchers: *id001
+  condition: or

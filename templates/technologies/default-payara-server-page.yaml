@@ -1,0 +1,17 @@
+id: default-payara-server-page
+name: Payara Server Default Page
+severity: info
+confidence: tentative
+description: Payara Server Default Page
+tags:
+- tech
+- payara
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Payara Server - Server Running</title>
+  condition: or

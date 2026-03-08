@@ -1,0 +1,26 @@
+id: wiren-board-webui
+name: Wiren Board WebUI Panel - Detect
+severity: medium
+confidence: confirmed
+description: Wiren Board WebUI panel was detected.
+reference: CWE-200
+tags:
+- panel
+- exposure
+- wiren
+- discovery
+requests:
+- method: GET
+  path: /#!/dashboards
+  matchers:
+  - type: body
+    words:
+    - Wiren Board Web UI
+    - accessLevel
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

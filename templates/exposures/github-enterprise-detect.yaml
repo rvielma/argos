@@ -1,0 +1,18 @@
+id: github-enterprise-detect
+name: Github Enterprise Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Github Enterprise login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- github
+- discovery
+requests:
+- method: GET
+  path: /login
+  matchers:
+  - type: body
+    words:
+    - GitHub · Enterprise
+  condition: or

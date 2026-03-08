@@ -1,0 +1,25 @@
+id: signet-explorer-dashboard
+name: Signet Explorer Dashboard - Detect
+severity: info
+confidence: confirmed
+description: Signet Explorer Dashboard was detected.
+reference: CWE-200
+tags:
+- panel
+- signet
+- bitcoin
+- dashboard
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Signet Explorer</
+    - mempool-summary
+    - mempool-space
+  - type: status
+    status:
+    - 200
+  condition: and

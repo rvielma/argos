@@ -1,0 +1,17 @@
+id: mikrotik-httpproxy
+name: MikroTik httpproxy
+severity: info
+confidence: confirmed
+description: MikroTik httpproxy
+tags:
+- tech
+- mikrotik
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: header
+    words:
+    - 'Server: Mikrotik HttpProxy'
+  condition: and

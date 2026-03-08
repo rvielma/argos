@@ -1,0 +1,23 @@
+id: apache-cloudstack-detect
+name: Apache CloudStack - Detect
+severity: info
+confidence: tentative
+description: CloudStack is open-source Infrastructure-as-a-Service cloud computing software for creating, managing, and deploying
+  infrastructure cloud services. It uses existing hypervisor platforms for virtualization, such as KVM, VMware vSphere, including
+  ESXi and vCenter, XenServer/XCP and XCP-ng.
+tags:
+- tech
+- apache
+- cloudstack
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Apache CloudStack</title>
+  - type: status
+    status:
+    - 200
+  condition: and

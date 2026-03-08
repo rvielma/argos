@@ -1,0 +1,22 @@
+id: springboot-x-application-context
+name: Spring Boot `X-Application-Context` Header Exposure
+severity: low
+confidence: confirmed
+description: Detected the presence of the X-Application-Context header in HTTP responses, which can expose sensitive application
+  context information.
+reference: https://github.com/spring-projects/spring-boot/issues/1308
+tags:
+- springboot
+- misconfig
+- exposure
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: header
+    words:
+    - ^X-Application-Context:\s*\S.+$
+  - type: status
+    status:
+    - 200
+  condition: and

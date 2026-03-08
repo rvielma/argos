@@ -1,0 +1,20 @@
+id: interactsh-server
+name: Interactsh Server
+severity: info
+confidence: confirmed
+description: Interactsh Server
+tags:
+- tech
+- interactsh
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Interactsh Server
+  - type: status
+    status:
+    - 200
+  condition: and

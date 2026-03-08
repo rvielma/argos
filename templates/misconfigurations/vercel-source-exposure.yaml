@@ -1,0 +1,24 @@
+id: vercel-source-exposure
+name: Vercel Source Code Exposure
+severity: medium
+confidence: tentative
+description: The Vercel Source Code Exposure misconfiguration allows an attacker to access sensitive source code files on
+  the Vercel platform.
+reference: https://vercel.com/docs/projects/overview#logs-and-source-protection
+tags:
+- vercel
+- exposure
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /_src
+  matchers:
+  - type: body
+    words:
+    - Deployment Source</title>
+    - Deployment Source – Dashboard – Vercel
+  - type: body
+    words:
+    - <title>Login – Vercel</title>
+  condition: and

@@ -1,0 +1,21 @@
+id: rtm-web-panel
+name: RTM WEB - Panel
+severity: info
+confidence: confirmed
+description: RTM WEB - Panel
+tags:
+- panel
+- login
+- rtm-web
+- discovery
+requests:
+- method: GET
+  path: /Login
+  matchers:
+  - type: body
+    words:
+    - <title>RTM WEB</title>
+  - type: status
+    status:
+    - 200
+  condition: and

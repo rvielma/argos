@@ -1,0 +1,20 @@
+id: opencpu-panel
+name: OpenCPU Panel - Detect
+severity: info
+confidence: tentative
+description: OpenCPU panel was detected.
+reference: CWE-200
+tags:
+- panel
+- opencpu
+- oss
+- discovery
+requests:
+- method: GET
+  path: /ocpu/
+  matchers:
+  - type: body
+    words:
+    - OpenCPU Test Page
+    - OpenCPU API Explorer
+  condition: or

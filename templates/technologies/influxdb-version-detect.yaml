@@ -1,0 +1,19 @@
+id: influxdb-version-detect
+name: InfluxDB Version Information - Detect
+severity: info
+confidence: confirmed
+description: InfluxDB version information check was conducted.
+reference: CWE-200
+tags:
+- tech
+- influxdb
+- api
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: header
+    words:
+    - X-Influxdb-
+  condition: and

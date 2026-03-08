@@ -1,0 +1,20 @@
+id: appcms-detect
+name: AppCms Detect
+severity: info
+confidence: tentative
+description: AppCms Detect
+tags:
+- tech
+- appcms
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: regex
+    regex:
+    - <!-- Powerd by AppCMS (.*) -->
+  - type: status
+    status:
+    - 200
+  condition: and

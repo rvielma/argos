@@ -1,0 +1,25 @@
+id: matomo-installer
+name: Matomo Installer Exposure
+severity: high
+confidence: confirmed
+description: Matomo is susceptible to the Installation page exposure due to misconfiguration.
+tags:
+- misconfig
+- matomo
+- install
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Matomo
+    - Installation status
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

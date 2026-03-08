@@ -1,0 +1,22 @@
+id: comfyui-detect
+name: ComfyUI - Detect
+severity: info
+confidence: confirmed
+description: Detected ComfyUI, a node-based Stable Diffusion workflow editor. Custom nodes can execute arbitrary code without
+  authentication.
+reference: https://github.com/comfyanonymous/ComfyUI
+tags:
+- tech
+- comfyui
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>ComfyUI
+  - type: status
+    status:
+    - 200
+  condition: and

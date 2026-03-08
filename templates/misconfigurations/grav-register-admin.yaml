@@ -1,0 +1,23 @@
+id: grav-register-admin
+name: Grav Register Admin User - Detect
+severity: high
+confidence: confirmed
+description: Exposed Grav admin user register page.
+tags:
+- grav
+- register
+- admin
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /admin
+  matchers:
+  - type: body
+    words:
+    - Grav Register Admin User | Grav
+    - admin accounts
+  - type: status
+    status:
+    - 200
+  condition: and

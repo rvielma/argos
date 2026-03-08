@@ -1,0 +1,22 @@
+id: sevone-nms-network-manager
+name: SevOne NMS Network Manager
+severity: info
+confidence: confirmed
+description: SevOne NMS Network Manager
+tags:
+- sevone
+- manager
+- login
+- panel
+- discovery
+requests:
+- method: GET
+  path: /#login
+  matchers:
+  - type: body
+    words:
+    - SevOne NMS - Network Manager
+  - type: status
+    status:
+    - 200
+  condition: and

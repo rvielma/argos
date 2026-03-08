@@ -1,0 +1,23 @@
+id: dialogic-xms-console
+name: Dialogic XMS Admin Console - Detect
+severity: info
+confidence: confirmed
+description: Dialogic XMS Admin Console - Detect
+tags:
+- panel
+- dialogic
+- admin
+- login
+- detect
+- discovery
+requests:
+- method: GET
+  path: /index.php
+  matchers:
+  - type: body
+    words:
+    - Dialogic XMS Admin Console
+  - type: status
+    status:
+    - 200
+  condition: and

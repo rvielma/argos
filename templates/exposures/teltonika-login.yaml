@@ -1,0 +1,22 @@
+id: teltonika-login
+name: Teltonika Login Panel - Detect
+severity: info
+confidence: tentative
+description: Teltonika login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- teltonika
+- edb
+- discovery
+requests:
+- method: GET
+  path: /cgi-bin/luci
+  matchers:
+  - type: regex
+    regex:
+    - <title>Teltonika(.*) - Web UI</title>
+  - type: status
+    status:
+    - 200
+  condition: and

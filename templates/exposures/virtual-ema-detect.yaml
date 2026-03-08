@@ -1,0 +1,24 @@
+id: virtual-ema-detect
+name: Virtual EMS Login Panel - Detect
+severity: info
+confidence: tentative
+description: Virtual EMS login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- ems
+- discovery
+requests:
+- method: GET
+  path: /virtualems/Login.aspx
+  matchers: &id001
+  - type: body
+    words:
+    - Login
+    - Browse
+    - Welcome Guest
+  condition: or
+- method: GET
+  path: /VirtualEms/Login.aspx
+  matchers: *id001
+  condition: or

@@ -1,0 +1,22 @@
+id: aircube-login
+name: airCube Login - Detect
+severity: info
+confidence: confirmed
+description: airCube login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- aircube
+- ubiquiti
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>airCube</title>
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,31 @@
+id: wordpress-readme-file
+name: WordPress Readme File
+severity: info
+confidence: confirmed
+description: WordPress Readme File
+tags:
+- exposure
+- wordpress
+- wp
+- readme
+- files
+- vuln
+requests:
+- method: GET
+  path: /readme.html
+  matchers: &id001
+  - type: body
+    words:
+    - WordPress &#8250; ReadMe
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /wp/readme.html
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /blog/wp/readme.html
+  matchers: *id001
+  condition: and

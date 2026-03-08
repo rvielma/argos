@@ -1,0 +1,26 @@
+id: dokuwiki-installer
+name: DokuWiki Install Exposure
+severity: high
+confidence: confirmed
+description: DokuWiki is susceptible to the Installation page exposure due to misconfiguration.
+tags:
+- misconfig
+- dokuwiki
+- install
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /install.php
+  matchers:
+  - type: body
+    words:
+    - DokuWiki Installer
+    - Superuser
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

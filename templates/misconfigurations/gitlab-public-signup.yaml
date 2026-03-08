@@ -1,0 +1,31 @@
+id: gitlab-public-signup
+name: GitLab public signup
+severity: info
+confidence: tentative
+description: GitLab public signup
+tags:
+- gitlab
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /users/sign_in
+  matchers: &id001
+  - type: body
+    words:
+    - <a data-qa-selector="register_link" href="/users/sign_up">Register now</a>
+    - data-qa-selector="new_user_register_button"
+  - type: body
+    words:
+    - https://about.gitlab.com
+  - type: status
+    status:
+    - 200
+  - type: body
+    words:
+    - <meta content="GitLab.com" property="og:description">
+  condition: and
+- method: GET
+  path: /users/sign_up
+  matchers: *id001
+  condition: and

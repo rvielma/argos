@@ -1,0 +1,25 @@
+id: db-xml-file
+name: db.xml File - Detect
+severity: medium
+confidence: confirmed
+description: db.xml file was detected.
+reference: CWE-200
+tags:
+- misconfig
+- db
+- files
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /db.xml
+  matchers:
+  - type: body
+    words:
+    - <ServerName>
+    - <DBPASS>
+    - <DBtype>
+  - type: status
+    status:
+    - 200
+  condition: and

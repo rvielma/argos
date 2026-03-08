@@ -1,0 +1,23 @@
+id: skycaiji-admin-panel
+name: SkyCaiji Admin Panel - Detect
+severity: info
+confidence: tentative
+description: SkyCaiji admin panel was detected.
+reference: CWE-200
+tags:
+- panel
+- tech
+- skycaiji
+- discovery
+requests:
+- method: GET
+  path: /index.php?s=/admin/Index/index
+  matchers:
+  - type: body
+    words:
+    - <p>Powered by <a href="https://www.skycaiji.com" target="_blank">
+    - <a href="/index.php?s=/Admin/Index/find_password">
+  - type: status
+    status:
+    - 200
+  condition: and

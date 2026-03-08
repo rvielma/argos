@@ -1,0 +1,26 @@
+id: couchdb-detect
+name: CouchDB - Detect
+severity: info
+confidence: confirmed
+description: Detects instances of Apache CouchDB server.
+tags:
+- couchdb
+- tech
+- detect
+- db
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - '"couchdb":'
+    - '"vendor":'
+  - type: body
+    words:
+    - application/json
+  - type: status
+    status:
+    - 200
+  condition: and

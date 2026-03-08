@@ -1,0 +1,22 @@
+id: xfinity-panel
+name: Xfinity Panel - Detect
+severity: info
+confidence: confirmed
+description: Xfinity panel was detected.
+reference: CWE-200
+tags:
+- panel
+- xfinity
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - alt='XFINITY'
+    - title='XFINITY'
+  - type: status
+    status:
+    - 200
+  condition: and

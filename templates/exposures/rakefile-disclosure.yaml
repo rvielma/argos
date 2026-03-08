@@ -1,0 +1,28 @@
+id: rakefile-disclosure
+name: Rakefile - File Disclosure
+severity: info
+confidence: confirmed
+description: Rakefile configuration file was detected.
+reference: https://ruby.github.io/rake/doc/rakefile_rdoc.html
+tags:
+- devops
+- exposure
+- rakefile
+- config
+- ruby
+- rails
+- vuln
+requests:
+- method: GET
+  path: /Rakefile
+  matchers:
+  - type: body
+    words:
+    - application.load_tasks
+    - config/application
+  - type: body
+    words:
+    - require
+    - desc
+    - 'task :'
+  condition: or

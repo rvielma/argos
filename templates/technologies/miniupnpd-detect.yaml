@@ -1,0 +1,16 @@
+id: miniupnpd-detect
+name: MiniUPnPd - Detect
+severity: info
+confidence: tentative
+description: Detected servers using the MiniUPnPd service through the Server header.
+tags:
+- tech
+- miniupnpd
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: regex
+    regex:
+    - MiniUPnPd
+  condition: or

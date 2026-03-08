@@ -1,0 +1,25 @@
+id: sportybet-api
+name: SportyBet / BetKing Admin or API Token - Exposure
+severity: info
+confidence: tentative
+description: Detected exposed internal tokens and administrative endpoints belonging to online betting platforms.
+tags:
+- exposure
+- betting
+- sportybet
+- betking
+- token
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: regex
+    regex:
+    - Bearer\s+[A-Za-z0-9_-]{50,}\.[A-Za-z0-9_-]{50,}\.[A-Za-z0-9_-]{50,}
+    - token["']?\s*[:=]\s*["']?eyJ[A-Za-z0-9_-]{100,}["']?
+  - type: body
+    words:
+    - sportybet
+    - betking
+    - bet9ja
+  condition: and

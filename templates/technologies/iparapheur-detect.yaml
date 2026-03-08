@@ -1,0 +1,23 @@
+id: iparapheur-detect
+name: Iparapheur - Detect
+severity: info
+confidence: confirmed
+description: iparapheur technology was detected.
+reference: https://www.libriciel.fr/logiciels/iparapheur/
+tags:
+- iparapheur
+- detect
+- tech
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>iparapheur</title>
+    - Libriciel SCOP
+  - type: status
+    status:
+    - 200
+  condition: and

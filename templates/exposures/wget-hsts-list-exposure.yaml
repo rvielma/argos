@@ -1,0 +1,22 @@
+id: wget-hsts-list-exposure
+name: WGET HSTS List Exposure
+severity: info
+confidence: confirmed
+description: WGET HSTS List Exposure
+tags:
+- devops
+- exposure
+- wget
+- files
+- vuln
+requests:
+- method: GET
+  path: /.wget-hsts
+  matchers:
+  - type: body
+    words:
+    - HSTS 1.0 Known Hosts database for GNU Wget
+  - type: status
+    status:
+    - 200
+  condition: and

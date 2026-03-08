@@ -1,0 +1,23 @@
+id: pocketbase-panel
+name: PocketBase Panel - Detect
+severity: info
+confidence: confirmed
+description: PocketBase Login panel was discovered.
+reference: https://pocketbase.io/
+tags:
+- panel
+- pocketbase
+- login
+- detect
+- discovery
+requests:
+- method: GET
+  path: /_/#/login
+  matchers:
+  - type: body
+    words:
+    - <title>PocketBase
+  - type: status
+    status:
+    - 200
+  condition: and

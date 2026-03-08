@@ -1,0 +1,21 @@
+id: healthchecks-ui-exposure
+name: Healthchecks UI Exposure
+severity: low
+confidence: confirmed
+description: Healthchecks UI is exposed.
+tags:
+- misconfig
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Health Checks UI
+    - var webhookEndpoint
+  - type: status
+    status:
+    - 200
+  condition: and

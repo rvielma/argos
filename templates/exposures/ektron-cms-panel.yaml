@@ -1,0 +1,24 @@
+id: ektron-cms-panel
+name: Ektron CMS Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Ektron CMS login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- ektron
+- cms
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - EktronClientManager
+    - ektronTheme
+    - Ektron.ready
+  - type: status
+    status:
+    - 200
+  condition: and

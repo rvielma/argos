@@ -1,0 +1,31 @@
+id: gcloud-access-token
+name: Google Cloud Access Token
+severity: medium
+confidence: confirmed
+description: Internal Google Cloud access tokens are exposed.
+tags:
+- google
+- cloud
+- devops
+- exposure
+- files
+- vuln
+requests:
+- method: GET
+  path: /access_tokens.db
+  matchers: &id001
+  - type: body
+    words:
+    - SQLite
+    - access_token
+  - type: header
+    words:
+    - application/octet-stream
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /.config/gcloud/access_tokens.db
+  matchers: *id001
+  condition: and

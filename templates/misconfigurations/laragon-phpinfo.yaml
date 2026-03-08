@@ -1,0 +1,22 @@
+id: laragon-phpinfo
+name: Laragon - phpinfo Disclosure
+severity: low
+confidence: confirmed
+description: Laragon phpinfo file was exposed.
+tags:
+- laragon
+- exposure
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /?q=info
+  matchers:
+  - type: body
+    words:
+    - PHP Extension
+    - PHP Version
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,52 @@
+id: graphql-sangria-detect
+name: Graphql Sangria Detect
+severity: info
+confidence: tentative
+description: Graphql Sangria Detect
+reference: https://github.com/dolevf/graphw00f/blob/main/graphw00f/lib.py
+tags:
+- tech
+- graphql
+- sangria
+requests:
+- method: POST
+  path: /graphql
+  matchers: &id001
+  - type: status
+    status:
+    - 200
+  - type: body
+    words:
+    - Syntax error while parsing GraphQL query. Invalid input "queryy", expected ExecutableDefinition or TypeSystemDefinition
+  - type: header
+    words:
+    - 'Content-Type: text/html'
+  - type: body
+    words:
+    - <html
+    - <body
+  condition: and
+  headers:
+    Content-Type: application/json
+  body: '{"query":"queryy { __typename }"}'
+- method: POST
+  path: /api/graphql
+  matchers: *id001
+  condition: and
+  headers:
+    Content-Type: application/json
+  body: '{"query":"queryy { __typename }"}'
+- method: POST
+  path: /query
+  matchers: *id001
+  condition: and
+  headers:
+    Content-Type: application/json
+  body: '{"query":"queryy { __typename }"}'
+- method: POST
+  path: /
+  matchers: *id001
+  condition: and
+  headers:
+    Content-Type: application/json
+  body: '{"query":"queryy { __typename }"}'

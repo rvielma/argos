@@ -1,0 +1,23 @@
+id: pyramid-debug-toolbar
+name: Pyramid Debug Toolbar
+severity: medium
+confidence: tentative
+description: Pyramid Debug Toolbar provides a debug toolbar useful while you are developing your Pyramid application.
+reference: https://github.com/Pylons/pyramid_debugtoolbar
+tags:
+- pyramid
+- logs
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /_debug_toolbar/
+  matchers:
+  - type: body
+    words:
+    - <title>Pyramid Debug Toolbar</title>
+    - Pyramid DebugToolbar</a>
+  - type: status
+    status:
+    - 200
+  condition: and

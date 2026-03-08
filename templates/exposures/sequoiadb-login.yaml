@@ -1,0 +1,22 @@
+id: sequoiadb-login
+name: SequoiaDB Login Panel - Detect
+severity: info
+confidence: tentative
+description: SequoiaDB login panel was detected.
+reference: CWE-200
+tags:
+- sequoiadb
+- panel
+- login
+- discovery
+requests:
+- method: GET
+  path: /login.html#/
+  matchers:
+  - type: body
+    words:
+    - <title>SequoiaDB</title>
+  - type: header
+    words:
+    - text/html
+  condition: and

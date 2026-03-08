@@ -1,0 +1,20 @@
+id: mongodb-exposure
+name: MongoDB Exposure
+severity: info
+confidence: confirmed
+description: Detected MongoDB instances exposed over HTTP using the native driver port.
+tags:
+- mongodb
+- exposure
+- misconfig
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - access MongoDB
+  - type: status
+    status:
+    - 200
+  condition: and

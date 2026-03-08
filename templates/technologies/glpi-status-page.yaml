@@ -1,0 +1,24 @@
+id: glpi-status-page
+name: GLPI Status Page - Detect
+severity: info
+confidence: confirmed
+description: A php status page that indicates if local or ldap identity is used for glpi.
+reference: https://buildmedia.readthedocs.org/media/pdf/glpi-user-documentation/latest/glpi-user-documentation.pdf
+tags:
+- tech
+- status
+- glpi
+- discovery
+requests:
+- method: GET
+  path: /status.php
+  matchers:
+  - type: body
+    words:
+    - GLPI_DB_OK
+    - GLPI_SESSION_DIR_OK
+    - GLPI_OK
+  - type: status
+    status:
+    - 200
+  condition: and

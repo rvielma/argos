@@ -1,0 +1,21 @@
+id: kkfileview-panel
+name: kkFileView Panel - Detect
+severity: info
+confidence: confirmed
+description: kkFileView panel was detected.
+reference: CWE-200
+tags:
+- panel
+- kkfileview
+- discovery
+requests:
+- method: GET
+  path: /index
+  matchers:
+  - type: body
+    words:
+    - <title>kkFileView演示首页</title>
+  - type: status
+    status:
+    - 200
+  condition: and

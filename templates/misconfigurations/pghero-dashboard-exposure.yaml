@@ -1,0 +1,23 @@
+id: pghero-dashboard-exposure
+name: PgHero Dashboard Exposure Panel - Detect
+severity: medium
+confidence: confirmed
+description: PgHero Dashboard Exposure panel was detected.
+reference: CWE-200
+tags:
+- exposure
+- panel
+- pghero
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /connections
+  matchers:
+  - type: body
+    words:
+    - <title>PgHero / Connections</title>
+  - type: status
+    status:
+    - 200
+  condition: and

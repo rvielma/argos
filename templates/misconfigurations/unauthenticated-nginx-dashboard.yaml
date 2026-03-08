@@ -1,0 +1,21 @@
+id: unauthenticated-nginx-dashboard
+name: Nginx Dashboard
+severity: low
+confidence: tentative
+description: Nginx Dashboard is exposed.
+reference: https://www.acunetix.com/vulnerabilities/web/unrestricted-access-to-nginx-dashboard/
+tags:
+- misconfig
+- nginx
+- discovery
+requests:
+- method: GET
+  path: /dashboard.html
+  matchers:
+  - type: body
+    words:
+    - Nginx+ Dashboard
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,18 @@
+id: apache-cocoon-detect
+name: Apache Cocoon detect
+severity: info
+confidence: confirmed
+description: Apache Cocoon detect
+tags:
+- apache
+- cocoon
+- tech
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: header
+    words:
+    - X-Cocoon-Version
+  condition: or

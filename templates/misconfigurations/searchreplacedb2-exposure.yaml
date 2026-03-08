@@ -1,0 +1,26 @@
+id: searchreplacedb2-exposure
+name: Safe Search Replace Exposure
+severity: high
+confidence: confirmed
+description: Safe Search Replace is exposed leaking internal info.
+reference: https://interconnectit.com/search-and-replace-for-wordpress-databases/
+tags:
+- misconfig
+- searchreplacedb2
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /searchreplacedb2.php
+  matchers:
+  - type: body
+    words:
+    - Database details
+    - Safe Search Replace
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

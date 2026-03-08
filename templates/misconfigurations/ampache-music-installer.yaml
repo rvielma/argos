@@ -1,0 +1,26 @@
+id: ampache-music-installer
+name: Ampache Music Installer
+severity: high
+confidence: confirmed
+description: Ampache Music is susceptible to the Installation page exposure due to misconfiguration.
+tags:
+- misconfig
+- ampache
+- install
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /install.php
+  matchers:
+  - type: body
+    words:
+    - 'Ampache :: For the Love of Music - Installation'
+    - Choose Installation Language
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

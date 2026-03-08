@@ -1,0 +1,29 @@
+id: evse-web-panel
+name: EVSE Web Interface Panel - Detection
+severity: info
+confidence: confirmed
+description: EVSE Web Interface Panel - Detection
+tags:
+- panel
+- evlink
+- evse
+- login
+- detect
+- schneider-electric
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - EVSE Web Interface</title>
+    - Charging station</title>
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /cgi-bin/cgiServer?worker=LoginForm
+  matchers: *id001
+  condition: and

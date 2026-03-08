@@ -1,0 +1,25 @@
+id: elfinder-detect
+name: elFinder - Install Detection
+severity: info
+confidence: tentative
+description: An elFinder implementation was discovered.
+reference: CWE-200
+tags:
+- tech
+- elfinder
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - <!-- Element where elFinder will be created (REQUIRED) -->
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /elfinder.html
+  matchers: *id001
+  condition: and

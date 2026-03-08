@@ -1,0 +1,25 @@
+id: amatera-stealer-panel
+name: Amatera Stealer C2 Panel - Detect
+severity: info
+confidence: confirmed
+description: Amatera Stealer C2 Login Panel was discovered.
+reference: https://x.com/solostalking/status/1930844795330761206
+tags:
+- c2
+- amatera
+- stealer
+- panel
+- login
+- vuln
+requests:
+- method: GET
+  path: /sign-in
+  matchers:
+  - type: body
+    words:
+    - <title>Amatera App
+    - Amatera Stealer
+  - type: status
+    status:
+    - 200
+  condition: and

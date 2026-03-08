@@ -1,0 +1,21 @@
+id: cisco-secure-cn
+name: Cisco Secure CN Login Panel - Detect
+severity: info
+confidence: tentative
+description: Cisco Secure CN login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- cisco
+- discovery
+requests:
+- method: GET
+  path: /login
+  matchers:
+  - type: body
+    words:
+    - <title>Cisco Secure CN</title>
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,24 @@
+id: ngrok-status-page
+name: Ngrok Status Page
+severity: low
+confidence: confirmed
+description: Ngrok is a popular platform that provides secure tunnels to localhost, allowing users to expose a local web server
+  to the internet.The Ngrok status page is a web page that provides real-time information about the health and performance
+  of the Ngrok service.
+tags:
+- ngrok
+- misconfig
+- status
+- vuln
+requests:
+- method: GET
+  path: /status
+  matchers:
+  - type: body
+    words:
+    - <title>ngrok</title>
+    - <title>ngrok - Status</title>
+  - type: status
+    status:
+    - 200
+  condition: and

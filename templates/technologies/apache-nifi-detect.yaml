@@ -1,0 +1,47 @@
+id: apache-nifi-detect
+name: Apache NiFi detect
+severity: info
+confidence: tentative
+description: Apache NiFi detect
+tags:
+- tech
+- apache
+- nifi
+- discovery
+requests:
+- method: GET
+  path: /access/config
+  matchers: &id001
+  - type: regex
+    regex:
+    - supportsLogin
+    - disconnectedNodeAcknowledged
+    - (aggregate|node)Snapshots?
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /controller/config
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /controller/registry-clients
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /counters
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /flow/registries
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /system-diagnostics
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /nifi-api/access/config
+  matchers: *id001
+  condition: and

@@ -1,0 +1,21 @@
+id: github-debug
+name: GitHub Debug Page
+severity: info
+confidence: confirmed
+description: GitHub Debug Page
+tags:
+- misconfig
+- github
+- debug
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - GitHub Debug
+  - type: status
+    status:
+    - 200
+  condition: and

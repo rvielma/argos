@@ -1,0 +1,22 @@
+id: codeigniter-installer
+name: Codeigniter Application Installer Exposure
+severity: high
+confidence: confirmed
+description: Codeigniter Application is susceptible to the Installation page exposure due to misconfiguration.
+tags:
+- misconfig
+- codeigniter
+- install
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /install/
+  matchers:
+  - type: body
+    words:
+    - Codeigniter Application Installer
+  - type: status
+    status:
+    - 200
+  condition: and

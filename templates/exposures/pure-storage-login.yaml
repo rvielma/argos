@@ -1,0 +1,21 @@
+id: pure-storage-login
+name: Pure Storage Login Panel - Detect
+severity: info
+confidence: tentative
+description: Pure Storage login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- purestorage
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Pure Storage Login</title>
+  - type: status
+    status:
+    - 200
+  condition: and

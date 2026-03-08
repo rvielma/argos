@@ -1,0 +1,25 @@
+id: crushftp-login
+name: CrushFTP WebInterface Panel - Detect
+severity: info
+confidence: confirmed
+description: CrushFTP WebInterface login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- edb
+- crushftp
+- detect
+- discovery
+requests:
+- method: GET
+  path: /WebInterface/login.html
+  matchers:
+  - type: body
+    words:
+    - <title>CrushFTP WebInterface</title>
+    - <title>CrushFTP - Login</title>
+    - src="/WebInterface/Resources/js/crushftp.customize.js"
+  - type: header
+    words:
+    - 'Server: CrushFTP HTTP Server'
+  condition: or

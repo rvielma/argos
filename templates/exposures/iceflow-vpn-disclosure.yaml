@@ -1,0 +1,56 @@
+id: iceflow-vpn-disclosure
+name: ICEFlow VPN Disclosure
+severity: low
+confidence: tentative
+description: ICEFlow VPN internal log file is exposed.
+tags:
+- exposure
+- files
+- iceflow
+- logs
+- vuln
+requests:
+- method: GET
+  path: /log/system.log
+  matchers: &id001
+  - type: body
+    words:
+    - 'ICEFLOW VPN:'
+    - ICEFLOW SYSTEM
+    - ICEFLOW
+  - type: status
+    status:
+    - 200
+  - type: header
+    words:
+    - text/plain
+    - ICEFLOW
+  condition: and
+- method: GET
+  path: /log/vpn.log
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /log/access.log
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /log/warn.log
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /log/error.log
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /log/debug.log
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /log/mobile.log
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /log/firewall.log
+  matchers: *id001
+  condition: and

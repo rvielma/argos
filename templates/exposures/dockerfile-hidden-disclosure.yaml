@@ -1,0 +1,32 @@
+id: dockerfile-hidden-disclosure
+name: Dockerfile - Detect
+severity: medium
+confidence: tentative
+description: Dockerfile was detected.
+reference: CWE-200
+tags:
+- exposure
+- config
+- vuln
+requests:
+- method: GET
+  path: /.dockerfile
+  matchers: &id001
+  - type: regex
+    regex:
+    - ^(?:FROM(?:CACHE)?|RUN|ADD|WORKDIR|ENV|EXPOSE|\#)\s+[ -~]+
+  - type: status
+    status:
+    - 200
+  - type: header
+    words:
+    - text/html
+  condition: and
+- method: GET
+  path: /.Dockerfile
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /Dockerfile
+  matchers: *id001
+  condition: and

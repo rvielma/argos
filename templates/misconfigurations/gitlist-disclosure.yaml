@@ -1,0 +1,20 @@
+id: gitlist-disclosure
+name: GitList Disclosure
+severity: low
+confidence: tentative
+description: GitList is exposed.
+tags:
+- gitlist
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - GitList</title>
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,23 @@
+id: buddy-panel
+name: Buddy Panel - Detect
+severity: info
+confidence: tentative
+description: Buddy panel was detected.
+reference: CWE-200
+tags:
+- panel
+- buddy
+- cicd
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <meta name="application-name" content="Buddy">
+    - Buddy App
+  - type: status
+    status:
+    - 200
+  condition: and

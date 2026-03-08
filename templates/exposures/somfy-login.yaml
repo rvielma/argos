@@ -1,0 +1,21 @@
+id: somfy-login
+name: Somfy Login Panel - Detect
+severity: info
+confidence: tentative
+description: Somfy login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- login
+- discovery
+requests:
+- method: GET
+  path: /m_login.htm
+  matchers:
+  - type: body
+    words:
+    - Home motion by Somfy
+  - type: status
+    status:
+    - 200
+  condition: and

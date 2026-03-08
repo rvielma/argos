@@ -1,0 +1,31 @@
+id: springboot-trace
+name: Detect Springboot Trace Actuator
+severity: low
+confidence: tentative
+description: View recent HTTP requests and responses
+tags:
+- misconfig
+- springboot
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /trace
+  matchers:
+  - type: body
+    words:
+    - '"timestamp"'
+    - '"info"'
+    - '"method"'
+    - '"path"'
+  - type: header
+    words:
+    - application/json
+    - application/vnd.spring-boot.actuator
+    - application/vnd.spring-boot.actuator.v1+json
+    - application/vnd.spring-boot.actuator.v2+json
+    - application/vnd.spring-boot.actuator.v3+json
+  - type: status
+    status:
+    - 200
+  condition: and

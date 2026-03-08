@@ -1,0 +1,23 @@
+id: forgejo-repo-exposure
+name: Forgejo Repositories - Exposure
+severity: medium
+confidence: confirmed
+description: The Forgejo repo is being exposed publically.
+tags:
+- misconfig
+- exposure
+- forgejo
+- vuln
+requests:
+- method: GET
+  path: /explore/repos
+  matchers:
+  - type: body
+    words:
+    - Powered by Forgejo
+    - Explore</a>
+    - Repositories
+  - type: status
+    status:
+    - 200
+  condition: and

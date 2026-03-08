@@ -1,0 +1,28 @@
+id: alibaba-canal-info-leak
+name: Alibaba Canal Config - Detect
+severity: info
+confidence: tentative
+description: Alibaba Canal configuration information was detected.
+reference: CWE-200
+tags:
+- config
+- exposure
+- alibaba
+- vuln
+requests:
+- method: GET
+  path: /api/v1/canal/config/1/1
+  matchers:
+  - type: status
+    status:
+    - 200
+  - type: header
+    words:
+    - application/json
+  - type: body
+    words:
+    - ncanal.aliyun.accessKey
+    - ncanal.aliyun.secretKey
+  condition: and
+  headers:
+    Content-Type: application/json

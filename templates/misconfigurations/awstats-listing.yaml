@@ -1,0 +1,25 @@
+id: awstats-listing
+name: AWStats Listing
+severity: low
+confidence: tentative
+description: Searches for exposed awstats Internal Information.
+tags:
+- misconfig
+- aws
+- exposure
+- amazon
+- awstats
+- oss
+- vuln
+requests:
+- method: GET
+  path: /awstats/data
+  matchers:
+  - type: body
+    words:
+    - Index of /awstats/data/
+    - '">awstats'
+  - type: status
+    status:
+    - 200
+  condition: and

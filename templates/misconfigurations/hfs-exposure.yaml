@@ -1,0 +1,26 @@
+id: hfs-exposure
+name: HFS Panel - Exposure
+severity: info
+confidence: confirmed
+description: HFS Panel - Exposure
+tags:
+- misconfig
+- hfs
+- exposure
+- panel
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - HFS =
+    - 'Build-time:'
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

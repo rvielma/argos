@@ -1,0 +1,34 @@
+id: keycloak-admin-panel
+name: Keycloak Admin Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Keycloak admin login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- keycloak
+- redhat
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - <span>Keycloak</span>
+    - alt="Keycloak
+    - kc-form-buttons
+    - /keycloak/img/favicon.ico
+    - /admin/keycloak/
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /auth/admin
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /auth/admin/master/console/
+  matchers: *id001
+  condition: and

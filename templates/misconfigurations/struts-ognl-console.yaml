@@ -1,0 +1,24 @@
+id: struts-ognl-console
+name: Apache Struts - OGNL Console
+severity: info
+confidence: confirmed
+description: This development console allows the evaluation of OGNL expressions that could lead to Remote Command Execution
+reference: https://github.com/PortSwigger/j2ee-scan/blob/master/src/main/java/burp/j2ee/issues/impl/ApacheStrutsWebConsole.java
+tags:
+- apache
+- struts
+- ognl
+- panel
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /struts/webconsole.html?debug=console
+  matchers:
+  - type: body
+    words:
+    - Welcome to the OGNL console!
+  - type: status
+    status:
+    - 200
+  condition: and

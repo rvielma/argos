@@ -1,0 +1,23 @@
+id: ftm-manager-panel
+name: Financial Transaction Manager Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Financial Transaction Manager login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- ftm
+- ibm
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - FTM Manager
+    - login-panel
+  - type: status
+    status:
+    - 200
+  condition: and

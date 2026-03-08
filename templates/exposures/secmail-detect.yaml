@@ -1,0 +1,21 @@
+id: secmail-detect
+name: SecMail Login Panel - Detect
+severity: info
+confidence: tentative
+description: SecMail login panel was detected.
+reference: CWE-200
+tags:
+- secmail
+- panel
+- discovery
+requests:
+- method: GET
+  path: /SecMail/login.jsp
+  matchers:
+  - type: header
+    words:
+    - Path=/SecMail
+  - type: status
+    status:
+    - 200
+  condition: and

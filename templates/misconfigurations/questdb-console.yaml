@@ -1,0 +1,26 @@
+id: questdb-console
+name: QuestDB Console - Detect
+severity: medium
+confidence: confirmed
+description: QuestDB console was detected.
+reference: CWE-200
+tags:
+- misconfig
+- questdb
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - QuestDB · Console
+    - Server rejected file due to unsupported file format.
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

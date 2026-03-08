@@ -1,0 +1,23 @@
+id: acenet-panel
+name: AceNet AceReporter Report Panel - Detect
+severity: info
+confidence: tentative
+description: AceNet AceReporter Report Panel - Detect
+tags:
+- panel
+- login
+- acenet
+- acereporter
+- discovery
+requests:
+- method: GET
+  path: /index.php
+  matchers:
+  - type: body
+    words:
+    - Welcome to Reporter
+    - Login @ Reporter
+  - type: status
+    status:
+    - 200
+  condition: and

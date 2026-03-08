@@ -1,0 +1,19 @@
+id: amazon-ec2-detect
+name: Amazon EC2 Server Detect
+severity: info
+confidence: confirmed
+description: Amazon EC2 Server Detect
+tags:
+- tech
+- aws
+- ec2
+- amazon
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: header
+    words:
+    - 'Server: EC2ws'
+  condition: or

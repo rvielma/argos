@@ -1,0 +1,23 @@
+id: uni-gui-framework
+name: UniGUI Framework - Detect
+severity: info
+confidence: confirmed
+description: Checks for the presence of UniGUI framework and extracts its version along with the Sencha Ext JS version.
+tags:
+- tech
+- unigui
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - uni-xtheme-
+    - ext-all.js
+    - uniVars._extVer=
+  - type: regex
+    regex:
+    - uni-(\d+\.\d+\.\d+\.\d+)/
+    - uniVars._extVer="(\d+\.\d+\.\d+)"
+  condition: and

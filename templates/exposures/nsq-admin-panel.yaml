@@ -1,0 +1,23 @@
+id: nsq-admin-panel
+name: NSQ Admin Panel - Detect
+severity: medium
+confidence: confirmed
+description: NSQ admin panel was detected.
+reference: CWE-200
+tags:
+- nsq
+- admin
+- panel
+- exposure
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>nsqadmin</title>
+  - type: status
+    status:
+    - 200
+  condition: and

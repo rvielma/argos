@@ -1,0 +1,25 @@
+id: lychee-installer
+name: Lychee Installer
+severity: high
+confidence: confirmed
+description: Lychee is susceptible to the Installation page exposure due to misconfiguration.
+tags:
+- misconfig
+- lychee
+- install
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /install
+  matchers:
+  - type: body
+    words:
+    - Lychee Installer
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

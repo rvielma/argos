@@ -1,0 +1,21 @@
+id: dash-panel-detect
+name: Dash Panel Detect
+severity: info
+confidence: confirmed
+description: Dash Panel Detect
+tags:
+- tech
+- dash
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - _dash-config
+    - DashRenderer
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,25 @@
+id: cobbler-webgui
+name: Cobbler WebGUI Login Panel - Detect
+severity: info
+confidence: tentative
+description: Cobbler WebGUI login panel was detected.
+reference: CWE-200
+tags:
+- cobbler
+- webserver
+- panel
+- cobblerd
+- discovery
+requests:
+- method: GET
+  path: /cobbler_web
+  matchers:
+  - type: status
+    status:
+    - 200
+  - type: body
+    words:
+    - <title>Cobbler Web Interface</title>
+    - /cobbler_webui_content/
+    - /cobbler_web/do_login
+  condition: and

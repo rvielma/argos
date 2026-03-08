@@ -1,0 +1,34 @@
+id: cobbler-version
+name: Cobbler Version Detection
+severity: info
+confidence: tentative
+description: Obtain cobbler version information
+tags:
+- tech
+- cobbler
+- api
+- discovery
+requests:
+- method: POST
+  path: /cobbler_api
+  matchers:
+  - type: status
+    status:
+    - 200
+  - type: body
+    words:
+    - <name>version</name>
+  condition: and
+  headers:
+    Content-Type: text/xml
+  body: '<?xml version=''1.0''?>
+
+    <methodCall>
+
+    <methodName>extended_version</methodName>
+
+    <params></params>
+
+    </methodCall>
+
+    '

@@ -1,0 +1,25 @@
+id: cadvisor-exposure
+name: cAdvisor - Detect
+severity: medium
+confidence: confirmed
+description: cAdvisor page was detected.
+reference: CWE-200
+tags:
+- exposure
+- misconfig
+- dashboard
+- vuln
+requests:
+- method: GET
+  path: /containers/
+  matchers:
+  - type: body
+    words:
+    - <title>cAdvisor - /</title>
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

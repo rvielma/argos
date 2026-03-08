@@ -1,0 +1,23 @@
+id: hugegraph-studio-detect
+name: HugeGraph Studio - Detect
+severity: info
+confidence: confirmed
+description: HugeGraph Studio was detected.
+reference: https://github.com/hugegraph/hugegraph-studio
+tags:
+- hugegraph
+- studio
+- detect
+- tech
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>HugeGraph Studio
+  - type: status
+    status:
+    - 200
+  condition: and

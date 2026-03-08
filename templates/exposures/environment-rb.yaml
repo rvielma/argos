@@ -1,0 +1,30 @@
+id: environment-rb
+name: Environment Ruby File Disclosure
+severity: medium
+confidence: confirmed
+description: Ruby environment file is exposed.
+tags:
+- ruby
+- devops
+- exposure
+- files
+- vuln
+requests:
+- method: GET
+  path: /environment.rb
+  matchers: &id001
+  - type: body
+    words:
+    - '# Load the Rails application.'
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /config/environment.rb
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /redmine/config/environment.rb
+  matchers: *id001
+  condition: and

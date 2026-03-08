@@ -1,0 +1,23 @@
+id: cofense-vision-panel
+name: Cofense Vision Login Panel - Detect
+severity: info
+confidence: tentative
+description: Cofense Vision login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- cofense
+- vision
+- discovery
+requests:
+- method: GET
+  path: /login
+  matchers:
+  - type: body
+    words:
+    - <title>Vision</title>
+    - Cofense Inc.
+  - type: status
+    status:
+    - 200
+  condition: and

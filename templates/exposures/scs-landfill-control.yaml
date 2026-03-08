@@ -1,0 +1,24 @@
+id: scs-landfill-control
+name: SCS Remote Monitoring and Control Login Panel - Detect
+severity: info
+confidence: tentative
+description: SCS Remote Monitoring and Control login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- scs
+- rmc
+- iot
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: status
+    status:
+    - 200
+  - type: body
+    words:
+    - <title>Log in to SCS RMC®</title>
+    - SCS RMC®</div>
+  condition: and

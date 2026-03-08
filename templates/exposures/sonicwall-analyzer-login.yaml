@@ -1,0 +1,21 @@
+id: sonicwall-analyzer-login
+name: SonicWall Analyzer Login Panel - Detect
+severity: info
+confidence: confirmed
+description: SonicWall Analyzer login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- sonicwall
+- discovery
+requests:
+- method: GET
+  path: /sgms/auth
+  matchers:
+  - type: body
+    words:
+    - SonicWall Analyzer Login
+  - type: status
+    status:
+    - 200
+  condition: and

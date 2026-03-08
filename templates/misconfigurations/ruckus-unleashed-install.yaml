@@ -1,0 +1,23 @@
+id: ruckus-unleashed-install
+name: Ruckus Unleashed Exposed Installation
+severity: high
+confidence: confirmed
+description: Ruckus Unleashed is susceptible to the Installation page exposure due to misconfiguration.
+tags:
+- misconfig
+- ruckus
+- unleashed
+- install
+- vuln
+requests:
+- method: GET
+  path: /admin/wizard.jsp
+  matchers:
+  - type: body
+    words:
+    - <title>Setup Wizard
+    - /ruckus
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,25 @@
+id: wordpress-woocommerce-listing
+name: WordPress WooCommerce - Directory Search
+severity: info
+confidence: tentative
+description: WordPress WooCommerce plugin sensitive directory searches were conducted.
+reference: https://www.exploit-db.com/ghdb/6192
+tags:
+- edb
+- wordpress
+- listing
+- plugin
+- woocommerce
+- vuln
+requests:
+- method: GET
+  path: /wp-content/plugins/woocommerce/
+  matchers:
+  - type: body
+    words:
+    - Index of
+    - /wp-content/plugins/woocommerce/
+  - type: status
+    status:
+    - 200
+  condition: and

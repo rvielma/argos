@@ -1,0 +1,25 @@
+id: wanhuoa-officeserverservlet-file-upload
+name: Wanhu OA OfficeServerServlet - Arbitrary File Upload
+severity: critical
+confidence: confirmed
+description: Wanhu OA officeserverservlet file upload vulnerability
+reference: https://github.com/onMey/WH/blob/main/poc.py
+tags:
+- wanhu
+- oa
+- officeserver
+- fileupload
+- intrusive
+- vuln
+requests:
+- method: GET
+  path: /defaultroot/officeserverservlet
+  matchers:
+  - type: body
+    words:
+    - DBSTEP V3.0
+    - Post
+  - type: status
+    status:
+    - 200
+  condition: and

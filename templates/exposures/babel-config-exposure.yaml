@@ -1,0 +1,23 @@
+id: babel-config-exposure
+name: Babel Configuration - Detect
+severity: info
+confidence: confirmed
+description: Babel configuration information was detected.
+reference: CWE-200
+tags:
+- exposure
+- config
+- file
+- vuln
+requests:
+- method: GET
+  path: /babel.config.js
+  matchers:
+  - type: body
+    words:
+    - module.exports = {
+    - 'presets: ['
+  - type: status
+    status:
+    - 200
+  condition: and

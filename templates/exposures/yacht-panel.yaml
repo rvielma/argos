@@ -1,0 +1,23 @@
+id: yacht-panel
+name: Yacht Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Yacht is a web management platform for managing Docker containers.
+tags:
+- panel
+- yacht
+- login
+- detect
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Yacht</title>
+    - but Yacht do
+  - type: status
+    status:
+    - 200
+  condition: and

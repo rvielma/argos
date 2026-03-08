@@ -1,0 +1,46 @@
+id: graphql-hypergraphql-detect
+name: Graphql Hypergraphql Detect
+severity: info
+confidence: tentative
+description: Graphql Hypergraphql Detect
+reference: https://github.com/dolevf/graphw00f/blob/main/graphw00f/lib.py
+tags:
+- tech
+- graphql
+- hypergraphql
+requests:
+- method: POST
+  path: /graphql
+  matchers: &id001
+  - type: status
+    status:
+    - 200
+    - 400
+  - type: body
+    words:
+    - 'Validation error of type InvalidSyntax: Invalid query syntax.'
+  condition: and
+  headers:
+    Content-Type: application/json
+  body: '{"query":"zzz { __typename }"}'
+- method: POST
+  path: /api/graphql
+  matchers: *id001
+  condition: and
+  headers:
+    Content-Type: application/json
+  body: '{"query":"zzz { __typename }"}'
+- method: POST
+  path: /query
+  matchers: *id001
+  condition: and
+  headers:
+    Content-Type: application/json
+  body: '{"query":"zzz { __typename }"}'
+- method: POST
+  path: /
+  matchers: *id001
+  condition: and
+  headers:
+    Content-Type: application/json
+  body: '{"query":"zzz { __typename }"}'

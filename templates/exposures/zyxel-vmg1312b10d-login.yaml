@@ -1,0 +1,24 @@
+id: zyxel-vmg1312b10d-login
+name: Zyxel VMG1312-B10D - Login Detection
+severity: info
+confidence: confirmed
+description: Zyxel VMG1312-B10D - Login Detection
+tags:
+- tech
+- zyxel
+- modem
+- router
+- panel
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - VMG1312-B10D
+    - Welcome to the Web-Based Configurator
+  - type: status
+    status:
+    - 401
+  condition: and

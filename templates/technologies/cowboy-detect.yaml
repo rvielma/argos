@@ -1,0 +1,19 @@
+id: cowboy-detect
+name: Cowboy - Detect
+severity: info
+confidence: confirmed
+description: Cowboy was detected.
+reference: https://github.com/ninenines/cowboy
+tags:
+- tech
+- cowboy
+- detect
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: header
+    words:
+    - 'Server: Cowboy'
+  condition: or

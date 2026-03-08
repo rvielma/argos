@@ -1,0 +1,21 @@
+id: group-ib-panel
+name: Group-IB Managed XDR Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Group-IB Managed XDR login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- groupib
+- discovery
+requests:
+- method: GET
+  path: /login
+  matchers:
+  - type: body
+    words:
+    - <title>Group-IB Managed XDR</title>
+  - type: status
+    status:
+    - 200
+  condition: and

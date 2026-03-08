@@ -1,0 +1,23 @@
+id: milvus-detect
+name: Milvus - Detect
+severity: info
+confidence: confirmed
+description: Milvus was detected.
+reference: https://milvus.io/
+tags:
+- tech
+- vector-database
+- milvus
+- detect
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Milvus
+    - <title>Milvus Demo
+    - <title>Milvus Insight
+    - <title>Milvus Enterprise Manager
+  condition: and

@@ -1,0 +1,21 @@
+id: plastic-scm-login
+name: Unity Plastic SCM Login Panel - Detect
+severity: info
+confidence: tentative
+description: Unity Plastic SCM login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- plastic
+- discovery
+requests:
+- method: GET
+  path: /account
+  matchers:
+  - type: body
+    words:
+    - <title>Log in - Plastic SCM</title>
+  - type: status
+    status:
+    - 200
+  condition: and

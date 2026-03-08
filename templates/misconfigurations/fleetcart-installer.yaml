@@ -1,0 +1,23 @@
+id: fleetcart-installer
+name: FleetCart Installation Page - Exposure
+severity: high
+confidence: confirmed
+description: Detects exposed FleetCart setup installation pages which could allow unauthorized access or information disclosure.
+reference: https://codecanyon.net/item/fleetcart-laravel-ecommerce-system/23014826
+tags:
+- misconfig
+- install
+- exposure
+- fleetcart
+- vuln
+requests:
+- method: GET
+  path: /install
+  matchers:
+  - type: body
+    words:
+    - FleetCart - Installation
+  - type: status
+    status:
+    - 200
+  condition: and

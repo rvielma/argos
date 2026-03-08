@@ -1,0 +1,26 @@
+id: avideo-install
+name: AVideo Installer - Detect
+severity: high
+confidence: confirmed
+description: AVideo installer panel was detected.
+reference: CWE-459
+tags:
+- panel
+- install
+- avideo
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /install/index.php
+  matchers:
+  - type: body
+    words:
+    - <title>Install AVideo</title>
+  - type: body
+    words:
+    - Your system is installed, remove the
+  - type: status
+    status:
+    - 200
+  condition: and

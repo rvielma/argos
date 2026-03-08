@@ -1,0 +1,22 @@
+id: kubernetes-enterprise-manager
+name: Kubernetes Enterprise Manager Panel - Detect
+severity: info
+confidence: tentative
+description: Kubernetes Enterprise Manager panel was detected.
+reference: CWE-200
+tags:
+- tech
+- kubernetes
+- panel
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Kubernetes Enterprise Manager
+  - type: status
+    status:
+    - 200
+  condition: and

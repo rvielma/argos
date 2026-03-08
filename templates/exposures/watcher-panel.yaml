@@ -1,0 +1,21 @@
+id: watcher-panel
+name: Watcher Panel - Detect
+severity: info
+confidence: confirmed
+description: Watcher Panel - Detect
+tags:
+- panel
+- watcher
+- login
+- discovery
+requests:
+- method: GET
+  path: /vsaas/v2/login
+  matchers:
+  - type: body
+    words:
+    - <title>Watcher</title>
+  - type: status
+    status:
+    - 200
+  condition: and

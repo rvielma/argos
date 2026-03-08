@@ -1,0 +1,21 @@
+id: php-fusion-detect
+name: PHP Fusion Detect
+severity: info
+confidence: tentative
+description: PHP Fusion Detect
+tags:
+- php
+- tech
+- php-fusion
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - PHP-Fusion
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,22 @@
+id: sonic-wall-application
+name: SonicWall Appliance Management Console Login Panel - Detect
+severity: info
+confidence: confirmed
+description: SonicWall Appliance Management Console login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- sonicwall
+- login
+- discovery
+requests:
+- method: GET
+  path: /login.do
+  matchers:
+  - type: body
+    words:
+    - <title>Appliance Management Console Login</title>
+  - type: status
+    status:
+    - 200
+  condition: and

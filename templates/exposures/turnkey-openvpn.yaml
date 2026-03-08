@@ -1,0 +1,25 @@
+id: turnkey-openvpn
+name: TurnKey OpenVPN Panel - Detect
+severity: info
+confidence: confirmed
+description: TurnKey OpenVPN panel was detected.
+reference: CWE-200
+tags:
+- panel
+- openvpn
+- turnkey
+- webshell
+- vpn
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - TurnKey OpenVPN
+    - Web Shell
+  - type: status
+    status:
+    - 200
+  condition: and

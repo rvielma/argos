@@ -1,0 +1,29 @@
+id: saltbo-zpan-installer
+name: Saltbo/zpan Installer - Exposure
+severity: high
+confidence: confirmed
+description: Detects the exposure of the Saltbo/zpan installer page, which could allow unauthorized setup or reinstallation
+  of the application.
+reference: https://github.com/saltbo/zpan
+tags:
+- saltbo
+- zpan
+- installer
+- exposure
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /api/system/options/core.email
+  matchers: &id001
+  - type: body
+    words:
+    - <title>ZPan
+  - type: body
+    words:
+    - system is not initialized
+  condition: and
+- method: GET
+  path: /install
+  matchers: *id001
+  condition: and

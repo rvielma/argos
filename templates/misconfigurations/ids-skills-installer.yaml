@@ -1,0 +1,22 @@
+id: ids-skills-installer
+name: IDP Skills Installer - Exposure
+severity: high
+confidence: confirmed
+description: Checks for the presence of an IDS Skills Installer page.
+tags:
+- install
+- ids
+- exposure
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /#/install/main
+  matchers:
+  - type: body
+    words:
+    - <title>IDP Skills Installer</title>
+  - type: status
+    status:
+    - 200
+  condition: and

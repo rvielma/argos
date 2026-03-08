@@ -1,0 +1,22 @@
+id: opnhap-detect
+name: OpenHAP Detection
+severity: info
+confidence: confirmed
+description: OpenHAP Detection
+reference: https://www.openhab.org/
+tags:
+- tech
+- iot
+- openhab
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - openHAB
+  - type: status
+    status:
+    - 200
+  condition: and

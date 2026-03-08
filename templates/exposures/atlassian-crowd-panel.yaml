@@ -1,0 +1,18 @@
+id: atlassian-crowd-panel
+name: Atlassian Crowd Login Panel
+severity: info
+confidence: tentative
+description: An Atlassian Crowd login panel was discovered.
+reference: CWE-200
+tags:
+- panel
+- atlassian
+- discovery
+requests:
+- method: GET
+  path: /crowd/console/login.action
+  matchers:
+  - type: body
+    words:
+    - <title>Atlassian Crowd - Login</title>
+  condition: or

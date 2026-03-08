@@ -1,0 +1,24 @@
+id: dplus-dashboard
+name: DPLUS Dashboard Panel - Detect
+severity: info
+confidence: confirmed
+description: DPLUS Dashboard panel was detected.
+reference: CWE-200
+tags:
+- panel
+- dplus
+- exposure
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - DPLUS Dashboard
+    - Module A
+    - Module B
+  - type: status
+    status:
+    - 200
+  condition: and

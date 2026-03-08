@@ -1,0 +1,32 @@
+id: springboot-conditions
+name: Detect Springboot Conditions Actuator
+severity: low
+confidence: confirmed
+description: Springboot Conditions Actuator is exposed.
+reference: https://raw.githubusercontent.com/maurosoria/dirsearch/master/db/dicc.txt
+tags:
+- misconfig
+- springboot
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /conditions
+  matchers: &id001
+  - type: body
+    words:
+    - '"positiveMatches":{'
+    - '"unconditionalClasses":['
+  - type: header
+    words:
+    - application/json
+    - application/vnd.spring-boot.actuator
+    - application/vnd.spring-boot.actuator.v1+json
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /actuator/conditions
+  matchers: *id001
+  condition: and

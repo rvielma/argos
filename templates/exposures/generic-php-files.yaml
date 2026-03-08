@@ -1,0 +1,77 @@
+id: generic-php-files
+name: Generic PHP Backup Information Disclosure
+severity: medium
+confidence: tentative
+description: Generic php file source code was detected via backup files.
+reference: CWE-200
+tags:
+- exposure
+- backup
+- vuln
+requests:
+- method: GET
+  path: /settings.php.bak
+  matchers: &id001
+  - type: regex
+    regex:
+    - <\?php\b[\s\S]*?\?>
+  - type: body
+    words:
+    - DB_NAME
+    - DB
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /settings.php.dist
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /settings.php.old
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /settings.php.save
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /.settings.php.swp
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /settings.php.txt
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /config/settings.old.php
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /config.php.bak
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /config.php.dist
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /config.php.old
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /config.php.save
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /.config.php.swp
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /config.php.txt
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /config/settings.old.php
+  matchers: *id001
+  condition: and

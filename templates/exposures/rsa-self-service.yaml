@@ -1,0 +1,24 @@
+id: rsa-self-service
+name: RSA Self-Service Login Panel - Detect
+severity: info
+confidence: tentative
+description: RSA Self-Service login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- rsa
+- discovery
+requests:
+- method: GET
+  path: /console-selfservice/SelfService.do
+  matchers:
+  - type: body
+    words:
+    - Self-Service Console
+    - RSA
+    - AM_Self_Service_Console
+    - console-selfservice
+  - type: status
+    status:
+    - 200
+  condition: and

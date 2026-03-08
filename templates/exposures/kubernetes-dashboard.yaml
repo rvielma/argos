@@ -1,0 +1,19 @@
+id: kubernetes-dashboard
+name: Kubernetes Dashboard Panel - Detect
+severity: info
+confidence: tentative
+description: Kubernetes Dashboard panel was detected.
+reference: CWE-200
+tags:
+- panel
+- kubernetes
+- devops
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Kubernetes Dashboard</title>
+  condition: or

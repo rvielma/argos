@@ -1,0 +1,21 @@
+id: sharefile-storage-server
+name: ShareFile Storage Server - Detect
+severity: info
+confidence: confirmed
+description: ShareFile Storage Server - Detect
+tags:
+- tech
+- citrix
+- sharefile
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - ShareFile Storage Server
+  - type: status
+    status:
+    - 200
+  condition: and

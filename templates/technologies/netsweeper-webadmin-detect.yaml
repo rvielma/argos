@@ -1,0 +1,27 @@
+id: netsweeper-webadmin-detect
+name: Netsweeper WebAdmin - Detect
+severity: info
+confidence: tentative
+description: Netsweeper WebAdmin was detected.
+reference: CWE-200
+tags:
+- tech
+- netsweeper
+- webadmin
+- discovery
+requests:
+- method: GET
+  path: /webadmin/start/
+  matchers: &id001
+  - type: regex
+    regex:
+    - Powered by netsweeper
+    - Netsweeper Inc
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /webadmin/tools/systemstatus_remote.php
+  matchers: *id001
+  condition: and

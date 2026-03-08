@@ -1,0 +1,25 @@
+id: pmm-installer
+name: PMM Installation Wizard
+severity: high
+confidence: confirmed
+description: PMM is susceptible to the Installation page exposure due to misconfiguration.
+tags:
+- misconfig
+- exposure
+- install
+- pmm
+- vuln
+requests:
+- method: GET
+  path: /password-page/ovf/account-credentials-ovf
+  matchers:
+  - type: body
+    words:
+    - PMM Installation Wizard
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

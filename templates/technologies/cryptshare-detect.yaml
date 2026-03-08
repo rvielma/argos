@@ -1,0 +1,22 @@
+id: cryptshare-detect
+name: Pointsharp Cryptshare - Detect
+severity: info
+confidence: confirmed
+description: Detects the presence of Pointsharp Cryptshare secure email and file sharing server.
+reference: https://www.pointsharp.com/en/products/cryptshare
+tags:
+- detect
+- tech
+- cryptshare
+- discovery
+requests:
+- method: GET
+  path: /Start?0
+  matchers:
+  - type: status
+    status:
+    - 200
+  - type: body
+    words:
+    - name="generator" content="Cryptshare
+  condition: and

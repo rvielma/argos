@@ -1,0 +1,20 @@
+id: owncloud-status-page
+name: Owncloud StatusPage detection
+severity: info
+confidence: confirmed
+description: Owncloud StatusPage detection
+tags:
+- tech
+- owncloud
+- status
+- discovery
+requests:
+- method: GET
+  path: /status.php
+  matchers:
+  - type: body
+    words:
+    - '"versionstring":'
+    - '"installed":'
+    - '"edition":'
+  condition: or

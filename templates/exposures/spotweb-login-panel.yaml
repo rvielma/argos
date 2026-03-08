@@ -1,0 +1,23 @@
+id: spotweb-login-panel
+name: SpotWeb Login Panel - Detect
+severity: info
+confidence: confirmed
+description: SpotWeb Login Panel - Detect
+tags:
+- panel
+- spotweb
+- detect
+- spotweb_project
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - SpotWeb - overview
+    - initSpotwebJs
+  - type: status
+    status:
+    - 200
+  condition: and

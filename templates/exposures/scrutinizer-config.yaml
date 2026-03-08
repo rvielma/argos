@@ -1,0 +1,24 @@
+id: scrutinizer-config
+name: Scrutinizer Config - Detect
+severity: info
+confidence: confirmed
+description: Scrutinizer configuration information was detected.
+reference: CWE-200
+tags:
+- exposure
+- scrutinizer
+- config
+- vuln
+requests:
+- method: GET
+  path: /.scrutinizer.yml
+  matchers:
+  - type: body
+    words:
+    - 'build:'
+    - 'filter:'
+    - 'tools:'
+  - type: status
+    status:
+    - 200
+  condition: and

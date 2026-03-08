@@ -1,0 +1,19 @@
+id: lazy-file-manager
+name: Lazy File Manager
+severity: medium
+confidence: tentative
+description: lfm.php file in exposed in Lazy File Manager.
+tags:
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /lfm.php
+  matchers:
+  - type: status
+    status:
+    - 200
+  - type: body
+    words:
+    - Lazy File Manager
+  condition: and

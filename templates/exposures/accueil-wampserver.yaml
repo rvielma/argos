@@ -1,0 +1,24 @@
+id: accueil-wampserver
+name: Accueil WAMPSERVER Configuration Page - Detect
+severity: medium
+confidence: confirmed
+description: Accueil WAMPSERVER configuration page was detected.
+reference: CWE-200
+tags:
+- exposure
+- accueil
+- wampserver
+- config
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Accueil WAMPSERVER
+    - Configuration Serveur
+  - type: status
+    status:
+    - 200
+  condition: and

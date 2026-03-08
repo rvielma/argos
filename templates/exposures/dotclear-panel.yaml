@@ -1,0 +1,26 @@
+id: dotclear-panel
+name: Dotclear Admin Login Panel - Detect
+severity: info
+confidence: tentative
+description: Dotclear admin login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- dotclear
+- discovery
+requests:
+- method: GET
+  path: /dc2/admin/auth.php
+  matchers: &id001
+  - type: body
+    words:
+    - <body id="dotclear-admin" class="auth">
+    - <title>Dotclear</title>
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /auth.php
+  matchers: *id001
+  condition: and

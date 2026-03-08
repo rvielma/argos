@@ -1,0 +1,22 @@
+id: citrix-hypervisor-page
+name: Citrix Hypervisor Page Detection
+severity: info
+confidence: confirmed
+description: Citrix Hypervisor Page Detection
+tags:
+- tech
+- citrix
+- default-page
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Welcome to Citrix Hypervisor
+    - XenCenter
+  - type: status
+    status:
+    - 200
+  condition: and

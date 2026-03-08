@@ -1,0 +1,22 @@
+id: honeywell-xl-web-controller
+name: Honeywell Excel Web Control Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Honeywell Excel Web Control login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- honeywell
+- edb
+- discovery
+requests:
+- method: GET
+  path: /standard/default.php
+  matchers:
+  - type: body
+    words:
+    - <title>Honeywell XL Web Controller</title>
+  - type: status
+    status:
+    - 200
+  condition: and

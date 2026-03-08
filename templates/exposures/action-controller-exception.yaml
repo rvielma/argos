@@ -1,0 +1,19 @@
+id: action-controller-exception
+name: Action Controller Exception - Page
+severity: info
+confidence: tentative
+description: Action Controller Exception - Page
+tags:
+- error
+- debug
+- log
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - 'Action Controller: Exception caught'
+    - config.hosts
+  condition: or

@@ -1,0 +1,23 @@
+id: koel-panel
+name: Koel Panel - Detect
+severity: info
+confidence: confirmed
+description: Personal audio streaming service that works.
+reference: https://koel.dev/
+tags:
+- panel
+- koel
+- login
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Koel</title>
+    - Personal audio streaming service that works.
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,25 @@
+id: friendica-panel
+name: Friendica Panel - Detect
+severity: info
+confidence: confirmed
+description: Friendica Login Panel was detected.
+reference: https://friendi.ca
+tags:
+- friendica
+- panel
+- login
+- detect
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - title="Search in Friendica
+    - Welcome to Friendica Social Network
+    - content="Friendica
+  - type: status
+    status:
+    - 200
+  condition: and

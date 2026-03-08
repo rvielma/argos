@@ -1,0 +1,24 @@
+id: detect-drone-config
+name: Drone - Configuration Detection
+severity: high
+confidence: tentative
+description: Drone configuration was discovered.
+reference: https://github.com/drone/drone
+tags:
+- config
+- exposure
+- drone
+- discovery
+requests:
+- method: GET
+  path: /.drone.yml
+  matchers:
+  - type: body
+    words:
+    - 'kind:'
+    - 'name:'
+    - 'steps:'
+  - type: status
+    status:
+    - 200
+  condition: and

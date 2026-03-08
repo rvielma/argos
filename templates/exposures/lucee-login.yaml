@@ -1,0 +1,29 @@
+id: lucee-login
+name: Lucee Web and Lucee Server Admin Login Panel - Detect
+severity: info
+confidence: tentative
+description: Lucee admin login panels were detected in both Web and Server tabs.
+reference: CWE-200
+tags:
+- panel
+- lucee
+- discovery
+requests:
+- method: GET
+  path: /lucee/admin/web.cfm
+  matchers: &id001
+  - type: body
+    words:
+    - <title>Login - Lucee Web Administrator</title>
+    - <title>Login - Lucee Server Administrator</title>
+    - lucee-admin-search-input
+    - lucee-docs-search-input
+    - server-lucee-small.png.cfm
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /lucee/admin/server.cfm
+  matchers: *id001
+  condition: and

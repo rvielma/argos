@@ -1,0 +1,28 @@
+id: nagios-status-page
+name: Nagios Current Status Page - Detect
+severity: medium
+confidence: tentative
+description: Nagios current status page was detected.
+reference: CWE-200
+tags:
+- exposure
+- nagios
+- status
+- edb
+- vuln
+requests:
+- method: GET
+  path: /nagios/cgi-bin/status.cgi
+  matchers: &id001
+  - type: body
+    words:
+    - Current Network Status
+  condition: or
+- method: GET
+  path: /cgi-bin/nagios4/status.cgi
+  matchers: *id001
+  condition: or
+- method: GET
+  path: /cgi-bin/nagios3/status.cgi
+  matchers: *id001
+  condition: or

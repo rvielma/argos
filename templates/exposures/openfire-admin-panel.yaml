@@ -1,0 +1,29 @@
+id: openfire-admin-panel
+name: Openfire Admin Console Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Openfire Admin Console login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- openfire
+- admin
+- console
+- igniterealtime
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - <title>Openfire Admin Console
+    - 'Openfire, Version:'
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /login.jsp
+  matchers: *id001
+  condition: and

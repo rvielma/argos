@@ -1,0 +1,26 @@
+id: 4D-detect
+name: 4D Detection
+severity: info
+confidence: confirmed
+description: 4D technology was detected.
+reference: https://us.4d.com/
+tags:
+- 4D
+- detect
+- tech
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - /4DACTION/
+    - /4DSTATS
+    - /4DHTMLSTATS
+    - /4DCACHECLEAR
+    - /4DWEBTEST
+  - type: status
+    status:
+    - 200
+  condition: and

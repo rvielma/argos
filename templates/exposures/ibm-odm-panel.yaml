@@ -1,0 +1,26 @@
+id: ibm-odm-panel
+name: IBM Operational Decision Manager Panel - Detect
+severity: info
+confidence: confirmed
+description: IBM Operational Decision Manager panel was detected.
+reference: https://www.ibm.com/docs/en/odm/8.12.0
+tags:
+- panel
+- ibm
+- login
+- detect
+- decision-center
+- discovery
+requests:
+- method: GET
+  path: /decisioncenter/login
+  matchers:
+  - type: body
+    words:
+    - <title>Decision Center | Business Console</title>
+    - <h1 class="title">Decision Center | Business Console</h1>
+    - com/ibm/rules/decisioncenter/setup/Login
+  - type: status
+    status:
+    - 200
+  condition: and

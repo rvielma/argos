@@ -1,0 +1,18 @@
+id: google-frontend-httpserver
+name: Google frontend HttpServer
+severity: info
+confidence: confirmed
+description: Google frontend HttpServer
+tags:
+- tech
+- google
+- httpserver
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: header
+    words:
+    - Google Frontend
+  condition: or

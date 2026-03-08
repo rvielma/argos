@@ -1,0 +1,24 @@
+id: coming-soon-page-detect
+name: Coming Soon Page Detect
+severity: info
+confidence: confirmed
+description: Coming Soon Page Detect
+tags:
+- tech
+- default-page
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Coming Soon
+    - Future home of something quite cool.
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

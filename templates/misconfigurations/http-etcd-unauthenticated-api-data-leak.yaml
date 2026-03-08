@@ -1,0 +1,30 @@
+id: http-etcd-unauthenticated-api-data-leak
+name: etcd Unauthenticated HTTP API Leak
+severity: high
+confidence: tentative
+description: etcd HTTP API is exposed.
+reference: https://hackerone.com/reports/1088429
+tags:
+- misconfig
+- hackerone
+- unauth
+- etcd
+- vuln
+requests:
+- method: GET
+  path: /v2/auth/roles
+  matchers:
+  - type: body
+    words:
+    - '"roles"'
+    - '"permissions"'
+    - '"role"'
+    - '"kv"'
+  - type: header
+    words:
+    - text/plain
+    - application/json
+  - type: status
+    status:
+    - 200
+  condition: and

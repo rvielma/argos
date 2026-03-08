@@ -1,0 +1,24 @@
+id: sparklighter-detect
+name: Spark Lighter Detection
+severity: info
+confidence: confirmed
+description: Detects a Spark Lighter server, a REST API for Apache Spark on K8S or YARN.
+tags:
+- tech
+- lighter
+- spark
+- detect
+- apache
+- discovery
+requests:
+- method: GET
+  path: /lighter/api
+  matchers:
+  - type: body
+    words:
+    - <title>Lighter</title>
+    - /lighter/favicon.svg
+  - type: status
+    status:
+    - 200
+  condition: and

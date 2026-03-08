@@ -1,0 +1,27 @@
+id: viminfo-disclosure
+name: Viminfo - File Disclosure
+severity: low
+confidence: confirmed
+description: Viminfo file was detected.
+reference: https://renenyffenegger.ch/notes/development/vim/editing/viminfo/index
+tags:
+- devops
+- exposure
+- viminfo
+- config
+- vuln
+requests:
+- method: GET
+  path: /.viminfo
+  matchers:
+  - type: body
+    words:
+    - Viminfo version
+    - Command Line History
+  - type: header
+    words:
+    - application/octet-stream
+  - type: status
+    status:
+    - 200
+  condition: and

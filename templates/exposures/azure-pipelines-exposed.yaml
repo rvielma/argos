@@ -1,0 +1,31 @@
+id: azure-pipelines-exposed
+name: Azure Pipelines Configuration File Disclosure
+severity: medium
+confidence: confirmed
+description: Azure Pipelines internal critical file is disclosed.
+tags:
+- config
+- exposure
+- azure
+- microsoft
+- cloud
+- devops
+- files
+- vuln
+requests:
+- method: GET
+  path: /.azure-pipelines.yml
+  matchers: &id001
+  - type: body
+    words:
+    - 'trigger:'
+    - 'pool:'
+    - 'variables:'
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /azure-pipelines.yml
+  matchers: *id001
+  condition: and

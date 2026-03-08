@@ -1,0 +1,23 @@
+id: macos-server-panel
+name: macOS Server Panel - Detect
+severity: info
+confidence: confirmed
+description: macOS Server Panel - Detect
+tags:
+- panel
+- login
+- macos-server
+- detect
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - macOS Server
+    - apple-system
+  - type: status
+    status:
+    - 200
+  condition: and

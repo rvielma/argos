@@ -1,0 +1,23 @@
+id: atlantis-detect
+name: Atlantis Panel - Detect
+severity: info
+confidence: confirmed
+description: Atlantis panel was detected.
+reference: CWE-200
+tags:
+- panel
+- atlantis
+- runatlantis
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - title="atlantis
+    - Lock
+  - type: status
+    status:
+    - 200
+  condition: and

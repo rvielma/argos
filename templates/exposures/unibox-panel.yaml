@@ -1,0 +1,25 @@
+id: unibox-panel
+name: Unibox Panel - Detect
+severity: info
+confidence: confirmed
+description: Unibox Administrator panel was detected.
+tags:
+- panel
+- unibox
+- login
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Unibox Administration</title>
+    - Please Login to continue
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

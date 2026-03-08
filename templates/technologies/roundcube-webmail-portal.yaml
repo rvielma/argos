@@ -1,0 +1,26 @@
+id: roundcube-webmail-portal
+name: Roundcube webmail
+severity: info
+confidence: tentative
+description: Roundcube webmail
+tags:
+- roundcube
+- portal
+- tech
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: regex
+    regex:
+    - '"rcversion":\d\d\d\d'
+    - (?i)roundcube
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /webmail/
+  matchers: *id001
+  condition: and

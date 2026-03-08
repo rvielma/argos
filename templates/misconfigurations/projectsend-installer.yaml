@@ -1,0 +1,27 @@
+id: projectsend-installer
+name: ProjectSend Installation Page - Exposure
+severity: high
+confidence: confirmed
+description: Detects exposed ProjectSend installation page.
+reference: https://www.projectsend.org/
+tags:
+- misconfig
+- install
+- exposure
+- projectsend
+- vuln
+requests:
+- method: GET
+  path: /install/index.php
+  matchers: &id001
+  - type: body
+    words:
+    - Install &raquo; ProjectSend
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /install/make-config.php
+  matchers: *id001
+  condition: and

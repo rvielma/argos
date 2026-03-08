@@ -1,0 +1,24 @@
+id: eventum-panel
+name: Eventum Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Eventum login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- eventum
+- mysql
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Login - Eventum</title>
+    - title="Eventum Issues search"
+  - type: body
+    words:
+    - 'Database Error:'
+    - There seems to be a problem connecting to the database server specified in your configuration file
+  condition: or

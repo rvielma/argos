@@ -1,0 +1,23 @@
+id: phpgedview-installer
+name: PhpGedView Installer Exposure
+severity: high
+confidence: confirmed
+description: PhpGedView is susceptible to the Installation page exposure due to misconfiguration.
+tags:
+- misconfig
+- phpgedview
+- install
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /install.php
+  matchers:
+  - type: body
+    words:
+    - Installation Wizard
+    - phpgedview
+  - type: status
+    status:
+    - 200
+  condition: and

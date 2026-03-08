@@ -1,0 +1,23 @@
+id: apache-ofbiz-detect
+name: Apache OFBiz - Detect
+severity: info
+confidence: confirmed
+description: An Apache OFBiz instance was detected.
+tags:
+- tech
+- detect
+- ofbiz
+- apache
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - OFBiz.Visitor=
+    - Apache OFBiz.
+  - type: status
+    status:
+    - 200
+  condition: and

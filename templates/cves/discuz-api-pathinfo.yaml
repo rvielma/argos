@@ -1,0 +1,26 @@
+id: discuz-api-pathinfo
+name: Discuz! X2.5 - Path Disclosure
+severity: low
+confidence: confirmed
+description: Discuz! X2.5 api.php path disclosure vulnerability
+reference: https://crx.xmspace.net/discuz_x25_api_php.html
+tags:
+- discuz
+- info
+- disclosure
+- vuln
+requests:
+- method: GET
+  path: /api.php?mod[]=auto
+  matchers:
+  - type: body
+    words:
+    - .php</b> on line
+    - function.array
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

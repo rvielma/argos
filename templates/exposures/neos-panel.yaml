@@ -1,0 +1,23 @@
+id: neos-panel
+name: Neos CMS Login Panel - Detect
+severity: info
+confidence: tentative
+description: Neos CMS login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- neos
+- cms
+- login
+- discovery
+requests:
+- method: GET
+  path: /neos/login
+  matchers:
+  - type: body
+    words:
+    - Neos comes with ABSOLUTELY NO WARRANTY
+  - type: status
+    status:
+    - 200
+  condition: and

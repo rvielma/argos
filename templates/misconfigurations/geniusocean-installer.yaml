@@ -1,0 +1,26 @@
+id: geniusocean-installer
+name: GeniusOcean Installer Exposure
+severity: high
+confidence: confirmed
+description: GeniusOcean is susceptible to the Installation page exposure due to misconfiguration.
+tags:
+- misconfig
+- geniusocean
+- install
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /install/?step=1
+  matchers:
+  - type: body
+    words:
+    - GeniusOcean - Script Installer
+    - GeniusOcean Installer
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

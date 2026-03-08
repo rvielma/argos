@@ -1,0 +1,22 @@
+id: insecure-crossdomain
+name: Insecure cross-domain.xml file
+severity: info
+confidence: tentative
+description: Insecure cross-domain.xml file
+reference: https://www.acunetix.com/vulnerabilities/web/insecure-crossdomain-xml-file
+tags:
+- exposure
+- generic
+- files
+- vuln
+requests:
+- method: GET
+  path: /crossdomain.xml
+  matchers:
+  - type: status
+    status:
+    - 200
+  - type: body
+    words:
+    - <allow-access-from domain="*"/>
+  condition: and

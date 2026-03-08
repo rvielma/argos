@@ -1,0 +1,22 @@
+id: cleo-detect
+name: Cleo Technology - Detect
+severity: info
+confidence: confirmed
+description: This template detects Cleo technologies, including VLTrader, Harmony, and LexiCom, by inspecting response headers.It
+  also extracts version information for each identified technology.
+reference: https://www.cleo.com
+tags:
+- tech
+- detect
+- cleo
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Cleo VLTrader
+    - Cleo Harmony
+    - Cleo LexiCom
+  condition: or

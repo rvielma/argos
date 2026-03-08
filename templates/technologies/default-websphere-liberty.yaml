@@ -1,0 +1,21 @@
+id: default-websphere-liberty
+name: WebSphere Liberty Default Page
+severity: info
+confidence: confirmed
+description: WebSphere Liberty Default Page
+tags:
+- tech
+- websphere
+- liberty
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - WebSphere Liberty
+  - type: status
+    status:
+    - 200
+  condition: and

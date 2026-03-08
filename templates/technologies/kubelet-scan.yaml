@@ -1,0 +1,24 @@
+id: kubelet-scan
+name: Kubelet Running Pods
+severity: info
+confidence: tentative
+description: Scans for kubelet running pods
+tags:
+- tech
+- k8s
+- kubernetes
+- devops
+- kubelet
+- discovery
+requests:
+- method: GET
+  path: /runningpods/
+  matchers:
+  - type: status
+    status:
+    - 200
+  - type: body
+    words:
+    - '"PodList":'
+    - '"items":'
+  condition: and

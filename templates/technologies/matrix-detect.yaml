@@ -1,0 +1,28 @@
+id: matrix-detect
+name: Matrix Server Detect
+severity: info
+confidence: tentative
+description: Detects Matrix servers based on .well-known entries. See https://en.wikipedia.org/wiki/Matrix_(protocol)
+reference: https://spec.matrix.org/v1.3/server-server-api/#getwell-knownmatrixserver, https://spec.matrix.org/v1.3/client-server-api/#getwell-knownmatrixclient
+tags:
+- tech
+- matrix
+- discovery
+requests:
+- method: GET
+  path: /.well-known/matrix/server
+  matchers: &id001
+  - type: regex
+    regex:
+    - '"m\.([a-z]+)":'
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /.well-known/matrix/client
+  matchers: *id001
+  condition: and

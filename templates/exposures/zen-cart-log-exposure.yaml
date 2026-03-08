@@ -1,0 +1,36 @@
+id: zen-cart-log-exposure
+name: Zen Cart Log File Exposure
+severity: medium
+confidence: tentative
+description: Detected exposed Zen Cart log files that may contain sensitive information including error messages, file paths,
+  database queries, and customer data.
+reference: CWE-200
+tags:
+- zencart
+- exposure
+- logs
+- ecommerce
+requests:
+- method: GET
+  path: /logs/
+  matchers: &id001
+  - type: body
+    words:
+    - Index of
+    - myDEBUG
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /cache/
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /includes/logs/
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /admin/logs/
+  matchers: *id001
+  condition: and

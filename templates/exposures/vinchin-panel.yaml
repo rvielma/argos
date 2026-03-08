@@ -1,0 +1,22 @@
+id: vinchin-panel
+name: Vinchin Backup & Recovery Panel - Detect
+severity: info
+confidence: confirmed
+description: Vinchin Backup & Recovery login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- vinchin
+- login
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Vinchin Backup & Recovery
+  - type: status
+    status:
+    - 200
+  condition: and

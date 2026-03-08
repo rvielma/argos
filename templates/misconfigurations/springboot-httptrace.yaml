@@ -1,0 +1,33 @@
+id: springboot-httptrace
+name: Detect Springboot httptrace
+severity: low
+confidence: tentative
+description: View recent HTTP requests and responses
+tags:
+- springboot
+- exposure
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /httptrace
+  matchers: &id001
+  - type: body
+    words:
+    - '"traces"'
+    - '"timestamp"'
+    - '"principal"'
+    - '"session"'
+  - type: header
+    words:
+    - application/json
+    - application/vnd.spring-boot.actuator
+    - application/vnd.spring-boot.actuator.v1+json
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /actuator/httptrace
+  matchers: *id001
+  condition: and

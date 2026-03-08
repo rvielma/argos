@@ -1,0 +1,26 @@
+id: ojs-installer
+name: Open Journal Systems Installer - Exposure
+severity: high
+confidence: confirmed
+description: Open Journal Systems is susceptible to the Installation page exposure due to misconfiguration.
+tags:
+- misconfig
+- ojs
+- install
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /index/install
+  matchers: &id001
+  - type: body
+    words:
+    - OJS Installation
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /index.php/index/install
+  matchers: *id001
+  condition: and

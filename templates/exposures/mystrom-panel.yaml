@@ -1,0 +1,22 @@
+id: mystrom-panel
+name: MyStrom Panel - Detect
+severity: info
+confidence: confirmed
+description: Mystrom panel was detected.
+reference: CWE-200
+tags:
+- panel
+- mystrom
+- iot
+- discovery
+requests:
+- method: GET
+  path: /index.html#en
+  matchers:
+  - type: body
+    words:
+    - <title>myStrom</title>
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,25 @@
+id: phpstan-config
+name: PHPStan Configuration Page - Detect
+severity: info
+confidence: confirmed
+description: PHPStan configuration page was detected.
+reference: CWE-200
+tags:
+- devops
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /phpstan.neon
+  matchers:
+  - type: body
+    words:
+    - 'parameters:'
+  - type: header
+    words:
+    - text/html
+    - application/javascript
+  - type: status
+    status:
+    - 200
+  condition: and

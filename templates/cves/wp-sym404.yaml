@@ -1,0 +1,23 @@
+id: wp-sym404
+name: Wordpress sym404 directory
+severity: high
+confidence: confirmed
+description: Searches for sensitive directories present in the sym404.
+reference: https://twitter.com/momika233/status/1540325055280070656
+tags:
+- wordpress
+- listing
+- wp
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /wp-includes/sym404/root/etc/passwd
+  matchers:
+  - type: regex
+    regex:
+    - 'root:.*:0:0:'
+  - type: status
+    status:
+    - 200
+  condition: and

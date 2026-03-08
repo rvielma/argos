@@ -1,0 +1,20 @@
+id: autobahn-python-detect
+name: Autobahn-Python Webserver Detect
+severity: info
+confidence: tentative
+description: Autobahn-Python Webserver Detect
+tags:
+- tech
+- webserver
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: regex
+    regex:
+    - <h1>AutobahnPython([ 0-9.]+)<\/h1>
+  - type: status
+    status:
+    - 200
+  condition: and

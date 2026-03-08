@@ -1,0 +1,22 @@
+id: dkron-detect
+name: Dkron - Detect
+severity: info
+confidence: confirmed
+description: detected a Dkron server, a distributed and fault-tolerant job scheduling system for cloud-native environments.
+reference: https://github.com/distribworks/dkron/
+tags:
+- tech
+- dkron
+- detect
+- discovery
+requests:
+- method: GET
+  path: /ui/
+  matchers:
+  - type: body
+    words:
+    - <title>Dkron</title>
+  - type: status
+    status:
+    - 200
+  condition: and

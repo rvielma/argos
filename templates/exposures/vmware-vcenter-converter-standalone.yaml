@@ -1,0 +1,22 @@
+id: vmware-vcenter-converter-standalone
+name: VMware vCenter Converter Panel - Detect
+severity: info
+confidence: confirmed
+description: VMware vCenter Converter panel was detected.
+reference: CWE-200
+tags:
+- panel
+- vmware
+- vcenter
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - VMware vCenter Converter Standalone
+  - type: status
+    status:
+    - 200
+  condition: and

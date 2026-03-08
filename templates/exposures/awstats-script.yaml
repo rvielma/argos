@@ -1,0 +1,49 @@
+id: awstats-script
+name: AWStats Script Config - Detect
+severity: info
+confidence: tentative
+description: AWStats configuration information was detected.
+reference: CWE-200
+tags:
+- config
+- exposure
+- awstats
+- vuln
+requests:
+- method: GET
+  path: /awstats.pl
+  matchers: &id001
+  - type: body
+    words:
+    - Do not remove this line
+  - type: header
+    words:
+    - application/x-perl
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /cgi-bin/awstats.pl
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /logs/awstats.pl
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /webstats/awstats.pl
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /awstats/awstats.pl
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /cgi-bin/awstats/awstats.pl
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /awstats/awstats.pl?config=
+  matchers: *id001
+  condition: and

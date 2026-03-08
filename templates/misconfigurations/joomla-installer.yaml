@@ -1,0 +1,25 @@
+id: joomla-installer
+name: Joomla! Installer Exposure
+severity: high
+confidence: confirmed
+description: Joomla is susceptible to the Installation page exposure due to misconfiguration.
+tags:
+- misconfig
+- joomla
+- install
+- vuln
+requests:
+- method: GET
+  path: /installation/index.php
+  matchers:
+  - type: body
+    words:
+    - Joomla! Web Installer
+    - Configuration
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,25 @@
+id: jira-unauthenticated-resolutions
+name: Jira Unauthenticated Resolutions
+severity: info
+confidence: tentative
+description: Jira Unauthenticated Resolutions
+tags:
+- atlassian
+- jira
+- vuln
+requests:
+- method: GET
+  path: /rest/api/2/resolution
+  matchers:
+  - type: body
+    words:
+    - self
+    - description
+    - name
+  - type: status
+    status:
+    - 200
+  - type: header
+    words:
+    - atlassian.xsrf.token
+  condition: and

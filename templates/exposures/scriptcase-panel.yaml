@@ -1,0 +1,27 @@
+id: scriptcase-panel
+name: ScriptCase Panel Detect
+severity: info
+confidence: confirmed
+description: ScriptCase Panel Detect
+reference: https://www.scriptcase.com.br
+tags:
+- panel
+- scriptcase
+- discovery
+requests:
+- method: GET
+  path: /devel/iface/
+  matchers: &id001
+  - type: regex
+    regex:
+    - (?i)(ScriptCase)
+    - (?i)(NetMake)
+    - (?i)(Login)
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /scriptcase/devel/iface/
+  matchers: *id001
+  condition: and

@@ -1,0 +1,20 @@
+id: prestashop-detect
+name: PrestaShop Tech Detection
+severity: info
+confidence: tentative
+description: PrestaShop Tech Detection
+tags:
+- tech
+- cms
+- prestashop
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: regex
+    regex:
+    - Powered by <a\s+[^>]+>PrestaShop
+    - <!-- /Block [a-z ]+ module (?:HEADER|TOP)?\s?-->
+    - <!-- /Module Block [a-z ]+ -->
+  condition: or

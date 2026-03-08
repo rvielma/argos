@@ -1,0 +1,23 @@
+id: oracle-people-enterprise
+name: Oracle PeopleSoft Enterprise Login Panel - Detect
+severity: info
+confidence: tentative
+description: Oracle PeopleSoft Enterprise login panel detected.
+reference: CWE-200
+tags:
+- oracle
+- login
+- panel
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - /signon.html
+    - <meta HTTP-EQUIV='Refresh' CONTENT='1
+  - type: status
+    status:
+    - 200
+  condition: and

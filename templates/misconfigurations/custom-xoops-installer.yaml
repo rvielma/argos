@@ -1,0 +1,22 @@
+id: custom-xoops-installer
+name: XOOPS Custom - Installation
+severity: high
+confidence: confirmed
+description: Detects the presence of XOOPS Custom installation page.
+reference: https://www.exploit-db.com/ghdb/1115
+tags:
+- misconfig
+- xoops
+- installer
+- vuln
+requests:
+- method: GET
+  path: /install/index.php
+  matchers:
+  - type: body
+    words:
+    - <title>XOOPS Custom Installation</title>
+  - type: status
+    status:
+    - 200
+  condition: and

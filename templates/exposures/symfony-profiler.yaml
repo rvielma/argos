@@ -1,0 +1,93 @@
+id: symfony-profiler
+name: Symfony Profiler - Detect
+severity: high
+confidence: confirmed
+description: Symfony profiler was detected.
+reference: CWE-200
+tags:
+- config
+- exposure
+- symfony
+- vuln
+requests:
+- method: GET
+  path: /_profiler/empty/search/results?limit=10
+  matchers: &id001
+  - type: body
+    words:
+    - Symfony Profiler
+    - <title>Profiler</title>
+    - Symfony-Debug-Toolbar
+  condition: or
+- method: GET
+  path: /app_dev.php/_profiler/empty/search/results?limit=10
+  matchers: *id001
+  condition: or
+- method: GET
+  path: /index.php/_profiler/empty/search/results?limit=10
+  matchers: *id001
+  condition: or
+- method: GET
+  path: /index_dev.php/_profiler/empty/search/results?limit=10
+  matchers: *id001
+  condition: or
+- method: GET
+  path: /dev.php/_profiler/empty/search/results?limit=10
+  matchers: *id001
+  condition: or
+- method: GET
+  path: /debug.php/_profiler/empty/search/results?limit=10
+  matchers: *id001
+  condition: or
+- method: GET
+  path: /_debug/_profiler/empty/search/results?limit=10
+  matchers: *id001
+  condition: or
+- method: GET
+  path: /web/_profiler/empty/search/results?limit=10
+  matchers: *id001
+  condition: or
+- method: GET
+  path: /public/_profiler/empty/search/results?limit=10
+  matchers: *id001
+  condition: or
+- method: GET
+  path: /frontend_dev.php/_profiler/empty/search/results?limit=10
+  matchers: *id001
+  condition: or
+- method: GET
+  path: /backend_dev.php/_profiler/empty/search/results?limit=10
+  matchers: *id001
+  condition: or
+- method: GET
+  path: /api_dev.php/_profiler/empty/search/results?limit=10
+  matchers: *id001
+  condition: or
+- method: GET
+  path: /app.php/_profiler/empty/search/results?limit=10
+  matchers: *id001
+  condition: or
+- method: GET
+  path: /app_test.php/_profiler/empty/search/results?limit=10
+  matchers: *id001
+  condition: or
+- method: GET
+  path: /test.php/_profiler/empty/search/results?limit=10
+  matchers: *id001
+  condition: or
+- method: GET
+  path: /symfony/_profiler/empty/search/results?limit=10
+  matchers: *id001
+  condition: or
+- method: GET
+  path: /debug/_profiler/empty/search/results?limit=10
+  matchers: *id001
+  condition: or
+- method: GET
+  path: /dev/_profiler/empty/search/results?limit=10
+  matchers: *id001
+  condition: or
+- method: GET
+  path: /profiler/empty/search/results?limit=10
+  matchers: *id001
+  condition: or

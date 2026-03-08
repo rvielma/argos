@@ -1,0 +1,29 @@
+id: java-melody-exposed
+name: JavaMelody Monitoring Exposed
+severity: medium
+confidence: tentative
+description: JavaMelody is a tool used to monitor Java or Java EE applications in QA and production environments. JavaMelody
+  was detected on this web application. One option in the dashboard is to "View http sessions". This can be used by an attacker
+  to steal a user's session.
+reference: https://www.acunetix.com/vulnerabilities/web/javamelody-publicly-accessible/
+tags:
+- config
+- java
+- javamelody
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /monitoring
+  matchers: &id001
+  - type: body
+    words:
+    - Monitoring JavaMelody on
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /..%3B/monitoring
+  matchers: *id001
+  condition: and

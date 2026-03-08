@@ -1,0 +1,28 @@
+id: springboot-autoconfig
+name: Detect Springboot autoconfig Actuator
+severity: low
+confidence: tentative
+description: Displays an auto-configuration report showing all auto-configuration candidates and the reason why they 'were'
+  or 'were not' applied.
+tags:
+- springboot
+- exposure
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /autoconfig
+  matchers: &id001
+  - type: body
+    words:
+    - positiveMatches
+    - AuditAutoConfiguration#auditListener
+    - EndpointAutoConfiguration#beansEndpoint
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /actuator/autoconfig
+  matchers: *id001
+  condition: and

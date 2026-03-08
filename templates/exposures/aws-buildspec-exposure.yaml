@@ -1,0 +1,36 @@
+id: aws-buildspec-exposure
+name: AWS CodeBuild Build Spec - Exposure
+severity: low
+confidence: confirmed
+description: Detected the presence of the AWS CodeBuild buildspec.yml file. This file contains build commands and settings
+  that may disclose sensitive information about the application's build process and infrastructure.
+reference: https://docs.aws.amazon.com/codebuild/latest/userguide/build-spec-ref.html
+tags:
+- aws
+- codebuild
+- exposure
+- config
+- devops
+requests:
+- method: GET
+  path: /buildspec.yml
+  matchers: &id001
+  - type: body
+    words:
+    - 'version:'
+    - 'phases:'
+    - 'build:'
+    - 'commands:'
+  - type: header
+    words:
+    - text/yaml
+    - text/plain
+    - application/x-yaml
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /buildspec.yaml
+  matchers: *id001
+  condition: and

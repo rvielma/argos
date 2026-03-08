@@ -1,0 +1,24 @@
+id: unauth-celery-flower
+name: Celery Flower - Unauthenticated Access
+severity: high
+confidence: tentative
+description: Celery Flower was able to be accessed with no authentication requirements in place.
+tags:
+- celery
+- flower
+- unauth
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /dashboard
+  matchers:
+  - type: body
+    words:
+    - /dashboard
+    - /tasks
+    - github.com/mher/flower
+  - type: status
+    status:
+    - 200
+  condition: and

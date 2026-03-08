@@ -1,0 +1,28 @@
+id: oracle-business-control
+name: Oracle Commerce Business Control Center Login Panel - Detect
+severity: info
+confidence: tentative
+description: Oracle Commerce Business Control Center login panel was detected.
+reference: CWE-200
+tags:
+- oracle
+- login
+- panel
+- discovery
+requests:
+- method: GET
+  path: /atg/bcc
+  matchers: &id001
+  - type: body
+    words:
+    - <title>Oracle Commerce Business Control Center</title>
+    - /atg/userprofiling/InternalProfileFormHandler.loginSuccessURL
+    - /atg/userprofiling/InternalProfileFormHandler.loginErrorURL
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /atg/user/html/login.jsp
+  matchers: *id001
+  condition: and

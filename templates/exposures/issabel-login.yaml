@@ -1,0 +1,22 @@
+id: issabel-login
+name: Issabel Login Panel - Detect
+severity: info
+confidence: tentative
+description: Issabel login panel was detected.
+reference: CWE-200
+tags:
+- issabel
+- panel
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <a href="http://www.issabel.org"
+    - <title>Issabel - Login page</title>
+  - type: status
+    status:
+    - 200
+  condition: and

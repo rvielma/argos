@@ -1,0 +1,22 @@
+id: orchard-installer
+name: Orchard Setup Wizard - Exposure
+severity: high
+confidence: confirmed
+description: Orchard is susceptible to the Installation page exposure due to misconfiguration.
+tags:
+- misconfig
+- exposure
+- install
+- orchard
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Orchard Setup - Get Started
+  - type: status
+    status:
+    - 200
+  condition: and

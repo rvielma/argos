@@ -1,0 +1,17 @@
+id: jira-unauthenticated-user-picker
+name: Jira Unauthenticated User Picker
+severity: info
+confidence: tentative
+description: Jira Unauthenticated User Picker
+tags:
+- atlassian
+- jira
+- vuln
+requests:
+- method: GET
+  path: /secure/popups/UserPickerBrowser.jspa
+  matchers:
+  - type: body
+    words:
+    - user-picker
+  condition: or

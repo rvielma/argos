@@ -1,0 +1,21 @@
+id: sceditor-detect
+name: SCEditor Detect
+severity: info
+confidence: tentative
+description: SCEditor Detect
+tags:
+- tech
+- sceditor
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Ticket BBCode editor - SCEditor</title>
+    - title="SCEditor"
+  - type: status
+    status:
+    - 200
+  condition: and

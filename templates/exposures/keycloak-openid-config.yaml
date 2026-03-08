@@ -1,0 +1,30 @@
+id: keycloak-openid-config
+name: Keycloak OpenID Configuration - Detect
+severity: info
+confidence: tentative
+description: Keycloak Openid configuration information was detected.
+reference: CWE-200
+tags:
+- keycloak
+- config
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /.well-known/openid-configuration
+  matchers: &id001
+  - type: status
+    status:
+    - 200
+  - type: body
+    words:
+    - issuer
+    - authorization_endpoint
+    - token_endpoint
+    - userinfo_endpoint
+    - jwks_uri
+  condition: and
+- method: GET
+  path: /auth/realms/master/.well-known/openid-configuration
+  matchers: *id001
+  condition: and

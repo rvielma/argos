@@ -1,0 +1,54 @@
+id: opencart-error-log
+name: OpenCart Error Log Disclosure
+severity: medium
+confidence: confirmed
+description: 'Detected exposed OpenCart error log files that may contain sensitive information
+
+  including file paths, database errors, PHP warnings, and internal application details.'
+reference: https://www.opencart.com/
+tags:
+- opencart
+- exposure
+- logs
+- disclosure
+requests:
+- method: GET
+  path: /system/storage/logs/error.log
+  matchers: &id001
+  - type: body
+    words:
+    - PHP Notice
+    - PHP Warning
+    - PHP Error
+    - PHP Fatal error
+    - opencart
+    - catalog/controller
+    - catalog/model
+    - system/library
+    - Undefined index
+    - MySQL
+    - mysqli
+  - type: regex
+    regex:
+    - \d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}:\d{2}
+    - \[error\]|\[warning\]|\[notice\]
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /opencart/system/storage/logs/error.log
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /storage/logs/error.log
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /error.log
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /system/logs/error.log
+  matchers: *id001
+  condition: and

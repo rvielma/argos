@@ -1,0 +1,41 @@
+id: opennms-dashboard-exposure
+name: OpenNMS Dashboard - Exposure Detection
+severity: medium
+confidence: tentative
+description: OpenNMS Dashboard exposure was detected. OpenNMS is an enterprise-grade network monitoring platform. Exposed
+  dashboards may reveal sensitive network infrastructure information, monitoring data, alarms, and potentially allow unauthorized
+  access.
+reference: CWE-200
+tags:
+- panel
+- opennms
+- exposure
+- dashboard
+- network-monitoring
+- misconfig
+requests:
+- method: GET
+  path: /opennms/index.jsp
+  matchers: &id001
+  - type: body
+    words:
+    - OpenNMS Web Console
+    - OpenNMS
+  - type: body
+    words:
+    - Status
+    - Dashboard
+    - Home
+    - Maps
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /opennms/dashboard.jsp
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /opennms/
+  matchers: *id001
+  condition: and

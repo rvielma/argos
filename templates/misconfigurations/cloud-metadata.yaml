@@ -1,0 +1,26 @@
+id: cloud-metadata
+name: GCP/AWS Metadata Disclosure
+severity: low
+confidence: confirmed
+description: GCP/AWS Metadata is exposed.
+reference: https://www.facebook.com/ExWareLabs/photos/pcb.5605494709514357/5605493856181109/
+tags:
+- misconfig
+- exposure
+- devops
+- cloud
+- aws
+- gcp
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - '"instance_metadata":'
+    - '"cloud":'
+  - type: status
+    status:
+    - 200
+  condition: and

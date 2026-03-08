@@ -1,0 +1,23 @@
+id: unauthenticated-jenkins
+name: Jenkins Dashboard - Unauthenticated Access
+severity: high
+confidence: tentative
+description: Jenkins Dashboard is exposed to external users.
+tags:
+- jenkins
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - Dashboard [Jenkins]
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /jenkins/
+  matchers: *id001
+  condition: and

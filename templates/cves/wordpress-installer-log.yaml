@@ -1,0 +1,20 @@
+id: wordpress-installer-log
+name: WordPress Installer Log
+severity: info
+confidence: tentative
+description: This file is generated during the installation process of wordpress and is exposed.
+tags:
+- wordpress
+- log
+- vuln
+requests:
+- method: GET
+  path: /installer-log.txt
+  matchers:
+  - type: regex
+    regex:
+    - (?mi)DUPLICATOR(-|\s)?(PRO|LITE)?:? INSTALL-LOG
+  - type: status
+    status:
+    - 200
+  condition: and

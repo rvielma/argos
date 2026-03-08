@@ -1,0 +1,24 @@
+id: dbeaver-database-connections
+name: DBeaver Database Connections - Detect
+severity: info
+confidence: confirmed
+description: DBeaver database connections were detected.
+reference: CWE-200
+tags:
+- dbeaver
+- files
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /.dbeaver/data-sources.json
+  matchers:
+  - type: body
+    words:
+    - '"folders": {'
+    - '"connection-types": {'
+    - '"connections": {'
+  - type: status
+    status:
+    - 200
+  condition: and

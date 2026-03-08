@@ -1,0 +1,24 @@
+id: circleci-ssh-config
+name: CircleCI SSH Configuration - Detect
+severity: medium
+confidence: tentative
+description: CircleCI ssh-config file was detected.
+reference: CWE-200
+tags:
+- config
+- exposure
+- circleci
+- vuln
+requests:
+- method: GET
+  path: /.circleci/ssh-config
+  matchers:
+  - type: body
+    words:
+    - Host
+    - HostName
+    - IdentityFile
+  - type: status
+    status:
+    - 200
+  condition: and

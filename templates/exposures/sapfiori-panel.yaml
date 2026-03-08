@@ -1,0 +1,28 @@
+id: sapfiori-panel
+name: SAP Fiori Login Panel - Detect
+severity: info
+confidence: tentative
+description: SAP Fiori login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- sap
+- fiori
+- discovery
+requests:
+- method: GET
+  path: /fiori
+  matchers: &id001
+  - type: body
+    words:
+    - fioriLogin
+    - action="/fiori"
+  - type: body
+    words:
+    - UIPPortalPath
+    - /irj/portal/fiori
+  condition: or
+- method: GET
+  path: /irj/portal/fiori
+  matchers: *id001
+  condition: or

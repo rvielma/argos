@@ -1,0 +1,16 @@
+id: flowweb-detect
+name: FlowWeb Web Server - Detection
+severity: info
+confidence: tentative
+description: Detected servers running the FlowWeb web server via the Server header.
+tags:
+- tech
+- flowweb
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: regex
+    regex:
+    - (?i)FlowWeb/[0-9.]+
+  condition: or

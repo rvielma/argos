@@ -1,0 +1,21 @@
+id: akamai-detect
+name: akamai cdn detection
+severity: info
+confidence: tentative
+description: akamai cdn detection
+reference: https://support.globaldots.com/hc/en-us/articles/115003996705-Akamai-Pragma-Headers-overview
+tags:
+- akamai
+- cdn
+- tech
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - deploy.akamai
+  condition: or
+  headers:
+    Pragma: akamai-x-cache-on

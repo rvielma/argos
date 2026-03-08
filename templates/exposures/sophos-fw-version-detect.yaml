@@ -1,0 +1,26 @@
+id: sophos-fw-version-detect
+name: Sophos Firewall Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Sophos Firewall login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- sophos
+- discovery
+requests:
+- method: GET
+  path: /webconsole/webpages/login.jsp
+  matchers: &id001
+  - type: body
+    words:
+    - <title>Sophos</title>
+    - uiLangToHTMLLangAttributeValueMapping
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /userportal/webpages/myaccount/login.jsp
+  matchers: *id001
+  condition: and

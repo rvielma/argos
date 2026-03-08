@@ -1,0 +1,33 @@
+id: springboot-flyway
+name: Springboot Flyway API
+severity: low
+confidence: confirmed
+description: This endpoint to retrieve the migrations
+reference: https://docs.spring.io/spring-boot/docs/current/actuator-api/htmlsingle/#flyway
+tags:
+- misconfig
+- springboot
+- exposure
+- flyway
+- vuln
+requests:
+- method: GET
+  path: /flyway
+  matchers: &id001
+  - type: body
+    words:
+    - flywayBeans
+  - type: header
+    words:
+    - application/json
+    - application/vnd.spring-boot.actuator
+    - application/vnd.spring-boot.actuator.v1+json
+    - application/vnd.spring-boot.actuator.v2+json
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /actuator/flyway
+  matchers: *id001
+  condition: and

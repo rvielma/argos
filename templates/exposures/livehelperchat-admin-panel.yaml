@@ -1,0 +1,22 @@
+id: livehelperchat-admin-panel
+name: Live Helper Chat Admin Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Live Helper Chat admin login panel was detected.
+reference: CWE-200
+tags:
+- livehelperchat
+- panel
+- discovery
+requests:
+- method: GET
+  path: /site_admin/user/login
+  matchers:
+  - type: body
+    words:
+    - Live Helper Chat
+    - Please login
+  - type: status
+    status:
+    - 200
+  condition: and

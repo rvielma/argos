@@ -1,0 +1,22 @@
+id: exposed-hg
+name: HG Configuration - Detect
+severity: medium
+confidence: tentative
+description: HG configuration was detected.
+reference: CWE-200
+tags:
+- config
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /.hg/hgrc
+  matchers:
+  - type: body
+    words:
+    - '[paths]'
+    - default
+  - type: status
+    status:
+    - 200
+  condition: and

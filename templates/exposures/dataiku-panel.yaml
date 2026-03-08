@@ -1,0 +1,21 @@
+id: dataiku-panel
+name: Dataiku Panel - Detect
+severity: info
+confidence: confirmed
+description: Dataiku panel was detected.
+reference: CWE-200
+tags:
+- panel
+- dataiku
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Dataiku</title>
+  - type: header
+    words:
+    - text/html
+  condition: and

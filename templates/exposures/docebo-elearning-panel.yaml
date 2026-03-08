@@ -1,0 +1,21 @@
+id: docebo-elearning-panel
+name: Docebo eLearning Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Docebo eLearning login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- docebo
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Docebo E-learning
+  - type: status
+    status:
+    - 200
+  condition: and

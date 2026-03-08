@@ -1,0 +1,21 @@
+id: telerik-server-login
+name: Telerik Report Server Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Telerik Report Server login panel was detected.
+reference: CWE-200
+tags:
+- telerik
+- panel
+- discovery
+requests:
+- method: GET
+  path: /Account/Login
+  matchers:
+  - type: body
+    words:
+    - Telerik Report Server
+  - type: status
+    status:
+    - 200
+  condition: and

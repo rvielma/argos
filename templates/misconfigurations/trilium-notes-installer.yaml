@@ -1,0 +1,22 @@
+id: trilium-notes-installer
+name: Trilium Notes Installer - Exposure
+severity: high
+confidence: tentative
+description: Detects if the Trilium Notes setup page is accessible.
+tags:
+- trilium
+- setup
+- misconfig
+- installer
+- vuln
+requests:
+- method: GET
+  path: /setup
+  matchers:
+  - type: body
+    words:
+    - Trilium Notes setup
+  - type: status
+    status:
+    - 200
+  condition: and

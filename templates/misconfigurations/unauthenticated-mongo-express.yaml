@@ -1,0 +1,32 @@
+id: unauthenticated-mongo-express
+name: Mongo Express - Unauthenticated Access
+severity: high
+confidence: confirmed
+description: Mongo Express was able to be access with no authentication requirements in place.
+reference: https://www.exploit-db.com/ghdb/5684
+tags:
+- mongo
+- unauth
+- edb
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - <title>Home - Mongo Express</title>
+    - <title>system.users - Mongo Express</title>
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /mongo-express/
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /db/admin/system.users
+  matchers: *id001
+  condition: and

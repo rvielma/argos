@@ -1,0 +1,26 @@
+id: concrete-installer
+name: Concrete Installer
+severity: high
+confidence: confirmed
+description: Concrete is susceptible to the Installation page exposure due to misconfiguration.
+tags:
+- misconfig
+- exposure
+- install
+- concrete
+- vuln
+requests:
+- method: GET
+  path: /index.php/install
+  matchers:
+  - type: body
+    words:
+    - install concrete
+    - choose language
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

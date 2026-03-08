@@ -1,0 +1,19 @@
+id: abyss-web-server
+name: Detect Abyss Web Server
+severity: info
+confidence: tentative
+description: Detect Abyss Web Server
+tags:
+- tech
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Welcome to Abyss Web Server
+  - type: status
+    status:
+    - 200
+  condition: and

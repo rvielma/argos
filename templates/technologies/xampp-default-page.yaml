@@ -1,0 +1,22 @@
+id: xampp-default-page
+name: XAMPP Default Page
+severity: info
+confidence: tentative
+description: XAMPP Default Page
+tags:
+- tech
+- php
+- xampp
+- apache
+- discovery
+requests:
+- method: GET
+  path: /dashboard/
+  matchers:
+  - type: body
+    words:
+    - <title>Welcome to XAMPP</title>
+  - type: status
+    status:
+    - 200
+  condition: and

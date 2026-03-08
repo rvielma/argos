@@ -1,0 +1,29 @@
+id: web-suite-detect
+name: Web Suite Detect
+severity: info
+confidence: tentative
+description: Web Suite Detect
+tags:
+- tech
+- web-suite
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - www.bqe.com">BQE Software Inc.</a>
+    - Web Suite
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /ws2020/
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /ws2021/
+  matchers: *id001
+  condition: and

@@ -1,0 +1,26 @@
+id: jenkins-detect
+name: Jenkins Detection
+severity: info
+confidence: tentative
+description: Jenkins Detection
+reference: https://www.jenkins.io/doc/book/using/remote-access-api/#RemoteaccessAPI-DetectingJenkinsversion
+tags:
+- tech
+- jenkins
+- detect
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: header
+    words:
+    - 'x-jenkins:'
+  - type: body
+    words:
+    - Jenkins
+  condition: and
+- method: GET
+  path: /whoAmI/
+  matchers: *id001
+  condition: and

@@ -1,0 +1,24 @@
+id: eset-protect-panel
+name: Eset Protect Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Login page for Eset Protect
+reference: CWE-200
+tags:
+- login
+- eset
+- panel
+- detect
+- discovery
+requests:
+- method: GET
+  path: /era/webconsole/
+  matchers:
+  - type: body
+    words:
+    - ESET PROTECT
+    - window.eset
+  - type: status
+    status:
+    - 200
+  condition: and

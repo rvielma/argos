@@ -1,0 +1,27 @@
+id: ilias-panel
+name: ILIAS Login Panel - Detect
+severity: info
+confidence: confirmed
+description: ILIAS login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- ilias
+- discovery
+requests:
+- method: GET
+  path: /login.php
+  matchers: &id001
+  - type: body
+    words:
+    - Login to ILIAS
+    - alt="ILIAS
+    - powered by ILIAS
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /ilias/login.php
+  matchers: *id001
+  condition: and

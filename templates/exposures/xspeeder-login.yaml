@@ -1,0 +1,23 @@
+id: xspeeder-login
+name: XSpeeder Login - Detect
+severity: info
+confidence: confirmed
+description: Detects the presence of XSpeeder router login panels.
+reference: https://www.xspeeder.com/
+tags:
+- panel
+- xspeeder
+- router
+- login
+- detect
+requests:
+- method: GET
+  path: /login/?nLang=1
+  matchers:
+  - type: body
+    words:
+    - <title>神行者路由
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,25 @@
+id: ibm-maximo-login
+name: IBM Maximo Login Panel - Detect
+severity: info
+confidence: confirmed
+description: IBM Maximo login panel was detected.
+reference: CWE-200
+tags:
+- maximo
+- panel
+- ibm
+- login
+- detect
+- discovery
+requests:
+- method: GET
+  path: /maximo/webclient/login/login.jsp?appservauth=true
+  matchers:
+  - type: body
+    words:
+    - maximo-icon.png
+    - IBM
+  - type: status
+    status:
+    - 200
+  condition: and

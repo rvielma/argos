@@ -1,0 +1,29 @@
+id: vscode-launch
+name: Visual Studio Code launch.json Exposure
+severity: low
+confidence: confirmed
+description: The .vscode/launch.json file, used by Visual Studio Code for debugging configurations, is publicly accessible.
+  This file often contains sensitive information such as local file paths, runtime arguments, environment variables, and sometimes
+  hardcoded credentials or access tokens.
+reference: https://code.visualstudio.com/docs/editor/debugging
+tags:
+- vscode
+- files
+- debug
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /.vscode/launch.json
+  matchers:
+  - type: body
+    words:
+    - '"version":'
+    - '"configurations":'
+  - type: body
+    words:
+    - application/json
+  - type: status
+    status:
+    - 200
+  condition: and

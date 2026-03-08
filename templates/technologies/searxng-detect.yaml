@@ -1,0 +1,22 @@
+id: searxng-detect
+name: SearXNG - Detect
+severity: info
+confidence: confirmed
+description: A SearXNG search engine was detected.
+reference: https://github.com/searxng/searxng
+tags:
+- searxng
+- search-engine
+- tech
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>SearXNG</title>
+  - type: status
+    status:
+    - 200
+  condition: and

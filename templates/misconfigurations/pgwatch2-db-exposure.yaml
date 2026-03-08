@@ -1,0 +1,23 @@
+id: pgwatch2-db-exposure
+name: Pgwatch2 DBs to monitor - Exposure
+severity: high
+confidence: confirmed
+description: 'Pgwatch2 :: DBs to monitor Dashboard was discovered.'
+tags:
+- dashboard
+- exposure
+- pgwatch2
+- unauth
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Databases under monitoring
+    - pgwatch2
+  - type: status
+    status:
+    - 200
+  condition: and

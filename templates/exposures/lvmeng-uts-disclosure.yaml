@@ -1,0 +1,27 @@
+id: lvmeng-uts-disclosure
+name: Lvmeng - UTS Disclosure
+severity: high
+confidence: tentative
+description: Lvmeng UTS was discovered.
+tags:
+- config
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /webapi/v1/system/accountmanage/account
+  matchers:
+  - type: status
+    status:
+    - 200
+  - type: header
+    words:
+    - application/json
+  - type: body
+    words:
+    - password
+    - nsfocus_uts
+    - MANAGER_IP
+  condition: and
+  headers:
+    Content-Type: application/json

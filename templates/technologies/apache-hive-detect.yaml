@@ -1,0 +1,25 @@
+id: apache-hive-detect
+name: Apache Hive - Detect
+severity: info
+confidence: confirmed
+description: Apache Hive web application was detected, a data warehouse software facilitates reading, writing, and managing
+  large datasets residing in distributed storage using SQL.
+reference: https://github.com/apache/hive
+tags:
+- tech
+- apache
+- hive
+- detect
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>HiveServer2</title>
+    - hiveserver2
+  - type: status
+    status:
+    - 200
+  condition: and

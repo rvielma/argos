@@ -1,0 +1,23 @@
+id: buildbot-panel
+name: Buildbot Panel - Detect
+severity: info
+confidence: confirmed
+description: Buildbot panel was detected.
+reference: CWE-200
+tags:
+- panel
+- buildbot
+- cicd
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: regex
+    regex:
+    - <title(.*)>Buildbot</title>
+    - buildbot_config
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,21 @@
+id: sucuri-firewall
+name: Sucuri Website Firewall - Not Configured
+severity: info
+confidence: tentative
+description: Sucuri Website Firewall - Not Configured
+tags:
+- tech
+- sucuri
+- firewall
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Sucuri WebSite Firewall - Not Configured</title>
+  - type: status
+    status:
+    - 404
+  condition: and

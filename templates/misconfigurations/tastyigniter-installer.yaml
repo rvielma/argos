@@ -1,0 +1,23 @@
+id: tastyigniter-installer
+name: TastyIgniter Setup Page - Exposure
+severity: high
+confidence: confirmed
+description: Detects exposed TastyIgniter Setup page.
+reference: https://tastyigniter.com/
+tags:
+- misconfig
+- install
+- exposure
+- tastyigniter
+- vuln
+requests:
+- method: GET
+  path: /setup/
+  matchers:
+  - type: body
+    words:
+    - TastyIgniter - Setup
+  - type: status
+    status:
+    - 200
+  condition: and

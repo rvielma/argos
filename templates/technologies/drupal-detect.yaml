@@ -1,0 +1,38 @@
+id: drupal-detect
+name: Drupal - Detect
+severity: info
+confidence: confirmed
+description: Drupal - Detect
+reference: CWE-200
+tags:
+- tech
+- drupal
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - Initial release
+    - Drupal 1.0.0
+  - type: body
+    words:
+    - content="Drupal
+  - type: regex
+    regex:
+    - (?i)x-drupal
+    - '(?i)x-generator: drupal'
+  condition: or
+- method: GET
+  path: /CHANGELOG.txt
+  matchers: *id001
+  condition: or
+- method: GET
+  path: /core/install.php
+  matchers: *id001
+  condition: or
+- method: GET
+  path: /user/login
+  matchers: *id001
+  condition: or

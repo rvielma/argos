@@ -1,0 +1,22 @@
+id: axel-webserver
+name: Axel WebServer - Panel Detect
+severity: info
+confidence: confirmed
+description: Axel WebServer panel was detected.
+reference: CWE-200
+tags:
+- panel
+- axel
+- webserver
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: regex
+    regex:
+    - <title>(.*)Axel MyWeb(.*)</title>
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,23 @@
+id: cargo-lock-package
+name: Cargo Lock Packages Disclosure
+severity: info
+confidence: confirmed
+description: Cargo Lock Packages Disclosure
+reference: https://raw.githubusercontent.com/maurosoria/dirsearch/master/db/dicc.txt
+tags:
+- exposure
+- files
+- cargo
+- vuln
+requests:
+- method: GET
+  path: /Cargo.lock
+  matchers:
+  - type: body
+    words:
+    - '[[package]]'
+    - dependencies = [
+  - type: status
+    status:
+    - 200
+  condition: and

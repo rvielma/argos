@@ -1,0 +1,24 @@
+id: recoverpoint-panel
+name: Dell EMC RecoverPoint Panel - Detect
+severity: info
+confidence: confirmed
+description: Dell EMC RecoverPoint management panel was detected.
+reference: https://www.delltechnologies.com/en-us/data-protection/recoverpoint-for-virtual-machines.htm
+tags:
+- panel
+- recoverpoint
+- dell
+- emc
+- login
+- discovery
+requests:
+- method: GET
+  path: /#!/welcome
+  matchers:
+  - type: body
+    words:
+    - RecoverPoint Wizard
+  - type: status
+    status:
+    - 200
+  condition: and

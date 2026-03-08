@@ -1,0 +1,28 @@
+id: imm-default-login
+name: Integrated Management Module - Default Login
+severity: high
+confidence: confirmed
+description: Integrated Management Module default login credentials were discovered.
+reference: CWE-798
+tags:
+- imm
+- ibm
+- default-login
+- vuln
+requests:
+- method: POST
+  path: /data/login
+  matchers:
+  - type: body
+    words:
+    - <authResult>0</authResult>
+    - authResult":"0
+  - type: body
+    words:
+    - index-console.php
+    - home.php
+  - type: status
+    status:
+    - 200
+  condition: and
+  body: user=USERID&password=PASSW0RD

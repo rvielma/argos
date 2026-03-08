@@ -1,0 +1,25 @@
+id: bugzilla-detect
+name: Bugzilla - Detect
+severity: info
+confidence: confirmed
+description: Detects a Bugzilla server, official repository for the Bugzilla bug tracking system.
+reference: https://github.com/bugzilla/bugzilla/
+tags:
+- tech
+- bugzilla
+- mozilla
+- detect
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Bugzilla Main
+    - title="Bugzilla
+    - href="https://bugzilla.readthedocs.org/
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,18 @@
+id: noescape-login
+name: NoEscape Login Panel - Detect
+severity: info
+confidence: confirmed
+description: NoEscape login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- noescape
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - NoEscape - Login
+  condition: and

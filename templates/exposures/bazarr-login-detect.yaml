@@ -1,0 +1,19 @@
+id: bazarr-login-detect
+name: Bazarr Login - Detect
+severity: info
+confidence: tentative
+description: Bazarr login page was detected.
+reference: CWE-200
+tags:
+- panel
+- bazarr
+- login
+- discovery
+requests:
+- method: GET
+  path: /login
+  matchers:
+  - type: body
+    words:
+    - <title>Bazarr</title>
+  condition: or

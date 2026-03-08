@@ -1,0 +1,23 @@
+id: smtp2go-detect
+name: SMTP2GO Detect
+severity: info
+confidence: tentative
+description: SMTP2GO Detect
+tags:
+- tech
+- smtp2go
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>SMTP2GO</title>
+    - 2022 &copy; SMTP2GO.
+    - mailto:ticket@smtp2go.com
+    - href="https://www.smtp2go.com/"
+  - type: status
+    status:
+    - 200
+  condition: and

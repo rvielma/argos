@@ -1,0 +1,34 @@
+id: wp-pretty-links-fpd
+name: WordPress Pretty Links - Full Path Disclosure
+severity: low
+confidence: confirmed
+description: WordPress Pretty Links plugin is vulnerable to full path disclosure via direct access to plugin files.
+reference: https://wordpress.org/plugins/pretty-link/
+tags:
+- wp
+- wordpress
+- wp-plugin
+- fpd
+- pretty-links
+- exposure
+requests:
+- method: GET
+  path: /wp-content/plugins/pretty-link/app/models/PrliLink.php
+  matchers: &id001
+  - type: body
+    words:
+    - Fatal error
+    - pretty-link
+    - 'Uncaught Error:'
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /wp-content/plugins/pretty-link/app/controllers/PrliLinksController.php
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /wp-content/plugins/pretty-link/app/helpers/PrliUtils.php
+  matchers: *id001
+  condition: and

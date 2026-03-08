@@ -1,0 +1,23 @@
+id: fuelcms-panel
+name: Fuel CMS Login Panel - Detect
+severity: info
+confidence: tentative
+description: Fuel CMS login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- fuelcms
+- oss
+- daylightstudio
+- discovery
+requests:
+- method: GET
+  path: /fuel/login
+  matchers:
+  - type: body
+    words:
+    - <title>FUEL CMS</title>
+  - type: status
+    status:
+    - 200
+  condition: and

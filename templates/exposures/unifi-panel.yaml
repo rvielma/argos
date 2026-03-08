@@ -1,0 +1,22 @@
+id: unifi-panel
+name: UniFi Network Login Panel - Detect
+severity: info
+confidence: tentative
+description: UniFi Network login panel was detected.
+reference: CWE-200
+tags:
+- unifi
+- ubnt
+- panel
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>UniFi Network</title>
+  - type: status
+    status:
+    - 200
+  condition: and

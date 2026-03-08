@@ -1,0 +1,26 @@
+id: unauthenticated-glowroot
+name: Glowroot Anonymous User
+severity: high
+confidence: tentative
+description: Anonymous user access allows to understand the host internals
+tags:
+- misconfig
+- unauth
+- glowroot
+- vuln
+requests:
+- method: GET
+  path: /backend/admin/users?username=anonymous
+  matchers:
+  - type: body
+    words:
+    - '"username":"anonymous"'
+    - '"Administrator"'
+    - '"newPassword":""'
+  - type: header
+    words:
+    - application/json
+  - type: status
+    status:
+    - 200
+  condition: and

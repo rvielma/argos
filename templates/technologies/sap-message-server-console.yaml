@@ -1,0 +1,25 @@
+id: sap-message-server-console
+name: SAP Message Server Console - Exposure
+severity: info
+confidence: tentative
+description: Detected the SAP Message Server HTTP console on /msgserver. When accessed directly, the message server returns
+  an HTML page.
+tags:
+- sap
+- console
+- exposure
+requests:
+- method: GET
+  path: /msgserver
+  matchers:
+  - type: body
+    words:
+    - <TITLE>List of commands</TITLE>
+    - /msgserver/commands
+  - type: header
+    words:
+    - SAP Message Server
+  - type: status
+    status:
+    - 200
+  condition: and

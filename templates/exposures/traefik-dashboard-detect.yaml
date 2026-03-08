@@ -1,0 +1,18 @@
+id: traefik-dashboard-detect
+name: Traefik Dashboard Panel - Detect
+severity: info
+confidence: confirmed
+description: Traefik Dashboard panel was detected.
+reference: CWE-200
+tags:
+- panel
+- traefik
+- discovery
+requests:
+- method: GET
+  path: /dashboard/
+  matchers:
+  - type: body
+    words:
+    - <meta name=description content="Traefik UI">
+  condition: or

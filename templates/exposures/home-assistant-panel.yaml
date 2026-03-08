@@ -1,0 +1,22 @@
+id: home-assistant-panel
+name: Home Assistant Panel
+severity: info
+confidence: confirmed
+description: Home Assistant Panel
+reference: CWE-200
+tags:
+- panel
+- iot
+- homeassistant
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Home Assistant</title>
+  - type: status
+    status:
+    - 200
+  condition: and

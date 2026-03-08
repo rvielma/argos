@@ -1,0 +1,21 @@
+id: hp-virtual-connect-manager
+name: HP Virtual Connect Manager Login Panel - Detect
+severity: info
+confidence: tentative
+description: HP Virtual Connect Manager login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- hp
+- discovery
+requests:
+- method: GET
+  path: /html/index.html
+  matchers:
+  - type: status
+    status:
+    - 200
+  - type: body
+    words:
+    - <title>HP Virtual Connect Manager</title>
+  condition: and

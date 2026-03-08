@@ -1,0 +1,21 @@
+id: ibm-mqseries-web-console
+name: IBM MQ Web Console Login Panel - Detect
+severity: info
+confidence: tentative
+description: IBM MQ Web Console login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- ibm
+- discovery
+requests:
+- method: GET
+  path: /ibmmq/console/login.html
+  matchers:
+  - type: body
+    words:
+    - <title>MQ Console</title>
+  - type: status
+    status:
+    - 200
+  condition: and

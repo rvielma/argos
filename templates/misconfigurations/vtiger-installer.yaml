@@ -1,0 +1,26 @@
+id: vtiger-installer
+name: Vtiger CRM Installer Exposure
+severity: high
+confidence: confirmed
+description: Vtiger CRM is susceptible to the Installation page exposure due to misconfiguration.
+tags:
+- misconfig
+- vtiger
+- install
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /index.php?module=Install&view=Index
+  matchers:
+  - type: body
+    words:
+    - Installation Wizard
+    - Welcome to Vtiger CRM
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

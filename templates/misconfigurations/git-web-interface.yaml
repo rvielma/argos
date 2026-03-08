@@ -1,0 +1,20 @@
+id: git-web-interface
+name: Git web interface
+severity: low
+confidence: tentative
+description: Git Web Interface is exposed.
+tags:
+- git
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - git web interface version
+  - type: status
+    status:
+    - 200
+  condition: and

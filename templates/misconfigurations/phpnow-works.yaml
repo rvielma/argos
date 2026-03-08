@@ -1,0 +1,23 @@
+id: phpnow-works
+name: PHPnow works - Exposure
+severity: low
+confidence: confirmed
+description: PHPnow works is exposed.
+reference: https://www.facebook.com/photo/?fbid=618545156982674&set=a.467014098802448
+tags:
+- misconfig
+- phpnow
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>PHPnow Works!</title>
+    - Server Information
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,26 @@
+id: web-config
+name: Web Configuration File - Detect
+severity: info
+confidence: tentative
+description: Web configuration file was detected.
+reference: CWE-200
+tags:
+- config
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /web.config
+  matchers: &id001
+  - type: body
+    words:
+    - <configuration>
+    - <system.webServer>
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /../../web.config
+  matchers: *id001
+  condition: and

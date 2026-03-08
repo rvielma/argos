@@ -1,0 +1,22 @@
+id: nginx-auto-installer
+name: NginX Auto Installer Exposure
+severity: low
+confidence: confirmed
+description: NginX Auto is susceptible to the Installation page exposure due to misconfiguration.
+tags:
+- misconfig
+- nginx
+- install
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - NginX Auto Installer
+  - type: status
+    status:
+    - 200
+  condition: and

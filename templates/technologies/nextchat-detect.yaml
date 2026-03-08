@@ -1,0 +1,25 @@
+id: nextchat-detect
+name: NextChat - Detect
+severity: info
+confidence: confirmed
+description: NextChat was detected.
+reference: https://github.com/ChatGPTNextWeb/NextChat
+tags:
+- tech
+- chatgpt
+- nextchat
+- detect
+- discovery
+- ai
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>NextChat
+    - content="NextChat"
+  - type: status
+    status:
+    - 200
+  condition: and

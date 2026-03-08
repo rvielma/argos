@@ -1,0 +1,21 @@
+id: amazon-docker-config
+name: Dockerrun AWS Configuration Page - Detect
+severity: medium
+confidence: tentative
+description: Dockerrun AWS configuration page was detected.
+reference: CWE-200
+tags:
+- config
+- exposure
+- aws
+- devops
+- vuln
+requests:
+- method: GET
+  path: /Dockerrun.aws.json
+  matchers:
+  - type: body
+    words:
+    - AWSEBDockerrunVersion
+    - containerDefinitions
+  condition: or

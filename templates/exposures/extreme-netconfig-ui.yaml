@@ -1,0 +1,23 @@
+id: extreme-netconfig-ui
+name: Extreme NetConfig UI Panel - Detect
+severity: info
+confidence: tentative
+description: Extreme NetConfig UI panel was detected.
+reference: CWE-200
+tags:
+- panel
+- tech
+- hiveos
+- extreme
+- discovery
+requests:
+- method: GET
+  path: /index.php5
+  matchers:
+  - type: body
+    words:
+    - <title>Extreme NetConfig UI</title>
+  - type: status
+    status:
+    - 200
+  condition: and

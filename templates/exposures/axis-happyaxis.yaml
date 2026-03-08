@@ -1,0 +1,40 @@
+id: axis-happyaxis
+name: Axis Happyaxis Exposure
+severity: info
+confidence: tentative
+description: Axis Happyaxis Exposure
+tags:
+- axis
+- axis2
+- middleware
+- exposure
+- apache
+- files
+- vuln
+requests:
+- method: GET
+  path: /axis2/axis2-web/HappyAxis.jsp
+  matchers: &id001
+  - type: body
+    words:
+    - Axis Happiness Page
+    - Axis2 Happiness Page
+    - Examining Application Server
+    - Examining Version Service
+    - Examining System Properties
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /axis/happyaxis.jsp
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /axis2-web/HappyAxis.jsp
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /happyaxis.jsp
+  matchers: *id001
+  condition: and

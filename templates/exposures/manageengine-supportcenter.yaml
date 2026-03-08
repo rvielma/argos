@@ -1,0 +1,23 @@
+id: manageengine-supportcenter
+name: ZOHO ManageEngine SupportCenter Panel - Detect
+severity: info
+confidence: tentative
+description: ZOHO ManageEngine SupportCenter panel was detected.
+reference: CWE-200
+tags:
+- panel
+- zoho
+- manageengine
+- zohocorp
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>ManageEngine SupportCenter Plus</title>
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,25 @@
+id: elastic-hd-dashboard
+name: Elastic HD Dashboard Exposure
+severity: low
+confidence: confirmed
+description: Elastic HD Dashboard is exposed.
+tags:
+- misconfig
+- exposure
+- elastic
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Elastic HD Dashboard
+    - elasticsearch go Edition head plugin
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

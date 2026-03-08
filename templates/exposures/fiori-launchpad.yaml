@@ -1,0 +1,27 @@
+id: fiori-launchpad
+name: Fiori Launchpad Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Fiori Launchpad login panel was detected.
+reference: CWE-200
+tags:
+- sap
+- fiori
+- edb
+- panel
+- discovery
+requests:
+- method: GET
+  path: /sap/bc/ui5_ui5/ui2/ushell/shells/abap/FioriLaunchpad.html
+  matchers:
+  - type: body
+    words:
+    - <title>Logon</title>
+    - SAP SE
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

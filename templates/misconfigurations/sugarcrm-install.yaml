@@ -1,0 +1,22 @@
+id: sugarcrm-install
+name: SugarCRM Exposed Installation
+severity: high
+confidence: confirmed
+description: SugarCRM is susceptible to the Installation page exposure due to misconfiguration.
+tags:
+- misconfig
+- sugar
+- sugarcrm
+- install
+- vuln
+requests:
+- method: GET
+  path: /install.php
+  matchers:
+  - type: body
+    words:
+    - <title>Sugar Setup Wizard
+  - type: status
+    status:
+    - 200
+  condition: and

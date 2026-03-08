@@ -1,0 +1,29 @@
+id: wgetrc-config
+name: Wgetrc Configuration File - Detect
+severity: info
+confidence: confirmed
+description: Wgetrc configuration file was detected.
+reference: CWE-200
+tags:
+- devops
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /wgetrc
+  matchers: &id001
+  - type: body
+    words:
+    - /etc/wgetrc
+    - wget.info
+  - type: header
+    words:
+    - application/octet-stream
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /.wgetrc
+  matchers: *id001
+  condition: and

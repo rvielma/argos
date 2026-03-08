@@ -1,0 +1,22 @@
+id: openfire-setup
+name: Openfire Setup - Exposure
+severity: high
+confidence: confirmed
+description: Checks for the presence of a Openfire Setup Page.
+tags:
+- install
+- openfire
+- exposure
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /setup/index.jsp
+  matchers:
+  - type: body
+    words:
+    - Welcome to Openfire Setup
+  - type: status
+    status:
+    - 200
+  condition: and

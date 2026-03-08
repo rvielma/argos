@@ -1,0 +1,29 @@
+id: magento-downloader-panel
+name: Magento Connect Manager Installer - Detect
+severity: info
+confidence: confirmed
+description: Magento Connect Manager installer was detected. The software, available via /downloader/ location, requires Magento
+  admin rights and uses the same authorization methods as for backend. If an attacker locates a matching pair of login/password,
+  the installation will be compromised. An attacker can then discover backend URL for login (even if it is customized as described
+  in Securing Magento /admin/) and install a Filesystem extension to obtain full access to all files and finally the database.
+reference: https://magentary.com/kb/restrict-access-to-magento-downloader/
+tags:
+- magento
+- exposure
+- panel
+- discovery
+requests:
+- method: GET
+  path: /downloader/
+  matchers:
+  - type: body
+    words:
+    - Magento Downloader
+    - Log In
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

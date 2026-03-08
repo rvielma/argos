@@ -1,0 +1,26 @@
+id: hangfire-dashboard
+name: Hangfire Dashboard Panel - Detect
+severity: info
+confidence: confirmed
+description: Hangfire Dashboard panel was detected.
+reference: CWE-200
+tags:
+- panel
+- hangfire
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - Hangfire Dashboard
+    - Realtime Graph
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /hangfire
+  matchers: *id001
+  condition: and

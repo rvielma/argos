@@ -1,0 +1,23 @@
+id: codeclimate-config-exposure
+name: CodeClimate Configuration File - Exposure
+severity: info
+confidence: confirmed
+description: Detected CodeClimate configuration file, exposing code quality settings and excluded paths.
+reference: https://docs.codeclimate.com/docs/configuring-your-workflow
+tags:
+- exposure
+- config
+- codeclimate
+requests:
+- method: GET
+  path: /.codeclimate.yml
+  matchers:
+  - type: body
+    words:
+    - 'languages:'
+    - 'engines:'
+    - 'exclude_paths:'
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,18 @@
+id: misconfigured-concrete5
+name: Misconfigured Concrete5
+severity: low
+confidence: tentative
+description: Concrete5 CMS is misconfigured.
+tags:
+- misconfig
+- concrete
+- cms
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - concrete5 has encountered an issue
+  condition: or

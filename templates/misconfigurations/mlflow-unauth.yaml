@@ -1,0 +1,24 @@
+id: mlflow-unauth
+name: Mlflow - Unauthenticated Access
+severity: high
+confidence: confirmed
+description: Unauthenticated Access to MLflow dashboard.
+tags:
+- unauth
+- mlflow
+- oss
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /ajax-api/2.0/preview/mlflow/experiments/get?experiment_id=0
+  matchers:
+  - type: body
+    words:
+    - experiment_id
+    - name
+    - artifact_location
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,33 @@
+id: phpci-yml
+name: PHPCI Configuration Exposure "phpci.yml" Exposure
+severity: info
+confidence: confirmed
+description: PHPCI Configuration "phpci.yml" File was exposed.
+reference: https://github.com/dancryer/PHPCI/blob/master/.phpci.yml
+tags:
+- phpci
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /phpci.yml
+  matchers: &id001
+  - type: body
+    words:
+    - 'build_settings:'
+    - 'setup:'
+    - 'php_unit:'
+  - type: body
+    words:
+    - application/octet-stream
+    - application/x-yaml
+    - text/yaml
+    - text/plain
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /ci/phpci.yml
+  matchers: *id001
+  condition: and

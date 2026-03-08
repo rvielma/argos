@@ -1,0 +1,17 @@
+id: default-jetty-page
+name: Jetty Default Page
+severity: info
+confidence: tentative
+description: Jetty Default Page
+tags:
+- tech
+- jetty
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <TITLE>Powered By Jetty</TITLE>
+  condition: or

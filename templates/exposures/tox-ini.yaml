@@ -1,0 +1,26 @@
+id: tox-ini
+name: Tox Configuration File - Detect
+severity: info
+confidence: confirmed
+description: Tox configuration file was detected.
+reference: CWE-200
+tags:
+- exposure
+- config
+- tox
+- vuln
+requests:
+- method: GET
+  path: /tox.ini
+  matchers:
+  - type: body
+    words:
+    - '[tox]'
+    - '[testenv]'
+  - type: header
+    words:
+    - application/octet-stream
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,23 @@
+id: manageengine-apex-helpdesk
+name: ZOHO ManageEngine APEX IT Help-Desk Panel - Detect
+severity: info
+confidence: tentative
+description: ZOHO MangageEngine APEX panel was detected.
+reference: CWE-200
+tags:
+- panel
+- zoho
+- manageengine
+- zohocorp
+- discovery
+requests:
+- method: GET
+  path: /jsp/index.jsp
+  matchers:
+  - type: body
+    words:
+    - <title>APEX IT Help Desk</title>
+  - type: status
+    status:
+    - 200
+  condition: and

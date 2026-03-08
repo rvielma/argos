@@ -1,0 +1,22 @@
+id: daybyday-panel
+name: DaybydayCRM Login Panel - Detect
+severity: info
+confidence: tentative
+description: DaybydayCRM login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- daybyday
+- daybydaycrm
+- discovery
+requests:
+- method: GET
+  path: /login
+  matchers:
+  - type: body
+    words:
+    - <title>Daybyday - Login</title>
+  - type: status
+    status:
+    - 200
+  condition: and

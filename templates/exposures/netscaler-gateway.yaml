@@ -1,0 +1,20 @@
+id: netscaler-gateway
+name: Netscaler Gateway
+severity: info
+confidence: tentative
+description: Citrix NetScaler is an application delivery controller that improves the delivery speed and quality of applications
+  to an end user.
+reference: CWE-200
+tags:
+- panel
+- netscaler
+- citrix
+- discovery
+requests:
+- method: GET
+  path: /vpn/index.html
+  matchers:
+  - type: body
+    words:
+    - <title>Netscaler Gateway</title>
+  condition: or

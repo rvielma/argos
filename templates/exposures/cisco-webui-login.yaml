@@ -1,0 +1,28 @@
+id: cisco-webui-login
+name: Cisco Web UI Login - Detect
+severity: info
+confidence: confirmed
+description: Detects the presence of Cisco Web UI login panels
+tags:
+- webui
+- cisco
+- login
+- panel
+- detect
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - Cisco Systems
+    - webui-centerpanel
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /webui/
+  matchers: *id001
+  condition: and

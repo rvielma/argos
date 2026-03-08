@@ -1,0 +1,24 @@
+id: typo3-installer
+name: TYPO3 Installer
+severity: medium
+confidence: confirmed
+description: TYPO3 is susceptible to the Installation page exposure due to misconfiguration.
+tags:
+- misconfig
+- typo3
+- install
+- vuln
+requests:
+- method: GET
+  path: /typo3/install.php
+  matchers:
+  - type: body
+    words:
+    - <title>Installing TYPO3 CMS</title>
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

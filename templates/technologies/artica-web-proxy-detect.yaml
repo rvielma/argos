@@ -1,0 +1,21 @@
+id: artica-web-proxy-detect
+name: Artica Web Proxy Detect
+severity: info
+confidence: tentative
+description: Artica Web Proxy Detect
+tags:
+- tech
+- artica
+- proxy
+- discovery
+requests:
+- method: GET
+  path: /fw.login.php
+  matchers:
+  - type: body
+    words:
+    - Welcome to the Artica Web Administration Interface
+  - type: status
+    status:
+    - 200
+  condition: and

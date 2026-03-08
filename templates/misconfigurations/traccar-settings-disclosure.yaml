@@ -1,0 +1,27 @@
+id: traccar-settings-disclosure
+name: Traccar Server Settings - Disclosure
+severity: low
+confidence: confirmed
+description: Traccar exposes server settings at the /api/server endpoint without authentication.
+reference: https://www.traccar.org/api-reference/
+tags:
+- traccar
+- disclosure
+- unauth
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /api/server
+  matchers:
+  - type: body
+    words:
+    - '"version":'
+    - '"forceSettings":'
+  - type: body
+    words:
+    - application/json
+  - type: status
+    status:
+    - 200
+  condition: and

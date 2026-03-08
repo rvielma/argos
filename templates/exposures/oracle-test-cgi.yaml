@@ -1,0 +1,23 @@
+id: oracle-test-cgi
+name: Oracle Application Server test-cgi Page
+severity: info
+confidence: confirmed
+description: Oracle Application Server test-cgi Page
+tags:
+- oracle
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /cgi-bin/test-cgi
+  matchers:
+  - type: body
+    words:
+    - SERVER_SOFTWARE =
+  - type: header
+    words:
+    - text/plain
+  - type: status
+    status:
+    - 200
+  condition: and

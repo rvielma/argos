@@ -1,0 +1,24 @@
+id: cypress-web-config
+name: Cypress Oxygen Configuration Page - Detect
+severity: info
+confidence: confirmed
+description: Cypress Oxygen configuration page was detected.
+reference: CWE-200
+tags:
+- exposure
+- cypress
+- pendinginstallvzw
+- config
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - PendingInstallVZW - Web Page Configuration
+    - alt="Cypress Oxygen-3
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,22 @@
+id: royalevent-management-panel
+name: Royal Event Management System Admin Panel - Detect
+severity: info
+confidence: confirmed
+description: Royal Event Management System admin panel was detected.
+reference: CWE-200
+tags:
+- royalevent
+- panel
+- discovery
+requests:
+- method: GET
+  path: /royal_event/
+  matchers:
+  - type: body
+    words:
+    - Royal Event Management Software
+    - Welcome Administrator
+  - type: status
+    status:
+    - 200
+  condition: and

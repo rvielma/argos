@@ -1,0 +1,17 @@
+id: default-nginx-page
+name: Nginx Default Test Page
+severity: info
+confidence: tentative
+description: Nginx Default Test Page
+tags:
+- tech
+- nginx
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Welcome to nginx!</title>
+  condition: or

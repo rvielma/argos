@@ -1,0 +1,26 @@
+id: plesk-onyx-login
+name: Plesk Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Plesk login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- plesk
+- login
+- edb
+- discovery
+requests:
+- method: GET
+  path: /login_up.php
+  matchers:
+  - type: body
+    words:
+    - alt="Plesk Onyx
+    - plesk-build
+    - plesk-revision
+    - plesk-root
+  - type: status
+    status:
+    - 200
+  condition: and

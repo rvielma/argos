@@ -1,0 +1,23 @@
+id: khoj-detect
+name: Khoj - Detect
+severity: info
+confidence: confirmed
+description: Khoj was detected.
+reference: https://github.com/khoj-ai/khoj
+tags:
+- tech
+- khoj
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Khoj AI
+    - content="Khoj AI
+    - khoj.dev
+  - type: status
+    status:
+    - 200
+  condition: and

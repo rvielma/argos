@@ -1,0 +1,21 @@
+id: seagate-nas-login
+name: Seagate NAS Login - Detect
+severity: info
+confidence: confirmed
+description: Seagate NAS - SEAGATE Login was detected.
+tags:
+- panel
+- seagate
+- login
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Seagate NAS - SEAGATE
+  - type: status
+    status:
+    - 200
+  condition: and

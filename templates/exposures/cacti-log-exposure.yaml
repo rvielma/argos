@@ -1,0 +1,45 @@
+id: cacti-log-exposure
+name: Cacti Log - Exposure
+severity: medium
+confidence: tentative
+description: Exposed Cacti log files (cacti.log) were detected. These files contain system statistics, error messages, and
+  potentially sensitive information. They can also be used in log poisoning attacks.
+reference: https://docs.cacti.net/Cacti-Log.md
+tags:
+- cacti
+- log
+- exposure
+- file
+requests:
+- method: GET
+  path: /cacti/log/cacti.log
+  matchers: &id001
+  - type: regex
+    regex:
+    - '(?i)SYSTEM STATS: Time:'
+    - '(?i)POLLER: Poller\['
+    - (?i)Cacti\[[0-9]+\]
+    - '(?i)CMDPHP:'
+  - type: body
+    words:
+    - SYSTEM STATS
+    - 'Method:'
+    - 'Processes:'
+    - 'Threads:'
+    - 'Hosts:'
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /log/cacti.log
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /cacti.log
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /include/cacti.log
+  matchers: *id001
+  condition: and

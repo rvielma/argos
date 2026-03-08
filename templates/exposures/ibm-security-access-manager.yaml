@@ -1,0 +1,28 @@
+id: ibm-security-access-manager
+name: IBM Security Access Manager Login Panel - Detect
+severity: info
+confidence: tentative
+description: IBM Security Access Manager login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- ibm
+- login
+- detect
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>IBM Security Access Manager</title>
+    - IBM Security <em>Access Manager</em>
+  - type: header
+    words:
+    - IBM Security Access Manager for Web
+  - type: body
+    words:
+    - /mga/sps/authsvc/policy/forgot_username
+    - /mga/sps/authsvc/policy/forgot_password
+  condition: or

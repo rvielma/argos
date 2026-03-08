@@ -1,0 +1,24 @@
+id: server-status
+name: Server Status Panel - Detect
+severity: info
+confidence: confirmed
+description: Server Status panel was detected.
+reference: CWE-200
+tags:
+- misconfig
+- serverstatus
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>ServerStatus</title>
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

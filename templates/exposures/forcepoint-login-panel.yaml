@@ -1,0 +1,22 @@
+id: forcepoint-login-panel
+name: Forcepoint Login panel
+severity: info
+confidence: tentative
+description: Forcepoint Login panel
+reference: CWE-200
+tags:
+- forcepoint
+- panel
+- login
+- discovery
+requests:
+- method: GET
+  path: /pem/login/pages/login.jsf
+  matchers:
+  - type: body
+    words:
+    - Forcepoint Email Security
+  - type: status
+    status:
+    - 200
+  condition: and

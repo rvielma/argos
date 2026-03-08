@@ -1,0 +1,27 @@
+id: jira-setup
+name: Atlassian JIRA Setup - Installer
+severity: high
+confidence: confirmed
+description: Atlassian JIRA is susceptible to the Installation page exposure due to misconfiguration.
+tags:
+- misconfig
+- jira
+- atlassian
+- installer
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - JIRA - JIRA setup
+    - jira.webresources:jira-setup"
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /secure/SetupMode!default.jspa
+  matchers: *id001
+  condition: and

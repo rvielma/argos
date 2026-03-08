@@ -1,0 +1,24 @@
+id: keycloak-json
+name: Keycloak JSON File
+severity: info
+confidence: tentative
+description: Keycloak JSON File
+tags:
+- exposure
+- keycloak
+- config
+- files
+- vuln
+requests:
+- method: GET
+  path: /keycloak.json
+  matchers:
+  - type: body
+    words:
+    - realm
+    - resource
+    - auth-server-url
+  - type: status
+    status:
+    - 200
+  condition: and

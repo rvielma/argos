@@ -1,0 +1,25 @@
+id: mautic-installer
+name: Mautic Installer Exposure
+severity: high
+confidence: confirmed
+description: Mautic is susceptible to the Installation page exposure due to misconfiguration.
+tags:
+- misconfig
+- mautic
+- install
+- vuln
+requests:
+- method: GET
+  path: /installer
+  matchers:
+  - type: body
+    words:
+    - Mautic Installation - Environment Check
+    - Ready to Install!
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

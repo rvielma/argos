@@ -1,0 +1,22 @@
+id: phpipam-installer
+name: PHP IPAM Installation Page - Exposed
+severity: high
+confidence: confirmed
+description: PHP IPAM is susceptible to the Installation page exposure due to misconfiguration.
+tags:
+- misconfig
+- exposure
+- install
+- phpipam
+- vuln
+requests:
+- method: GET
+  path: /index.php?page=install
+  matchers:
+  - type: body
+    words:
+    - <title>phpipam installation</title>
+  - type: status
+    status:
+    - 200
+  condition: and

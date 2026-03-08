@@ -1,0 +1,17 @@
+id: default-oracle-application-page
+name: Oracle Application Server Containers
+severity: info
+confidence: tentative
+description: Oracle Application Server Containers
+tags:
+- tech
+- oracle
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <TITLE>Oracle Application Server
+  condition: or

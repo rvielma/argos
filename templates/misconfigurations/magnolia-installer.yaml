@@ -1,0 +1,27 @@
+id: magnolia-installer
+name: Magnolia CMS Installer
+severity: info
+confidence: confirmed
+description: Magnolia CMS is susceptible to the Installation page exposure due to misconfiguration.
+reference: https://www.magnolia-cms.com/
+tags:
+- magnolia
+- exposure
+- installer
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Magnolia Installation
+    - Welcome to Magnolia
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

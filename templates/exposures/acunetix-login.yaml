@@ -1,0 +1,25 @@
+id: acunetix-login
+name: Acunetix Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Acunetix login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- acunetix
+- discovery
+requests:
+- method: GET
+  path: /#/login
+  matchers:
+  - type: body
+    words:
+    - <title>Acunetix</title>
+    - assets/images/invicti-acunetix-logo.svg
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

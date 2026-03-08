@@ -1,0 +1,20 @@
+id: unauthorized-puppet-node-manager
+name: Puppet Node Manager - Unauthorized Access
+severity: medium
+confidence: tentative
+description: Pupper Node Manager is exposed to external users.
+tags:
+- node
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <a href="/nodes">Nodes</a>
+  - type: status
+    status:
+    - 200
+  condition: and

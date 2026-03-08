@@ -1,0 +1,25 @@
+id: bentoml-detect
+name: BentoML Prediction Service - Detection
+severity: info
+confidence: confirmed
+description: Detected BentoML Prediction Service interface. BentoML was a platform for building, shipping, and scaling AI
+  applications with any ML framework.
+reference: https://www.bentoml.com/
+tags:
+- tech
+- bentoml
+- ai
+- ml
+- prediction
+- mlops
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>BentoML Prediction Service
+  - type: status
+    status:
+    - 200
+  condition: and

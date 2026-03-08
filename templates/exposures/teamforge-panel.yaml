@@ -1,0 +1,23 @@
+id: teamforge-panel
+name: TeamForge Panel - Detection
+severity: info
+confidence: confirmed
+description: TeamForge Login Panel was discovered.
+reference: https://digital.ai/products/teamforge/
+tags:
+- panel
+- teamforge
+- login
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - '<title>TeamForge :'
+    - Log In to TeamForge
+  - type: status
+    status:
+    - 200
+  condition: and

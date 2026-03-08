@@ -1,0 +1,21 @@
+id: sas-login-panel
+name: SAS Login Panel - Detect
+severity: info
+confidence: confirmed
+description: SAS login panel has been detected.
+reference: CWE-200
+tags:
+- sas
+- panel
+- discovery
+requests:
+- method: GET
+  path: /SASLogon/login
+  matchers:
+  - type: body
+    words:
+    - SAS&reg; Logon Manager
+  - type: status
+    status:
+    - 200
+  condition: and

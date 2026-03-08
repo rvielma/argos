@@ -1,0 +1,26 @@
+id: writebook-detect
+name: Writebook - Detect
+severity: info
+confidence: confirmed
+description: Writebook - Detect
+reference: https://once.com/writebook
+tags:
+- writebook
+- tech
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: header
+    words:
+    - 'Set-Cookie: _writebook_session'
+  - type: body
+    words:
+    - Made with Writebook
+    - Writebook</h1>
+  condition: or
+- method: GET
+  path: /session/new
+  matchers: *id001
+  condition: or

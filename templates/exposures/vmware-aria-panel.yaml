@@ -1,0 +1,22 @@
+id: vmware-aria-panel
+name: VMware Aria Operations Login - Detect
+severity: info
+confidence: confirmed
+description: Detects VMware Aria Operations Panel.
+tags:
+- panel
+- aria
+- login
+- detect
+- discovery
+requests:
+- method: GET
+  path: /ui/login.action
+  matchers:
+  - type: body
+    words:
+    - <title>VMware Aria Operations</title>
+  - type: status
+    status:
+    - 200
+  condition: and

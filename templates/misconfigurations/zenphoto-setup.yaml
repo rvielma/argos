@@ -1,0 +1,33 @@
+id: zenphoto-setup
+name: Zenphoto <1.5 Installer - Detect
+severity: critical
+confidence: confirmed
+description: Zenphoto setup page before version 1.5 is susceptible to sensitive information disclosure due to misconfiguration.
+reference: CWE-284
+tags:
+- misconfig
+- panel
+- zenphoto
+- setup
+- installer
+- vuln
+requests:
+- method: GET
+  path: /zp-core/setup/index.php
+  matchers: &id001
+  - type: body
+    words:
+    - Welcome to Zenphoto! This page will set up Zenphoto
+  condition: or
+- method: GET
+  path: /zp/zp-core/setup/index.php
+  matchers: *id001
+  condition: or
+- method: GET
+  path: /gallery/zp-core/setup/index.php
+  matchers: *id001
+  condition: or
+- method: GET
+  path: /zenphoto/zp-core/setup/index.php
+  matchers: *id001
+  condition: or

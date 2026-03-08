@@ -1,0 +1,21 @@
+id: netlify-cms
+name: Netlify CMS Admin Login Panel - Detect
+severity: info
+confidence: tentative
+description: Netlify CMS admin login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- netlify
+- discovery
+requests:
+- method: GET
+  path: /admin/index.html
+  matchers:
+  - type: status
+    status:
+    - 200
+  - type: body
+    words:
+    - Netlify CMS
+  condition: and

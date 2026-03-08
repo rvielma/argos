@@ -1,0 +1,24 @@
+id: spiderfoot
+name: SpiderFoot Login Panel - Detect
+severity: info
+confidence: tentative
+description: SpiderFoot login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- login
+- tech
+- spiderfoot
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>SpiderFoot
+    - support@spiderfoot.net
+  - type: status
+    status:
+    - 200
+  condition: and

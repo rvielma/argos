@@ -1,0 +1,25 @@
+id: edgeos-login
+name: EdgeOS Login Panel - Detect
+severity: info
+confidence: tentative
+description: EdgeOS login panel was detected.
+reference: CWE-200
+tags:
+- login
+- tech
+- edgeos
+- edgemax
+- panel
+- ui
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>EdgeOS</title>
+  - type: status
+    status:
+    - 200
+  condition: and

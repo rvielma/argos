@@ -1,0 +1,24 @@
+id: strongshop-installer
+name: StrongShop Installer - Exposure
+severity: high
+confidence: confirmed
+description: Detects the exposure of the StrongShop installer page, which could allow unauthorized setup or reinstallation
+  of the application.
+tags:
+- strongshop
+- installer
+- exposure
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /install/index.html
+  matchers:
+  - type: body
+    words:
+    - StrongShop
+    - id="install
+  - type: status
+    status:
+    - 200
+  condition: and

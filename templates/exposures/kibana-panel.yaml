@@ -1,0 +1,32 @@
+id: kibana-panel
+name: Kibana Login Panel - Detect
+severity: info
+confidence: tentative
+description: Kibana login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- kibana
+- elastic
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - <title>Kibana</title>
+    - <title>Elastic</title>
+    - <title>Kibana Login</title>
+  - type: regex
+    regex:
+    - (?i)(Kbn-Name)
+  condition: or
+- method: GET
+  path: /login
+  matchers: *id001
+  condition: or
+- method: GET
+  path: /app/kibana
+  matchers: *id001
+  condition: or

@@ -1,0 +1,20 @@
+id: zope-detect
+name: Zope Quick Start Detect
+severity: info
+confidence: confirmed
+description: Zope Quick Start Detect
+tags:
+- tech
+- zope
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Zope QuickStart</title>
+  - type: body
+    words:
+    - Zope/
+  condition: or

@@ -1,0 +1,25 @@
+id: avigilon-panel
+name: Avigilon Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Avigilon login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- avigilon
+- discovery
+requests:
+- method: GET
+  path: /cfg/login
+  matchers:
+  - type: body
+    words:
+    - <title>Login - Avigilon Control Center Gateway</title>
+    - <title>Iniciar sesión - Puerta de enlace de Avigilon Control Center</title>
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

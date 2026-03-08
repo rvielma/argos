@@ -1,0 +1,24 @@
+id: browserless-debugger
+name: Exposed Browserless debugger
+severity: medium
+confidence: tentative
+description: Browserless instance can be used to make web requests. May worth checking /workspace for juicy files.
+reference: https://docs.browserless.io/docs/docker.html#securing-your-instance
+tags:
+- browserless
+- unauth
+- debug
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>browserless debugger</title>
+    - <code>Click the ► button to run your code.</code>
+  - type: status
+    status:
+    - 200
+  condition: and

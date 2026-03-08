@@ -1,0 +1,53 @@
+id: wix-detect
+name: Wix Detection
+severity: info
+confidence: confirmed
+description: An instance running Wix is detected by looking for specific HTTP headers, HTML tags, and known endpoints.
+tags:
+- wix
+- detect
+- tech
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - Powered by Wix
+    - X-Wix-Request-Id
+    - Wix Static Site
+    - wixsite.com
+  - type: status
+    status:
+    - 200
+    - 403
+    - 404
+  condition: and
+- method: GET
+  path: /robots.txt
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /sitemap.xml
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /favicon.ico
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /_static/
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /wix-api
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /user/login
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /wix.js
+  matchers: *id001
+  condition: and

@@ -1,0 +1,23 @@
+id: aqua-enterprise-detect
+name: Aqua Enterprise Detect
+severity: info
+confidence: confirmed
+description: Aqua Enterprise Detect
+reference: https://www.aquasec.com/
+tags:
+- tech
+- aqua
+- discovery
+requests:
+- method: GET
+  path: /api
+  matchers:
+  - type: regex
+    regex:
+    - '"version"'
+    - '"enable_sso"'
+    - '"num_protected_kube_nodes"'
+  - type: status
+    status:
+    - 200
+  condition: and

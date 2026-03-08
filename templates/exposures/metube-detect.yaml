@@ -1,0 +1,23 @@
+id: metube-detect
+name: MeTube Instance Detected
+severity: info
+confidence: confirmed
+description: A MeTube instance was detected.
+reference: https://github.com/alexta69/metube
+tags:
+- metube
+- detect
+- panel
+- login
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>MeTube</title>
+  - type: status
+    status:
+    - 200
+  condition: and

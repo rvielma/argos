@@ -1,0 +1,18 @@
+id: teradici-pcoip
+name: Teradici PCoIP Detection
+severity: info
+confidence: tentative
+description: Teradici PColP was detected.
+reference: CWE-200
+tags:
+- tech
+- pcoip
+- discovery
+requests:
+- method: GET
+  path: /info/
+  matchers:
+  - type: body
+    words:
+    - PCoIP Connection Manager
+  condition: or

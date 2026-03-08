@@ -1,0 +1,22 @@
+id: microweber-detect
+name: Microweber Detect
+severity: info
+confidence: tentative
+description: Microweber Detect
+reference: https://github.com/microweber/microweber
+tags:
+- tech
+- microweber
+- oss
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - '"generator" content="Microweber" />'
+  - type: status
+    status:
+    - 200
+  condition: and

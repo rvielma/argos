@@ -1,0 +1,25 @@
+id: codemeter-webadmin
+name: CodeMeter Webadmin Dashboard
+severity: low
+confidence: confirmed
+description: CodeMeter Webadmin Dashboard is exposed.
+tags:
+- misconfig
+- exposure
+- codemeter
+- vuln
+requests:
+- method: GET
+  path: /index.html
+  matchers:
+  - type: body
+    words:
+    - WebAdmin | Dashboard
+    - CodeMeter
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

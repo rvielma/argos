@@ -1,0 +1,22 @@
+id: kedacom-network-panel
+name: Kedacom Network Keyboard Console Panel - Detect
+severity: info
+confidence: confirmed
+description: A Kedacom network keyboard console panel was detected.
+tags:
+- panel
+- login
+- kedacom
+- network
+- discovery
+requests:
+- method: GET
+  path: /login.html
+  matchers:
+  - type: body
+    words:
+    - 网络键盘控制台
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,24 @@
+id: phinx-config
+name: Phinx Configuration Exposure
+severity: medium
+confidence: confirmed
+description: Phinx configuration file was exposed.
+reference: https://book.cakephp.org/phinx/0/en/configuration.html
+tags:
+- devops
+- exposure
+- files
+- vuln
+requests:
+- method: GET
+  path: /phinx.yml
+  matchers:
+  - type: body
+    words:
+    - 'paths:'
+    - 'environments:'
+    - 'development:'
+  - type: status
+    status:
+    - 200
+  condition: and

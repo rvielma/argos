@@ -1,0 +1,29 @@
+id: cakephp-config
+name: CakePHP Configuration File - Detect
+severity: medium
+confidence: confirmed
+description: CakePHP configuration file was detected.
+reference: CWE-200
+tags:
+- files
+- exposure
+- config
+- vuln
+requests:
+- method: GET
+  path: /phinx.yml
+  matchers: &id001
+  - type: body
+    words:
+    - 'host:'
+    - 'name:'
+    - 'pass:'
+    - 'adapter:'
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /phinx.yaml
+  matchers: *id001
+  condition: and

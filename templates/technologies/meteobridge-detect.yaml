@@ -1,0 +1,22 @@
+id: meteobridge-detect
+name: MeteoBridge - Detect
+severity: info
+confidence: confirmed
+description: Exposed MeteoBridge devices by identifying their unique HTTP response patterns.
+reference: https://www.meteobridge.com
+tags:
+- meteobridge
+- tech
+- detect
+- discovery
+requests:
+- method: GET
+  path: /cgi-bin/meteobridge.cgi
+  matchers:
+  - type: header
+    words:
+    - Basic realm="MeteoBridge"
+  - type: status
+    status:
+    - 401
+  condition: and

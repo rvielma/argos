@@ -1,0 +1,22 @@
+id: openedge-panel
+name: OpenEdge Login Panel - Detect
+severity: info
+confidence: confirmed
+description: An OpenEdge login panel was detected.
+tags:
+- panel
+- openedge
+- login
+- detect
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Welcome to Progress Application Server for OpenEdge
+  - type: status
+    status:
+    - 200
+  condition: and

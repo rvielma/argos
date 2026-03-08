@@ -1,0 +1,20 @@
+id: oracle-iplanet-web-server
+name: Detect Oracle-iPlanet-Web-Server
+severity: info
+confidence: tentative
+description: Detect Oracle-iPlanet-Web-Server
+tags:
+- tech
+- oracle
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Oracle iPlanet Web Server
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,31 @@
+id: config-rb
+name: Ruby Configuration File - Detect
+severity: info
+confidence: confirmed
+description: Multiple Ruby configuration files were detected.
+tags:
+- ruby
+- devops
+- exposure
+- config
+- vuln
+requests:
+- method: GET
+  path: /config.rb
+  matchers: &id001
+  - type: body
+    words:
+    - images_dir
+    - css_dir
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /.chef/config.rb
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /assets/config.rb
+  matchers: *id001
+  condition: and

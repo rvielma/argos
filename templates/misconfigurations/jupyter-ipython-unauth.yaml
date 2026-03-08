@@ -1,0 +1,23 @@
+id: jupyter-ipython-unauth
+name: Jupyter ipython - Authorization Bypass
+severity: critical
+confidence: tentative
+description: Jupyter was able to be accessed without authentication.
+reference: CWE-288
+tags:
+- unauth
+- jupyter
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /ipython/tree
+  matchers:
+  - type: status
+    status:
+    - 200
+  - type: body
+    words:
+    - ipython/static/components
+    - ipython/kernelspecs
+  condition: and

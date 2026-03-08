@@ -1,0 +1,22 @@
+id: detect-sentry
+name: Detect Sentry Instance
+severity: info
+confidence: tentative
+description: Detect Sentry Instance
+reference: https://hackerone.com/reports/374737
+tags:
+- ssrf
+- sentry
+- tech
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Sentry.init
+  - type: status
+    status:
+    - 200
+  condition: and

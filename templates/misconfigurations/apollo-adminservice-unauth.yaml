@@ -1,0 +1,29 @@
+id: apollo-adminservice-unauth
+name: Apollo Admin Service - Unauthenticated Access
+severity: medium
+confidence: confirmed
+description: ApolloAdminservice was able to be accessed without authentication.
+reference: CWE-522
+tags:
+- misconfig
+- unauth
+- apollo
+- apolloadminservice
+- vuln
+requests:
+- method: GET
+  path: /apps
+  matchers:
+  - type: body
+    words:
+    - appId
+    - orgName
+    - ownerName
+    - dataChangeCreatedBy
+  - type: header
+    words:
+    - application/json
+  - type: status
+    status:
+    - 200
+  condition: and

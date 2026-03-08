@@ -1,0 +1,45 @@
+id: wordfence-waf-logs-disclosure
+name: WordPress Wordfence - WAF Logs and Data Disclosure
+severity: low
+confidence: confirmed
+description: The Wordfence Security plugin creates various log and data files in the wflogs directory. If directory listing
+  is enabled or files are directly accessible, sensitive information about blocked attacks, IP addresses, and firewall configuration
+  may be exposed.
+reference: CWE-538
+tags:
+- wordpress
+- wp
+- wp-plugin
+- wordfence
+- logs
+- exposure
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - plugins/wordfence
+  condition: or
+- method: GET
+  path: /wp-content/wflogs/
+  matchers: &id001
+  - type: body
+    words:
+    - Index of
+  - type: body
+    words:
+    - /wp-content/wflogs
+    - /wp-content/plugins/wordfence
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /wp-content/plugins/wordfence/lib/wflogs/
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /wp-content/plugins/wordfence/tmp/
+  matchers: *id001
+  condition: and

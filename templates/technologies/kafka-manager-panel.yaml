@@ -1,0 +1,22 @@
+id: kafka-manager-panel
+name: Kafka Manager Panel
+severity: info
+confidence: confirmed
+description: Kafka Manager Panel
+reference: https://github.com/yahoo/CMAK
+tags:
+- tech
+- kafka
+- apache
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Kafka Manager
+  - type: header
+    words:
+    - Kafka-Manager
+  condition: or

@@ -1,0 +1,20 @@
+id: kafka-monitoring
+name: Apache Kafka Monitor Login Panel - Detect
+severity: info
+confidence: tentative
+description: Apache Kafka Monitor login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- kafka
+- apache
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - '>KafkaMonitor</a>'
+    - '>Kafka Monitor GUI</h1>'
+  condition: or

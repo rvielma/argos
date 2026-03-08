@@ -1,0 +1,17 @@
+id: hashicorp-boundary-detect
+name: HashiCorp Boundary Detect
+severity: info
+confidence: tentative
+description: Detects HashiCorp Boundary
+tags:
+- tech
+- hashicorp
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - HashiCorp Boundary
+  condition: or

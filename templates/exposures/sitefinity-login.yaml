@@ -1,0 +1,23 @@
+id: sitefinity-login
+name: Sitefinity Login
+severity: info
+confidence: tentative
+description: This template identifies the Sitefinity login page.
+reference: https://www.exploit-db.com/ghdb/6722
+tags:
+- sitefinity
+- edb
+- panel
+- progress
+- discovery
+requests:
+- method: GET
+  path: /Sitefinity/Authenticate/SWT
+  matchers:
+  - type: body
+    words:
+    - Telerik.Sitefinity.Web.UI.UserPreferences
+  - type: status
+    status:
+    - 200
+  condition: and

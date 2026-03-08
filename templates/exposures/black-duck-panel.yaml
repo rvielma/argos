@@ -1,0 +1,26 @@
+id: black-duck-panel
+name: Black Duck Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Black Duck login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- blackduck
+- synopsys
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: regex
+    regex:
+    - (?m)<title>Black Duck(.*)<\/title>
+  - type: body
+    words:
+    - ProtexLoginPage
+    - CCLoginPage
+  - type: status
+    status:
+    - 200
+  condition: and

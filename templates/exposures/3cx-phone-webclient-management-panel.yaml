@@ -1,0 +1,19 @@
+id: 3cx-phone-webclient-management-panel
+name: 3CX Phone System Web Client Management Console - Panel Detect
+severity: info
+confidence: tentative
+description: 3CX Phone System Web Client Management Console panel was detected.
+reference: CWE-200
+tags:
+- panel
+- 3cx
+- discovery
+requests:
+- method: GET
+  path: /webclient/
+  matchers:
+  - type: body
+    words:
+    - ' <title>3CX Webclient</title>'
+    - <meta name="description" content="3CX">
+  condition: or

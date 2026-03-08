@@ -1,0 +1,22 @@
+id: metaview-explorer-installer
+name: MetaView Explorer Installer
+severity: info
+confidence: confirmed
+description: MetaView Explorer is susceptible to the Installation page exposure due to misconfiguration.
+tags:
+- misconfig
+- metaview
+- installer
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - MetaView Explorer
+    - (InstallAnywhere Web Installer)
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,27 @@
+id: aws-config
+name: AWS Configuration - Detect
+severity: medium
+confidence: confirmed
+description: AWS config found via /.aws/config.
+reference: CWE-200
+tags:
+- config
+- exposure
+- aws
+- credential
+- vuln
+requests:
+- method: GET
+  path: /.aws/config
+  matchers:
+  - type: regex
+    regex:
+    - aws_access_key_id\s*=\s*
+    - region\s*=\s*
+  - type: body
+    words:
+    - '[default]'
+  - type: status
+    status:
+    - 200
+  condition: and

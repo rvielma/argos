@@ -1,0 +1,31 @@
+id: jenkins-script
+name: Jenkins - Remote Code Execution
+severity: critical
+confidence: tentative
+description: Jenkins is susceptible to a remote code execution vulnerability due to accessible script functionality.
+reference: CWE-77
+tags:
+- devops
+- hackerone
+- jenkins
+- rce
+- vuln
+requests:
+- method: GET
+  path: /script/
+  matchers: &id001
+  - type: body
+    words:
+    - println(Jenkins.instance.pluginManager.plugins)
+  - type: body
+    words:
+    - Script Console
+    - Scriptconsole
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /jenkins/script
+  matchers: *id001
+  condition: and

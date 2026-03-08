@@ -1,0 +1,26 @@
+id: qnap-qts-panel
+name: QNAP Turbo NAS Login Panel - Detect
+severity: info
+confidence: confirmed
+description: QNAP QTS login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- qnap
+- qts
+- discovery
+requests:
+- method: GET
+  path: /cgi-bin/
+  matchers: &id001
+  - type: body
+    words:
+    - QNAP Turbo NAS</title>
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /cgi-bin/html/login.html
+  matchers: *id001
+  condition: and

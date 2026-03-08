@@ -1,0 +1,22 @@
+id: wp-mstore-plugin-listing
+name: Wordpress Plugin MStore API
+severity: low
+confidence: tentative
+description: Searches for sensitive directories present in the mstore-api plugin.
+tags:
+- wordpress
+- listing
+- wp-plugin
+- vuln
+requests:
+- method: GET
+  path: /wp-content/plugins/mstore-api/
+  matchers:
+  - type: body
+    words:
+    - Index of
+    - /wp-content/plugins/mstore-api
+  - type: status
+    status:
+    - 200
+  condition: and

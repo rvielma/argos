@@ -1,0 +1,22 @@
+id: default-symfony-page
+name: Symfony Default Page
+severity: info
+confidence: confirmed
+description: Symfony Default Page
+tags:
+- tech
+- symfony
+- default-page
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Welcome to Symfony!
+    - Documentation
+  - type: status
+    status:
+    - 404
+  condition: and

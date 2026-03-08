@@ -1,0 +1,26 @@
+id: gruntfile-exposure
+name: Gruntfile Config - Detect
+severity: info
+confidence: tentative
+description: Gruntfile configuration information was detected.
+reference: CWE-200
+tags:
+- config
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /Gruntfile.js
+  matchers: &id001
+  - type: body
+    words:
+    - module.exports
+    - grunt
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /Gruntfile.coffee
+  matchers: *id001
+  condition: and

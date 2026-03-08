@@ -1,0 +1,22 @@
+id: snipeit-panel
+name: Snipe-IT Panel - Detect
+severity: info
+confidence: tentative
+description: Snipe-IT panel was detected.
+reference: CWE-200
+tags:
+- panel
+- snipeit
+- tech
+- discovery
+requests:
+- method: GET
+  path: /login
+  matchers:
+  - type: body
+    words:
+    - window.snipeit
+  - type: status
+    status:
+    - 200
+  condition: and

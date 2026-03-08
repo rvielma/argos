@@ -1,0 +1,27 @@
+id: sap-successfactors-detect
+name: SAP SuccessFactors Login Panel - Detect
+severity: info
+confidence: confirmed
+description: SAP SuccessFactors login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- sap
+- detect
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - SAP SuccessFactors
+    - sap-ui-core
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /sf/start
+  matchers: *id001
+  condition: and

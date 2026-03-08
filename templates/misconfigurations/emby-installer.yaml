@@ -1,0 +1,22 @@
+id: emby-installer
+name: Emby Installation Page - Exposure
+severity: high
+confidence: confirmed
+description: Checks for the presence of a Emby Installer Page.
+tags:
+- install
+- emby
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /web/index.html?start=wizard#!/wizard/wizardstart.html
+  matchers:
+  - type: body
+    words:
+    - Auto-Install
+    - emby-elements
+  - type: status
+    status:
+    - 200
+  condition: and

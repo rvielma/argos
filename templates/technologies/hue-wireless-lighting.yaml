@@ -1,0 +1,20 @@
+id: hue-wireless-lighting
+name: Hue Personal Wireless Lighting - Detect
+severity: info
+confidence: confirmed
+description: This template detects the presence of Hue Personal Wireless Lighting systems by looking for specific welcome
+  messages in the response.
+tags:
+- tech
+- hue
+- iot
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - hue personal wireless lighting
+    - Welcome to hue
+  condition: or

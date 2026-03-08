@@ -1,0 +1,21 @@
+id: zenml-dashboard-panel
+name: ZenML Dashboard Panel - Detect
+severity: info
+confidence: confirmed
+description: ZenML Dashboard Panel - Detect
+tags:
+- zenml
+- panel
+- login
+- discovery
+requests:
+- method: GET
+  path: /login?route=%2Fworkspaces%2Fdefault%3F
+  matchers:
+  - type: body
+    words:
+    - ZenML - Dashboard
+  - type: status
+    status:
+    - 200
+  condition: and

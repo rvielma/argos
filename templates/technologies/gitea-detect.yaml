@@ -1,0 +1,22 @@
+id: gitea-detect
+name: Gitea Detect
+severity: info
+confidence: confirmed
+description: Gitea was detected.
+reference: https://about.gitea.com/
+tags:
+- tech
+- gitea
+- discovery
+requests:
+- method: GET
+  path: /user/login
+  matchers:
+  - type: body
+    words:
+    - Powered by Gitea
+    - content="Gitea
+  - type: status
+    status:
+    - 200
+  condition: and

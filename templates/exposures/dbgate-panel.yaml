@@ -1,0 +1,22 @@
+id: dbgate-panel
+name: DbGate Web Client Management - Panel Detect
+severity: info
+confidence: tentative
+description: The DbGate Web Client Management Panel is detected on the target system.
+reference: CWE-200
+tags:
+- panel
+- dbgate
+- oss
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>DbGate</title>
+    - starting_dbgate_zero
+    - Loading DbGate App
+    - DbGate - web based opensource database administration tool for MS SQL, MySQL, Postgre SQL
+  condition: or

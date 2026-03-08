@@ -1,0 +1,23 @@
+id: hivemanager-login-panel
+name: HiveManager Login Panel - Detect
+severity: info
+confidence: confirmed
+description: HiveManager login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- hivemanager
+- aerohive
+- discovery
+requests:
+- method: GET
+  path: /hm/login.action
+  matchers:
+  - type: header
+    words:
+    - HiveManager
+  - type: body
+    words:
+    - HiveManager
+    - alt="Aerohive
+  condition: or

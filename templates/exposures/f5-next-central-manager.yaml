@@ -1,0 +1,23 @@
+id: f5-next-central-manager
+name: F5 Next Central Manager Panel - Detect
+severity: info
+confidence: confirmed
+description: F5 Next Central Manager login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- fortinet
+- login
+- f5
+- discovery
+requests:
+- method: GET
+  path: /gui/login
+  matchers:
+  - type: body
+    words:
+    - <title>BIG-IP Next | Central Manager
+  - type: status
+    status:
+    - 200
+  condition: and

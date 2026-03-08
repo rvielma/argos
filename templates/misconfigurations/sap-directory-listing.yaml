@@ -1,0 +1,25 @@
+id: sap-directory-listing
+name: SAP Directory Listing
+severity: medium
+confidence: tentative
+description: SAP Directory Listing is enabled.
+tags:
+- sap
+- listing
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /irj/go/km/navigation/
+  matchers:
+  - type: body
+    words:
+    - title="~system"
+    - NetWeaver
+  - type: status
+    status:
+    - 200
+  - type: header
+    words:
+    - text/html
+  condition: and

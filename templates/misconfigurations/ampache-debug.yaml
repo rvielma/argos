@@ -1,0 +1,25 @@
+id: ampache-debug
+name: Ampache Debug Page
+severity: info
+confidence: confirmed
+description: Ampache Debug Page
+tags:
+- misconfig
+- ampache
+- debug
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - Ampache Debug
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /test.php?action=config
+  matchers: *id001
+  condition: and

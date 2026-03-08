@@ -1,0 +1,23 @@
+id: airflow-debug
+name: Airflow Debug Trace
+severity: low
+confidence: confirmed
+description: Airflow Debug Trace enabled.
+tags:
+- apache
+- airflow
+- fpd
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /admin/airflow/login
+  matchers:
+  - type: body
+    words:
+    - <h1> Ooops. </h1>
+    - Traceback (most recent call last)
+  - type: status
+    status:
+    - 500
+  condition: and

@@ -1,0 +1,29 @@
+id: apache-nifi-rce
+name: Apache NiFi - Remote Code Execution
+severity: critical
+confidence: confirmed
+description: Apache NiFi is designed for data streaming. It supports highly configurable data routing, transformation, and
+  system mediation logic that indicate graphs. The system has unauthorized remote command execution vulnerability.
+reference: https://github.com/imjdl/Apache-NiFi-Api-RCE
+tags:
+- packetstorm
+- apache
+- nifi
+- rce
+- vuln
+requests:
+- method: GET
+  path: /nifi-api/process-groups/root
+  matchers:
+  - type: body
+    words:
+    - revision
+    - canRead
+    - permissions
+  - type: header
+    words:
+    - application/json
+  - type: status
+    status:
+    - 200
+  condition: and

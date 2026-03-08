@@ -1,0 +1,23 @@
+id: opencart-panel
+name: OpenCart Login Panel - Detect
+severity: info
+confidence: confirmed
+description: OpenCart login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- opencart
+- discovery
+requests:
+- method: GET
+  path: /admin
+  matchers: &id001
+  - type: regex
+    regex:
+    - (?i)footer\s.*OpenCart.*All.Rights.Reserved|img\s.*logo.*\salt=.*OpenCart
+    - (?i)Powered.By.*http.*OpenCart
+  condition: or
+- method: GET
+  path: /index.php?route=account/login
+  matchers: *id001
+  condition: or

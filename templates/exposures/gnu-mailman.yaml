@@ -1,0 +1,29 @@
+id: gnu-mailman
+name: GNU Mailman Panel - Detect
+severity: info
+confidence: confirmed
+description: GNU Mailman panel was detected. Panel exposes all public mailing lists on server.
+reference: CWE-200
+tags:
+- exposure
+- mailman
+- panel
+- gnu
+- discovery
+requests:
+- method: GET
+  path: /mailman/listinfo
+  matchers: &id001
+  - type: body
+    words:
+    - Mailing Lists
+    - Description
+    - list
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /listinfo
+  matchers: *id001
+  condition: and

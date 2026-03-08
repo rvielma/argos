@@ -1,0 +1,27 @@
+id: lenovo-fp-panel
+name: Lenovo Fan Power Controller Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Lenovo Fan Power Controller login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- lenovo
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - Avocent Corporation and its affiliates
+    - FPC Login
+    - Fan and Power Controller
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /login.html
+  matchers: *id001
+  condition: and

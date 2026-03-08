@@ -1,0 +1,21 @@
+id: uwsgi-ini
+name: uwsgi.ini File Exposure
+severity: info
+confidence: confirmed
+description: uwsgi.ini File Exposure
+tags:
+- exposure
+- uwsgi
+- files
+- vuln
+requests:
+- method: GET
+  path: /uwsgi.ini
+  matchers:
+  - type: body
+    words:
+    - '[uwsgi]'
+  - type: status
+    status:
+    - 200
+  condition: and

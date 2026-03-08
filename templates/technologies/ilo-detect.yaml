@@ -1,0 +1,24 @@
+id: ilo-detect
+name: HP iLO
+severity: info
+confidence: tentative
+description: Version of HP iLO
+tags:
+- tech
+- ilo
+- discovery
+requests:
+- method: GET
+  path: /xmldata?item=all
+  matchers:
+  - type: status
+    status:
+    - 200
+  - type: header
+    words:
+    - text/xml
+  - type: body
+    words:
+    - <RIMP>
+    - <HSI>
+  condition: and

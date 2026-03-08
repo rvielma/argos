@@ -1,0 +1,25 @@
+id: axway-securetransport-panel
+name: Axway SecureTransport Login Panel - Detect
+severity: info
+confidence: confirmed
+description: AXWAY SecureTransport login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- axway
+- securetransport
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Axway SecureTransport
+    - alt="Axway SecureTransport"
+    - Welcome to SecureTransport
+    - PrintServerInfo("SecureTransport
+  - type: status
+    status:
+    - 200
+  condition: and

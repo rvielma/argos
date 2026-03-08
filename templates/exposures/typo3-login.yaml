@@ -1,0 +1,23 @@
+id: typo3-login
+name: TYPO3 Login Panel - Detect
+severity: info
+confidence: tentative
+description: TYPO3 login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- typo3
+- discovery
+requests:
+- method: GET
+  path: /typo3/
+  matchers:
+  - type: body
+    words:
+    - TYPO3 CMS
+    - typo3-login-form
+    - 'TYPO3 SVN ID:'
+  - type: status
+    status:
+    - 200
+  condition: and

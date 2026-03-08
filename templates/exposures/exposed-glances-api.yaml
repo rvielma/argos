@@ -1,0 +1,23 @@
+id: exposed-glances-api
+name: Exposed Glances API
+severity: low
+confidence: tentative
+description: Glances is a cross-platform system monitoring tool written in Python.
+reference: https://nicolargo.github.io/glances/
+tags:
+- glances
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: status
+    status:
+    - 200
+  - type: body
+    words:
+    - title">Glances</title>
+    - glances.config
+    - <glances></glances>
+  condition: and

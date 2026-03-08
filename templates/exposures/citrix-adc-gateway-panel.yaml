@@ -1,0 +1,22 @@
+id: citrix-adc-gateway-panel
+name: Citrix ADC Gateway Login Panel - Detect
+severity: info
+confidence: tentative
+description: Citrix ADC Gateway login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- citrix
+- discovery
+requests:
+- method: GET
+  path: /logon/LogonPoint/index.html
+  matchers: &id001
+  - type: body
+    words:
+    - _ctxstxt_CitrixCopyright
+  condition: or
+- method: GET
+  path: /logon/LogonPoint/custom.html
+  matchers: *id001
+  condition: or

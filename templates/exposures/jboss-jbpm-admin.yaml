@@ -1,0 +1,23 @@
+id: jboss-jbpm-admin
+name: JBoss jBPM Administration Console Login Panel - Detect
+severity: info
+confidence: confirmed
+description: JBoss jBPM Administration Console login panel was detected.
+reference: CWE-200
+tags:
+- jboss
+- panel
+- login
+- redhat
+- discovery
+requests:
+- method: GET
+  path: /jbpm-console/app/tasks.jsf
+  matchers:
+  - type: body
+    words:
+    - JBoss jBPM Administration Console
+  - type: status
+    status:
+    - 200
+  condition: and

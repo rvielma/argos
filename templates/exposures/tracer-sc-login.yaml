@@ -1,0 +1,27 @@
+id: tracer-sc-login
+name: Tracer SC Login Panel - Detect
+severity: info
+confidence: tentative
+description: Tracer SC login panel was detected.
+reference: CWE-200
+tags:
+- tracer
+- trane
+- iot
+- panel
+- login
+- discovery
+requests:
+- method: GET
+  path: /hui/index.html
+  matchers:
+  - type: status
+    status:
+    - 200
+  - type: body
+    words:
+    - <title>Tracer SC</title>
+  - type: header
+    words:
+    - text/html
+  condition: and

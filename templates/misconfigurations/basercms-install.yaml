@@ -1,0 +1,26 @@
+id: basercms-install
+name: baserCMS Installation - Exposure
+severity: critical
+confidence: confirmed
+description: baserCMS installation panel was detected. This indicates an incomplete installation that could be exploited by
+  unauthorized users to set up the CMS with attacker-controlled parameters.
+reference: CWE-284
+tags:
+- misconfig
+- install
+- basercms
+- cms
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - basercms
+    - <form action="/installations/step
+  - type: status
+    status:
+    - 200
+  condition: and

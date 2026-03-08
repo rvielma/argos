@@ -1,0 +1,22 @@
+id: airtame-device-detect
+name: Airtame Device Detect
+severity: info
+confidence: tentative
+description: Airtame Device Detect
+tags:
+- tech
+- airtame
+- iot
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - To access the settings of your Airtame
+    - https://airtame.com/download
+  - type: status
+    status:
+    - 200
+  condition: and

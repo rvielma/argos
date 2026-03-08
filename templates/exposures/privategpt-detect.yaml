@@ -1,0 +1,25 @@
+id: privategpt-detect
+name: PrivateGPT - Detect
+severity: info
+confidence: confirmed
+description: PrivateGPT panel has been detected.
+reference: https://github.com/zylon-ai/private-gpt
+tags:
+- panel
+- privategpt
+- detect
+- discovery
+- ai
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - alt=PrivateGPT
+    - title":"My Private GPT
+    - content="My Private GPT
+  - type: status
+    status:
+    - 200
+  condition: and

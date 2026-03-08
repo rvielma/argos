@@ -1,0 +1,22 @@
+id: tufin-securetrack-login
+name: Tufin SecureTrack Login Panel - Detect
+severity: info
+confidence: tentative
+description: Tufin SecureTrack login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- tufin
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>SecureTrack - Tufin Technologies</title>
+    - document.title = 'SecureTrack - Tufin Technologies';
+  - type: status
+    status:
+    - 200
+  condition: and

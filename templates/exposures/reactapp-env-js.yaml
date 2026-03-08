@@ -1,0 +1,40 @@
+id: reactapp-env-js
+name: React App Environment Js
+severity: info
+confidence: confirmed
+description: React App Environment Js
+tags:
+- react
+- exposure
+- config
+- js
+- javascript
+- vuln
+requests:
+- method: GET
+  path: /env.js
+  matchers: &id001
+  - type: body
+    words:
+    - REACT_APP_
+  - type: header
+    words:
+    - application/octet-stream
+    - application/javascript
+    - text/plain
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /config.js
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /config/env.js
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /config/runtime-env.js
+  matchers: *id001
+  condition: and

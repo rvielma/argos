@@ -1,0 +1,20 @@
+id: oracle-dbcs
+name: Oracle Database as a Service
+severity: info
+confidence: tentative
+description: Oracle Database as a Service
+tags:
+- oracle
+- tech
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Oracle Database as a Service</title>
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,22 @@
+id: growi-installer
+name: GROWI Installer - Exposure
+severity: high
+confidence: confirmed
+description: Checks for the presence of a GROWI Installer.
+tags:
+- install
+- growi
+- exposure
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /installer
+  matchers:
+  - type: body
+    words:
+    - <title>Installer - GROWI</title>
+  - type: status
+    status:
+    - 200
+  condition: and

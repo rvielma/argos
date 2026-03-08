@@ -1,0 +1,35 @@
+id: springboot-jolokia
+name: Detects Springboot Jolokia Actuator
+severity: low
+confidence: confirmed
+description: Springboot Jolokia Actuator is exposed.
+reference: https://raw.githubusercontent.com/maurosoria/dirsearch/master/db/dicc.txt
+tags:
+- misconfig
+- springboot
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /jolokia
+  matchers: &id001
+  - type: body
+    words:
+    - '"config":{'
+    - '"agentId":"'
+  - type: header
+    words:
+    - application/json
+    - application/vnd.spring-boot.actuator
+    - application/vnd.spring-boot.actuator.v1+json
+    - application/vnd.spring-boot.actuator.v2+json
+    - application/vnd.spring-boot.actuator.v3+json
+    - text/plain
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /actuator/jolokia
+  matchers: *id001
+  condition: and

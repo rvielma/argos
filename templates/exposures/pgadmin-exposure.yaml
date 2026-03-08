@@ -1,0 +1,26 @@
+id: pgadmin-exposure
+name: PostgreSQL pgAdmin Dashboard Panel - Detect
+severity: info
+confidence: tentative
+description: PostgreSQL pgAdmin Dashboard panel was detected.
+reference: CWE-200
+tags:
+- unauth
+- pgadmin
+- postgres
+- panel
+- discovery
+requests:
+- method: GET
+  path: /browser/
+  matchers:
+  - type: status
+    status:
+    - 200
+  - type: header
+    words:
+    - PGADMIN_LANGUAGE=
+  - type: body
+    words:
+    - <title>pgAdmin
+  condition: and

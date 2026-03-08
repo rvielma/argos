@@ -1,0 +1,23 @@
+id: microsoft-runtime-error
+name: Microsoft Runtime Error Page
+severity: info
+confidence: tentative
+description: Microsoft Runtime Error Page
+tags:
+- iis
+- error
+- microsoft
+- log
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Runtime Error</title>
+  - type: status
+    status:
+    - 500
+    - 404
+  condition: and

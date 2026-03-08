@@ -1,0 +1,21 @@
+id: elasticsearch-sql-client-detect
+name: Elasticsearch - SQL Client Detection
+severity: low
+confidence: tentative
+description: Elasticsearch detected SQL client.
+tags:
+- elasticsearch
+- tech
+- sql
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Elasticsearch-sql client</title>
+  - type: status
+    status:
+    - 200
+  condition: and

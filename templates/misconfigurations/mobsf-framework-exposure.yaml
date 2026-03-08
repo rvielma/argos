@@ -1,0 +1,22 @@
+id: mobsf-framework-exposure
+name: MobSF Framework - Exposure
+severity: high
+confidence: confirmed
+description: MobSF Framework is exposed.
+tags:
+- misconfig
+- exposure
+- mobsf
+- vuln
+requests:
+- method: GET
+  path: /recent_scans/
+  matchers:
+  - type: body
+    words:
+    - Recent Scans
+    - Mobile Security Framework - MobSF
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,22 @@
+id: filecatalyst-panel
+name: FileCatalyst File Transfer Solution - Detect
+severity: info
+confidence: confirmed
+description: Detects the presence of FileCatalyst file transfer solution login panel
+tags:
+- panel
+- login
+- filecatalyst
+- detect
+- discovery
+requests:
+- method: GET
+  path: /workflow/jsp/logon.jsp
+  matchers:
+  - type: body
+    words:
+    - FileCatalyst file transfer solution
+  - type: status
+    status:
+    - 200
+  condition: and

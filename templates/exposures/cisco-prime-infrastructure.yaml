@@ -1,0 +1,22 @@
+id: cisco-prime-infrastructure
+name: Cisco Prime Infrastructure Panel - Detect
+severity: info
+confidence: tentative
+description: A Cisco Prime Infrastructure login panel was discovered.
+reference: CWE-200
+tags:
+- panel
+- cisco
+- discovery
+requests:
+- method: GET
+  path: /webacs/pages/common/login.jsp
+  matchers:
+  - type: body
+    words:
+    - productName = "Prime Infrastructure"
+    - Cisco&nbsp;
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,23 @@
+id: phpsys-info
+name: phpSysInfo Exposure
+severity: low
+confidence: confirmed
+description: 'phpSysInfo: a customizable PHP script that displays information about your system nicely'
+reference: https://phpsysinfo.github.io/phpsysinfo/
+tags:
+- config
+- exposure
+- phpsysinfo
+- vuln
+requests:
+- method: GET
+  path: /phpsysinfo/index.php?disp=bootstrap
+  matchers:
+  - type: body
+    words:
+    - phpSysInfo
+    - Hardware Information
+  - type: status
+    status:
+    - 200
+  condition: and

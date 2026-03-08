@@ -1,0 +1,26 @@
+id: facturascripts-installer
+name: FacturaScripts Installer Exposure
+severity: high
+confidence: confirmed
+description: FacturaScripts is susceptible to the Installation page exposure due to misconfiguration.
+tags:
+- misconfig
+- facturascripts
+- install
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - FacturaScripts installer
+    - connect to the database
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

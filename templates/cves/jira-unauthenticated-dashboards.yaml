@@ -1,0 +1,19 @@
+id: jira-unauthenticated-dashboards
+name: Jira Unauthenticated Dashboards
+severity: info
+confidence: tentative
+description: Jira Unauthenticated Dashboards
+tags:
+- atlassian
+- jira
+- vuln
+requests:
+- method: GET
+  path: /rest/api/2/dashboard?maxResults=100
+  matchers:
+  - type: body
+    words:
+    - dashboards
+    - startAt
+    - maxResults
+  condition: or

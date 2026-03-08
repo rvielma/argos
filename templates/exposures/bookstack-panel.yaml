@@ -1,0 +1,26 @@
+id: bookstack-panel
+name: BookStack Login Panel - Detect
+severity: info
+confidence: tentative
+description: Bookstack login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- bookstack
+- bookstackapp
+- discovery
+requests:
+- method: GET
+  path: /login
+  matchers:
+  - type: body
+    words:
+    - <title>BookStack</title>
+    - <span class="logo-text">BookStack</span>
+  - type: header
+    words:
+    - 'Set-Cookie: bookstack_session'
+  - type: status
+    status:
+    - 200
+  condition: and

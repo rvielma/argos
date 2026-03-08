@@ -1,0 +1,21 @@
+id: mirth-connect-detect
+name: Mirth Connect Admin Panel - Detect
+severity: info
+confidence: confirmed
+description: Detects Mirth Connect Administrator panel.
+tags:
+- mirth-connect
+- tech
+- detect
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Mirth Connect Administrator</title>
+  - type: status
+    status:
+    - 200
+  condition: and

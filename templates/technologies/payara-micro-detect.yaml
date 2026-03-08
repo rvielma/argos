@@ -1,0 +1,20 @@
+id: payara-micro-detect
+name: Payara Micro Detect
+severity: info
+confidence: confirmed
+description: Payara Micro Detect
+tags:
+- tech
+- payara
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - 'Payara Micro #badassfish - Error report'
+  - type: status
+    status:
+    - 404
+  condition: and

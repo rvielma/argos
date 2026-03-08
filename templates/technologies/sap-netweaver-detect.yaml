@@ -1,0 +1,25 @@
+id: sap-netweaver-detect
+name: SAP NetWeaver ICM - Detect
+severity: info
+confidence: confirmed
+description: Detection of SAP NetWeaver ABAP Webserver or Java Application Server (ICM/ICF)
+tags:
+- sap
+- webserver
+- tech
+- detect
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: header
+    words:
+    - 'sap-server:'
+    - SAP NetWeaver Application Server
+  - type: body
+    words:
+    - SAP NetWeaver Application Server
+    - SAP NetWeaver Developer Studio
+    - SAP Management Console
+  condition: or

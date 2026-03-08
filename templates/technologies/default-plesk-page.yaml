@@ -1,0 +1,17 @@
+id: default-plesk-page
+name: Plesk Default Test Page
+severity: info
+confidence: tentative
+description: Plesk Default Test Page
+tags:
+- tech
+- plesk
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Web Server's Default Page</title>
+  condition: or

@@ -1,0 +1,24 @@
+id: fork-installer
+name: Fork CMS - Installer
+severity: critical
+confidence: confirmed
+description: Fork CMS installer page was detected.
+tags:
+- misconfig
+- exposure
+- fork
+- cms
+- install
+- vuln
+requests:
+- method: GET
+  path: /install/2
+  matchers:
+  - type: body
+    words:
+    - Install Fork CMS
+    - Settings
+  - type: status
+    status:
+    - 200
+  condition: and

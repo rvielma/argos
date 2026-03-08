@@ -1,0 +1,24 @@
+id: command-api-explorer
+name: Command API Explorer Panel - Detect
+severity: info
+confidence: confirmed
+description: Command API Explorer panel was detected.
+reference: CWE-200
+tags:
+- panel
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /explorer.html
+  matchers:
+  - type: body
+    words:
+    - <title>Command API Explorer</title>
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

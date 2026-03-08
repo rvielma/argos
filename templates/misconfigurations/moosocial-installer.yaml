@@ -1,0 +1,22 @@
+id: moosocial-installer
+name: mooSocial Installation - Exposure
+severity: high
+confidence: confirmed
+description: mooSocial Installation - Exposure
+tags:
+- exposure
+- moosocial
+- misconfig
+- install
+- vuln
+requests:
+- method: GET
+  path: /install
+  matchers:
+  - type: body
+    words:
+    - Welcome to mooSocial Installation
+  - type: status
+    status:
+    - 200
+  condition: and

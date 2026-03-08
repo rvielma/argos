@@ -1,0 +1,28 @@
+id: npm-shrinkwrap-exposure
+name: Node Shrinkwrap Exposure
+severity: info
+confidence: confirmed
+description: A file created by npm shrinkwrap. It is identical to package-lock.json.
+reference: https://docs.npmjs.com/cli/v9/configuring-npm/npm-shrinkwrap-json
+tags:
+- config
+- exposure
+- npm
+- files
+- node
+- vuln
+requests:
+- method: GET
+  path: /npm-shrinkwrap.json
+  matchers:
+  - type: body
+    words:
+    - version
+    - dependencies
+  - type: header
+    words:
+    - application/json
+  - type: status
+    status:
+    - 200
+  condition: and

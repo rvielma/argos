@@ -1,0 +1,21 @@
+id: sql-monitor
+name: SQL Monitor - Discovery
+severity: info
+confidence: tentative
+description: SQL Monitor was discovered.
+reference: CWE-200
+tags:
+- panel
+- red-gate
+- discovery
+requests:
+- method: GET
+  path: /Account/LogIn?returnUrl=%2F&hasAttemptedCookie=True
+  matchers:
+  - type: body
+    words:
+    - <p>JavaScript needs to be enabled for SQL Monitor to work properly.</p>
+  - type: status
+    status:
+    - 200
+  condition: and

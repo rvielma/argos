@@ -1,0 +1,24 @@
+id: spa-cart-installer
+name: SPA Cart - Installer
+severity: high
+confidence: tentative
+description: SPA Cart  installer was found.
+reference: https://spa-cart.com/
+tags:
+- spa-cart
+- exposure
+- installer
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /install/
+  matchers:
+  - type: body
+    words:
+    - <title>SPA Cart Installation</title>
+    - PHP Version
+  - type: status
+    status:
+    - 200
+  condition: and

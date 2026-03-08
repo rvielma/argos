@@ -1,0 +1,22 @@
+id: gnuboard-detect
+name: Gnuboard CMS - Detect
+severity: info
+confidence: tentative
+description: Gnuboard CMS was detected.
+reference: CWE-200
+tags:
+- tech
+- gnuboard
+- discovery
+requests:
+- method: GET
+  path: /LICENSE.txt
+  matchers:
+  - type: body
+    words:
+    - GNU Board
+    - http://sir.kr
+  - type: header
+    words:
+    - text/plain
+  condition: and

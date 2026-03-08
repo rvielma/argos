@@ -1,0 +1,22 @@
+id: devexpress-detect
+name: DevExpress - Detect
+severity: info
+confidence: tentative
+description: Detect DevExpress based on the existence of its HTTP handler for serving images, scripts, and other resources
+  to the client side.
+reference: https://github.com/DevExpress/aspnet-security-bestpractices/blob/master/SecurityBestPractices.WebForms/README.md#53-information-exposure-through-source-code
+tags:
+- devexpress
+- iis
+- microsoft
+- asp
+- tech
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - DXR.axd
+  condition: or

@@ -1,0 +1,30 @@
+id: pubspec-config
+name: Pubspec YAML Configuration File - Detect
+severity: info
+confidence: confirmed
+description: Pubspec YAML configuration file was detected.
+reference: CWE-200
+tags:
+- exposure
+- devops
+- pubsec
+- config
+- cicd
+- vuln
+requests:
+- method: GET
+  path: /pubspec.yaml
+  matchers: &id001
+  - type: body
+    words:
+    - 'version:'
+    - 'environment:'
+    - 'dependencies:'
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /assets/pubspec.yaml
+  matchers: *id001
+  condition: and

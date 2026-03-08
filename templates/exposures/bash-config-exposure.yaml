@@ -1,0 +1,50 @@
+id: bash-config-exposure
+name: Bash Configuration - Exposure
+severity: low
+confidence: confirmed
+description: Detected exposed bash configuration on web servers that could have contained sensitive information such as credentials,
+  API keys, database connection strings, or internal paths.
+tags:
+- exposure
+- config
+- misconfig
+- bash
+requests:
+- method: GET
+  path: /.bashrc
+  matchers: &id001
+  - type: regex
+    regex:
+    - usr/(local|bin)/
+  - type: body
+    words:
+    - 'export '
+    - 'source '
+    - if [
+    - then
+    - 'echo '
+    - 'for '
+    - do
+    - done
+  - type: body
+    words:
+    - <html
+    - <!DOCTYPE
+    - '404'
+    - Not Found
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /.bash_profile
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /.profile
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /.zshrc
+  matchers: *id001
+  condition: and

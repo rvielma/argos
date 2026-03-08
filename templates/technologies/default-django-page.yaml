@@ -1,0 +1,17 @@
+id: default-django-page
+name: Django Default Page
+severity: info
+confidence: tentative
+description: Django Default Page
+tags:
+- tech
+- django
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>The install worked successfully! Congratulations!</title>
+  condition: or

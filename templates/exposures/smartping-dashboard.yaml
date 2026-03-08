@@ -1,0 +1,23 @@
+id: smartping-dashboard
+name: SmartPing Dashboard Panel - Detect
+severity: info
+confidence: confirmed
+description: SmartPing Dashboard panel was detected.
+reference: CWE-200
+tags:
+- panel
+- misconfig
+- unauth
+- smartping
+- discovery
+requests:
+- method: GET
+  path: /config.html
+  matchers:
+  - type: body
+    words:
+    - SmartPing Dashboard
+  - type: status
+    status:
+    - 200
+  condition: and

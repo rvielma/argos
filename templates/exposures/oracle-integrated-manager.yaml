@@ -1,0 +1,22 @@
+id: oracle-integrated-manager
+name: Oracle Integrated Lights Out Manager Login Panel - Detect
+severity: info
+confidence: tentative
+description: Oracle Integrated Lights Out Manager login panel was detected.
+reference: CWE-200
+tags:
+- oracle
+- login
+- panel
+- discovery
+requests:
+- method: GET
+  path: /iPages/i_login.asp
+  matchers:
+  - type: body
+    words:
+    - <title>Oracle(R) Integrated Lights Out Manager - Login</title>
+  - type: status
+    status:
+    - 200
+  condition: and

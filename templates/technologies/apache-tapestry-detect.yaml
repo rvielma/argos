@@ -1,0 +1,19 @@
+id: apache-tapestry-detect
+name: Apache Tapestry Framework detect
+severity: info
+confidence: tentative
+description: Apache Tapestry Framework detect
+tags:
+- apache
+- tapestry
+- tech
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - content="Apache Tapestry Framework
+    - content="Tapestry Application Framework
+  condition: or

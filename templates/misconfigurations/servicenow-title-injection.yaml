@@ -1,0 +1,26 @@
+id: servicenow-title-injection
+name: Service Now - Title Injection
+severity: high
+confidence: confirmed
+description: Service Now - Title Injection
+reference: https://www.assetnote.io/resources/research/chaining-three-bugs-to-access-all-your-servicenow-data
+tags:
+- cve
+- cve2024
+- servicenow
+- injection
+- vuln
+requests:
+- method: GET
+  path: /login.do?jvar_page_title=<style><foo>Injected Title</foo></style>
+  matchers:
+  - type: body
+    words:
+    - <title><style><foo>Injected Title</foo></style></title>
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

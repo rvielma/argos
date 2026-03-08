@@ -1,0 +1,22 @@
+id: tectuus-scada-monitor
+name: Tectuus SCADA Monitor Panel - Detect
+severity: info
+confidence: tentative
+description: Tectuus SCADA Monitor panel was detected.
+reference: CWE-200
+tags:
+- panel
+- tectuus
+- scada
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: status
+    status:
+    - 200
+  - type: body
+    words:
+    - <title>SCADAmonitor</title>
+  condition: and

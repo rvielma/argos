@@ -1,0 +1,29 @@
+id: cisco-firepower-panel
+name: Cisco Secure Firewall Management Center - Panel
+severity: info
+confidence: confirmed
+description: Cisco Secure Firewall Management Center login panel was detected. Secure Firewall Management Center was formerly
+  known as Firepower Management Center.
+reference: CWE-200
+tags:
+- login
+- cisco
+- panel
+- console
+- discovery
+requests:
+- method: GET
+  path: /ui/login
+  matchers:
+  - type: body
+    words:
+    - Login
+    - /img/cisco-icon.svg
+  - type: body
+    words:
+    - Cisco Firepower Management Center
+    - Secure Firewall Management Center
+  - type: status
+    status:
+    - 200
+  condition: and

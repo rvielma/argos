@@ -1,0 +1,26 @@
+id: meddream-dicom-viewer-panel
+name: MedDream DICOM Viewer - Panel
+severity: info
+confidence: confirmed
+description: MedDream DICOM Viewer panel was detected.
+reference: CWE-200
+tags:
+- panel
+- meddream
+- detect
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - src="js/md.main.min.
+    - unsupported-browser-msg
+  - type: header
+    words:
+    - MEDDREAMSESSID
+  - type: status
+    status:
+    - 200
+  condition: and

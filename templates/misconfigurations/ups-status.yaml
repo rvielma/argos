@@ -1,0 +1,27 @@
+id: ups-status
+name: APC UPC Multimon Status Page - Detect
+severity: info
+confidence: tentative
+description: Multimon UPS status page was detected.
+reference: CWE-200
+tags:
+- logs
+- status
+- edb
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /cgi-bin/apcupsd/multimon.cgi
+  matchers: &id001
+  - type: body
+    words:
+    - 'Multimon: UPS Status Page'
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /cgi-bin/multimon.cgi
+  matchers: *id001
+  condition: and

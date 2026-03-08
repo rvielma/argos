@@ -1,0 +1,27 @@
+id: jira-serverinfo
+name: Jira Rest API Server Information
+severity: info
+confidence: confirmed
+description: Detected Jira REST API serverInfo endpoint is accessible without authentication, exposing sensitive server information
+  including version, build number, server title, base URL, and server time.
+reference: CWE-200
+tags:
+- jira
+- tech
+- discovery
+requests:
+- method: GET
+  path: /rest/api/latest/serverInfo
+  matchers: &id001
+  - type: body
+    words:
+    - '"baseUrl"'
+    - '"deploymentType"'
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /rest/api/2/serverInfo
+  matchers: *id001
+  condition: and

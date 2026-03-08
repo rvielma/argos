@@ -1,0 +1,17 @@
+id: parallels-html-client
+name: Parallels HTML5 Client Login Panel - Detect
+severity: info
+confidence: tentative
+description: Parallels HTML5 Client login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- discovery
+requests:
+- method: GET
+  path: /RASHTML5Gateway/
+  matchers:
+  - type: body
+    words:
+    - <title>Parallels HTML5 Client</title>
+  condition: or

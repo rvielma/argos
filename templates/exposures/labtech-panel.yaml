@@ -1,0 +1,27 @@
+id: labtech-panel
+name: LabTech Web Portal Login Panel - Detect
+severity: info
+confidence: tentative
+description: LabTech Web Portal login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- labtech
+- labtech_software
+- discovery
+requests:
+- method: GET
+  path: /WCC2/
+  matchers:
+  - type: body
+    words:
+    - <li>LabTech</li>
+    - <form action="/WCC2/Search/search" id="searchForm method="post">
+    - <h1> Welcome to the LabTech Web Portal</h1>
+    - Universal Agent Uninstaller
+    - Technician Login
+    - <form action="/WCC2/Home/Login" autocomplete="off" method="post">
+  - type: status
+    status:
+    - 200
+  condition: and

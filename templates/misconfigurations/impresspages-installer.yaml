@@ -1,0 +1,26 @@
+id: impresspages-installer
+name: ImpressPages Installer
+severity: low
+confidence: confirmed
+description: ImpressPages is susceptible to the Installation page exposure due to misconfiguration.
+tags:
+- misconfig
+- exposure
+- install
+- impresspages
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - ImpressPages installation wizard
+    - Configuration
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

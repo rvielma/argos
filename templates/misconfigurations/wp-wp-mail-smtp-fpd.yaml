@@ -1,0 +1,34 @@
+id: wp-wp-mail-smtp-fpd
+name: WordPress WP Mail SMTP - Full Path Disclosure
+severity: low
+confidence: confirmed
+description: WordPress WP Mail SMTP plugin is vulnerable to full path disclosure via direct access to plugin files.
+reference: https://wordpress.org/plugins/wp-mail-smtp/
+tags:
+- wp
+- wordpress
+- wp-plugin
+- fpd
+- wp-mail-smtp
+- exposure
+requests:
+- method: GET
+  path: /wp-content/plugins/wp-mail-smtp/src/WPMailSMTP.php
+  matchers: &id001
+  - type: body
+    words:
+    - Fatal error
+    - wp-mail-smtp
+    - 'Uncaught Error:'
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /wp-content/plugins/wp-mail-smtp/vendor/autoload.php
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /wp-content/plugins/wp-mail-smtp/src/Core.php
+  matchers: *id001
+  condition: and

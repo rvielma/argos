@@ -1,0 +1,22 @@
+id: kfm-login-panel
+name: Kae's File Manager Admin Login Panel - Detect
+severity: info
+confidence: tentative
+description: Kae's File Manager admin login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- kfm
+- discovery
+requests:
+- method: GET
+  path: /kfm/admin/
+  matchers:
+  - type: body
+    words:
+    - KFM Login
+    - password
+  - type: status
+    status:
+    - 200
+  condition: and

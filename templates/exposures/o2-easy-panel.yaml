@@ -1,0 +1,24 @@
+id: o2-easy-panel
+name: O2 Router Setup Panel - Detect
+severity: info
+confidence: confirmed
+description: O2 router setup panel was detected.
+reference: CWE-200
+tags:
+- panel
+- o2
+- easy
+- iot
+- router
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>O2 Easy Setup</title>
+  - type: status
+    status:
+    - 200
+  condition: and

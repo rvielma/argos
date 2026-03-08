@@ -1,0 +1,25 @@
+id: servicenow-panel
+name: ServiceNow Login Panel - Detect
+severity: info
+confidence: confirmed
+description: ServiceNow Login Panel was detected.
+reference: https://www.servicenow.com/
+tags:
+- panel
+- servicenow
+- login
+- detect
+- discovery
+requests:
+- method: GET
+  path: /login.do
+  matchers:
+  - type: body
+    words:
+    - ServiceNow
+    - window.NOW.
+    - NOW.user.userID
+  - type: status
+    status:
+    - 200
+  condition: and

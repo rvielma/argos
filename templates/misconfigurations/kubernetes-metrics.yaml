@@ -1,0 +1,26 @@
+id: kubernetes-metrics
+name: Detect Kubernetes Exposed Metrics
+severity: low
+confidence: tentative
+description: Information Disclosure of Garbage Collection
+reference: https://kubernetes.io/docs/concepts/cluster-administration/system-metrics/#metrics-in-kubernetes
+tags:
+- kubernetes
+- exposure
+- devops
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /metrics
+  matchers:
+  - type: body
+    words:
+    - namespace
+    - HELP
+    - TYPE
+    - kube
+  - type: status
+    status:
+    - 200
+  condition: and

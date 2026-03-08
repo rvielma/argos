@@ -1,0 +1,22 @@
+id: avayaaura-cm-panel
+name: Avaya Aura Communication Manager Login - Panel Detect
+severity: info
+confidence: tentative
+description: Avaya Aura Communication Manager login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- avaya
+- discovery
+requests:
+- method: GET
+  path: /cgi-bin/common/login/webLogin
+  matchers:
+  - type: body
+    words:
+    - Avaya Aura
+    - Communication Manager (CM)
+  - type: status
+    status:
+    - 200
+  condition: and

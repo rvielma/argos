@@ -1,0 +1,25 @@
+id: doris-dashboard
+name: Doris Dashboard - Exposed
+severity: medium
+confidence: confirmed
+description: Unauthorized access to the Doris Dashboard.
+tags:
+- doris
+- exposure
+- unauth
+- logs
+- misconfig
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Doris</title>
+    - CPU Profile</a>
+    - Heap Profile</a>
+  - type: status
+    status:
+    - 200
+  condition: and

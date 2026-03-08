@@ -1,0 +1,52 @@
+id: graphql-ariadne-detect
+name: Graphql Ariadne Detect
+severity: info
+confidence: tentative
+description: Graphql Ariadne Detect
+reference: https://github.com/dolevf/graphw00f/blob/main/graphw00f/lib.py
+tags:
+- tech
+- graphql
+- ariadne
+requests:
+- method: POST
+  path: /graphql
+  matchers: &id001
+  - type: status
+    status:
+    - 200
+  - type: body
+    words:
+    - Unknown directive '@abc'.
+  - type: header
+    words:
+    - 'Content-Type: text/html'
+  - type: body
+    words:
+    - <html
+    - <body
+  condition: and
+  headers:
+    Content-Type: application/json
+  body: '{"query":"query { __typename @abc }"}'
+- method: POST
+  path: /api/graphql
+  matchers: *id001
+  condition: and
+  headers:
+    Content-Type: application/json
+  body: '{"query":"query { __typename @abc }"}'
+- method: POST
+  path: /query
+  matchers: *id001
+  condition: and
+  headers:
+    Content-Type: application/json
+  body: '{"query":"query { __typename @abc }"}'
+- method: POST
+  path: /
+  matchers: *id001
+  condition: and
+  headers:
+    Content-Type: application/json
+  body: '{"query":"query { __typename @abc }"}'

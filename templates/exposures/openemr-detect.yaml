@@ -1,0 +1,22 @@
+id: openemr-detect
+name: OpenEMR Product Registration Panel - Detect
+severity: info
+confidence: tentative
+description: OpenEMR Product Registration panel was detected.
+reference: CWE-200
+tags:
+- panel
+- openemr
+- open-emr
+- discovery
+requests:
+- method: GET
+  path: /interface/login/login.php?site=default
+  matchers:
+  - type: body
+    words:
+    - '"title":"OpenEMR Product Registration"'
+  - type: status
+    status:
+    - 200
+  condition: and

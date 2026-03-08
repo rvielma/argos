@@ -1,0 +1,20 @@
+id: hpe-system-management-login
+name: Hewlett Packard Enterprise System Management Login Panel - Detect
+severity: info
+confidence: tentative
+description: Hewlett Packard Enterprise System Management login page was detected.
+reference: CWE-200
+tags:
+- hpe
+- tech
+- panel
+- discovery
+requests:
+- method: GET
+  path: /cpqlogin.htm
+  matchers:
+  - type: body
+    words:
+    - HPE System Management Homepage
+    - /proxy/ssllogin
+  condition: and

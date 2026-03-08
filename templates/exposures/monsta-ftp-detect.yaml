@@ -1,0 +1,23 @@
+id: monsta-ftp-detect
+name: Monsta FTP - Detect
+severity: info
+confidence: confirmed
+description: Detects Monsta FTP web-based file manager interface.
+reference: https://www.monstaftp.com/
+tags:
+- tech
+- monsta
+- ftp
+- detect
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - ng-app="MonstaFTP"
+    - <title>Monsta FTP
+  - type: status
+    status:
+    - 200
+  condition: and

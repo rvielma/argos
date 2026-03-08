@@ -1,0 +1,23 @@
+id: eyoucms-installer
+name: EyouCMS - Installation
+severity: high
+confidence: confirmed
+description: EyouCMS installation is exposed.
+tags:
+- misconfig
+- eyoucms
+- install
+- vuln
+requests:
+- method: GET
+  path: /install/index.php
+  matchers:
+  - type: body
+    words:
+    - EyouCms
+    - /install/index.php?step=2
+    - 使用协议</p>
+  - type: status
+    status:
+    - 200
+  condition: and

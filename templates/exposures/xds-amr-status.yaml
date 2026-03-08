@@ -1,0 +1,23 @@
+id: xds-amr-status
+name: XDS-AMR Status Login Panel - Detect
+severity: info
+confidence: tentative
+description: XDS-AMR Status login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- tech
+- xamr
+- xds
+- discovery
+requests:
+- method: GET
+  path: /login.php
+  matchers:
+  - type: body
+    words:
+    - <title>XDS-AMR - Status</title>
+  - type: status
+    status:
+    - 200
+  condition: and

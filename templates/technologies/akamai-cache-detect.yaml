@@ -1,0 +1,22 @@
+id: akamai-cache-detect
+name: Akamai Cache Detection
+severity: info
+confidence: confirmed
+description: Sends a HEAD request with a Pragma header value of "akamai-x-cache-on" and looks for an akamai-specific response
+  header value.
+reference: https://community.akamai.com/customers/s/article/Using-Akamai-Pragma-headers-to-investigate-or-troubleshoot-Akamai-content-delivery?language=en_US
+tags:
+- cache
+- akamai
+- tech
+- discovery
+requests:
+- method: HEAD
+  path: /
+  matchers:
+  - type: regex
+    regex:
+    - (?:TCP_HIT|TCP_MISS).*deploy\.akamaitechnologies\.com
+  condition: or
+  headers:
+    Pragma: akamai-x-cache-on

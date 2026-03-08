@@ -1,0 +1,28 @@
+id: hadoop-unauth-rce
+name: Apache Hadoop YARN ResourceManager - Remote Code Execution
+severity: critical
+confidence: tentative
+description: Apache Hadoop YARN ResourceManager is susceptible to remote code execution. An attacker can execute malware,
+  obtain sensitive information, modify data, and/or gain full control over a compromised system without entering necessary
+  credentials.
+reference: CWE-306
+tags:
+- vulhub
+- apache
+- hadoop
+- unauth
+- rce
+- msf
+- misconfig
+- vuln
+requests:
+- method: POST
+  path: /ws/v1/cluster/apps/new-application
+  matchers:
+  - type: body
+    words:
+    - '"application-id"'
+  - type: status
+    status:
+    - 200
+  condition: and

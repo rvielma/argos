@@ -1,0 +1,26 @@
+id: connectbox-panel
+name: Connect Box Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Connect Box login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- connectbox
+- iot
+- upc
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: header
+    words:
+    - NET-DK/1.0
+  - type: regex
+    regex:
+    - ../common_page/(.*).html
+  - type: status
+    status:
+    - 302
+  condition: and

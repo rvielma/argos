@@ -1,0 +1,21 @@
+id: orbit-telephone-detect
+name: Orbit Telephone System - Detect
+severity: info
+confidence: confirmed
+description: Orbit Telephone System was detected.
+reference: https://kb.orbitgt.com/214/technology/platforms/index
+tags:
+- tech
+- detect
+- discovery
+requests:
+- method: GET
+  path: /index.html
+  matchers:
+  - type: body
+    words:
+    - '<title>Orbit Telephone System: Administration</title>'
+  - type: status
+    status:
+    - 200
+  condition: and

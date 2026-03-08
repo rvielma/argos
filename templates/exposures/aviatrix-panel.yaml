@@ -1,0 +1,22 @@
+id: aviatrix-panel
+name: Aviatrix Cloud Controller Panel
+severity: info
+confidence: tentative
+description: An Aviatrix Cloud Controller login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- aviatrix
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Aviatrix
+    - Controller</title>
+  - type: status
+    status:
+    - 200
+  condition: and

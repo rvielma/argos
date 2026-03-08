@@ -1,0 +1,24 @@
+id: aem-cached-pages
+name: Invalidate / Flush Cached Pages on AEM
+severity: low
+confidence: tentative
+description: Cached Pages on AEM can be Flushed.
+reference: https://twitter.com/AEMSecurity/status/1244965623689609217
+tags:
+- aem
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /dispatcher/invalidate.cache
+  matchers:
+  - type: body
+    words:
+    - <H1>OK</H1>
+  - type: status
+    status:
+    - 200
+  condition: and
+  headers:
+    CQ-Handle: /content
+    CQ-Path: /content

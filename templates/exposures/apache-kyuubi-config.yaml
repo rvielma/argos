@@ -1,0 +1,24 @@
+id: apache-kyuubi-config
+name: Apache Kyuubi - Configuration Exposure
+severity: medium
+confidence: tentative
+description: Detects if path Appconfigs of Apache Kyuubi web application is exposed, getting internal information about the
+  configuration made.
+tags:
+- config
+- exposure
+- kyuubi
+- apache
+- vuln
+requests:
+- method: GET
+  path: /engine-ui/0.0.0.0:4040/environment/
+  matchers:
+  - type: body
+    words:
+    - Environment</title>
+    - kyuubi
+  - type: status
+    status:
+    - 200
+  condition: and

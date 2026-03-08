@@ -1,0 +1,17 @@
+id: default-apache2-page
+name: Apache2 Default Test Page
+severity: info
+confidence: tentative
+description: Apache2 Default Test Page
+tags:
+- tech
+- apache
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - '<title>Apache2 Debian Default Page: It works</title>'
+  condition: or

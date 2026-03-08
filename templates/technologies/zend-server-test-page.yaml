@@ -1,0 +1,23 @@
+id: zend-server-test-page
+name: Zend Server Test Page
+severity: info
+confidence: confirmed
+description: Zend Server Test Page
+tags:
+- tech
+- zend
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Zend Server Test Page</title>
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

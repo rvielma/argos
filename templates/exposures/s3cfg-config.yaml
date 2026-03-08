@@ -1,0 +1,28 @@
+id: s3cfg-config
+name: S3CFG Configuration - Detect
+severity: high
+confidence: tentative
+description: S3CFG configuration file was detected.
+reference: CWE-200
+tags:
+- amazon
+- s3
+- exposure
+- config
+- vuln
+requests:
+- method: GET
+  path: /.s3cfg
+  matchers:
+  - type: body
+    words:
+    - access_key
+    - bucket_location
+    - secret_key
+  - type: header
+    words:
+    - text/plain
+  - type: status
+    status:
+    - 200
+  condition: and

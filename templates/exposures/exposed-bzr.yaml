@@ -1,0 +1,25 @@
+id: exposed-bzr
+name: Bazaar Configuration - Detect
+severity: info
+confidence: tentative
+description: Bazaar configuration was detected.
+reference: CWE-200
+tags:
+- config
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /.bzr/branch/branch.conf
+  matchers:
+  - type: body
+    words:
+    - parent_location
+    - push_location
+  - type: status
+    status:
+    - 200
+  - type: header
+    words:
+    - text/plain
+  condition: and

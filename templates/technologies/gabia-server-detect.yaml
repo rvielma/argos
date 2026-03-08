@@ -1,0 +1,21 @@
+id: gabia-server-detect
+name: Gabia Server - Detection
+severity: info
+confidence: confirmed
+description: Detects gabia web server.
+tags:
+- tech
+- gabia
+- detect
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: regex
+    regex:
+    - 'Server: gabia'
+  - type: status
+    status:
+    - 200
+  condition: and

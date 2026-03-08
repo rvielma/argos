@@ -1,0 +1,24 @@
+id: canon-ir-adv
+name: Canon iR-ADV Panel - Detect
+severity: info
+confidence: confirmed
+description: Canon iR-ADV Panel - Detect
+tags:
+- canon
+- panel
+- login
+- detect
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - iR-ADV
+    - Authentication
+    - CANON
+  - type: status
+    status:
+    - 200
+  condition: and

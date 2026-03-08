@@ -1,0 +1,27 @@
+id: haproxy-status
+name: HAProxy Statistics Page - Detect
+severity: medium
+confidence: tentative
+description: HAProxy statistics page was detected.
+reference: CWE-200
+tags:
+- logs
+- haproxy
+- edb
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /haproxy-status
+  matchers: &id001
+  - type: body
+    words:
+    - Statistics Report for HAProxy
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /haproxy?stats
+  matchers: *id001
+  condition: and

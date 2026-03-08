@@ -1,0 +1,26 @@
+id: digitalrebar-login
+name: RackN Digital Rebar Login Panel - Detect
+severity: info
+confidence: tentative
+description: RackN Digital Rebar login panel was detected.
+reference: CWE-200
+tags:
+- rackn
+- digitalrebar
+- panel
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: status
+    status:
+    - 200
+  - type: body
+    words:
+    - Digital Rebar
+  condition: and
+- method: GET
+  path: /ui
+  matchers: *id001
+  condition: and

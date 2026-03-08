@@ -1,0 +1,24 @@
+id: fortinet-fortinac-panel
+name: Fortinet FortiNAC Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Fortinet FortiNAC login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- fortinet
+- fortinac
+- login
+- discovery
+requests:
+- method: GET
+  path: /WelcomeActions.jsp?action=ajaxGetWelcomeViewInfo
+  matchers:
+  - type: body
+    words:
+    - FortiNAC
+    - '"product":'
+  - type: status
+    status:
+    - 200
+  condition: and

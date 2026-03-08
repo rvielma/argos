@@ -1,0 +1,23 @@
+id: activecollab-installer
+name: ActiveCollab Installation Page - Exposure
+severity: high
+confidence: confirmed
+description: Detects exposed ActiveCollab Installation page.
+reference: https://activecollab.com/
+tags:
+- misconfig
+- install
+- exposure
+- activecollab
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - ActiveCollab Installer
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,24 @@
+id: atlantis-dashboard
+name: Atlantis Dashboard - Exposure
+severity: medium
+confidence: confirmed
+description: Atlantis Dashboard was discovered.
+tags:
+- misconfig
+- atlantis
+- runatlantis
+- exposure
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <span>Repository</span>
+    - <span>Project</span>
+    - <span>Workspace</span>
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,23 @@
+id: microfocus-vibe-panel
+name: Micro Focus Vibe Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Micro Focus Vibe login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- microfocus
+- vibe
+- discovery
+requests:
+- method: GET
+  path: /ssf/s/portalLogin
+  matchers:
+  - type: body
+    words:
+    - Micro Focus Vibe
+    - baseVibeUrl
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,23 @@
+id: apache-streampark-detect
+name: Apache Streampark - Detect
+severity: info
+confidence: tentative
+description: Detects a Apache Streampark server, a easy-to-use streaming application development framework and operation platform.
+reference: https://github.com/apache/streampark
+tags:
+- tech
+- apache
+- streampark
+- detect
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Apache StreamPark</title>
+  - type: status
+    status:
+    - 200
+  condition: and

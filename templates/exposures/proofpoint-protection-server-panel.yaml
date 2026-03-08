@@ -1,0 +1,29 @@
+id: proofpoint-protection-server-panel
+name: Proofpoint Protection Server Panel - Detect
+severity: info
+confidence: confirmed
+description: Proofpoint Protection Server panel was detected.
+reference: CWE-200
+tags:
+- panel
+- proofpoint
+- login
+- detect
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - <TITLE>Proofpoint Protection Server
+    - Proofpoint End User Application.
+    - Powered by Proofpoint
+  - type: header
+    words:
+    - PPSAUTH=
+  condition: or
+- method: GET
+  path: /euweb/login
+  matchers: *id001
+  condition: or

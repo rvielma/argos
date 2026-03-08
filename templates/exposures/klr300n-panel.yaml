@@ -1,0 +1,24 @@
+id: klr300n-panel
+name: KLR 300N Router Panel - Detect
+severity: info
+confidence: confirmed
+description: Home router wireless KLR 300N login panel were Detected.
+reference: http://www.keo.com.br/produtos/roteador-klr-300n
+tags:
+- keo
+- klr300n
+- panel
+- login
+- discovery
+requests:
+- method: GET
+  path: /login.asp
+  matchers:
+  - type: body
+    words:
+    - <title>Roteador Wireless KLR 300N</title>
+    - login
+  - type: status
+    status:
+    - 200
+  condition: and

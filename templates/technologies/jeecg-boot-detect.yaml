@@ -1,0 +1,22 @@
+id: jeecg-boot-detect
+name: Jeecg-Boot Detect
+severity: info
+confidence: tentative
+description: Jeecg-Boot Detect
+reference: http://www.jeecg.com/
+tags:
+- jeecg-boot
+- tech
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - Jeecg-Boot
+  condition: and
+- method: GET
+  path: /jeecg-boot/
+  matchers: *id001
+  condition: and

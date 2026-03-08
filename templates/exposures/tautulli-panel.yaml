@@ -1,0 +1,29 @@
+id: tautulli-panel
+name: Tautulli Panel - Detect
+severity: info
+confidence: confirmed
+description: A Python based monitoring and tracking tool for Plex Media Server.
+reference: https://tautulli.com/
+tags:
+- panel
+- tautulli
+- detect
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - <title>Tautulli - Login
+    - content="Tautulli
+    - alt="Tautulli
+    - Sign In with Tautulli
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /auth/login
+  matchers: *id001
+  condition: and

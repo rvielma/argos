@@ -1,0 +1,21 @@
+id: freshrss-installer
+name: FreshRSS - Installation
+severity: high
+confidence: confirmed
+description: FreshRSS Installation panel has been exposed.
+tags:
+- freshrss
+- misconfig
+- install
+- vuln
+requests:
+- method: GET
+  path: /i/?rid
+  matchers:
+  - type: body
+    words:
+    - Installation · FreshRSS
+  - type: status
+    status:
+    - 200
+  condition: and

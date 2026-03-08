@@ -1,0 +1,22 @@
+id: mpsec-isg1000-panel
+name: MPSec ISG1000 Security Gateway Panel - Detect
+severity: info
+confidence: confirmed
+description: MPSec ISG1000 Security Gateway Panel - Detect
+tags:
+- panel
+- login
+- mpsec
+- isg1000
+- discovery
+requests:
+- method: GET
+  path: /login.html
+  matchers:
+  - type: body
+    words:
+    - /webui/images/maipu/login/
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,25 @@
+id: vernemq-status-page
+name: VerneMQ Status Page
+severity: low
+confidence: tentative
+description: VerneMQ Status Page is exposed.
+reference: https://github.com/vernemq/vernemq
+tags:
+- misconfig
+- vernemq
+- status
+- vuln
+requests:
+- method: GET
+  path: /status
+  matchers:
+  - type: body
+    words:
+    - VerneMQ
+    - Issues
+    - Cluster Overview
+    - Node Status
+  - type: status
+    status:
+    - 200
+  condition: and

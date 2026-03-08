@@ -1,0 +1,30 @@
+id: onlyoffice-login-panel
+name: ONLYOFFICE Login Panel - Detect
+severity: info
+confidence: confirmed
+description: ONLYOFFICE Community Server is a free open-source collaborative system developed to manage documents, projects,
+  customer relationship and email correspondence.
+tags:
+- panel
+- onlyoffice
+- detect
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - ONLYOFFICE
+    - title="ONLYOFFICE
+    - content="ONLYOFFICE
+    - /images/onlyoffice_logo/
+    - alt="ONLYOFFICE
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /auth.aspx
+  matchers: *id001
+  condition: and

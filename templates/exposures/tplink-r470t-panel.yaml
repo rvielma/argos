@@ -1,0 +1,21 @@
+id: tplink-r470t-panel
+name: TP-LINK Router R470T - Detect
+severity: info
+confidence: confirmed
+description: TP-LINK Router R470T - Detect
+tags:
+- tplink
+- r470t
+- panel
+- login
+- detect
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - userRpm
+    - R470T
+  condition: or

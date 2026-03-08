@@ -1,0 +1,38 @@
+id: jellyfin-detect
+name: Jellyfin detected
+severity: info
+confidence: confirmed
+description: Jellyfin detected
+tags:
+- tech
+- jellyfin
+- discovery
+requests:
+- method: GET
+  path: /home.html
+  matchers: &id001
+  - type: body
+    words:
+    - name="application-name" content="Jellyfin"
+    - class="page homePage libraryPage allLibraryPage backdropPage pageWithAbsoluteTabs withTabs"
+    - The Free Software Media System
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /web/home.html
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /index.html
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /web/index.html
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /web/manifest.json
+  matchers: *id001
+  condition: and

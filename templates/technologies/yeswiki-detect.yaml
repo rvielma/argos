@@ -1,0 +1,23 @@
+id: yeswiki-detect
+name: YesWiki Panel - Detect
+severity: info
+confidence: confirmed
+description: YesWiki panel was detected.
+reference: CWE-200
+tags:
+- yeswiki
+- panel
+- tech
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - yeswiki-search
+    - yeswiki-base
+  - type: status
+    status:
+    - 200
+  condition: and

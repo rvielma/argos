@@ -1,0 +1,22 @@
+id: vodafone-voxui-panel
+name: Vodafone Vox UI Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Vodafone Vox UI login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- vodafone
+- discovery
+requests:
+- method: GET
+  path: /login.stm
+  matchers:
+  - type: body
+    words:
+    - Vodafone Vox UI
+    - Welcome to your EasyBox
+  - type: status
+    status:
+    - 200
+  condition: and

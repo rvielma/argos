@@ -1,0 +1,23 @@
+id: pulse-secure-version
+name: Pulse Secure Version
+severity: info
+confidence: tentative
+description: Pulse Secure Version
+tags:
+- pulse
+- panel
+- pulsesecure
+- discovery
+requests:
+- method: GET
+  path: /dana-na/nc/nc_gina_ver.txt
+  matchers: &id001
+  - type: body
+    words:
+    - NAME="ProductVersion"
+    - <key>version</key>
+  condition: or
+- method: GET
+  path: /dana-cached/hc/HostCheckerInstaller.osx
+  matchers: *id001
+  condition: or

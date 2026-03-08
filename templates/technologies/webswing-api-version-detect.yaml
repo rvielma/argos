@@ -1,0 +1,23 @@
+id: webswing-api-version-detect
+name: WebSwing REST API Version - Detection
+severity: info
+confidence: confirmed
+description: WebSwing REST API version via the /rest/version endpoint.
+tags:
+- webswing
+- rest
+- api
+- version
+- detect
+- discovery
+requests:
+- method: GET
+  path: /rest/version
+  matchers:
+  - type: body
+    words:
+    - webswing.org
+  - type: status
+    status:
+    - 200
+  condition: and

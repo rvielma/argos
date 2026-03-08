@@ -1,0 +1,20 @@
+id: airos-panel
+name: AirOS Panel - Detect
+severity: info
+confidence: confirmed
+description: AirOS panel was detected.
+tags:
+- airos
+- panel
+- discovery
+requests:
+- method: GET
+  path: /login.cgi?uri=/
+  matchers:
+  - type: body
+    words:
+    - airos_logo.png
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,21 @@
+id: rstudio-panel
+name: RStudio Sign In Panel - Detect
+severity: info
+confidence: tentative
+description: RStudio Sign In panel was detected.
+tags:
+- rstudio
+- login
+- panel
+- discovery
+requests:
+- method: GET
+  path: /auth-sign-in?appUri=%2F
+  matchers:
+  - type: body
+    words:
+    - <title>RStudio Sign In</title>
+  - type: status
+    status:
+    - 200
+  condition: and

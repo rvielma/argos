@@ -1,0 +1,23 @@
+id: rhadamanthys-stealer-panel
+name: Rhadamanthys Stealer C2 Panel - Detect
+severity: info
+confidence: confirmed
+description: Rhadamanthys Stealer C2 Panel - Detect
+reference: https://twitter.com/0xperator/status/1677873700610162690
+tags:
+- c2
+- rhadamanthys
+- stealer
+- panel
+- vuln
+requests:
+- method: GET
+  path: /admin/console/index.html
+  matchers:
+  - type: body
+    words:
+    - Rhadamanthys Admin
+  - type: status
+    status:
+    - 200
+  condition: and

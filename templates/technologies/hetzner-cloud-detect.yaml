@@ -1,0 +1,21 @@
+id: hetzner-cloud-detect
+name: Hetzner Cloud Detect
+severity: info
+confidence: confirmed
+description: Hetzner Cloud Detect
+tags:
+- tech
+- hetzner
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Hetzner Cloud
+    - Hetzner Logo
+  - type: status
+    status:
+    - 200
+  condition: and

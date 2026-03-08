@@ -1,0 +1,29 @@
+id: jolokia-mbean-search
+name: Jolokia - Searching MBeans
+severity: low
+confidence: tentative
+description: Unauth users can search Mbeans in Jolokia.
+reference: https://thinkloveshare.com/hacking/ssrf_to_rce_with_jolokia_and_mbeans/
+tags:
+- jolokia
+- springboot
+- mbean
+- tomcat
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /jolokia/search/*:test=test
+  matchers: &id001
+  - type: status
+    status:
+    - 200
+  - type: body
+    words:
+    - '"type":"search"'
+    - '"value":'
+  condition: and
+- method: GET
+  path: /actuator/jolokia/search/*:test=test
+  matchers: *id001
+  condition: and

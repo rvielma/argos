@@ -1,0 +1,18 @@
+id: bulma-detect
+name: Bulma CSS Framework - Detect
+severity: info
+confidence: confirmed
+description: Detects the presence of the Bulma CSS Framework.
+reference: https://bulma.io/
+tags:
+- tech
+- discovery
+- bulma
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: regex
+    regex:
+    - (?i)(/|")bulma(\.min)?\.css
+  condition: or

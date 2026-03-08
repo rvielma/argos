@@ -1,0 +1,28 @@
+id: python-setup-config
+name: Python Setup Configuration - Exposure
+severity: low
+confidence: confirmed
+description: Python Setup Configuration "setup.py" File was exposed.
+reference: https://www.geeksforgeeks.org/python/what-is-setup-py-in-python/
+tags:
+- python
+- py
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /setup.py
+  matchers:
+  - type: body
+    words:
+    - import os
+    - find_packages
+    - setup(
+  - type: body
+    words:
+    - application/octet-stream
+    - text/x-python
+  - type: status
+    status:
+    - 200
+  condition: and

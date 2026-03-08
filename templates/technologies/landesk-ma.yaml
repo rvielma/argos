@@ -1,0 +1,18 @@
+id: landesk-ma
+name: LANDESK(R) Management Agent Detect
+severity: info
+confidence: confirmed
+description: LANDESK(R) Management Agent Detect
+tags:
+- tech
+- landesk
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - LANDesk(R)
+    - Management Agent
+  condition: or

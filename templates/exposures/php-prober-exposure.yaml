@@ -1,0 +1,22 @@
+id: php-prober-exposure
+name: PHP Prober - Exposure
+severity: medium
+confidence: confirmed
+description: PHP Prober Server exposure was detected.
+tags:
+- exposure
+- php
+- prober
+requests:
+- method: GET
+  path: /prober.php
+  matchers:
+  - type: body
+    words:
+    - Server Parameters
+    - PHP Prober
+    - Real-time Data
+  - type: status
+    status:
+    - 200
+  condition: and

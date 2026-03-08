@@ -1,0 +1,25 @@
+id: immich-panel
+name: Immich Panel - Detect
+severity: info
+confidence: confirmed
+description: Immich is a self-hosted photo and video backup solution
+reference: https://immich.app/
+tags:
+- panel
+- immich
+- detect
+- discovery
+requests:
+- method: GET
+  path: /auth/login
+  matchers:
+  - type: body
+    words:
+    - <title>Login - Immich
+    - '"PUBLIC_IMMICH_'
+    - alt="Immich Logo
+    - Welcome to Immich
+  - type: status
+    status:
+    - 200
+  condition: and

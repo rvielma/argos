@@ -1,0 +1,28 @@
+id: pega-web-panel
+name: Pega Infinity Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Pega Infinity login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- pega
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - alt="Pega Infinity
+    - alt="Pega Logo
+    - id = "pegaLogin
+    - Pega Platform
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /prweb/PRAuth/app/default/
+  matchers: *id001
+  condition: and

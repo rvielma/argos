@@ -1,0 +1,23 @@
+id: proxmox-panel
+name: Proxmox Virtual Environment Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Proxmox Virtual Environment login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- proxmox
+- login
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Proxmox Virtual Environment</title>
+    - 'auth_cookie_name: ''PVEAuthCookie'''
+  - type: status
+    status:
+    - 200
+  condition: and

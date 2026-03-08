@@ -1,0 +1,21 @@
+id: jamf-login
+name: Jamf Pro Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Jamf Pro login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- jamf
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: regex
+    regex:
+    - <title>Jamf Pro Login(.*)</title>
+  - type: status
+    status:
+    - 401
+  condition: and

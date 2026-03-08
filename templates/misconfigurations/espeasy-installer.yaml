@@ -1,0 +1,22 @@
+id: espeasy-installer
+name: ESPEasy Installation Exposure
+severity: medium
+confidence: confirmed
+description: ESPEasy is susceptible to the Installation page exposure due to misconfiguration.
+tags:
+- misconfig
+- espeasy
+- install
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /ESPEasy
+  matchers:
+  - type: body
+    words:
+    - Install ESPEasy
+  - type: status
+    status:
+    - 200
+  condition: and

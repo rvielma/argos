@@ -1,0 +1,18 @@
+id: kettle-panel
+name: Kettle Panel - Detect
+severity: info
+confidence: confirmed
+description: Kettle panel was detected.
+reference: CWE-200
+tags:
+- panel
+- kettle
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: header
+    words:
+    - basic realm="Kettle"
+  condition: or

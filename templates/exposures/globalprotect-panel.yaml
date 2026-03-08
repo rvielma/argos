@@ -1,0 +1,25 @@
+id: globalprotect-panel
+name: Palo Alto Networks GlobalProtect Login Panel - Detect
+severity: info
+confidence: tentative
+description: Palo Alto Networks GlobalProtect login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- panos
+- globalprotect
+- paloaltonetworks
+- discovery
+requests:
+- method: GET
+  path: /global-protect/login.esp
+  matchers: &id001
+  - type: body
+    words:
+    - <title>GlobalProtect Portal</TITLE>
+    - <msg>Invalid parameters</msg>
+  condition: or
+- method: GET
+  path: /sslmgr
+  matchers: *id001
+  condition: or

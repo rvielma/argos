@@ -1,0 +1,21 @@
+id: ray-dashboard
+name: Ray Dashboard Exposure
+severity: critical
+confidence: confirmed
+description: Ray Dashboard is exposed.
+tags:
+- misconfig
+- exposure
+- ray
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Ray Dashboard
+  - type: status
+    status:
+    - 200
+  condition: and

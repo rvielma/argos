@@ -1,0 +1,23 @@
+id: acti-panel
+name: ACTi Video Monitoring Panel - Detection
+severity: info
+confidence: confirmed
+description: ACTi Video Monitoring Panel - Detection
+tags:
+- acti
+- panel
+- login
+- detect
+- discovery
+requests:
+- method: GET
+  path: /cgi-bin/videoconfiguration.cgi
+  matchers:
+  - type: body
+    words:
+    - Web Configurator
+    - ACTi
+  - type: status
+    status:
+    - 200
+  condition: and

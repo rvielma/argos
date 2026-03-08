@@ -1,0 +1,22 @@
+id: puppetdb-dashboard
+name: PuppetDB Dashboard - Detect
+severity: info
+confidence: confirmed
+description: PuppetDB dashboard was detected.
+reference: CWE-200
+tags:
+- misconfig
+- exposure
+- puppetdb
+- discovery
+requests:
+- method: GET
+  path: /pdb/dashboard/index.html
+  matchers:
+  - type: body
+    words:
+    - 'PuppetDB: Dashboard'
+  - type: status
+    status:
+    - 200
+  condition: and

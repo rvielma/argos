@@ -1,0 +1,45 @@
+id: jwk-json-leak
+name: JSON Web Key File - Exposure
+severity: info
+confidence: confirmed
+description: Searches for JSON Web Key (JWK) file.
+reference: https://portswigger.net/web-security/jwt/algorithm-confusion
+tags:
+- exposure
+- token
+- generic
+- vuln
+requests:
+- method: GET
+  path: /.well-known/jwks.json
+  matchers: &id001
+  - type: body
+    words:
+    - '"kty":'
+  - type: body
+    words:
+    - application/json
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /.well-known/jwks
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /.well-known/openid-configuration/jwks.json
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /.well-known/openid-configuration/jwks
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /jwks.json
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /jwks
+  matchers: *id001
+  condition: and

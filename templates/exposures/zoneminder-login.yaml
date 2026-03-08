@@ -1,0 +1,21 @@
+id: zoneminder-login
+name: ZoneMinder Login Panel - Detect
+severity: info
+confidence: tentative
+description: ZoneMinder panel was detected.
+reference: CWE-200
+tags:
+- panel
+- zoneminder
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>ZM - Login</title>
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,26 @@
+id: apache-nifi-unauth
+name: Apache NiFi - Unauthenticated Access
+severity: high
+confidence: confirmed
+description: Apache NiFi server was able to be accessed because no authentication was required.
+reference: CWE-285
+tags:
+- misconfig
+- apache
+- nifi
+- unauth
+- vuln
+requests:
+- method: GET
+  path: /nifi-api/access/config
+  matchers:
+  - type: body
+    words:
+    - '"supportsLogin":false}'
+  - type: header
+    words:
+    - application/json
+  - type: status
+    status:
+    - 200
+  condition: and

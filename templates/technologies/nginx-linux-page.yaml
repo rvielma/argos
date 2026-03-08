@@ -1,0 +1,18 @@
+id: nginx-linux-page
+name: Nginx HTTP Server Amazon Linux
+severity: info
+confidence: tentative
+description: Nginx HTTP Server Amazon Linux
+tags:
+- tech
+- nginx
+- amazon
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Test Page for the Nginx HTTP Server on Amazon Linux</title>
+  condition: or

@@ -1,0 +1,23 @@
+id: apache-jmeter-dashboard
+name: Apache JMeter Dashboard Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Apache JMeter Dashboard login panel was detected.
+reference: CWE-200
+tags:
+- apache
+- jmeter
+- panel
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Apache JMeter Dashboard
+    - Dashboard
+  - type: status
+    status:
+    - 200
+  condition: and

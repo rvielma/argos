@@ -1,0 +1,26 @@
+id: vue-pacs-panel
+name: Vue PACS - Panel
+severity: info
+confidence: confirmed
+description: Vue PACS was detected.
+reference: https://www.usa.philips.com/healthcare/solutions/diagnostic-informatics/enterprise-imaging-pacs
+tags:
+- vue
+- pacs
+- panel
+- login
+- philips
+- discovery
+requests:
+- method: GET
+  path: /portal/WebLogin.aspx
+  matchers:
+  - type: body
+    words:
+    - <title>Vue PACS</title>
+    - loginUsernameHidden
+    - loginPasswordHidden
+  - type: status
+    status:
+    - 200
+  condition: and

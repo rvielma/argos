@@ -1,0 +1,22 @@
+id: system-properties-exposure
+name: System Properties Exposure
+severity: low
+confidence: confirmed
+description: System Properties is exposed.
+tags:
+- misconfig
+- system
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - 'System Properties:'
+    - 'Environment Variables:'
+  - type: status
+    status:
+    - 200
+  condition: and

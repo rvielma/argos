@@ -1,0 +1,26 @@
+id: unauth-ldap-account-manager
+name: Unauthenticated LDAP Account Manager
+severity: medium
+confidence: confirmed
+description: LDAP Account Manager is exposed to external users.
+tags:
+- ldap
+- misconfig
+- unauth
+- vuln
+requests:
+- method: GET
+  path: /templates/config/profmanage.php
+  matchers:
+  - type: body
+    words:
+    - LDAP Account Manager
+    - Profile management
+    - Add profile
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

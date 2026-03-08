@@ -1,0 +1,25 @@
+id: piwik-installer
+name: Piwik Installer Exposure
+severity: low
+confidence: confirmed
+description: Piwik is susceptible to the Installation page exposure due to misconfiguration.
+tags:
+- misconfig
+- piwik
+- install
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Piwik
+    - Installation status
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

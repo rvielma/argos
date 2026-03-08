@@ -1,0 +1,26 @@
+id: bofamet-stealer-panel
+name: Bofamet Stealer C2 Panel - Detect
+severity: info
+confidence: confirmed
+description: Bofamet Stealer C2 Login Panel was discovered
+reference: https://x.com/solostalking/status/1937841436029812974
+tags:
+- c2
+- bofamet
+- stealer
+- panel
+- cti
+- login
+- vuln
+requests:
+- method: GET
+  path: /login
+  matchers:
+  - type: body
+    words:
+    - <title>BOFAMET
+    - Powered by BOFAMET.
+  - type: status
+    status:
+    - 200
+  condition: and

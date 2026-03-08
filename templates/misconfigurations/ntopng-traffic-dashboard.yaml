@@ -1,0 +1,23 @@
+id: ntopng-traffic-dashboard
+name: Ntopng Traffic Dashboard - Detect
+severity: medium
+confidence: confirmed
+description: Ntopng traffic dashboard was detected.
+reference: CWE-200
+tags:
+- misconfig
+- ntopng
+- dashboard
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>ntopng - Traffic Dashboard</title>
+    - https://github.com/ntop/ntopng
+  - type: status
+    status:
+    - 200
+  condition: and

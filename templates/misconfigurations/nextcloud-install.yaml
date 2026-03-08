@@ -1,0 +1,24 @@
+id: nextcloud-install
+name: Nextcloud Exposed Installation
+severity: high
+confidence: tentative
+description: Nextcloud installation is exposed.
+reference: https://docs.nextcloud.com/server/latest/admin_manual/installation/installation_wizard.html
+tags:
+- tech
+- nextcloud
+- storage
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <fieldset id="adminaccount"><legend>Create an <strong>admin account</strong></legend>
+    - <legend><a id="showAdvanced" tabindex="0" href="#">Storage &amp; database
+  - type: status
+    status:
+    - 200
+  condition: and

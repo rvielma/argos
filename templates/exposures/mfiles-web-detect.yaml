@@ -1,0 +1,26 @@
+id: mfiles-web-detect
+name: M-Files Web Login Panel - Detect
+severity: info
+confidence: confirmed
+description: M-Files Web login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- m-files
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: regex
+    regex:
+    - <title>(.*)M-Files Web(.*)</title>
+  - type: body
+    words:
+    - M-Files user
+    - M-Files authentication
+  condition: or
+- method: GET
+  path: /Login.aspx
+  matchers: *id001
+  condition: or

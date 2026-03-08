@@ -1,0 +1,29 @@
+id: svn-wc-db
+name: SVN wc.db File Exposure
+severity: medium
+confidence: confirmed
+description: SVN wc.db file is exposed.
+reference: https://github.com/maurosoria/dirsearch/blob/master/db/dicc.txt
+tags:
+- msf
+- exposure
+- svn
+- config
+- files
+- vuln
+requests:
+- method: GET
+  path: /.svn/wc.db
+  matchers: &id001
+  - type: body
+    words:
+    - SQLite format
+    - WCROOT
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /wc.db
+  matchers: *id001
+  condition: and

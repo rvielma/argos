@@ -1,0 +1,32 @@
+id: apache-tika-detect
+name: Apache Tika - Detection
+severity: info
+confidence: tentative
+description: Detects an Apache Tika server, a toolkit that detects and extracts metadata and text from over a thousand different
+  file types (such as PPT, XLS, and PDF).
+reference: https://github.com/apache/tika/
+tags:
+- tech
+- tika
+- apache
+- detect
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - Apache Tika
+    - apache.tika
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /tika
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /version
+  matchers: *id001
+  condition: and

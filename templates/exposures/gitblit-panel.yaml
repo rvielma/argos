@@ -1,0 +1,22 @@
+id: gitblit-panel
+name: Gitblit Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Gitblit login panel was detected — a pure Java stack for managing, viewing, and serving Git repositories.
+reference: CWE-200
+tags:
+- panel
+- gitblit
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Gitblit</title>
+    - Welcome to Gitblit
+  - type: status
+    status:
+    - 200
+  condition: and

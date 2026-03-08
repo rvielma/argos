@@ -1,0 +1,27 @@
+id: protractor-config
+name: Protractor Configuration Exposure
+severity: low
+confidence: confirmed
+description: Protractor configuration file was detected.
+reference: https://www.protractortest.org/#/api-overview
+tags:
+- devops
+- exposure
+- protractor
+- config
+- vuln
+requests:
+- method: GET
+  path: /protractor.conf.js
+  matchers:
+  - type: body
+    words:
+    - exports.config
+    - 'capabilities:'
+  - type: header
+    words:
+    - application/javascript
+  - type: status
+    status:
+    - 200
+  condition: and

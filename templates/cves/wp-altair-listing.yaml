@@ -1,0 +1,34 @@
+id: wp-altair-listing
+name: Altair WordPress theme v4.8 - Directory Listing
+severity: info
+confidence: tentative
+description: Searches for directories listing in the altair theme.
+tags:
+- wordpress
+- listing
+- wp-theme
+- vuln
+requests:
+- method: GET
+  path: /wp-content/themes/altair/modules/
+  matchers: &id001
+  - type: body
+    words:
+    - Index of
+    - wp-content/themes/altair
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /wp-content/themes/altair/functions/
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /wp-content/themes/altair/images/flip/
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /wp-content/themes/altair/images/
+  matchers: *id001
+  condition: and

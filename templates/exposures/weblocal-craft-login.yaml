@@ -1,0 +1,21 @@
+id: weblocal-craft-login
+name: Web Local Craft Terminal Login Panel - Detect
+severity: info
+confidence: tentative
+description: Web Local Craft Terminal login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- edb
+- discovery
+requests:
+- method: GET
+  path: /home.html
+  matchers:
+  - type: body
+    words:
+    - WEB Local Craft Terminal
+  - type: status
+    status:
+    - 200
+  condition: and

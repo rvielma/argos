@@ -1,0 +1,24 @@
+id: forticlientems-panel
+name: FortiClient Endpoint Management Server Panel - Detect
+severity: info
+confidence: confirmed
+description: FortiClient Endpoint Management Server Panel - Detect
+tags:
+- panel
+- fortinet
+- forticlient
+- ems
+- login
+- detect
+- discovery
+requests:
+- method: GET
+  path: /signin
+  matchers:
+  - type: body
+    words:
+    - FortiClient Endpoint Management Server
+  - type: status
+    status:
+    - 200
+  condition: and

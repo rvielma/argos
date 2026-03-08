@@ -1,0 +1,22 @@
+id: bigfix-login
+name: HCL BigFix Login Panel - Detect
+severity: info
+confidence: tentative
+description: HCL BigFix login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- bigfix
+- discovery
+requests:
+- method: GET
+  path: /login
+  matchers:
+  - type: body
+    words:
+    - <title> BigFix </title>
+    - <div class="bigfix-logo">
+  - type: status
+    status:
+    - 200
+  condition: and

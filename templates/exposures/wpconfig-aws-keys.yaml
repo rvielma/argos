@@ -1,0 +1,27 @@
+id: wpconfig-aws-keys
+name: AWS S3 keys Leak
+severity: high
+confidence: tentative
+description: AWS S3 keys are exposed.
+tags:
+- aws
+- s3
+- wordpress
+- disclosure
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /wp-config.php-backup
+  matchers: &id001
+  - type: body
+    words:
+    - access-key-id
+    - secret-access-key
+    - DB_NAME
+    - DB_PASSWORD
+  condition: or
+- method: GET
+  path: /%c0
+  matchers: *id001
+  condition: or

@@ -1,0 +1,24 @@
+id: bluemind-panel
+name: Bluemind Panel - Detect
+severity: info
+confidence: confirmed
+description: Bluemind application panel was discovered.
+reference: https://bluemind.net/
+tags:
+- bluemind
+- login
+- panel
+- detect
+- discovery
+requests:
+- method: GET
+  path: /login/native
+  matchers:
+  - type: body
+    words:
+    - alt="BlueMind"
+    - window.bmExtensions
+  - type: status
+    status:
+    - 200
+  condition: and

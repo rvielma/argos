@@ -1,0 +1,25 @@
+id: everything-listing
+name: Everything Server Exposure
+severity: high
+confidence: confirmed
+description: Everything is a freeware desktop search utility for Windows that can rapidly find files and folders by name.
+reference: https://www.voidtools.com/
+tags:
+- exposure
+- everything
+- listing
+- voidtools
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Everything</title>
+    - indexof
+  - type: status
+    status:
+    - 200
+  condition: and

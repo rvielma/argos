@@ -1,0 +1,22 @@
+id: emby-panel
+name: Emby Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Emby login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- emby
+- oss
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Emby</title>
+  - type: status
+    status:
+    - 200
+  condition: and

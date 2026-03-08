@@ -1,0 +1,26 @@
+id: tolgee-api
+name: Tolgee API - Detect
+severity: info
+confidence: confirmed
+description: Tolgee API was detected.
+reference: https://docs.tolgee.io/api
+tags:
+- exposure
+- api
+- tolgee
+- discovery
+requests:
+- method: GET
+  path: /api/public/configuration
+  matchers:
+  - type: body
+    words:
+    - Tolgee
+    - version
+  - type: body
+    words:
+    - application/json
+  - type: status
+    status:
+    - 200
+  condition: and

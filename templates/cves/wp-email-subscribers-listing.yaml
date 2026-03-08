@@ -1,0 +1,24 @@
+id: wp-email-subscribers-listing
+name: WordPress Plugin Email Subscribers Listing
+severity: low
+confidence: tentative
+description: Searches for sensitive directories present in the email-subscribers plugin.
+reference: https://www.exploit-db.com/ghdb/6428
+tags:
+- wordpress
+- listing
+- plugin
+- edb
+- vuln
+requests:
+- method: GET
+  path: /wp-content/plugins/email-subscribers
+  matchers:
+  - type: body
+    words:
+    - Index of
+    - wp-content/plugins/email-subscribers
+  - type: status
+    status:
+    - 200
+  condition: and

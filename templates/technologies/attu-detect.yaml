@@ -1,0 +1,21 @@
+id: attu-detect
+name: Attu - Detect
+severity: info
+confidence: confirmed
+description: Attu was detected.
+reference: https://github.com/zilliztech/attu
+tags:
+- tech
+- vector-database
+- attu
+- detect
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Attu</title>
+    - content="Attu
+  condition: or

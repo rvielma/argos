@@ -1,0 +1,21 @@
+id: microsoft-iis-8
+name: Microsoft Internet Information Services 8
+severity: info
+confidence: tentative
+description: Microsoft Internet Information Services 8
+tags:
+- tech
+- iis
+- microsoft
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: status
+    status:
+    - 200
+  - type: body
+    words:
+    - <title>Microsoft Internet Information Services 8</title>
+  condition: and

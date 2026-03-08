@@ -1,0 +1,28 @@
+id: fortitester-login-panel
+name: Fortinet FortiTester Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Fortinet FortiTester login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- fortinet
+- discovery
+requests:
+- method: GET
+  path: /auth/login
+  matchers: &id001
+  - type: body
+    words:
+    - <title>FortiTester</title>
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /index.html
+  matchers: *id001
+  condition: and

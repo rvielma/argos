@@ -1,0 +1,23 @@
+id: apache-licenserc
+name: Apache License File
+severity: low
+confidence: confirmed
+description: Apache License file is exposed.
+tags:
+- exposure
+- file
+- apache
+- vuln
+requests:
+- method: GET
+  path: /.licenserc.yaml
+  matchers:
+  - type: body
+    words:
+    - 'header:'
+    - 'license:'
+    - 'copyright-owner:'
+  - type: status
+    status:
+    - 200
+  condition: and

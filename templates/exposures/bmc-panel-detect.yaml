@@ -1,0 +1,18 @@
+id: bmc-panel-detect
+name: BMC Discovery Outpost Admin Panel - Detect
+severity: info
+confidence: tentative
+description: BMC Discovery Outpost admin panel was detected.
+reference: CWE-200
+tags:
+- panel
+- bmc
+- discovery
+requests:
+- method: GET
+  path: /adminlogin
+  matchers:
+  - type: body
+    words:
+    - '<title>BMC Discovery Outpost: Login</title>'
+  condition: or

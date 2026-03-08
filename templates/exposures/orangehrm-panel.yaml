@@ -1,0 +1,32 @@
+id: orangehrm-panel
+name: OrangeHRM Login Panel - Detect
+severity: info
+confidence: confirmed
+description: The OrangeHRM login panel was discovered.
+reference: https://www.orangehrm.com/
+tags:
+- orangehrm
+- hrm
+- login
+- panel
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - <title>OrangeHRM</title>
+    - OrangeHRM, Inc. All rights reserved
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /symfony/web/index.php/auth/login
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /web/index.php/auth/login
+  matchers: *id001
+  condition: and

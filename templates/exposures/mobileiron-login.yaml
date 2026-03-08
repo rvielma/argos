@@ -1,0 +1,33 @@
+id: mobileiron-login
+name: MobileIron Login Panel - Detect
+severity: info
+confidence: tentative
+description: MobileIron login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- mobileiron
+- discovery
+requests:
+- method: GET
+  path: /mifs/login.jsp
+  matchers: &id001
+  - type: body
+    words:
+    - MobileIron Admin Portal
+    - MobileIron User Portal
+    - MobileIron Registration
+    - Mobilizing enterprise applications
+    - whitelabel/mobileiron/img/favicon.ico
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /mifs/user/login.jsp
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /mifs/c/d/android.html
+  matchers: *id001
+  condition: and

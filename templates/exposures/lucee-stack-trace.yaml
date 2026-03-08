@@ -1,0 +1,21 @@
+id: lucee-stack-trace
+name: Lucee Stack Trace Error
+severity: low
+confidence: tentative
+description: Lucee Stack Trace error exposed.
+tags:
+- lucee
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - lucee.runtime
+  - type: status
+    status:
+    - 500
+    - 200
+  condition: and

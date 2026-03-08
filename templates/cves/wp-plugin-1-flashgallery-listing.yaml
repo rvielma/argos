@@ -1,0 +1,26 @@
+id: wp-plugin-1-flashgallery-listing
+name: WordPress 1 flash gallery listing
+severity: info
+confidence: tentative
+description: Searches for sensitive directories present in the 1-flash-gallery plugin.
+reference: https://www.exploit-db.com/ghdb/6978
+tags:
+- wordpress
+- listing
+- vuln
+requests:
+- method: GET
+  path: /wp-content/plugins/1-flash-gallery/
+  matchers: &id001
+  - type: body
+    words:
+    - Index of
+    - /wp-content/plugins/1-flash-gallery
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /blog/wp-content/plugins/1-flash-gallery/
+  matchers: *id001
+  condition: and

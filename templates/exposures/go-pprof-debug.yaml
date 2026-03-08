@@ -1,0 +1,30 @@
+id: go-pprof-debug
+name: Go pprof Debug Page
+severity: low
+confidence: tentative
+description: go pprof debug page was exposed.
+tags:
+- logs
+- exposure
+- go
+- pprof
+- vuln
+requests:
+- method: GET
+  path: /debug/pprof/heap?debug=1
+  matchers: &id001
+  - type: body
+    words:
+    - 'heap profile:'
+    - Alloc
+  - type: header
+    words:
+    - text/plain
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /pprof/heap?debug=1
+  matchers: *id001
+  condition: and

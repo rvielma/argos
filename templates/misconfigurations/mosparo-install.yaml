@@ -1,0 +1,21 @@
+id: mosparo-install
+name: mosparo Exposed Installation
+severity: high
+confidence: confirmed
+description: mosparo is susceptible to the Installation page exposure due to misconfiguration.
+tags:
+- misconfig
+- mosparo
+- install
+- vuln
+requests:
+- method: GET
+  path: /setup/
+  matchers:
+  - type: body
+    words:
+    - <title>Setup - mosparo
+  - type: status
+    status:
+    - 200
+  condition: and

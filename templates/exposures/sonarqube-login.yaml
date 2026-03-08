@@ -1,0 +1,22 @@
+id: sonarqube-login
+name: SonarQube Panel - Detect
+severity: info
+confidence: tentative
+description: SonarQube panel was detected.
+reference: CWE-200
+tags:
+- panel
+- sonarqube
+- sonarsource
+- discovery
+requests:
+- method: GET
+  path: /sessions/new
+  matchers:
+  - type: body
+    words:
+    - SonarQube
+  - type: status
+    status:
+    - 200
+  condition: and

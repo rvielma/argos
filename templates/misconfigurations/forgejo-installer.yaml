@@ -1,0 +1,21 @@
+id: forgejo-installer
+name: Forgejo Installation Page - Exposure
+severity: high
+confidence: confirmed
+description: Checks for the presence of a Forgejo Installer Page.
+tags:
+- install
+- Forgejo
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - '<title>Installation - Forgejo: Beyond coding. We Forge.</title>'
+  - type: status
+    status:
+    - 200
+  condition: and

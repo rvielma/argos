@@ -1,0 +1,26 @@
+id: openapi
+name: OpenAPI - Detect
+severity: info
+confidence: tentative
+description: OpenAPI was detected.
+reference: CWE-200
+tags:
+- exposure
+- api
+- discovery
+requests:
+- method: GET
+  path: /openapi.json
+  matchers:
+  - type: body
+    words:
+    - openapi
+    - paths
+  - type: header
+    words:
+    - application/openapi+json
+    - application/json
+  - type: status
+    status:
+    - 200
+  condition: and

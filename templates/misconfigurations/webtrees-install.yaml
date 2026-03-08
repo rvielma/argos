@@ -1,0 +1,21 @@
+id: webtrees-install
+name: WebTrees Exposed Installation
+severity: high
+confidence: confirmed
+description: WebTrees is susceptible to the Installation page exposure due to misconfiguration.
+tags:
+- misconfig
+- webtrees
+- install
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Setup wizard for webtrees
+  - type: status
+    status:
+    - 200
+  condition: and

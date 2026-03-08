@@ -1,0 +1,27 @@
+id: memos-panel
+name: Memos Panel - Detect
+severity: info
+confidence: confirmed
+description: Memos is a privacy-first, lightweight note-taking service
+reference: https://github.com/usememos/memos
+tags:
+- panel
+- memos
+- detect
+- usememos
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - <title>Memos
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /explore
+  matchers: *id001
+  condition: and

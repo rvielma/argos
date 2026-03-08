@@ -1,0 +1,26 @@
+id: fanruanoa-detect
+name: FanRuanOA-detect
+severity: info
+confidence: tentative
+description: FanRuanOA-detect
+tags:
+- oa
+- tech
+- dotnet
+- fanruan
+- discovery
+requests:
+- method: GET
+  path: /WebReport/ReportServer
+  matchers: &id001
+  - type: status
+    status:
+    - 200
+  - type: body
+    words:
+    - DeploySuccess._init
+  condition: and
+- method: GET
+  path: /ReportServer
+  matchers: *id001
+  condition: and

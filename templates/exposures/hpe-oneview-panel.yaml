@@ -1,0 +1,24 @@
+id: hpe-oneview-panel
+name: HPE OneView - Panel Detect
+severity: info
+confidence: confirmed
+description: HPE OneView is an infrastructure management platform that provides automated management, monitoring, and updates
+  for HPE servers, storage, and networking resources through a unified interface.
+reference: https://www.hpe.com/us/en/integrated-systems/software.html
+tags:
+- panel
+- hpe
+- hp
+- oneview
+- login
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>OneView
+  - type: status
+    status:
+    - 200
+  condition: and

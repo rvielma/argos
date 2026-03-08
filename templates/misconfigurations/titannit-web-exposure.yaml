@@ -1,0 +1,23 @@
+id: titannit-web-exposure
+name: TitanNit Web Control - Exposure
+severity: medium
+confidence: confirmed
+description: TitanNit Web Control - Exposure
+tags:
+- misconfig
+- titannit
+- webcontrol
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>TitanNit Web Control
+    - System</a>
+  - type: status
+    status:
+    - 200
+  condition: and

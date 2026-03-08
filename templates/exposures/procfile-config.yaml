@@ -1,0 +1,22 @@
+id: procfile-config
+name: Procfile Config - Detect
+severity: info
+confidence: confirmed
+description: Procfile configuration information was detected.
+reference: CWE-200
+tags:
+- devops
+- exposure
+- config
+- vuln
+requests:
+- method: GET
+  path: /Procfile
+  matchers:
+  - type: regex
+    regex:
+    - '^web:'
+  - type: status
+    status:
+    - 200
+  condition: and

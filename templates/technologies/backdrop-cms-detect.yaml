@@ -1,0 +1,24 @@
+id: backdrop-cms-detect
+name: Backdrop CMS - Detect
+severity: info
+confidence: confirmed
+description: Backdrop CMS was discovered.
+tags:
+- tech
+- backdrop
+- cms
+- detect
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - Added by Backdrop CMS packaging script
+    - 'X-Generator: Backdrop CMS'
+  condition: or
+- method: GET
+  path: /core/profiles/testing/testing.info
+  matchers: *id001
+  condition: or

@@ -1,0 +1,22 @@
+id: businesso-installer
+name: Businesso Installer Exposure
+severity: high
+confidence: confirmed
+description: Businesso is susceptible to the Installation page exposure due to misconfiguration.
+tags:
+- misconfig
+- businesso
+- install
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /install/
+  matchers:
+  - type: body
+    words:
+    - Businesso Installer</title>
+  - type: status
+    status:
+    - 200
+  condition: and

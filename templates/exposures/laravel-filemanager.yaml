@@ -1,0 +1,24 @@
+id: laravel-filemanager
+name: Laravel File Manager - Panel Detect
+severity: info
+confidence: tentative
+description: Laravel File Manager panel was detected.
+reference: CWE-200
+tags:
+- panel
+- laravel
+- filemanager
+- fileupload
+- intrusive
+- discovery
+requests:
+- method: GET
+  path: /laravel-filemanager?type=Files
+  matchers:
+  - type: body
+    words:
+    - Laravel FileManager
+  - type: status
+    status:
+    - 200
+  condition: and

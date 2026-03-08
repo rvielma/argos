@@ -1,0 +1,22 @@
+id: ilch-admin-panel
+name: Ilch CMS Admin Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Ilch CMS admin login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- ilch
+- cms
+- discovery
+requests:
+- method: GET
+  path: /index.php/admin/admin/login/index/
+  matchers:
+  - type: body
+    words:
+    - ilch_token
+  - type: status
+    status:
+    - 200
+  condition: and

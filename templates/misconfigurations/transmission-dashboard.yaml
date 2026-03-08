@@ -1,0 +1,24 @@
+id: transmission-dashboard
+name: Transmission Dashboard - Detect
+severity: medium
+confidence: confirmed
+description: Transmission dashboard was detected.
+reference: CWE-200
+tags:
+- misconfig
+- transmission
+- exposure
+- dashboard
+- discovery
+requests:
+- method: GET
+  path: /transmission/web/
+  matchers:
+  - type: body
+    words:
+    - The Transmission Project
+    - Transmission Web Interface
+  - type: body
+    words:
+    - Transmission
+  condition: or

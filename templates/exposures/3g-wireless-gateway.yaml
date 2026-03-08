@@ -1,0 +1,24 @@
+id: 3g-wireless-gateway
+name: 3G Wireless Gateway Detection
+severity: info
+confidence: tentative
+description: A 3G wireless gateway was detected.
+reference: CWE-200
+tags:
+- panel
+- router
+- edb
+- discovery
+requests:
+- method: GET
+  path: /htmlcode/html/indexdefault.asp
+  matchers:
+  - type: body
+    words:
+    - g_i3gState
+    - g_sysinfo_sim_state
+    - g_iUID
+  - type: status
+    status:
+    - 200
+  condition: and

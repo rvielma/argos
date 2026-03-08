@@ -1,0 +1,23 @@
+id: mpftvc-admin-panel
+name: MPFTVC Admin Login Panel - Detect
+severity: info
+confidence: confirmed
+description: MPFTVC admin login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- mpftvc
+- admin
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - AdminLogin - MPFTVC
+    - 'Admin-Login: MPFTVC'
+  - type: status
+    status:
+    - 200
+  condition: and

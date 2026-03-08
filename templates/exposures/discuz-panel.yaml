@@ -1,0 +1,22 @@
+id: discuz-panel
+name: Discuz Panel - Detection
+severity: info
+confidence: confirmed
+description: Discuz Panel - Detection
+tags:
+- panel
+- discuz
+- detect
+- login
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - discuz_uid =
+    - discuz</a>
+    - Powered by Discuz!
+    - content="Discuz
+  condition: and

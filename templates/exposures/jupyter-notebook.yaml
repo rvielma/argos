@@ -1,0 +1,39 @@
+id: jupyter-notebook
+name: Jupyter Notebook Login Panel - Detect
+severity: info
+confidence: tentative
+description: Jupyter Notebook login panel was detected.
+reference: CWE-200
+tags:
+- edb
+- panel
+- jupyter
+- notebook
+- exposure
+- discovery
+requests:
+- method: GET
+  path: /jupyter/login
+  matchers: &id001
+  - type: body
+    words:
+    - /jupyter/static/base/images/logo.png
+    - /jupyter/hub/logo
+    - Select items to perform actions on them.
+    - JupyterHub
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /jupyter/lab
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /jupyter/hub/lti/launch
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /hub/login
+  matchers: *id001
+  condition: and

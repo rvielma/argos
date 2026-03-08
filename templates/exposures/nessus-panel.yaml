@@ -1,0 +1,27 @@
+id: nessus-panel
+name: Tenable Nessus Panel - Detect
+severity: info
+confidence: confirmed
+description: Tenable Nessus panel was detected.
+reference: CWE-200
+tags:
+- panel
+- nessus
+- tenable
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: header
+    words:
+    - NessusWWW
+  - type: body
+    words:
+    - <title>Nessus</title>
+    - window.location = '/unsupported6.html';
+  condition: or
+- method: GET
+  path: /server/status
+  matchers: *id001
+  condition: or

@@ -1,0 +1,35 @@
+id: wp-yoast-seo-fpd
+name: WordPress Yoast SEO - Full Path Disclosure
+severity: low
+confidence: confirmed
+description: WordPress Yoast SEO plugin is vulnerable to full path disclosure via direct access to plugin files.
+reference: https://wordpress.org/plugins/wordpress-seo/
+tags:
+- wp
+- wordpress
+- wp-plugin
+- fpd
+- yoast
+- seo
+- exposure
+requests:
+- method: GET
+  path: /wp-content/plugins/wordpress-seo/src/main.php
+  matchers: &id001
+  - type: body
+    words:
+    - Fatal error
+    - /plugins/wordpress-seo
+    - 'Uncaught TypeError:'
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /wp-content/plugins/wordpress-seo/admin/class-admin.php
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /wp-content/plugins/wordpress-seo/inc/class-wpseo-utils.php
+  matchers: *id001
+  condition: and

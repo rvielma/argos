@@ -1,0 +1,23 @@
+id: teradek-panel
+name: Teradek Cube Administrative Console - Panel
+severity: info
+confidence: confirmed
+description: Teradek Cube Administrative Console - Panel
+reference: https://www.facebook.com/photo/?fbid=612496907587499&set=a.467014098802448
+tags:
+- panel
+- login
+- teradek
+- discovery
+requests:
+- method: GET
+  path: /login.cs
+  matchers:
+  - type: body
+    words:
+    - Teradek Cube Administrative Console
+    - 'Password:'
+  - type: status
+    status:
+    - 200
+  condition: and

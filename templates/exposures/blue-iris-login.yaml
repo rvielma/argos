@@ -1,0 +1,22 @@
+id: blue-iris-login
+name: Blue Iris Login Panel - Detect
+severity: info
+confidence: tentative
+description: Blue Iris login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- blueiris
+- edb
+- discovery
+requests:
+- method: GET
+  path: /login.htm
+  matchers:
+  - type: body
+    words:
+    - <title>Blue Iris Login</title>
+  - type: status
+    status:
+    - 200
+  condition: and

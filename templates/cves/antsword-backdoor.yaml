@@ -1,0 +1,24 @@
+id: antsword-backdoor
+name: AntSword Backdoor Detection
+severity: critical
+confidence: tentative
+description: An AntSword application backdoor shell was discovered.
+reference: CWE-553
+tags:
+- backdoor
+- antsword
+- vuln
+requests:
+- method: POST
+  path: /.antproxy.php
+  matchers:
+  - type: body
+    words:
+    - 951d11e51392117311602d0c25435d7f
+  - type: status
+    status:
+    - 200
+  condition: and
+  headers:
+    Content-Type: application/x-www-form-urlencoded
+  body: ant=echo md5("antproxy.php");

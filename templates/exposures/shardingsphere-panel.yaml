@@ -1,0 +1,23 @@
+id: shardingsphere-panel
+name: ShardingSphere ElasticJob UI Panel
+severity: info
+confidence: confirmed
+description: An ShardingSphere ElasticJob UI panel was detected.
+reference: CWE-200
+tags:
+- panel
+- shardingsphere
+- login
+- apache
+- discovery
+requests:
+- method: GET
+  path: /#/login
+  matchers:
+  - type: body
+    words:
+    - <title>ShardingSphere ElasticJob UI</title>
+  - type: status
+    status:
+    - 200
+  condition: and

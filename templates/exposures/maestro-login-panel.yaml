@@ -1,0 +1,23 @@
+id: maestro-login-panel
+name: Maestro LuCI Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Maestro LuCI login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- maestro
+- luci
+- discovery
+requests:
+- method: GET
+  path: /cgi-bin/luci
+  matchers:
+  - type: body
+    words:
+    - <title>Maestro - LuCI</title>
+    - Please enter your username and password.
+  - type: status
+    status:
+    - 200
+  condition: and

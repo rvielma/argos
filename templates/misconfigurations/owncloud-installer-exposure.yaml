@@ -1,0 +1,30 @@
+id: owncloud-installer-exposure
+name: OwnCloud Installer Exposure
+severity: high
+confidence: confirmed
+description: OwnCloud is susceptible to the Installation page exposure due to misconfiguration.
+tags:
+- misconfig
+- owncloud
+- exposure
+- install
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - <legend>Create an <strong>admin account</strong>
+    - ownCloud
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /owncloud/
+  matchers: *id001
+  condition: and

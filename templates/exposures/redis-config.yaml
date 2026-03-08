@@ -1,0 +1,27 @@
+id: redis-config
+name: Redis Configuration File - Detect
+severity: medium
+confidence: confirmed
+description: Redis configuration file was detected.
+reference: CWE-200
+tags:
+- redis
+- exposure
+- config
+- vuln
+requests:
+- method: GET
+  path: /redis.conf
+  matchers:
+  - type: body
+    words:
+    - bind
+    - protected-mode
+    - 'port '
+  - type: header
+    words:
+    - application/octet-stream
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,23 @@
+id: fortinet-fortiddos-panel
+name: Fortinet FortiDDoS Panel
+severity: info
+confidence: confirmed
+description: Fortinet FortiDDoS panel was detected.
+reference: https://www.fortinet.com/products/ddos/fortiddos
+tags:
+- panel
+- fortinet
+- fortiddos
+- login
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>FortiDDoS</title>
+  - type: status
+    status:
+    - 200
+  condition: and

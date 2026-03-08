@@ -1,0 +1,26 @@
+id: zabbix-dashboards-access
+name: zabbix-dashboards-access
+severity: medium
+confidence: tentative
+description: zabbix-dashboards-access guest login credentials were successful.
+reference: CWE-522
+tags:
+- edb
+- packetstorm
+- zabbix
+- unauth
+- misconfig
+- xss
+- vuln
+requests:
+- method: GET
+  path: /zabbix/zabbix.php?action=dashboard.list
+  matchers:
+  - type: body
+    words:
+    - Create dashboard
+    - Zabbix SIA
+  - type: status
+    status:
+    - 200
+  condition: and

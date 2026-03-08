@@ -1,0 +1,24 @@
+id: bootstrap-admin-panel-template
+name: Bootstrap Admin Panel Template Panel - Detect
+severity: info
+confidence: confirmed
+description: Bootstrap Admin Panel Template panel was detected.
+reference: CWE-200
+tags:
+- bootstrap
+- panel
+- misconfig
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Dashboard - Bootstrap Admin Template
+    - Bootstrap Responsive Admin Template
+  - type: body
+    words:
+    - Bootstrap Admin Template
+  condition: or

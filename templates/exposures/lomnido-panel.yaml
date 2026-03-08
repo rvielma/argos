@@ -1,0 +1,24 @@
+id: lomnido-panel
+name: Lomnido Panel - Detect
+severity: info
+confidence: confirmed
+description: Lomnido was detected.
+reference: https://lomnido.com/
+tags:
+- lomnido
+- panel
+- login
+- detect
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Lomnido Login</title>
+    - /lomnido/saml
+  - type: status
+    status:
+    - 200
+  condition: and

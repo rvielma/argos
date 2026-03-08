@@ -1,0 +1,22 @@
+id: xiaomi-wireless-router-login
+name: Xiaomi Wireless Router Admin Panel - Detect
+severity: info
+confidence: tentative
+description: Xiaomi Wireless router admin panel was detected.
+reference: CWE-200
+tags:
+- panel
+- xiaomi
+- discovery
+requests:
+- method: GET
+  path: /cgi-bin/luci/web
+  matchers:
+  - type: body
+    words:
+    - <title>小米路由器</title>
+    - <title>Redmi路由器</title>
+  - type: status
+    status:
+    - 200
+  condition: and

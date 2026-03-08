@@ -1,0 +1,25 @@
+id: pa11y-dashboard
+name: Pa11y Dashboard Exposure
+severity: low
+confidence: confirmed
+description: Pa11y Dashboard is exposed.
+tags:
+- misconfig
+- exposure
+- pa11y
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Pa11y Dashboard
+    - Add new URL
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

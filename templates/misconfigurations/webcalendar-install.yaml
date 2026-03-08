@@ -1,0 +1,22 @@
+id: webcalendar-install
+name: WebCalendar Exposed Installation
+severity: high
+confidence: confirmed
+description: WebCalendar is susceptible to the Installation page exposure due to misconfiguration.
+tags:
+- misconfig
+- webcalendar
+- install
+- vuln
+requests:
+- method: GET
+  path: /install/index.php
+  matchers:
+  - type: body
+    words:
+    - <title>WebCalendar Setup Wizard
+    - '>WebCalendar Installation Wizard'
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,24 @@
+id: tyk-gateway-detect
+name: Tyk API Gateway - Detection
+severity: info
+confidence: confirmed
+description: Detects if the application uses Tyk API Gateway
+reference: https://github.com/TykTechnologies/tyk
+tags:
+- tyk
+- gateway
+- tech
+- detect
+- discovery
+requests:
+- method: GET
+  path: /hello
+  matchers:
+  - type: body
+    words:
+    - Tyk GW
+    - description
+  - type: body
+    words:
+    - application/json
+  condition: and

@@ -1,0 +1,31 @@
+id: springboot-features
+name: Detects Springboot Features Actuator
+severity: low
+confidence: confirmed
+description: Springboot Features Actuator is exposed.
+tags:
+- misconfig
+- springboot
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /features
+  matchers: &id001
+  - type: body
+    words:
+    - '"enabled":['
+    - '"disabled":['
+  - type: header
+    words:
+    - application/json
+    - application/vnd.spring-boot.actuator
+    - application/vnd.spring-boot.actuator.v1+json
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /actuator/features
+  matchers: *id001
+  condition: and

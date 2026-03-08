@@ -1,0 +1,23 @@
+id: apache-ozone-detect
+name: Apache Ozone - Detect
+severity: info
+confidence: tentative
+description: Detects a Apache Ozone web application, a scalable, redundant, and distributed object store for Hadoop and Cloud-native
+  environments.
+tags:
+- tech
+- ozone
+- apache
+- detect
+- discovery
+requests:
+- method: GET
+  path: /static/
+  matchers:
+  - type: body
+    words:
+    - Apache Ozone</title>
+  - type: status
+    status:
+    - 200
+  condition: and

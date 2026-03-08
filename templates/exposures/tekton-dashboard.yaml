@@ -1,0 +1,22 @@
+id: tekton-dashboard
+name: Tekton Dashboard Panel - Detect
+severity: info
+confidence: confirmed
+description: Tekton Dashboard panel was detected.
+reference: CWE-200
+tags:
+- panel
+- tekton
+- exposure
+- discovery
+requests:
+- method: GET
+  path: /#/pipelines
+  matchers:
+  - type: body
+    words:
+    - Tekton Dashboard
+  - type: header
+    words:
+    - text/html
+  condition: and

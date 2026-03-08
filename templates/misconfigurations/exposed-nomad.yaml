@@ -1,0 +1,28 @@
+id: exposed-nomad
+name: Nomad - Exposed Jobs
+severity: medium
+confidence: tentative
+description: Nomad jobs were discovered.
+reference: CWE-200
+tags:
+- nomad
+- devops
+- hashicorp
+- panel
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /ui/jobs
+  matchers:
+  - type: body
+    words:
+    - Nomad
+    - nomad-ui
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,22 @@
+id: blazor-boot
+name: Blazor Boot File Disclosure
+severity: info
+confidence: confirmed
+description: Exposed Blazor Boot (a web framework developed by Microsoft) config file.
+reference: https://github.com/freakyclown/Nuclei_templates/blob/main/blazor_server.yaml
+tags:
+- blazor
+- boot
+- exposure
+- config
+- disclosure
+- vuln
+requests:
+- method: GET
+  path: /_framework/blazor.boot.json
+  matchers:
+  - type: body
+    words:
+    - Blazor
+    - '"config":'
+  condition: or

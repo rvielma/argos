@@ -1,0 +1,25 @@
+id: chronos-panel
+name: Chronos Panel - Detect
+severity: info
+confidence: confirmed
+description: Chronos Login Panel was detected.
+reference: https://www.asys.fr/chronos
+tags:
+- panel
+- chronos
+- login
+- detect
+- discovery
+requests:
+- method: GET
+  path: /chronos.wsc/asparamlogin.html
+  matchers:
+  - type: body
+    words:
+    - chronoslogin.html
+    - urlcli
+    - url_portail
+  - type: status
+    status:
+    - 200
+  condition: and

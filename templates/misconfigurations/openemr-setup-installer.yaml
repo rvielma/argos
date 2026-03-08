@@ -1,0 +1,23 @@
+id: openemr-setup-installer
+name: OpenEMR Setup Installation Page - Exposure
+severity: high
+confidence: confirmed
+description: Detects exposed OpenEMR setup installation pages which could allow unauthorized access or information disclosure.
+reference: https://www.open-emr.org/
+tags:
+- misconfig
+- install
+- exposure
+- openemr
+- vuln
+requests:
+- method: GET
+  path: /setup.php
+  matchers:
+  - type: body
+    words:
+    - <title>OpenEMR Setup Tool</title>
+  - type: status
+    status:
+    - 200
+  condition: and

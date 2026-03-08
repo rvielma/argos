@@ -1,0 +1,27 @@
+id: catalog-creator-detect
+name: CATALOGcreator Page Login Panel - Detect
+severity: info
+confidence: confirmed
+description: CATALOGcreator Page login panel detected.
+reference: CWE-200
+tags:
+- tech
+- catalogcreater
+- panel
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - Powered by CATALOGcreator
+    - content="CATALOGcreator
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /index.php
+  matchers: *id001
+  condition: and

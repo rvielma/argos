@@ -1,0 +1,23 @@
+id: webalizer-xtended-stats
+name: Webalizer Xtended Statistics Exposed
+severity: low
+confidence: confirmed
+description: Webalizer Xtended Statistics is exposed.
+reference: https://www.patrickfrei.ch/webalizer/
+tags:
+- exposure
+- stats
+- webalizer
+- vuln
+requests:
+- method: GET
+  path: /usage/
+  matchers:
+  - type: body
+    words:
+    - <TITLE>Webalizer</TITLE>
+    - SRC=menu.html
+  - type: status
+    status:
+    - 200
+  condition: and

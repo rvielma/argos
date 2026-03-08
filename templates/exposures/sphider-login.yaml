@@ -1,0 +1,30 @@
+id: sphider-login
+name: Sphider Admin Login Panel - Detect
+severity: info
+confidence: tentative
+description: Sphider admin login panel was detected.
+reference: CWE-200
+tags:
+- edb
+- panel
+- sphider
+- discovery
+requests:
+- method: GET
+  path: /admin/spider.php
+  matchers: &id001
+  - type: body
+    words:
+    - <title>Sphider Admin Login</title>
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /sphider/admin/admin.php
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /search/admin/admin.php
+  matchers: *id001
+  condition: and

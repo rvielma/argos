@@ -1,0 +1,23 @@
+id: tailon-panel
+name: Tailon Panel - Detect
+severity: info
+confidence: confirmed
+description: Tailon Panel - Detect
+reference: https://github.com/gvalkov/tailon
+tags:
+- panel
+- tailon
+- detect
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Tailon
+    - class="tailon-dark
+  - type: status
+    status:
+    - 200
+  condition: and

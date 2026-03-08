@@ -1,0 +1,20 @@
+id: dont-panic-traceback
+name: DON'T PANIC Traceback
+severity: low
+confidence: confirmed
+description: DON'T PANIC Traceback was detected.
+tags:
+- traceback
+- dont-panic
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - most recent call last
+    - Traceback
+    - DON'T PANIC
+  condition: or

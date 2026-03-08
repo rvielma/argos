@@ -1,0 +1,25 @@
+id: unauthenticated-zipkin
+name: Zipkin Discovery
+severity: high
+confidence: tentative
+description: Unauthenticated access to Zipkin was discovered.
+reference: https://zipkin.io/
+tags:
+- unauth
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /config.json
+  matchers:
+  - type: status
+    status:
+    - 200
+  - type: header
+    words:
+    - application/json
+  - type: body
+    words:
+    - environment
+    - defaultLookback
+  condition: and

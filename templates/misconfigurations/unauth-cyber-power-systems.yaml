@@ -1,0 +1,22 @@
+id: unauth-cyber-power-systems
+name: Cyber Power Systems - Unauthenticated
+severity: high
+confidence: confirmed
+description: Detects unauthenticated access to Cyber Power Systems, which could lead to unauthorized control or information
+  disclosure.
+tags:
+- unauth
+- cyber-power
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /#/devices
+  matchers:
+  - type: body
+    words:
+    - <title>PDNU</title>
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,21 @@
+id: cisco-sd-wan
+name: Cisco SD-WAN Login Panel - Detect
+severity: info
+confidence: tentative
+description: Cisco SD-WAN login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- cisco
+- discovery
+requests:
+- method: GET
+  path: /login
+  matchers:
+  - type: status
+    status:
+    - 200
+  - type: body
+    words:
+    - SD-Wan Center
+  condition: and

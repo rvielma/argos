@@ -1,0 +1,23 @@
+id: topdesk-detect
+name: TOPdesk - Detect
+severity: info
+confidence: confirmed
+description: Detects the use of TOPdesk, a web-based IT service management (ITSM) and helpdesk platform. Identification is
+  based on unique page titles, HTML patterns.
+tags:
+- topdesk
+- tech
+- detect
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - href="/tas/
+    - topdeskidploginforwardurl
+  - type: status
+    status:
+    - 200
+  condition: and

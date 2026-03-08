@@ -1,0 +1,27 @@
+id: sap-netweaver-backdoor
+name: SAP NetWeaver - Backdoor Detection
+severity: critical
+confidence: confirmed
+description: Detected a potential backdoor in SAP NetWeaver allowing unauthorized command execution.
+reference: https://www.bleepingcomputer.com/news/security/sap-fixes-suspected-netweaver-zero-day-exploited-in-attacks/
+tags:
+- sap
+- netweaver
+- backdoor
+- vuln
+requests:
+- method: GET
+  path: /irj/helper.jsp?cmd=ls
+  matchers: &id001
+  - type: body
+    words:
+    - 'Command: ls<BR>'
+    - sap
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /irj/cache.jsp?cmd=ls
+  matchers: *id001
+  condition: and

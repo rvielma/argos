@@ -1,0 +1,27 @@
+id: apache-mesos-panel
+name: Apache Mesos - Panel Detect
+severity: info
+confidence: confirmed
+description: Apache Mesos panel was detected.
+reference: CWE-200
+tags:
+- panel
+- apache
+- mesos
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - <title>Mesos</title>
+    - Apache
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: :5050
+  matchers: *id001
+  condition: and

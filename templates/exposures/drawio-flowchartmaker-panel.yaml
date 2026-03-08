@@ -1,0 +1,23 @@
+id: drawio-flowchartmaker-panel
+name: draw.io Flowchart Maker Panel - Detect
+severity: info
+confidence: confirmed
+description: draw.io Flowchart Maker panel was detected.
+reference: CWE-200
+tags:
+- panel
+- drawio
+- oss
+- diagrams
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Flowchart Maker & Online Diagram Software</title>
+  - type: status
+    status:
+    - 200
+  condition: and

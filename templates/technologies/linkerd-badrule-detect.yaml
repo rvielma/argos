@@ -1,0 +1,29 @@
+id: linkerd-badrule-detect
+name: Linkerd detection via bad rule
+severity: info
+confidence: tentative
+description: Linkerd detection via bad rule
+reference: https://linkerd.io
+tags:
+- tech
+- linkerd
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: regex
+    regex:
+    - (?mi)^Via\s*?:.*?linkerd.*$
+  - type: regex
+    regex:
+    - (?mi)^l5d-err:.*$
+  - type: regex
+    regex:
+    - '(?mi)^l5d-success-class: 0.*$'
+  - type: body
+    words:
+    - expected but end of input found at
+  condition: or
+  headers:
+    l5d-dtab: /svc/*

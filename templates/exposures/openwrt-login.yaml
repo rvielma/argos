@@ -1,0 +1,24 @@
+id: openwrt-login
+name: Opentwrt Login / Configuration Interface
+severity: info
+confidence: tentative
+description: Opentwrt Login / Configuration Interface
+reference: https://openwrt.org
+tags:
+- openwrt
+- router
+- panel
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - <title>OpenWrt
+    - Powered by LuCI
+  condition: or
+- method: GET
+  path: /cgi-bin/luci/
+  matchers: *id001
+  condition: or

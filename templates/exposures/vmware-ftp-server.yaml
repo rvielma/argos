@@ -1,0 +1,22 @@
+id: vmware-ftp-server
+name: VMware FTP Server Login Panel - Detect
+severity: info
+confidence: confirmed
+description: VMware FTP Server login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- vmware
+- ftp
+- discovery
+requests:
+- method: GET
+  path: /login
+  matchers:
+  - type: body
+    words:
+    - VMWARE FTP SERVER
+  - type: status
+    status:
+    - 200
+  condition: and

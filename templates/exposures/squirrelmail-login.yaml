@@ -1,0 +1,34 @@
+id: squirrelmail-login
+name: SquirrelMail Login Panel - Detect
+severity: info
+confidence: tentative
+description: SquirrelMail login panel was detected.
+reference: CWE-200
+tags:
+- squirrelmail
+- edb
+- panel
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - SquirrelMail
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /src/login.php
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /webmail/src/login.php
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /squirrelmail/src/login.php
+  matchers: *id001
+  condition: and

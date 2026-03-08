@@ -1,0 +1,35 @@
+id: bolt-cms-panel
+name: BoltCMS Login Panel - Detect
+severity: info
+confidence: tentative
+description: BoltCMS login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- bolt
+- cms
+- login
+- boltcms
+- discovery
+requests:
+- method: GET
+  path: /bolt/login
+  matchers:
+  - type: body
+    words:
+    - <form action="/bolt/login"
+    - <img class="logo" alt="Bolt CMS logo"
+    - <img src="/app/view/img/bolt-logo.png"
+    - <link rel="shortcut icon" href="/app/view/img/favicon-bolt.ico">
+    - <link rel="stylesheet" href="/app/view/css/bolt-old-ie.css"
+    - <link rel="stylesheet" href="/app/view/css/bolt.css"
+    - <script src="/app/view/js/bolt.js"></script>
+    - <script src="/app/view/js/bolt.min.js"
+    - <script src="/assets/bolt.js"></script>
+    - Bolt requires JavaScript to function properly and continuing without it might corrupt or erase data.
+    - Bolt » Login
+    - Cookies are required to log on to Bolt. Please allow cookies.
+  - type: status
+    status:
+    - 200
+  condition: and

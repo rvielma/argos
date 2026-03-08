@@ -1,0 +1,28 @@
+id: prometheus-unauth
+name: Prometheus Monitoring System - Unauthenticated
+severity: high
+confidence: confirmed
+description: Detects unauthenticated access to Prometheus Time Series Collection and Processing Server by checking for specific
+  elements in the response from the `/graph` endpoint.
+tags:
+- unauth
+- prometheus
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /config
+  matchers: &id001
+  - type: body
+    words:
+    - 'global:'
+    - 'scrape_configs:'
+    - scrape_interval
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /api/v1/status/config
+  matchers: *id001
+  condition: and

@@ -1,0 +1,24 @@
+id: veeam-backup-azure-panel
+name: Veeam Backup for Microsoft Azure Panel - Detect
+severity: info
+confidence: tentative
+description: Veeam Backup for Microsoft Azure panel was detected.
+reference: CWE-200
+tags:
+- azure
+- panel
+- backup
+- veeam
+- microsoft
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: status
+    status:
+    - 200
+  - type: body
+    words:
+    - <title>Veeam Backup for Microsoft Azure</title>
+  condition: and

@@ -1,0 +1,23 @@
+id: versa-flexvnf-server
+name: Versa FlexVNF Server
+severity: info
+confidence: tentative
+description: Versa FlexVNF Server Detection (magic request params exposes Server signature/version)
+reference: https://versa-networks.com/products/components/
+tags:
+- tech
+- versa
+- flexvnf
+- discovery
+requests:
+- method: GET
+  path: /&?=?
+  matchers:
+  - type: header
+    words:
+    - 'Server: Versa'
+    - FlexVNF
+  - type: status
+    status:
+    - 200
+  condition: and

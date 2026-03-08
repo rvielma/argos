@@ -1,0 +1,22 @@
+id: osnexus-panel
+name: OSNEXUS QuantaStor Manager Panel - Detect
+severity: info
+confidence: tentative
+description: OSNEXUS QuantaStor Manager login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- osnexus
+- login
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>OSNEXUS QuantaStor Manager</title>
+  - type: status
+    status:
+    - 200
+  condition: and

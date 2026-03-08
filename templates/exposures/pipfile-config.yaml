@@ -1,0 +1,24 @@
+id: pipfile-config
+name: Pipfile Config - Detect
+severity: info
+confidence: confirmed
+description: Pipfile configuration information was detected.
+reference: CWE-200
+tags:
+- exposure
+- pip
+- devops
+- cicd
+- vuln
+requests:
+- method: GET
+  path: /Pipfile
+  matchers:
+  - type: body
+    words:
+    - '[[source]]'
+    - '[packages]'
+  - type: status
+    status:
+    - 200
+  condition: and

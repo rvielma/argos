@@ -1,0 +1,21 @@
+id: bonita-portal-panel
+name: Bonita Portal Login - Detect
+severity: info
+confidence: confirmed
+description: Detects the presence of Bonita Portal login page.
+tags:
+- bonita
+- login
+- panel
+- discovery
+requests:
+- method: GET
+  path: /bonita/login.jsp
+  matchers:
+  - type: body
+    words:
+    - Bonita Portal
+  - type: status
+    status:
+    - 200
+  condition: and

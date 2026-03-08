@@ -1,0 +1,34 @@
+id: oracle-reports-services
+name: Oracle Reports Services - Servlet
+severity: info
+confidence: confirmed
+description: Oracle Reports Services - Servlet Command dashboard
+tags:
+- exposure
+- oracle
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /reports/
+  matchers: &id001
+  - type: body
+    words:
+    - Valid Reports Servlet Commands
+    - rwservlet
+    - killengine
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /ora/reports/
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /oracle/reports/
+  matchers: *id001
+  condition: and

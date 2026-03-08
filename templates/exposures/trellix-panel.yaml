@@ -1,0 +1,21 @@
+id: trellix-panel
+name: Trellix Login Panel
+severity: info
+confidence: confirmed
+description: Trellix login panel was detected.
+tags:
+- trellix
+- panel
+- login
+- discovery
+requests:
+- method: GET
+  path: /login/login
+  matchers:
+  - type: regex
+    regex:
+    - Trellix
+  - type: status
+    status:
+    - 200
+  condition: and

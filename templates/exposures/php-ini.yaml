@@ -1,0 +1,25 @@
+id: php-ini
+name: Php.ini File Disclosure
+severity: low
+confidence: confirmed
+description: php.ini file is exposed.
+reference: https://www.php.net/manual/en/configuration.file.php
+tags:
+- config
+- exposure
+- files
+- vuln
+requests:
+- method: GET
+  path: /php.ini
+  matchers:
+  - type: body
+    words:
+    - '[PHP]'
+    - short_open_tag
+    - safe_mode
+    - expose_php
+  - type: status
+    status:
+    - 200
+  condition: and

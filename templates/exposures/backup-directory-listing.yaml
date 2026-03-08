@@ -1,0 +1,26 @@
+id: backup-directory-listing
+name: Backup Directory Listing - Detect
+severity: low
+confidence: confirmed
+description: Backup Directory Listing folder was detected.
+reference: https://www.invicti.com/learn/directory-listing/
+tags:
+- hackerone
+- backups
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /backup/
+  matchers: &id001
+  - type: regex
+    regex:
+    - Index of .*/backup
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /php/backup/
+  matchers: *id001
+  condition: and

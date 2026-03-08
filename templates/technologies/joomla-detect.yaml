@@ -1,0 +1,44 @@
+id: joomla-detect
+name: Joomla! Detect
+severity: info
+confidence: confirmed
+description: Joomla! is a free and open-source content management system (CMS) for publishing content on websites.
+reference: https://www.joomla.org/
+tags:
+- tech
+- joomla
+- cms
+- oss
+- discovery
+requests:
+- method: GET
+  path: /administrator/manifests/files/joomla.xml
+  matchers: &id001
+  - type: body
+    words:
+    - <version>
+    - <creationDate>
+    - </metafile>
+  - type: regex
+    regex:
+    - (?:<div[^>]+id="wrapper_r"|<(?:link|script)[^>]+(?:feed|components)/com_|<table[^>]+class="pill)
+    - (?i)<meta\s+name=["']generator["']\s+content=["']\s*joomla[^"']*
+    - (?i)Joomla_([\d.|\d]+)_version_history
+    - FILES_JOOMLA_XML_DESCRIPTION
+  condition: or
+- method: GET
+  path: /language/en-GB/en-GB.xml
+  matchers: *id001
+  condition: or
+- method: GET
+  path: /README.txt
+  matchers: *id001
+  condition: or
+- method: GET
+  path: /modules/custom.xml
+  matchers: *id001
+  condition: or
+- method: GET
+  path: /
+  matchers: *id001
+  condition: or

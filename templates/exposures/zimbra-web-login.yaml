@@ -1,0 +1,25 @@
+id: zimbra-web-login
+name: Zimbra Collaboration Suite Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Zimbra Collaboration Suite panel was detected. Zimbra Collaboration Suite simplifies the communication environment,
+  connects people over multiple channels, and provides a single place to manage collaboration and communication.
+reference: CWE-200
+tags:
+- panel
+- zimbra
+- synacor
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Zimbra Collaboration Suite Log In
+    - Zimbra Web Client Sign In
+    - Zimbra Web Client Log In
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,22 @@
+id: jamf-setup-assistant
+name: Jamf Pro Setup Assistant Panel - Detect
+severity: info
+confidence: confirmed
+description: Jamf Pro Setup Assistant panel was detected.
+reference: CWE-200
+tags:
+- jamf
+- setup
+- panel
+- discovery
+requests:
+- method: GET
+  path: /setupAssistant.html
+  matchers:
+  - type: body
+    words:
+    - Jamf Pro Setup Assistant
+  - type: status
+    status:
+    - 200
+  condition: and

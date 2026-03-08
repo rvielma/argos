@@ -1,0 +1,24 @@
+id: truenas-panel
+name: TrueNAS Panel - Detect
+severity: info
+confidence: confirmed
+description: TrueNAS scale is a free and open-source NAS solution
+reference: https://www.truenas.com
+tags:
+- login
+- panel
+- truenas
+- ixsystems
+- discovery
+requests:
+- method: GET
+  path: /ui/sessions/signin
+  matchers:
+  - type: body
+    words:
+    - '''TrueNAS'''
+    - assets/images/TrueNAS
+  - type: status
+    status:
+    - 200
+  condition: and

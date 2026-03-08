@@ -1,0 +1,21 @@
+id: ghost-panel
+name: Ghost Panel - Detect
+severity: info
+confidence: confirmed
+description: Beautiful, modern publishing with email newsletters and paid subscriptions built-in.
+reference: https://ghost.org/
+tags:
+- panel
+- ghost
+- login
+- detect
+- discovery
+requests:
+- method: GET
+  path: /ghost/#/signin
+  matchers:
+  - type: body
+    words:
+    - <title>Ghost Admin
+    - content="Ghost"
+  condition: or

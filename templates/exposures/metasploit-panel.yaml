@@ -1,0 +1,23 @@
+id: metasploit-panel
+name: Metasploit Panel - Detect
+severity: info
+confidence: confirmed
+description: Metasploit Web Panel is detected
+reference: CWE-200
+tags:
+- panel
+- metasploit
+- login
+- rapid7
+- discovery
+requests:
+- method: GET
+  path: /login
+  matchers:
+  - type: body
+    words:
+    - <title>Metasploit</title>
+  - type: status
+    status:
+    - 200
+  condition: and

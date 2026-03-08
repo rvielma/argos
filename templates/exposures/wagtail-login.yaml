@@ -1,0 +1,26 @@
+id: wagtail-login
+name: Wagtail Login - Detect
+severity: info
+confidence: confirmed
+description: The Wagtail panel has been detected.
+reference: CWE-200
+tags:
+- panel
+- wagtail
+- torchbox
+- discovery
+requests:
+- method: GET
+  path: /login/?next=/
+  matchers: &id001
+  - type: body
+    words:
+    - Wagtail - Sign in
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /admin/login/?next=/admin/
+  matchers: *id001
+  condition: and

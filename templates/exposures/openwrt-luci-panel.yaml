@@ -1,0 +1,22 @@
+id: openwrt-luci-panel
+name: Opentwrt luCI - Admin Login Page
+severity: info
+confidence: tentative
+description: An Opentwrt admin login page was discovered.
+reference: https://forum.archive.openwrt.org/viewtopic.php?id=16611
+tags:
+- panel
+- default-login
+- openwrt
+- x-wrt
+- discovery
+requests:
+- method: GET
+  path: /cgi-bin/luci
+  matchers:
+  - type: body
+    words:
+    - OpenWrt
+    - LuCI
+    - login
+  condition: or

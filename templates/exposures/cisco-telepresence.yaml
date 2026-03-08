@@ -1,0 +1,21 @@
+id: cisco-telepresence
+name: Cisco TelePresence Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Cisco TelePresence login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- cisco
+- discovery
+requests:
+- method: GET
+  path: /login.html
+  matchers:
+  - type: body
+    words:
+    - 'Cisco TelePresence MCU - login:'
+  - type: status
+    status:
+    - 200
+  condition: and

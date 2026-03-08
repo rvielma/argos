@@ -1,0 +1,22 @@
+id: powerlogic-ion
+name: PowerLogic ION Panel - Detect
+severity: info
+confidence: tentative
+description: PowerLogic ION panel was detected.
+reference: CWE-200
+tags:
+- panel
+- edb
+- schneider-electric
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - PowerLogic ION
+  - type: status
+    status:
+    - 200
+  condition: and

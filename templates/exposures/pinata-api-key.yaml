@@ -1,0 +1,24 @@
+id: pinata-api-key
+name: Pinata API Key - Expose
+severity: info
+confidence: tentative
+description: Pinata API Key - Expose
+tags:
+- pinata
+- exposure
+- api-keys
+- tokens
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - pinata_api_key
+    - pinata_api_secret
+    - pinataKey
+    - pinataSecret
+    - pinata-key
+    - pinata_secret
+  condition: or

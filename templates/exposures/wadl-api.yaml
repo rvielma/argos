@@ -1,0 +1,53 @@
+id: wadl-api
+name: WADL API - Detect
+severity: info
+confidence: tentative
+description: WADL API was detected.
+reference: CWE-200
+tags:
+- exposure
+- api
+- discovery
+requests:
+- method: GET
+  path: /application.wadl
+  matchers: &id001
+  - type: body
+    words:
+    - This is simplified WADL with user and core resources only
+    - http://jersey.java.net
+    - http://wadl.dev.java.net/2009/02
+  condition: or
+- method: GET
+  path: /application.wadl?detail=true
+  matchers: *id001
+  condition: or
+- method: GET
+  path: /api/application.wadl
+  matchers: *id001
+  condition: or
+- method: GET
+  path: /api/v1/application.wadl
+  matchers: *id001
+  condition: or
+- method: GET
+  path: /api/v2/application.wadl
+  matchers: *id001
+  condition: or
+- method: OPTIONS
+  path: /
+  matchers: &id002
+  - type: body
+    words:
+    - This is simplified WADL with user and core resources only
+    - http://jersey.java.net
+    - http://wadl.dev.java.net/2009/02
+  condition: or
+- method: OPTIONS
+  path: /api/v1
+  matchers: *id002
+  condition: or
+- method: OPTIONS
+  path: /api/v2
+  matchers: *id002
+  condition: or

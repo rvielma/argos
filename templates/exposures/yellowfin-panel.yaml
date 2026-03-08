@@ -1,0 +1,22 @@
+id: yellowfin-panel
+name: Yellowfin Information Collaboration - Detect
+severity: info
+confidence: confirmed
+description: Yellowfin Information Collaboration - Detect
+tags:
+- yellowfin
+- panel
+- login
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Yellowfin Information Collaboration</title>
+    - alt="Yellowfin"
+  - type: status
+    status:
+    - 200
+  condition: and

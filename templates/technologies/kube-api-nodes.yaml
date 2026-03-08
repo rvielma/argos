@@ -1,0 +1,25 @@
+id: kube-api-nodes
+name: Kube API Nodes
+severity: info
+confidence: tentative
+description: Scans for kube nodes
+tags:
+- tech
+- k8s
+- kubernetes
+- devops
+- kube
+- discovery
+requests:
+- method: GET
+  path: /api/v1/nodes
+  matchers:
+  - type: body
+    words:
+    - '"NodeList":'
+    - '"items":'
+  - type: body
+    words:
+    - '"containerRuntimeVersion"'
+    - '"kubeletVersion": "v'
+  condition: or

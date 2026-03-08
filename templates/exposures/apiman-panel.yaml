@@ -1,0 +1,21 @@
+id: apiman-panel
+name: Apiman Login Panel
+severity: info
+confidence: tentative
+description: An Apiman instance was detected via the login redirection.
+reference: CWE-200
+tags:
+- panel
+- apiman
+- discovery
+requests:
+- method: GET
+  path: /apimanui/api-manager
+  matchers:
+  - type: header
+    words:
+    - /auth/realms/apiman
+  - type: status
+    status:
+    - 302
+  condition: and

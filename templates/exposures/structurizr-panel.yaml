@@ -1,0 +1,28 @@
+id: structurizr-panel
+name: Structurizr Panel - Detect
+severity: info
+confidence: confirmed
+description: Structurizr login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- structurizr
+- detect
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - <title>Structurizr
+    - alt="Structurizr
+    - structurizrBackground
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /signin
+  matchers: *id001
+  condition: and

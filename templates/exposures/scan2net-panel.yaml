@@ -1,0 +1,24 @@
+id: scan2net-panel
+name: Scan2Net - Panel
+severity: info
+confidence: confirmed
+description: Scan2Net Login was detected. This software is used to manage ImageAccess devices.Universities and public institutions
+  often use ImageAccess devices.
+tags:
+- panel
+- scan2net
+- login
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - /cgi/index.cgi
+    - /scanner_ico.gif
+    - Enhanced Scanning
+  - type: status
+    status:
+    - 200
+  condition: and

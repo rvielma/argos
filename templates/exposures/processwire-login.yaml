@@ -1,0 +1,21 @@
+id: processwire-login
+name: ProcessWire Login - Panel Detect
+severity: info
+confidence: confirmed
+description: ProcessWire login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- processwire
+- discovery
+requests:
+- method: GET
+  path: /processwire/
+  matchers:
+  - type: body
+    words:
+    - ProcessWireAdminTheme.init();
+  - type: status
+    status:
+    - 200
+  condition: and

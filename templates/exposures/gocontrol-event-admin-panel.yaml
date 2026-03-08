@@ -1,0 +1,27 @@
+id: gocontrol-event-admin-panel
+name: Go.Control Event Administration Panel - Detect
+severity: info
+confidence: confirmed
+description: Detects the presence of the Go.Control Event Administration login panel.
+reference: CWE-200
+tags:
+- panel
+- gocontrol
+- login
+- detect
+- discovery
+requests:
+- method: GET
+  path: /admin/
+  matchers: &id001
+  - type: body
+    words:
+    - <title>Event Administration | Superuser Login
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /admin/index.php
+  matchers: *id001
+  condition: and

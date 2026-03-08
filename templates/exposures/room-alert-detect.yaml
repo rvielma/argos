@@ -1,0 +1,31 @@
+id: room-alert-detect
+name: AVTECH Room Alert Login Panel - Detect
+severity: info
+confidence: confirmed
+description: AVTECH Room Alert login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- room-alert
+- avtech
+- discovery
+requests:
+- method: GET
+  path: /index.html
+  matchers: &id001
+  - type: body
+    words:
+    - Room Alert - Account Log In
+    - AVTECH Software, Inc. - Room Alert
+    - alt="Room Alert"
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /gateway
+  matchers: *id001
+  condition: and

@@ -1,0 +1,22 @@
+id: slocum-login
+name: Slocum Fleet Mission Control Login Panel - Detect
+severity: info
+confidence: tentative
+description: Slocum Fleet Mission Control login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- tech
+- slocum
+- discovery
+requests:
+- method: GET
+  path: /sfmc/login
+  matchers:
+  - type: body
+    words:
+    - <title>Slocum Fleet Mission Control - Login</title>
+  - type: status
+    status:
+    - 200
+  condition: and

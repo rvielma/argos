@@ -1,0 +1,21 @@
+id: solarwinds-arm-panel
+name: SolarWinds ARM (Access Rights Manager) - Detect
+severity: info
+confidence: confirmed
+description: SolarWinds ARM login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- solarwinds
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Solarwinds Access Rights Manager</title>
+  - type: status
+    status:
+    - 200
+  condition: and

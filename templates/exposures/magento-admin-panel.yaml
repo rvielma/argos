@@ -1,0 +1,19 @@
+id: magento-admin-panel
+name: Magento Admin Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Magento admin login panel was detected.
+reference: CWE-200
+tags:
+- magento
+- panel
+- discovery
+requests:
+- method: GET
+  path: /admin
+  matchers:
+  - type: body
+    words:
+    - Magento
+    - Admin Panel
+  condition: and

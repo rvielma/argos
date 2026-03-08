@@ -1,0 +1,18 @@
+id: default-windows-server-page
+name: IIS Windows Server Default Page
+severity: info
+confidence: tentative
+description: IIS Windows Server Default Page
+tags:
+- tech
+- windows
+- iis
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>IIS Windows Server</title>
+  condition: or

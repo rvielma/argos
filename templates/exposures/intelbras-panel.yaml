@@ -1,0 +1,18 @@
+id: intelbras-panel
+name: Intelbras Router Panel - Detect
+severity: info
+confidence: confirmed
+description: Intelbras router panel was detected.
+reference: CWE-200
+tags:
+- panel
+- intelbras
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Intelbras
+  condition: or

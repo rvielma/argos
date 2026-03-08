@@ -1,0 +1,22 @@
+id: ntfy-web-exposure
+name: NTFY Web - Exposure
+severity: medium
+confidence: confirmed
+description: Publicly exposed NTFY web interface allowing unauthorized publish or subscribe access.
+tags:
+- exposure
+- ntfy
+- web
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /settings
+  matchers:
+  - type: body
+    words:
+    - <title>ntfy web</title>
+  - type: status
+    status:
+    - 200
+  condition: and

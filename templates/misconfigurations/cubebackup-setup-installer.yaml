@@ -1,0 +1,23 @@
+id: cubebackup-setup-installer
+name: CubeBackup Setup Page - Exposure
+severity: high
+confidence: confirmed
+description: Detects exposed CubeBackup Setup page.
+reference: https://www.cubebackup.com/
+tags:
+- misconfig
+- install
+- exposure
+- cubebackup
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - CubeBackup setup
+  - type: status
+    status:
+    - 200
+  condition: and

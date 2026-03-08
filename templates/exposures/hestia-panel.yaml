@@ -1,0 +1,24 @@
+id: hestia-panel
+name: Hestia Control Panel Login - Detect
+severity: info
+confidence: confirmed
+description: Hestia Control Panel login was detected.
+reference: CWE-200
+tags:
+- panel
+- hestia
+- detect
+- hestiacp
+- discovery
+requests:
+- method: GET
+  path: /login/
+  matchers:
+  - type: body
+    words:
+    - Hestia Control Panel
+    - Welcome to Hestia Control
+  - type: status
+    status:
+    - 200
+  condition: and

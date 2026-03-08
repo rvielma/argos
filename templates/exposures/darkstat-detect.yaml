@@ -1,0 +1,29 @@
+id: darkstat-detect
+name: Detect Darkstat Reports
+severity: high
+confidence: tentative
+description: Darkstat captures network traffic, calculates statistics about usage, and serves reports over HTTP
+reference: https://unix4lyfe.org/darkstat/
+tags:
+- darkstat
+- logs
+- exposure
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: regex
+    regex:
+    - '[Ss]erver: darkstat.*'
+  - type: body
+    words:
+    - darkstat
+    - <title>Graphs
+    - Measuring for
+    - hosts</a>
+  condition: and
+- method: GET
+  path: /darkstat/
+  matchers: *id001
+  condition: and

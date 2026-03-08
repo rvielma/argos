@@ -1,0 +1,27 @@
+id: gargoyle-router
+name: Gargoyle Router Management Utility Admin Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Gargoyle Router Management Utility admin login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- iot
+- gargoyle
+- router
+- edb
+- discovery
+requests:
+- method: GET
+  path: /login.sh
+  matchers:
+  - type: body
+    words:
+    - <title>Gargoyle Router Management Utility</title>
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

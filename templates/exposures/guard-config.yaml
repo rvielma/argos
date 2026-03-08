@@ -1,0 +1,24 @@
+id: guard-config
+name: Guardfile Config - Detect
+severity: info
+confidence: confirmed
+description: Guardfile configuration information was detected.
+reference: CWE-200
+tags:
+- exposure
+- file
+- guard
+- config
+- vuln
+requests:
+- method: GET
+  path: /Guardfile
+  matchers:
+  - type: body
+    words:
+    - 'guard :'
+    - end
+  - type: status
+    status:
+    - 200
+  condition: and

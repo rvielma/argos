@@ -1,0 +1,21 @@
+id: xenforo-detect
+name: XenForo Forum Detection
+severity: info
+confidence: tentative
+description: XenForo Forum Detection
+tags:
+- tech
+- xenforo
+- discovery
+requests:
+- method: GET
+  path: /index.php
+  matchers:
+  - type: body
+    words:
+    - <html id="XenForo"
+    - <html id="XF"
+  - type: status
+    status:
+    - 200
+  condition: and

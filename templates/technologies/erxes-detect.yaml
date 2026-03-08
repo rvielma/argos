@@ -1,0 +1,20 @@
+id: erxes-detect
+name: Erxes Detect
+severity: info
+confidence: tentative
+description: Erxes Detect
+tags:
+- tech
+- erxes
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: regex
+    regex:
+    - <title>erxes(.*)</title>
+  - type: status
+    status:
+    - 200
+  condition: and

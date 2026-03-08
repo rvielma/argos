@@ -1,0 +1,22 @@
+id: dokploy-panel
+name: Dokploy Login Panel - Detect
+severity: info
+confidence: tentative
+description: Dokploy login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- dokploy
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Dokploy</title>
+    - dokploy
+  - type: status
+    status:
+    - 200
+  condition: and

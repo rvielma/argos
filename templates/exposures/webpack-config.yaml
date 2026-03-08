@@ -1,0 +1,26 @@
+id: webpack-config
+name: Webpack Configuration File - Detect
+severity: info
+confidence: tentative
+description: Webpack configuration file was detected.
+reference: CWE-200
+tags:
+- config
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /webpack.config.js
+  matchers:
+  - type: body
+    words:
+    - module.exports
+    - const
+  - type: header
+    words:
+    - application/javascript
+    - text/javascript
+  - type: status
+    status:
+    - 200
+  condition: and

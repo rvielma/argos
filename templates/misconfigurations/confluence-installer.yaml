@@ -1,0 +1,22 @@
+id: confluence-installer
+name: Confluence Installation Page - Exposure
+severity: high
+confidence: confirmed
+description: Confluence is susceptible to the Installation page exposure due to misconfiguration.
+tags:
+- misconfig
+- exposure
+- install
+- confluence
+- vuln
+requests:
+- method: GET
+  path: /setup/setupcluster-start.action
+  matchers:
+  - type: body
+    words:
+    - Choose your deployment type - Confluence
+  - type: status
+    status:
+    - 200
+  condition: and

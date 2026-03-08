@@ -1,0 +1,23 @@
+id: centreon-panel
+name: Centreon Login Panel - Detect
+severity: info
+confidence: tentative
+description: Centreon login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- centreon
+- login
+- discovery
+requests:
+- method: GET
+  path: /centreon/index.php
+  matchers:
+  - type: body
+    words:
+    - <title>Centreon - IT & Network Monitoring</title>
+    - <input name="centreon_token" type="hidden"
+  - type: status
+    status:
+    - 200
+  condition: and

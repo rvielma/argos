@@ -1,0 +1,22 @@
+id: arris-modem-detect
+name: ARRIS Touchstone Telephony Modem - Panel Detect
+severity: info
+confidence: confirmed
+description: ARRIS Touchstone Telephony Modem status panel was detected.
+reference: CWE-200
+tags:
+- panel
+- arris
+- commscope
+- discovery
+requests:
+- method: GET
+  path: /phy.htm
+  matchers:
+  - type: body
+    words:
+    - <title>Touchstone Status</title>
+  - type: status
+    status:
+    - 200
+  condition: and

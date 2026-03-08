@@ -1,0 +1,20 @@
+id: owasp-juice-shop-detect
+name: OWASP Juice Shop
+severity: info
+confidence: tentative
+description: OWASP Juice Shop
+tags:
+- tech
+- owasp
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>OWASP Juice Shop</title>
+  - type: status
+    status:
+    - 200
+  condition: and

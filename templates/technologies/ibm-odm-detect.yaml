@@ -1,0 +1,23 @@
+id: ibm-odm-detect
+name: IBM Operational Decision Manager - Detect
+severity: info
+confidence: confirmed
+description: IBM Operational Decision Manager was detected.
+reference: https://www.ibm.com/products/operational-decision-manager
+tags:
+- ibm
+- decision-center
+- tech
+- detect
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>IBM ODM</title>
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,23 @@
+id: cassia-bluetooth-gateway-panel
+name: Cassia Bluetooth Gateway Panel - Detect
+severity: info
+confidence: confirmed
+description: Cassia Bluetooth Gateway Management Platform login page was discovered.
+reference: https://www.cassianetworks.com/products/x1000-outdoor-bluetooth-router/
+tags:
+- cassia
+- gateway
+- login
+- panel
+- discovery
+requests:
+- method: GET
+  path: /cassia/login
+  matchers:
+  - type: body
+    words:
+    - Cassia Bluetooth Gateway Management Platform
+  - type: status
+    status:
+    - 200
+  condition: and

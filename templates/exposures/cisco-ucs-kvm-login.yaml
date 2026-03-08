@@ -1,0 +1,23 @@
+id: cisco-ucs-kvm-login
+name: Cisco UCS Manager KVM Login Panel - Detect
+severity: info
+confidence: tentative
+description: Cisco UCS Manager KVM login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- cisco
+- ucs
+- kvm
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Cisco UCS KVM Direct</title>
+  - type: status
+    status:
+    - 200
+  condition: and

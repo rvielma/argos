@@ -1,0 +1,22 @@
+id: akamai-cloudtest
+name: Akamai CloudTest Panel
+severity: info
+confidence: tentative
+description: An Akamai CloudTest panel was discovered.
+reference: CWE-200
+tags:
+- panel
+- akamai
+- discovery
+requests:
+- method: GET
+  path: /concerto/Login?goto=Central
+  matchers:
+  - type: body
+    words:
+    - Akamai Inc. All rights reserved
+    - Akamai CloudTest
+  - type: status
+    status:
+    - 200
+  condition: and

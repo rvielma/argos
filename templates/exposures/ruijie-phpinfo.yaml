@@ -1,0 +1,25 @@
+id: ruijie-phpinfo
+name: Ruijie Phpinfo Configuration - Detect
+severity: low
+confidence: tentative
+description: Ruijie phpinfo configuration was detected.
+reference: CWE-200
+tags:
+- phpinfo
+- rujjie
+- config
+- exposure
+- ruijie
+- vuln
+requests:
+- method: GET
+  path: /tool/view/phpinfo.view.php
+  matchers:
+  - type: body
+    words:
+    - PHP Version
+    - PHP Extension
+  - type: status
+    status:
+    - 200
+  condition: and

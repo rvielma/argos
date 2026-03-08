@@ -1,0 +1,21 @@
+id: joget-panel
+name: Joget Panel - Detect
+severity: info
+confidence: tentative
+description: Joget panel was detected.
+reference: CWE-200
+tags:
+- panel
+- joget
+- discovery
+requests:
+- method: GET
+  path: /jw/web/;
+  matchers:
+  - type: body
+    words:
+    - System Error
+  - type: status
+    status:
+    - 500
+  condition: and

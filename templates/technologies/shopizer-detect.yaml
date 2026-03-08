@@ -1,0 +1,24 @@
+id: shopizer-detect
+name: Shopizer Detection
+severity: info
+confidence: tentative
+description: Shopizer Detection
+tags:
+- tech
+- shopizer
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: status
+    status:
+    - 200
+  - type: body
+    words:
+    - Powered by <a href="http://www.shopizer.com"
+  condition: and
+- method: GET
+  path: /shop/
+  matchers: *id001
+  condition: and

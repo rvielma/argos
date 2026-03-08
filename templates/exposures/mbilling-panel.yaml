@@ -1,0 +1,23 @@
+id: mbilling-panel
+name: MagnusBilling - Login Panel
+severity: info
+confidence: confirmed
+description: Identified an exposed MagnusBilling login panel.
+tags:
+- mbilling
+- login
+- panel
+- magnusbilling
+- discovery
+requests:
+- method: GET
+  path: /mbilling/
+  matchers:
+  - type: body
+    words:
+    - MagnusBilling
+    - Voip System
+  - type: status
+    status:
+    - 200
+  condition: and

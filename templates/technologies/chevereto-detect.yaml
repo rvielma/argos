@@ -1,0 +1,20 @@
+id: chevereto-detect
+name: Chevereto detect
+severity: info
+confidence: tentative
+description: Chevereto detect
+tags:
+- tech
+- chevereto
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: regex
+    regex:
+    - content="Chevereto(.*)">
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,23 @@
+id: dahua-web-panel
+name: Dahua Web Service Panel - Detect
+severity: info
+confidence: confirmed
+description: A Dahua admin login panel was detected.
+reference: CWE-200
+tags:
+- edb
+- panel
+- dahua
+- detect
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>WEB SERVICE</title>
+  - type: status
+    status:
+    - 200
+  condition: and

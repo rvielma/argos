@@ -1,0 +1,28 @@
+id: jira-detect
+name: Jira Detect
+severity: info
+confidence: tentative
+description: Jira login panel was detected.
+reference: CWE-200
+tags:
+- tech
+- panel
+- jira
+- atlassian
+- discovery
+requests:
+- method: GET
+  path: /secure/Dashboard.jspa
+  matchers: &id001
+  - type: body
+    words:
+    - Project Management Software
+  condition: or
+- method: GET
+  path: /jira/secure/Dashboard.jspa
+  matchers: *id001
+  condition: or
+- method: GET
+  path: /login.jsp
+  matchers: *id001
+  condition: or

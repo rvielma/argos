@@ -1,0 +1,25 @@
+id: tooljet-panel
+name: ToolJet Login Panel - Detect
+severity: info
+confidence: confirmed
+description: ToolJet login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- tooljet
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - ToolJet - Dashboard
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /login?redirectTo=/
+  matchers: *id001
+  condition: and

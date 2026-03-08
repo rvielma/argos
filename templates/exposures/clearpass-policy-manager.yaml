@@ -1,0 +1,22 @@
+id: clearpass-policy-manager
+name: ClearPass Policy Manager Login Panel - Detect
+severity: info
+confidence: tentative
+description: ClearPass Policy Manager login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- aruba
+- arubanetworks
+- discovery
+requests:
+- method: GET
+  path: /tips/tipsLogin.action
+  matchers:
+  - type: body
+    words:
+    - <title>ClearPass Policy Manager - Aruba Networks</title>
+  - type: status
+    status:
+    - 200
+  condition: and

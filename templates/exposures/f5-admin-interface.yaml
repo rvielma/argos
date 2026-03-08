@@ -1,0 +1,24 @@
+id: f5-admin-interface
+name: F5 Admin Interface - Detect
+severity: info
+confidence: confirmed
+description: Detects F5 Admin Interfaces.
+tags:
+- f5
+- admin
+- detect
+- panel
+- login
+- discovery
+requests:
+- method: GET
+  path: /tmui/login.jsp
+  matchers:
+  - type: body
+    words:
+    - Configuration Utility
+    - F5 Networks
+  - type: status
+    status:
+    - 200
+  condition: and

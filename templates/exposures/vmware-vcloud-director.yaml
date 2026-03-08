@@ -1,0 +1,22 @@
+id: vmware-vcloud-director
+name: VMware vCloud Director Panel - Detect
+severity: info
+confidence: confirmed
+description: VMware vCloud Director panel was detected.
+reference: CWE-200
+tags:
+- panel
+- vmware
+- vcloud
+- discovery
+requests:
+- method: GET
+  path: /cloud/
+  matchers:
+  - type: body
+    words:
+    - <title>VMware vCloud Director</title>
+  - type: status
+    status:
+    - 200
+  condition: and

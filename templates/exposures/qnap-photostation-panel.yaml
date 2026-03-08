@@ -1,0 +1,22 @@
+id: qnap-photostation-panel
+name: QNAP Photo Station Panel - Detect
+severity: info
+confidence: confirmed
+description: QNAP Photo Station panel was detected.
+reference: CWE-200
+tags:
+- panel
+- photostation
+- qnap
+- discovery
+requests:
+- method: GET
+  path: /photo/
+  matchers:
+  - type: regex
+    regex:
+    - (?m)<title>(.*)Photo Station(.*)<\/title>
+  - type: status
+    status:
+    - 200
+  condition: and

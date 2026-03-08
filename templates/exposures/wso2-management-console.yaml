@@ -1,0 +1,23 @@
+id: wso2-management-console
+name: WSO2 Management Console Login Panel - Detect
+severity: info
+confidence: tentative
+description: WSO2 Management Console login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- wso2
+- edb
+- discovery
+requests:
+- method: GET
+  path: /carbon/admin/login.jsp
+  matchers:
+  - type: body
+    words:
+    - <title>WSO2 Management Console</title>
+    - WSO2 Carbon Server
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,20 @@
+id: openssl-detect
+name: Openssl Detect
+severity: info
+confidence: confirmed
+description: Openssl Detect
+tags:
+- tech
+- openssl
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - OpenSSL
+  - type: status
+    status:
+    - 200
+  condition: and

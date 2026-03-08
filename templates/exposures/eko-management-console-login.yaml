@@ -1,0 +1,21 @@
+id: eko-management-console-login
+name: Eko Charger Management Console Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Eko Charger Management Console login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- eko
+- discovery
+requests:
+- method: GET
+  path: /login
+  matchers:
+  - type: body
+    words:
+    - <title>Charger Management Console</title>
+  - type: status
+    status:
+    - 200
+  condition: and

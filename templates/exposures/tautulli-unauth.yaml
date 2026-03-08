@@ -1,0 +1,24 @@
+id: tautulli-unauth
+name: Tautulli Panel - Unauthenticated Access
+severity: medium
+confidence: confirmed
+description: Tautulli Panel - Unauthenticated Access
+tags:
+- panel
+- misconfig
+- tautulli
+- unauth
+- exposure
+- discovery
+requests:
+- method: GET
+  path: /home
+  matchers:
+  - type: body
+    words:
+    - Tautulli - Home
+    - Libraries</a>
+  - type: status
+    status:
+    - 200
+  condition: and

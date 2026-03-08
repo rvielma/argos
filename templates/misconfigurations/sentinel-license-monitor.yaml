@@ -1,0 +1,23 @@
+id: sentinel-license-monitor
+name: Sentinel License Monitor - Detect
+severity: info
+confidence: confirmed
+description: Sentinel License Monitor - Detect
+tags:
+- misconfig
+- sentinel
+- license
+- monitor
+- vuln
+requests:
+- method: GET
+  path: /keyinfo.html
+  matchers:
+  - type: body
+    words:
+    - Sentinel License Monitor
+    - Licenses-in-use
+  - type: status
+    status:
+    - 200
+  condition: and

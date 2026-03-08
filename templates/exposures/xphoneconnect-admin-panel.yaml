@@ -1,0 +1,28 @@
+id: xphoneconnect-admin-panel
+name: XPhone Connect Admin Interface - Detect
+severity: info
+confidence: confirmed
+description: Detects the presence of the XPhone Connect admin interface.
+reference: CWE-200
+tags:
+- panel
+- xphone
+- login
+- detect
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - XPhone Connect server - Logon
+    - XPhone Web-Meeting
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /xphoneconnect/admin/Login.aspx
+  matchers: *id001
+  condition: and

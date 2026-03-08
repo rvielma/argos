@@ -1,0 +1,29 @@
+id: bigip-detect
+name: BIGIP - Detection
+severity: info
+confidence: tentative
+description: BIGIP - Detection
+reference: https://www.intelisecure.com/how-to-decode-big-ip-f5-persistence-cookie-values
+tags:
+- bigip
+- tech
+- f5
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: header
+    words:
+    - BIGipServer
+  - type: header
+    words:
+    - BigIP
+  - type: body
+    words:
+    - F5 Networks.
+  condition: or
+- method: GET
+  path: /my.policy
+  matchers: *id001
+  condition: or

@@ -1,0 +1,24 @@
+id: jira-https-mode-open-redirect
+name: JIRA in HTTPS mode - Open Redirect
+severity: medium
+confidence: confirmed
+description: Detected Open redirect vulnerability in Jira via os_destination parameter versions 5.2.11, 6.2, and 6.2.2.
+reference: CWE-601
+tags:
+- confluence
+- atlassian
+- jira
+- redirect
+- atlassian
+- vuln
+requests:
+- method: GET
+  path: /ThisCanBeAnything?os_destination=%2F%2Foast.pro
+  matchers:
+  - type: regex
+    regex:
+    - (?m)^(?:Location\s*?:\s*)(?:https?://|//|/\\\\)?[a-zA-Z0-9._@-]*oast\.pro.*$
+  - type: status
+    status:
+    - 302
+  condition: and

@@ -1,0 +1,22 @@
+id: sftpgo-admin-setup
+name: SFTPGo Admin - Setup
+severity: high
+confidence: confirmed
+description: SFTPGo Admin Password setup page has been exposed.
+tags:
+- sftpgo
+- misconfig
+- setup
+- vuln
+requests:
+- method: GET
+  path: /web/admin/setup
+  matchers:
+  - type: body
+    words:
+    - SFTPGo - Setup
+    - SFTPGo you need to create an admin user
+  - type: status
+    status:
+    - 200
+  condition: and

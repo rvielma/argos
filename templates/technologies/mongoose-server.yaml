@@ -1,0 +1,21 @@
+id: mongoose-server
+name: Mongoose Server
+severity: info
+confidence: confirmed
+description: Mongoose is a embedded web server
+reference: https://github.com/cesanta/mongoose
+tags:
+- tech
+- mongoose
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: header
+    words:
+    - 'Server: Mongoose'
+  - type: status
+    status:
+    - 200
+  condition: and

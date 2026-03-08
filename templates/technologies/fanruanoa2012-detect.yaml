@@ -1,0 +1,22 @@
+id: fanruanoa2012-detect
+name: FanRuanOA2012-detect
+severity: info
+confidence: tentative
+description: FanRuanOA2012-detect
+tags:
+- oa
+- java
+- fanruan
+- tech
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: status
+    status:
+    - 200
+  - type: body
+    words:
+    - down.download?FM_SYS_ID
+  condition: and

@@ -1,0 +1,24 @@
+id: securityspy-detect
+name: SecuritySpy Camera Panel - Detect
+severity: info
+confidence: tentative
+description: SecuritySpy Camera panel was detected.
+reference: CWE-200
+tags:
+- unauth
+- iot
+- securityspy
+- panel
+- camera
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>SecuritySpy</title>
+  - type: status
+    status:
+    - 200
+  condition: and

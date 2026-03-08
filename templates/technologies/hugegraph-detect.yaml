@@ -1,0 +1,22 @@
+id: hugegraph-detect
+name: HugeGraph - Detect
+severity: info
+confidence: confirmed
+description: A huge graph technology was detected.
+reference: https://hugegraph.apache.org/
+tags:
+- hugegraph
+- tech
+- detect
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - '"service":"hugegraph"'
+  - type: status
+    status:
+    - 200
+  condition: and

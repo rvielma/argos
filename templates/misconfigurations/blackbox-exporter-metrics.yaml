@@ -1,0 +1,23 @@
+id: blackbox-exporter-metrics
+name: Blackbox Exporter Metrics Exposed
+severity: info
+confidence: confirmed
+description: Blackbox Exporter Metrics Exposed
+tags:
+- blackbox
+- exposure
+- debug
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /metrics
+  matchers:
+  - type: body
+    words:
+    - Blackbox exporter
+    - blackbox_exporter_build_info
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,21 @@
+id: rosariosis-detect
+name: Rosariosis Detect
+severity: info
+confidence: tentative
+description: Rosariosis Detect
+reference: https://github.com/francoisjacquet/rosariosis
+tags:
+- tech
+- rosariosis
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: header
+    words:
+    - RosarioSIS=
+  - type: status
+    status:
+    - 200
+  condition: and

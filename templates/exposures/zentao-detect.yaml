@@ -1,0 +1,19 @@
+id: zentao-detect
+name: Zentao Panel - Detect
+severity: info
+confidence: tentative
+description: Zentao panel was detected.
+reference: CWE-200
+tags:
+- panel
+- easycorp
+- discovery
+requests:
+- method: GET
+  path: /zentao/index.php?mode=getconfig
+  matchers:
+  - type: body
+    words:
+    - '"sessionName":"zentaosid"'
+    - '{"version":"'
+  condition: or

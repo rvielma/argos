@@ -1,0 +1,30 @@
+id: umbraco-miniprofiler-exposure
+name: Umbraco Mini Profiler - Exposure
+severity: low
+confidence: tentative
+description: Detected the exposure of the MiniProfiler debugging interface in Umbraco CMS. When exposed, it can reveal sensitive
+  information including SQL queries, execution times, stack traces, and internal application details.
+reference: https://miniprofiler.com/
+tags:
+- umbraco
+- miniprofiler
+- exposure
+- debug
+- misconfig
+requests:
+- method: GET
+  path: /mini-profiler-resources/results
+  matchers: &id001
+  - type: body
+    words:
+    - StartupProfiler
+    - var profiler =
+    - '"DurationMilliseconds"'
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /umbraco/mini-profiler-resources/results
+  matchers: *id001
+  condition: and

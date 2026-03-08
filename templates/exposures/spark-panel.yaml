@@ -1,0 +1,22 @@
+id: spark-panel
+name: Apache Spark Panel - Detect
+severity: info
+confidence: confirmed
+description: Apache Spark panel was detected.
+reference: CWE-200
+tags:
+- panel
+- spark
+- apache
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - url=servlet/hype
+  - type: status
+    status:
+    - 200
+  condition: and

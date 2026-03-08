@@ -1,0 +1,22 @@
+id: unauth-axyom-network-manager
+name: Unauthenticated Axyom Network Manager
+severity: high
+confidence: confirmed
+description: Axyom Network Manager exposed.
+tags:
+- misconfig
+- axyom
+- exposure
+- unauth
+- vuln
+requests:
+- method: GET
+  path: /home
+  matchers:
+  - type: body
+    words:
+    - Axyom Network Manager
+  - type: status
+    status:
+    - 200
+  condition: and

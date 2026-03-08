@@ -1,0 +1,24 @@
+id: avideo-detect
+name: Avideo Detect
+severity: info
+confidence: confirmed
+description: Avideo Detect
+tags:
+- tech
+- avideo
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: regex
+    regex:
+    - <title>(.*)AVideo(.*)</title>
+    - AVideo Analytics
+  - type: header
+    words:
+    - /install/index.php
+  - type: status
+    status:
+    - 200
+  condition: and

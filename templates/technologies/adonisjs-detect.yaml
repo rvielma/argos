@@ -1,0 +1,19 @@
+id: adonisjs-detect
+name: AdonisJS - Detect
+severity: info
+confidence: confirmed
+description: AdonisJS framework was detected.
+reference: https://adonisjs.com
+tags:
+- tech
+- adonisjs
+- detect
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: header
+    words:
+    - 'X-Powered-By: AdonisJs'
+  condition: or

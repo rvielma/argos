@@ -1,0 +1,27 @@
+id: epson-web-control-detect
+name: Epson Printer
+severity: info
+confidence: tentative
+description: An Epson printer web panel was discovered.
+reference: CWE-200
+tags:
+- panel
+- unauth
+- epson
+- edb
+- iot
+- printer
+- discovery
+requests:
+- method: GET
+  path: /cgi-bin/home
+  matchers:
+  - type: body
+    words:
+    - Epson Web Control
+    - Basic Control
+    - Advanced
+  - type: status
+    status:
+    - 200
+  condition: and

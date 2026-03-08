@@ -1,0 +1,22 @@
+id: magmi-detect
+name: MAGMI (Magento Mass Importer) Plugin Detect
+severity: info
+confidence: confirmed
+description: MAGMI (Magento Mass Importer) Plugin Detect
+tags:
+- magento
+- magmi
+- plugin
+- tech
+- discovery
+requests:
+- method: GET
+  path: /magmi/web/js/magmi_utils.js
+  matchers:
+  - type: body
+    words:
+    - magmi_multifield
+  - type: status
+    status:
+    - 200
+  condition: and

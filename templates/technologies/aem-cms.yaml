@@ -1,0 +1,17 @@
+id: aem-cms
+name: AEM Finder
+severity: info
+confidence: tentative
+description: AEM Finder
+tags:
+- aem
+- tech
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Welcome to Adobe Experience Manager
+  condition: or

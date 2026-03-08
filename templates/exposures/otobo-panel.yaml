@@ -1,0 +1,21 @@
+id: otobo-panel
+name: OTOBO Login Panel - Detect
+severity: info
+confidence: tentative
+description: OTOBO login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- otobo
+- discovery
+requests:
+- method: GET
+  path: /otobo/index.pl
+  matchers:
+  - type: regex
+    regex:
+    - <title>(.*)OTOBO(.*)</title>
+  - type: status
+    status:
+    - 200
+  condition: and

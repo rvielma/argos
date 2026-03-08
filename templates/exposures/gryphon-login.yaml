@@ -1,0 +1,20 @@
+id: gryphon-login
+name: Gryphon Panel - Detect
+severity: info
+confidence: tentative
+description: Gryphon router panel was detected.
+reference: CWE-200
+tags:
+- panel
+- gryphon
+- router
+- discovery
+requests:
+- method: GET
+  path: /cgi-bin/luci/
+  matchers:
+  - type: body
+    words:
+    - Gryphon
+    - Welcome to GryphonCare
+  condition: or

@@ -1,0 +1,21 @@
+id: zblogphp-panel
+name: Z-BlogPHP Panel - Detect
+severity: info
+confidence: tentative
+description: Z-BlogPHP panel was detected.
+reference: CWE-200
+tags:
+- panel
+- zblogphp
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <meta name="generator" content="Z-BlogPHP
+  - type: status
+    status:
+    - 200
+  condition: and

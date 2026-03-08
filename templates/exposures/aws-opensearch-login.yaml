@@ -1,0 +1,23 @@
+id: aws-opensearch-login
+name: AWS OpenSearch Login - Detect
+severity: info
+confidence: tentative
+description: AWS OpenSearch login page was detected.
+reference: CWE-200
+tags:
+- panel
+- opensearch
+- aws
+- amazon
+- discovery
+requests:
+- method: GET
+  path: /_dashboards/app/login
+  matchers:
+  - type: status
+    status:
+    - 200
+  - type: body
+    words:
+    - Please login to OpenSearch Dashboards
+  condition: and

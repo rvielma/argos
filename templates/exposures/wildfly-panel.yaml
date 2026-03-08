@@ -1,0 +1,23 @@
+id: wildfly-panel
+name: WildFly Welcome Page - Tech Detect
+severity: info
+confidence: tentative
+description: WildFly welcome page was detected.
+reference: CWE-200
+tags:
+- panel
+- jboss
+- wildfly
+- redhat
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Welcome to WildFly
+  - type: status
+    status:
+    - 200
+  condition: and

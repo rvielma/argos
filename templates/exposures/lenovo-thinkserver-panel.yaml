@@ -1,0 +1,22 @@
+id: lenovo-thinkserver-panel
+name: Lenovo ThinkServer System Manager Login Panel - Detect
+severity: info
+confidence: tentative
+description: Lenovo ThinkServer System Manager login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- thinkserver
+- lenovo
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Lenovo ThinkServer System Manager - Login</title>
+  - type: status
+    status:
+    - 200
+  condition: and

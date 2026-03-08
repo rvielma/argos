@@ -1,0 +1,28 @@
+id: jaspersoft-panel
+name: TIBCO Jaspersoft Login Panel - Detect
+severity: info
+confidence: tentative
+description: TIBCO Jaspersoft login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- jaspersoft
+- tibco
+- discovery
+requests:
+- method: GET
+  path: /jasperserver/login.html?error=1
+  matchers: &id001
+  - type: body
+    words:
+    - 'TIBCO Jaspersoft: Login'
+    - Could not login to JasperReports Server
+    - About TIBCO JasperReports Server
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /jasperserver-pro/login.html?error=1
+  matchers: *id001
+  condition: and

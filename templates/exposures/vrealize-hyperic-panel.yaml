@@ -1,0 +1,24 @@
+id: vrealize-hyperic-panel
+name: vRealize Hyperic Login Panel - Detect
+severity: info
+confidence: confirmed
+description: vRealize Hyperic login panel was detected
+reference: CWE-200
+tags:
+- login
+- panel
+- vrealize
+- hyperic
+- detect
+- discovery
+requests:
+- method: GET
+  path: /app/login
+  matchers:
+  - type: body
+    words:
+    - Sign In - Hyperic
+  - type: status
+    status:
+    - 200
+  condition: and

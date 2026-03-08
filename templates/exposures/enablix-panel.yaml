@@ -1,0 +1,21 @@
+id: enablix-panel
+name: Enablix Panel - Detect
+severity: info
+confidence: tentative
+description: Enablix panel was detected.
+tags:
+- enablix
+- login
+- panel
+- discovery
+requests:
+- method: GET
+  path: /login.html#/login
+  matchers:
+  - type: body
+    words:
+    - <title>Enablix</title>
+  - type: status
+    status:
+    - 200
+  condition: and

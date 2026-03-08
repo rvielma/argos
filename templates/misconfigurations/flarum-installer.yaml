@@ -1,0 +1,24 @@
+id: flarum-installer
+name: Flarum Installation Page - Exposure
+severity: high
+confidence: confirmed
+description: Detects exposed Flarum installation pages which could allow unauthorized access or information disclosure.
+reference: https://flarum.org/
+tags:
+- misconfig
+- install
+- exposure
+- flarum
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Install Flarum</title>
+    - Admin Password
+  - type: status
+    status:
+    - 200
+  condition: and

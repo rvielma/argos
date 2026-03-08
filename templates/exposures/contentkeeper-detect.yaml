@@ -1,0 +1,25 @@
+id: contentkeeper-detect
+name: ContentKeeper Cloud Panel - Detect
+severity: info
+confidence: tentative
+description: ContentKeeper Cloud panel was detected.
+reference: CWE-200
+tags:
+- contentkeeper
+- panel
+- discovery
+requests:
+- method: GET
+  path: /cgi-bin/ck/domenu.cgi
+  matchers:
+  - type: status
+    status:
+    - 200
+  - type: body
+    words:
+    - ContentKeeper Technologies</div>
+    - ContentKeeper</span>.com
+  - type: header
+    words:
+    - text/html
+  condition: and

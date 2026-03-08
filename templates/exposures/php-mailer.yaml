@@ -1,0 +1,22 @@
+id: php-mailer
+name: PHPMailer Panel - Detect
+severity: info
+confidence: confirmed
+description: PHPMailer panel was detected.
+reference: CWE-200
+tags:
+- panel
+- php
+- mailer
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>PHP Mailer</title>
+  - type: status
+    status:
+    - 200
+  condition: and

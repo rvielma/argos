@@ -1,0 +1,24 @@
+id: spark-webui-unauth
+name: Unauthenticated Spark WebUI
+severity: medium
+confidence: tentative
+description: Spark WebUI is exposed to external users without any authentication.
+reference: https://github.com/vulhub/vulhub/tree/master/spark/unacc
+tags:
+- unauth
+- vulhub
+- spark
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: status
+    status:
+    - 200
+  - type: body
+    words:
+    - <title>Spark Master at spark://
+    - <strong>URL:</strong>
+  condition: and

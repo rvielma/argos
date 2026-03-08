@@ -1,0 +1,24 @@
+id: spring-eureka
+name: Spring Eureka Exposure
+severity: low
+confidence: confirmed
+description: Spring Eureka is exposed.
+tags:
+- misconfig
+- springboot
+- exposure
+- eureka
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Eureka
+    - Toggle navigation
+    - Last 1000 since startup
+  - type: status
+    status:
+    - 200
+  condition: and

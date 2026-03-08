@@ -1,0 +1,21 @@
+id: axigen-webadmin
+name: Axigen Web Admin Detection
+severity: info
+confidence: tentative
+description: An Axigen Web Admin panel was discovered.
+reference: CWE-200
+tags:
+- axigen
+- panel
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Axigen WebAdmin</title>
+  - type: status
+    status:
+    - 200
+  condition: and

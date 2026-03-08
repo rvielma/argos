@@ -1,0 +1,17 @@
+id: kafka-cruise-control
+name: Kafka Cruise Control UI
+severity: medium
+confidence: tentative
+description: Kafka Cruise Control UI is exposed.
+tags:
+- kafka
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Kafka Cruise Control UI</title>
+  condition: or

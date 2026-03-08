@@ -1,0 +1,23 @@
+id: ibm-decision-server-runtime
+name: IBM Decision Server Runtime Panel- Detect
+severity: info
+confidence: confirmed
+description: IBM Decision Server Runtime was detected.
+reference: https://www.ibm.com/docs/en/odm/8.10?topic=services-hosted-transparent-decision
+tags:
+- ibm
+- detect
+- tech
+- decision-server
+- discovery
+requests:
+- method: GET
+  path: /DecisionService/
+  matchers:
+  - type: body
+    words:
+    - <title>Hosted Transparent Decision Service</title>
+  - type: status
+    status:
+    - 200
+  condition: and

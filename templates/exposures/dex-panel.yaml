@@ -1,0 +1,23 @@
+id: dex-panel
+name: Dex Authentication - Panel
+severity: info
+confidence: confirmed
+description: Dex Authentication - Panel
+reference: CWE-200
+tags:
+- dex
+- sso
+- panel
+- login
+- discovery
+requests:
+- method: GET
+  path: /dex/auth
+  matchers:
+  - type: body
+    words:
+    - Log in to dex
+  - type: status
+    status:
+    - 200
+  condition: and

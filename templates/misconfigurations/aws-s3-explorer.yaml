@@ -1,0 +1,27 @@
+id: aws-s3-explorer
+name: Amazon Web Services S3 Explorer - Detect
+severity: medium
+confidence: confirmed
+description: Amazon Web Services S3 Explorer page was detected. Page contains links to sensitive information.
+reference: CWE-200
+tags:
+- s3
+- edb
+- misconfig
+- aws
+- amazon
+- vuln
+requests:
+- method: GET
+  path: /index.html
+  matchers:
+  - type: body
+    words:
+    - <title>AWS S3 Explorer</title>
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

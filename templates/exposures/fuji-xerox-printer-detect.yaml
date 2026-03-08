@@ -1,0 +1,23 @@
+id: fuji-xerox-printer-detect
+name: Fuji Xerox Printer Panel - Detect
+severity: info
+confidence: confirmed
+description: Fuji Xerox printer panel was detected.
+reference: CWE-200
+tags:
+- iot
+- panel
+- fuji
+- printer
+- discovery
+requests:
+- method: GET
+  path: /hdstat.htm
+  matchers:
+  - type: body
+    words:
+    - Fuji Xerox Co., Ltd
+  - type: status
+    status:
+    - 200
+  condition: and

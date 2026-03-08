@@ -1,0 +1,22 @@
+id: mach-proweb-login
+name: MACH-ProWeb Login Panel - Detect
+severity: info
+confidence: confirmed
+description: MACH-ProWeb login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- machproweb
+- edb
+- discovery
+requests:
+- method: GET
+  path: /login.html
+  matchers:
+  - type: body
+    words:
+    - Log on to MACH-ProWeb
+  - type: status
+    status:
+    - 200
+  condition: and

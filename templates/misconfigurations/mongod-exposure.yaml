@@ -1,0 +1,22 @@
+id: mongod-exposure
+name: MongoD Server - Exposure
+severity: low
+confidence: confirmed
+description: MongoD Server - Exposure
+tags:
+- mongod
+- exposure
+- info-leak
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>mongod
+    - List all commands
+  - type: status
+    status:
+    - 200
+  condition: and

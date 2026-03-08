@@ -1,0 +1,32 @@
+id: drupal-user-enum-redirect
+name: Drupal User Enumeration [Redirect]
+severity: info
+confidence: confirmed
+description: Drupal User Enumeration [Redirect]
+tags:
+- drupal
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /user/0
+  matchers: &id001
+  - type: regex
+    regex:
+    - '(?i)Location: https?:\/\/[\w\.\-]+[:\/\w-]*\/users\/\w+'
+  - type: status
+    status:
+    - 301
+  condition: and
+- method: GET
+  path: /user/1
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /user/2
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /user/3
+  matchers: *id001
+  condition: and

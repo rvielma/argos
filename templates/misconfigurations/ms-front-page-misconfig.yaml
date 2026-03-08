@@ -1,0 +1,40 @@
+id: ms-front-page-misconfig
+name: Microsoft FrontPage Configuration - Exposure
+severity: low
+confidence: confirmed
+description: Microsoft FrontPage Server Extensions configuration files were accessible, exposing version details, directory
+  paths, and other configurations. This was a common misconfiguration on old (2000s) IIS servers with FrontPage Server Extensions
+  installed.
+reference: https://docs.microsoft.com/en-us/archive/blogs/fabdulwahab/security-protecting-sharepoint-server-applications
+tags:
+- misconfig
+- exposure
+- frontpage
+- microsoft
+- vuln
+requests:
+- method: GET
+  path: /_vti_inf.html
+  matchers: &id001
+  - type: body
+    words:
+    - 'vti_extenderversion:'
+    - FPVersion=
+    - 'PasswordDir:'
+    - 'Catalog for database:'
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /_vti_pvt/service.cnf
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /_vti_pvt/access.cnf
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /_vti_txt/default.wti/All.cat
+  matchers: *id001
+  condition: and

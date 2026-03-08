@@ -1,0 +1,25 @@
+id: docker-registry-browser-detect
+name: Docker Registry Browser - Detect
+severity: info
+confidence: confirmed
+description: Detected the presence of Docker Registry Browser technology based on known paths and characteristic content in
+  the HTTP response.
+reference: https://github.com/klausmeyer/docker-registry-browser
+tags:
+- docker
+- registry
+- browser
+- ui
+- tech
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Docker Registry Browser</title>
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,24 @@
+id: sphinxonline-panel
+name: SphinxOnline Panel - Detect
+severity: info
+confidence: confirmed
+description: SphinxOnline Login Panel was detected.
+reference: https://www.lesphinx-developpement.fr/
+tags:
+- panel
+- sphinxonline
+- login
+- detect
+- discovery
+requests:
+- method: GET
+  path: /SphinxAuth/Account/Login
+  matchers:
+  - type: body
+    words:
+    - <title>Connection - SphinxOnline</title>
+    - SphinxOnline</span>
+  - type: status
+    status:
+    - 200
+  condition: and

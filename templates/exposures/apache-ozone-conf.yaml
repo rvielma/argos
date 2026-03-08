@@ -1,0 +1,26 @@
+id: apache-ozone-conf
+name: Apache Ozone - Exposure
+severity: info
+confidence: tentative
+description: Detects if path /conf of Apache Ozone web application is exposed.
+tags:
+- tech
+- ozone
+- apache
+- detect
+- vuln
+requests:
+- method: GET
+  path: /conf
+  matchers:
+  - type: body
+    words:
+    - <source>ozone-default.xml</source>
+    - ozone
+  - type: body
+    words:
+    - text/xml
+  - type: status
+    status:
+    - 200
+  condition: and

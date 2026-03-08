@@ -1,0 +1,23 @@
+id: ruckus-wireless-admin-login
+name: Ruckus Wireless Admin Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Ruckus Wireless admin login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- exposed
+- ruckus
+- ruckuswireless
+- discovery
+requests:
+- method: GET
+  path: /login.asp
+  matchers:
+  - type: body
+    words:
+    - <title>Ruckus Wireless Admin</title>
+  - type: status
+    status:
+    - 200
+  condition: and

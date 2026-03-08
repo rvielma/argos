@@ -1,0 +1,23 @@
+id: dependency-track-panel
+name: Dependency-Track Login - Panel
+severity: info
+confidence: confirmed
+description: Dependency Track login panel was discovered.
+reference: https://docs.dependencytrack.org
+tags:
+- panel
+- login
+- dependency
+- track
+- discovery
+requests:
+- method: GET
+  path: /login?redirect=%2Fdashboard
+  matchers:
+  - type: body
+    words:
+    - <title>Dependency-Track</title>
+  - type: status
+    status:
+    - 200
+  condition: and

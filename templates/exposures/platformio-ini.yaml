@@ -1,0 +1,24 @@
+id: platformio-ini
+name: Platformio Config File Disclosure
+severity: low
+confidence: confirmed
+description: “platformio.ini” (Project Configuration File) was detected.
+reference: https://docs.platformio.org/en/stable/projectconf/index.html
+tags:
+- config
+- exposure
+- platformio
+- vuln
+requests:
+- method: GET
+  path: /platformio.ini
+  matchers:
+  - type: body
+    words:
+    - '[platformio]'
+    - platform =
+    - board =
+  - type: status
+    status:
+    - 200
+  condition: and

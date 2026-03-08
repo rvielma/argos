@@ -1,0 +1,17 @@
+id: jenkins-async-people
+name: Jenkins panel async-people
+severity: info
+confidence: tentative
+description: Jenkins panel async-people
+reference: https://bugs.eclipse.org/bugs/show_bug.cgi?id=564944
+tags:
+- jenkins
+- vuln
+requests:
+- method: GET
+  path: /asynchPeople/
+  matchers:
+  - type: body
+    words:
+    - <title>People -  [Jenkins]</title>
+  condition: or

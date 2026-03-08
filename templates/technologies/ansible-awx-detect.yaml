@@ -1,0 +1,22 @@
+id: ansible-awx-detect
+name: Ansible AWX Detection
+severity: info
+confidence: confirmed
+description: Detects Ansible AWX Instance
+reference: https://github.com/ansible/awx
+tags:
+- tech
+- ansible
+- awx
+- discovery
+requests:
+- method: GET
+  path: /api/
+  matchers:
+  - type: body
+    words:
+    - '"description":"AWX REST API"'
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,29 @@
+id: fastly-debug-headers
+name: Fastly CDN Debug Headers Exposure
+severity: info
+confidence: confirmed
+description: Detected Fastly CDN debug headers being exposed when the Fastly-Debug header was sent in a request.This exposure
+  disclosed sensitive debugging information such as cache paths, TTL values, content digests, surrogate keys, and cache server
+  identities, which could help attackers understand CDN configuration and cache behavior.
+reference: https://www.fastly.com/documentation/reference/http/http-headers/Fastly-Debug/
+tags:
+- fastly
+- cdn
+- exposure
+- misconfig
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: regex
+    regex:
+    - (?i)fastly-debug-path:\s*.+
+  - type: regex
+    regex:
+    - (?i)fastly-debug-ttl:\s*.+
+  - type: regex
+    regex:
+    - (?i)fastly-debug-digest:\s*.+
+  condition: or
+  headers:
+    Fastly-Debug: '1'

@@ -1,0 +1,27 @@
+id: springboot-status
+name: Spring Boot Status Actuator Panel - Detect
+severity: info
+confidence: confirmed
+description: Spring Boot Status Actuator panel was detected.
+reference: CWE-200
+tags:
+- misconfig
+- springboot
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /status
+  matchers: &id001
+  - type: body
+    words:
+    - '"freeMemory":'
+    - '"maxMemory":'
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /actuator/status
+  matchers: *id001
+  condition: and

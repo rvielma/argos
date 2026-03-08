@@ -1,0 +1,23 @@
+id: ws-ftp-ini
+name: WS FTP File Disclosure
+severity: low
+confidence: confirmed
+description: WS FTP file is disclosed.
+tags:
+- exposure
+- ftp
+- files
+- vuln
+requests:
+- method: GET
+  path: /ws_ftp.ini
+  matchers:
+  - type: body
+    words:
+    - HOST=
+    - UID=
+    - DIR=
+  - type: status
+    status:
+    - 200
+  condition: and

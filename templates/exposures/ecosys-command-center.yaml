@@ -1,0 +1,23 @@
+id: ecosys-command-center
+name: ECOSYS Command Center RX Panel - Detect
+severity: info
+confidence: tentative
+description: ECOSYS Command Center RX panel was detected.
+reference: CWE-200
+tags:
+- panel
+- printer
+- ecosys
+- iot
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Command Center RX</title>
+  - type: status
+    status:
+    - 200
+  condition: and

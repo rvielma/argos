@@ -1,0 +1,23 @@
+id: isams-panel
+name: iSAMS Panel - Detect
+severity: info
+confidence: confirmed
+description: iSAMS was detected.
+reference: https://www.isams.com/platform/the-platform
+tags:
+- panel
+- isams
+- login
+- discovery
+requests:
+- method: GET
+  path: /auth
+  matchers:
+  - type: body
+    words:
+    - iSAMS Ltd
+    - iSAMS Authentication Server
+  - type: status
+    status:
+    - 200
+  condition: and

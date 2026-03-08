@@ -1,0 +1,31 @@
+id: auth-json
+name: Auth.json File - Disclosure
+severity: high
+confidence: confirmed
+description: auth.json file is exposed.
+tags:
+- devops
+- exposure
+- files
+- auth
+- config
+- vuln
+requests:
+- method: GET
+  path: /auth.json
+  matchers:
+  - type: body
+    words:
+    - '"http-basic": {'
+    - '"username":'
+    - '"password":'
+  - type: body
+    words:
+    - '"github-oauth": {'
+    - '"github.com":'
+  - type: body
+    words:
+    - '"bitbucket-oauth":'
+    - '"consumer-key":'
+    - '"consumer-secret":'
+  condition: or

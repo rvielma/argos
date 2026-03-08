@@ -1,0 +1,48 @@
+id: yii-debugger
+name: View Yii Debugger Information
+severity: low
+confidence: confirmed
+description: Detects potential exposure to Yii Debugger information.
+reference: https://yii2-framework.readthedocs.io/en/stable/guide/tool-debugger/
+tags:
+- yii
+- debug
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /debug/default/view.html
+  matchers: &id001
+  - type: body
+    words:
+    - <title>Yii Debugger</title>
+    - Status
+    - Route
+    - Log
+    - Time
+    - Memory
+    - DB
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /debug/default/view
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /frontend/web/debug/default/view
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /web/debug/default/view
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /sapi/debug/default/view
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /debug/default
+  matchers: *id001
+  condition: and

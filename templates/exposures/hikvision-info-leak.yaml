@@ -1,0 +1,23 @@
+id: hikvision-info-leak
+name: Hikvision Configuration File - Detect
+severity: medium
+confidence: tentative
+description: Hikvision configuration file was detected.
+reference: CWE-200
+tags:
+- exposure
+- config
+- hikvision
+- vuln
+requests:
+- method: GET
+  path: /config/user.xml
+  matchers:
+  - type: body
+    words:
+    - <user name=
+    - password=
+  - type: header
+    words:
+    - text/xml
+  condition: and

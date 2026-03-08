@@ -1,0 +1,54 @@
+id: silverstripe-detect
+name: SilverStripe Detection
+severity: info
+confidence: tentative
+description: An instance running SilverStripe is detected by looking for specific HTTP headers, HTML tags, and known endpoints.
+tags:
+- silverstripe
+- detect
+- tech
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - Powered by SilverStripe
+    - X-Powered-By-SilverStripe
+  - type: status
+    status:
+    - 200
+    - 403
+  condition: and
+- method: GET
+  path: /robots.txt
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /sitemap.xml
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /favicon.ico
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /index.php
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /assets/
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /cms/
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /admin/
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /themes/
+  matchers: *id001
+  condition: and

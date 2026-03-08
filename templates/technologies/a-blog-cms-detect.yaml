@@ -1,0 +1,20 @@
+id: a-blog-cms-detect
+name: a-blog cms - Detect
+severity: info
+confidence: confirmed
+description: Detects the presence of a-blog cms, a Content Management System.
+reference: https://www.a-blogcms.jp/
+tags:
+- tech
+- discovery
+- cms
+- a-blog-cms
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - a-blog cms
+    - acms-js
+  condition: or

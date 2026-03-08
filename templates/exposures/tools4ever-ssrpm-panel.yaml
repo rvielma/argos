@@ -1,0 +1,23 @@
+id: tools4ever-ssrpm-panel
+name: Tools4Ever Self-Service Reset Password Manager - Panel
+severity: info
+confidence: tentative
+description: Detects Tools4Ever Self-Service Reset Password Manager login panel.
+reference: https://www.tools4ever.com/ssrpm/
+tags:
+- detect
+- panel
+- tools4ever
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: status
+    status:
+    - 200
+  - type: body
+    words:
+    - ssrpmbody
+    - /Scripts/CommonFunctions.js
+  condition: and

@@ -1,0 +1,30 @@
+id: fortinet-fortios-management-panel
+name: Fortinet FortiOS Management Interface Panel - Detect
+severity: info
+confidence: confirmed
+description: Fortinet FortiOS Management interface panel was detected.
+reference: CWE-200
+tags:
+- panel
+- fortinet
+- fortios
+- fortigate
+- fortiproxy
+- fortiap
+- discovery
+requests:
+- method: GET
+  path: /login?redir=/ng
+  matchers:
+  - type: body
+    words:
+    - <html class="main-app">
+    - <f-icon class="fa-warning
+    - </f-icon>
+  - type: header
+    words:
+    - APSCOOKIE_
+  - type: status
+    status:
+    - 200
+  condition: and

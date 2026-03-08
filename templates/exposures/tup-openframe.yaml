@@ -1,0 +1,27 @@
+id: tup-openframe
+name: T-Up OpenFrame
+severity: info
+confidence: confirmed
+description: T-Up OpenFrame
+reference: https://www.facebook.com/photo/?fbid=642772827893240&set=a.467014098802448
+tags:
+- exposure
+- login
+- tup
+- openframe
+- panel
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - T-Up OpenFrame
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

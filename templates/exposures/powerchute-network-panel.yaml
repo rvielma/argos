@@ -1,0 +1,22 @@
+id: powerchute-network-panel
+name: PowerChute Network Shutdown Panel - Detect
+severity: info
+confidence: confirmed
+description: PowerChute Network Shutdown Panel - Detect
+tags:
+- panel
+- login
+- powerchute
+- detect
+- discovery
+requests:
+- method: GET
+  path: /login
+  matchers:
+  - type: body
+    words:
+    - <title>PowerChute Network Shutdown</title>
+  - type: status
+    status:
+    - 200
+  condition: and

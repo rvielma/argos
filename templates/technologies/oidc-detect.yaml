@@ -1,0 +1,21 @@
+id: oidc-detect
+name: Detect OpenID Connect provider
+severity: info
+confidence: tentative
+description: Detects OpenID Connect providers. See https://en.wikipedia.org/wiki/OpenID_Connect
+tags:
+- tech
+- oidc
+- discovery
+requests:
+- method: GET
+  path: /.well-known/openid-configuration
+  matchers:
+  - type: status
+    status:
+    - 200
+  - type: body
+    words:
+    - issuer
+    - authorization_endpoint
+  condition: and

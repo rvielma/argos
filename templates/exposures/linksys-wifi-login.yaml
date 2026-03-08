@@ -1,0 +1,23 @@
+id: linksys-wifi-login
+name: Linksys Smart Wi-Fi Login Panel - Detect
+severity: info
+confidence: tentative
+description: Linksys Smart Wi-Fi login panel was detected.
+reference: CWE-200
+tags:
+- tech
+- panel
+- linksys
+- iot
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Linksys Smart Wi-Fi</title>
+  - type: status
+    status:
+    - 200
+  condition: and

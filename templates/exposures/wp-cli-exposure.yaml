@@ -1,0 +1,23 @@
+id: wp-cli-exposure
+name: WP-CLI Yaml File Exposure
+severity: info
+confidence: confirmed
+description: WP-CLI Yaml File Exposure
+tags:
+- config
+- exposure
+- wp-cli
+- files
+- vuln
+requests:
+- method: GET
+  path: /wp-cli.yml
+  matchers:
+  - type: body
+    words:
+    - 'apache_modules:'
+    - mod_rewrite
+  - type: status
+    status:
+    - 200
+  condition: and

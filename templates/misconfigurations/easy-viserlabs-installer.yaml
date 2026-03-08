@@ -1,0 +1,22 @@
+id: easy-viserlabs-installer
+name: Easy Installer by ViserLab - Exposure
+severity: high
+confidence: confirmed
+description: Checks for the presence of a Easy Installer by ViserLab.
+tags:
+- install
+- easy
+- exposure
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /install/
+  matchers:
+  - type: body
+    words:
+    - <title>Easy Installer by ViserLab</title>
+  - type: status
+    status:
+    - 200
+  condition: and

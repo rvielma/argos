@@ -1,0 +1,23 @@
+id: lottie-backdoor
+name: Lottie Player - Backdoor
+severity: critical
+confidence: tentative
+description: Detectes vulnerable compormised version of lottie-player JS Library that were compormised with a Web3 wallet
+  pop-up backdoor.
+reference: https://github.com/LottieFiles/lottie-player/issues/254
+tags:
+- cdn
+- lottie-player
+- backdoor
+- malware
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - lottie-player@2.0.5
+    - lottie-player@2.0.6
+    - lottie-player@2.0.7
+  condition: or

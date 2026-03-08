@@ -1,0 +1,49 @@
+id: sensitive-storage-data-expose
+name: Sensitive Storage Data - Detect
+severity: medium
+confidence: tentative
+description: A generic search for 'storage' in sensitive key files, file names, logs, etc., returned a match.
+reference: CWE-200
+tags:
+- expose
+- listing
+- config
+- logs
+- storage
+- edb
+- files
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /storage/
+  matchers: &id001
+  - type: body
+    words:
+    - Index of
+    - oauth-private.key
+    - oauth-private.key
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /api_smartapp/storage/
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /equipbid/storage/
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /server/storage/
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /intikal/storage/
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /elocker_old/storage/
+  matchers: *id001
+  condition: and

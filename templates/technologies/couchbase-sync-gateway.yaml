@@ -1,0 +1,20 @@
+id: couchbase-sync-gateway
+name: Couchbase Sync Gateway
+severity: info
+confidence: tentative
+description: Couchbase Sync Gateway
+tags:
+- tech
+- couchbase
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Couchbase Sync Gateway
+  - type: header
+    words:
+    - application/json
+  condition: and

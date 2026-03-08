@@ -1,0 +1,26 @@
+id: browserconfig-xml
+name: Browser Configuration "browserconfig.xml" Exposure
+severity: info
+confidence: confirmed
+description: Browser Configuration "browserconfig.xml" File was exposed.
+reference: https://www.sygnal.com/lessons/browserconfig-xml
+tags:
+- browserconfig
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /browserconfig.xml
+  matchers:
+  - type: body
+    words:
+    - <browserconfig>
+    - </msapplication>
+  - type: body
+    words:
+    - text/xml
+    - application/xml
+  - type: status
+    status:
+    - 200
+  condition: and

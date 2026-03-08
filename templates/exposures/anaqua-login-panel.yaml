@@ -1,0 +1,22 @@
+id: anaqua-login-panel
+name: Anaqua Login - Panel
+severity: info
+confidence: confirmed
+description: Checks for the presence of Anaqua login page
+reference: CWE-200
+tags:
+- anaqua
+- login
+- panel
+- discovery
+requests:
+- method: GET
+  path: /anaqua/Public/Login.aspx?ReturnUrl=%2fanaqua%2f
+  matchers:
+  - type: body
+    words:
+    - Anaqua User Sign On
+  - type: status
+    status:
+    - 200
+  condition: and

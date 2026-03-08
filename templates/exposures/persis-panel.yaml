@@ -1,0 +1,31 @@
+id: persis-panel
+name: Persis Panel - Detect
+severity: info
+confidence: confirmed
+description: Persis panel was detected,
+reference: CWE-200
+tags:
+- panel
+- persis
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - <title>Persis</title>
+    - /persis/
+    - persis.require
+    - persis.ui.progress
+    - images_persis/
+  - type: status
+    status:
+    - 200
+    - 301
+    - 302
+  condition: and
+- method: GET
+  path: /main
+  matchers: *id001
+  condition: and

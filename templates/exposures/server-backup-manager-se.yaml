@@ -1,0 +1,23 @@
+id: server-backup-manager-se
+name: Server Backup Manager SE Panel - Detect
+severity: info
+confidence: tentative
+description: Server Backup Manager SE login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- server
+- backup
+- manager
+- discovery
+requests:
+- method: GET
+  path: /login.zul
+  matchers:
+  - type: regex
+    regex:
+    - <title>.*(Server Backup Manager SE).*</title>
+  - type: status
+    status:
+    - 200
+  condition: and

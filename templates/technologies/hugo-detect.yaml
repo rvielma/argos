@@ -1,0 +1,20 @@
+id: hugo-detect
+name: Hugo Detect
+severity: info
+confidence: confirmed
+description: Hugo is a fast and modern static site generator written in Go
+tags:
+- tech
+- hugo
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <meta name=generator content="Hugo
+  - type: status
+    status:
+    - 200
+  condition: and

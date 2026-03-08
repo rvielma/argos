@@ -1,0 +1,25 @@
+id: rackup-config-ru
+name: Rackup Configuration - Detect
+severity: info
+confidence: confirmed
+description: Rackup configuration information was detected.
+reference: CWE-200
+tags:
+- exposure
+- files
+- config
+- rackup
+- vuln
+requests:
+- method: GET
+  path: /config.ru
+  matchers:
+  - type: body
+    words:
+    - run Rails.application
+    - /config/environment
+  - type: body
+    words:
+    - Bundler.require
+    - require 'rubygems'
+  condition: or

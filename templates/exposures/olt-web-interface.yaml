@@ -1,0 +1,25 @@
+id: olt-web-interface
+name: OLT Web Management Interface Login Panel - Detect
+severity: info
+confidence: confirmed
+description: OLT Web Management Interface login panel was detected.
+reference: CWE-200
+tags:
+- edb
+- panel
+- olt
+- discovery
+requests:
+- method: GET
+  path: /action/login.html
+  matchers:
+  - type: body
+    words:
+    - OLT Web Management Interface
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

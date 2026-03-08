@@ -1,0 +1,20 @@
+id: typo3-detect
+name: TYPO3 Detection
+severity: info
+confidence: tentative
+description: TYPO3 Detection
+tags:
+- tech
+- typo3
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: header
+    words:
+    - 'X-TYPO3-Parsetime:'
+  - type: body
+    words:
+    - <meta name="generator" content="TYPO3
+  condition: or

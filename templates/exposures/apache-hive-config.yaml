@@ -1,0 +1,24 @@
+id: apache-hive-config
+name: Apache Hive Configuration - Exposure
+severity: medium
+confidence: confirmed
+description: Detects if the config page of the Apache Hive is exposed.
+reference: https://github.com/apache/hive
+tags:
+- apache
+- hive
+- config
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /conf
+  matchers:
+  - type: body
+    words:
+    - hive.conf.
+    - <configuration>
+  - type: status
+    status:
+    - 200
+  condition: and

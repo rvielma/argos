@@ -1,0 +1,24 @@
+id: satis-repository
+name: Satis Composer Repository - Detect
+severity: info
+confidence: confirmed
+description: Satis composer repository was detected
+reference: CWE-200
+tags:
+- panel
+- exposure
+- composer
+- satis
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - This is a private repository
+    - https://github.com/composer/satis
+  - type: status
+    status:
+    - 200
+  condition: and

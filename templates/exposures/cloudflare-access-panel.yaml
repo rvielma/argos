@@ -1,0 +1,21 @@
+id: cloudflare-access-panel
+name: Cloudflare Access - Login Panel Detection
+severity: info
+confidence: tentative
+description: Detected exposed Cloudflare Access login pages.
+reference: https://developers.cloudflare.com/cloudflare-one/applications/configure-apps/
+tags:
+- cloudflare
+- panel
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Sign in ・ Cloudflare Access
+  - type: status
+    status:
+    - 200
+  condition: and

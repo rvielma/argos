@@ -1,0 +1,23 @@
+id: espec-web-controller-panel
+name: Espec Web Controller - Panel
+severity: info
+confidence: tentative
+description: Espec Web Controller panel was discovered.
+reference: https://espec.com/na/products/option_detail/web_controller/
+tags:
+- panel
+- espec
+- ics
+- login
+- discovery
+requests:
+- method: GET
+  path: /version
+  matchers:
+  - type: body
+    words:
+    - Espec Web Controller
+  - type: status
+    status:
+    - 200
+  condition: and

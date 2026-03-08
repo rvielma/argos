@@ -1,0 +1,21 @@
+id: hal-management-panel
+name: HAL Management Console Panel
+severity: info
+confidence: confirmed
+description: HAL Management Console login panel was discovered.
+tags:
+- panel
+- login
+- hal
+- discovery
+requests:
+- method: GET
+  path: /console/index.html
+  matchers:
+  - type: body
+    words:
+    - <title>HAL Management Console</title>
+  - type: status
+    status:
+    - 200
+  condition: and

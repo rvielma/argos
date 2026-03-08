@@ -1,0 +1,23 @@
+id: contentify-installer
+name: Contentify Installer Exposure
+severity: high
+confidence: confirmed
+description: Contentify is susceptible to the Installation page exposure due to misconfiguration.
+tags:
+- misconfig
+- contentify
+- install
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /install
+  matchers:
+  - type: body
+    words:
+    - Contentify - Step 1
+    - start the installation
+  - type: status
+    status:
+    - 200
+  condition: and

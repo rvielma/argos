@@ -1,0 +1,19 @@
+id: mako-runtime-error
+name: Mako Runtime Error - Page
+severity: info
+confidence: tentative
+description: Mako Runtime Error - Page
+tags:
+- error
+- mako
+- log
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Mako Runtime Error
+    - TopLevelLookupException
+  condition: and

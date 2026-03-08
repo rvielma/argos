@@ -1,0 +1,26 @@
+id: cobbler-exposed-directory
+name: Exposed Cobbler Directories
+severity: medium
+confidence: tentative
+description: Searches for exposed Cobbler Directories
+tags:
+- cobbler
+- exposure
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /cobbler/
+  matchers: &id001
+  - type: status
+    status:
+    - 200
+  - type: body
+    words:
+    - Index of /cobbler
+    - Index of /cblr
+  condition: and
+- method: GET
+  path: /cblr/
+  matchers: *id001
+  condition: and

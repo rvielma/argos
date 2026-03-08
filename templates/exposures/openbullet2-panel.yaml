@@ -1,0 +1,22 @@
+id: openbullet2-panel
+name: OpenBullet 2 - Panel
+severity: info
+confidence: confirmed
+description: Openbullet was detected.
+tags:
+- openbullet
+- panel
+- login
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>OpenBullet2</title>
+    - <title>Openbullet2WebClient</title>
+  - type: status
+    status:
+    - 200
+  condition: and

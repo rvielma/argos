@@ -1,0 +1,23 @@
+id: librenms-installer
+name: LibreNMS Installation Page - Exposure
+severity: high
+confidence: confirmed
+description: Detects exposed LibreNMS installation page.
+reference: https://docs.librenms.org/Installation/Install-LibreNMS/
+tags:
+- misconfig
+- install
+- exposure
+- librenms
+- vuln
+requests:
+- method: GET
+  path: /install/checks
+  matchers:
+  - type: body
+    words:
+    - LibreNMS Install
+  - type: status
+    status:
+    - 200
+  condition: and

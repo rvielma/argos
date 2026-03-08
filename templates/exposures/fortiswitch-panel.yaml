@@ -1,0 +1,21 @@
+id: fortiswitch-panel
+name: Fortiswitch Panel - Detect
+severity: info
+confidence: confirmed
+description: Fortiswitch panel was detected.
+tags:
+- login
+- panel
+- fortiswitch
+- discovery
+requests:
+- method: GET
+  path: /login
+  matchers:
+  - type: body
+    words:
+    - <title>FortiSwitch
+  - type: status
+    status:
+    - 200
+  condition: and

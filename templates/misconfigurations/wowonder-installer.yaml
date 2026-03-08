@@ -1,0 +1,23 @@
+id: wowonder-installer
+name: WoWonder Installation Page - Exposure
+severity: high
+confidence: confirmed
+description: Detects exposed WoWonder installation page.
+reference: https://www.wowonder.com/
+tags:
+- misconfig
+- install
+- exposure
+- wowonder
+- vuln
+requests:
+- method: GET
+  path: /install/
+  matchers:
+  - type: body
+    words:
+    - WoWonder | Installation
+  - type: status
+    status:
+    - 200
+  condition: and

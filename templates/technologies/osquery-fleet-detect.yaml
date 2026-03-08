@@ -1,0 +1,25 @@
+id: osquery-fleet-detect
+name: OSQuery Fleet Detection Panel - Detect
+severity: info
+confidence: tentative
+description: OSQuery Fleet Detection panel was detected.
+reference: CWE-200
+tags:
+- panel
+- fleet
+- osquery
+- tech
+- discovery
+requests:
+- method: GET
+  path: /login
+  matchers:
+  - type: body
+    words:
+    - Fleet
+    - osquery
+    - /assets/bundle
+  - type: status
+    status:
+    - 200
+  condition: and

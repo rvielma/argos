@@ -1,0 +1,26 @@
+id: encompass-cm1-homepage
+name: Encompass CM1 Home Page - Detect
+severity: info
+confidence: confirmed
+description: Encompass CM1 home page was detected.
+reference: CWE-200
+tags:
+- misconfig
+- encompass
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Encompass CM1 Home Page
+    - 'DIAGNOSTIC LINKS:'
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,18 @@
+id: unauthenticated-lansweeper
+name: Unauthenticated Lansweeper Instance
+severity: high
+confidence: tentative
+description: Lansweeper Instance is exposed.
+tags:
+- lansweeper
+- unauth
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /Default.aspx
+  matchers:
+  - type: body
+    words:
+    - Main page - Lansweeper
+  condition: or

@@ -1,0 +1,23 @@
+id: node-express-status
+name: Node Express Status - Detect
+severity: low
+confidence: confirmed
+description: Node Express Status is detected.
+tags:
+- node
+- express
+- misconfig
+- status
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Express Status
+    - CPU Usage
+  - type: status
+    status:
+    - 200
+  condition: and

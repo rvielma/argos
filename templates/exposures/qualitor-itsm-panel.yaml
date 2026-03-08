@@ -1,0 +1,21 @@
+id: qualitor-itsm-panel
+name: Qualitor ITSM - Detect
+severity: info
+confidence: tentative
+description: Qualitor ITSM login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- qualitor
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Qualitor Web</title>
+  - type: status
+    status:
+    - 200
+  condition: and

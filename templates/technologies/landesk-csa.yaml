@@ -1,0 +1,18 @@
+id: landesk-csa
+name: LANDESK(R) Cloud Services Appliance Detect
+severity: info
+confidence: confirmed
+description: LANDESK(R) Cloud Services Appliance Detect
+tags:
+- tech
+- landesk
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - LANDESK(R)
+    - Cloud Services Appliance
+  condition: or

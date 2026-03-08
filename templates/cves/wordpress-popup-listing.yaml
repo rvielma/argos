@@ -1,0 +1,22 @@
+id: wordpress-popup-listing
+name: WordPress Popup Plugin Directory Listing
+severity: info
+confidence: tentative
+description: Searches for sensitive directories present in the wordpress-popup plugin.
+tags:
+- wordpress
+- listing
+- plugin
+- vuln
+requests:
+- method: GET
+  path: /wp-content/plugins/wordpress-popup/views/admin/
+  matchers:
+  - type: status
+    status:
+    - 200
+  - type: body
+    words:
+    - Index of
+    - /wp-content/plugins/wordpress-popup/views/admin
+  condition: and

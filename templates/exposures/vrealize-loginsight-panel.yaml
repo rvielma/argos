@@ -1,0 +1,22 @@
+id: vrealize-loginsight-panel
+name: vRealize Log Insight - Panel Detect
+severity: info
+confidence: confirmed
+description: Detect vRealize Log Insight login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- vmware
+- vrealize
+- discovery
+requests:
+- method: GET
+  path: /login?loginUrl=%2Findex
+  matchers:
+  - type: body
+    words:
+    - vRealize Log Insight
+  - type: status
+    status:
+    - 200
+  condition: and

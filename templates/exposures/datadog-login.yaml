@@ -1,0 +1,21 @@
+id: datadog-login
+name: Datadog Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Datadog login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- datadog
+- discovery
+requests:
+- method: GET
+  path: /account/login
+  matchers:
+  - type: body
+    words:
+    - '<title>Datadog: Log In</title>'
+  - type: status
+    status:
+    - 200
+  condition: and

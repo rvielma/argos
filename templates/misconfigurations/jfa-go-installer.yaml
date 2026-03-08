@@ -1,0 +1,23 @@
+id: jfa-go-installer
+name: jfa-go Setup Page - Exposure
+severity: high
+confidence: confirmed
+description: Detects exposed jfa-go Setup page.
+reference: https://github.com/hrfee/jfa-go
+tags:
+- misconfig
+- install
+- exposure
+- jfa-go
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Setup - jfa-go
+  - type: status
+    status:
+    - 200
+  condition: and

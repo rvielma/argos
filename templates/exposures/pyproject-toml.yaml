@@ -1,0 +1,26 @@
+id: pyproject-toml
+name: pyproject.toml Configuration - Detect
+severity: info
+confidence: confirmed
+description: pyproject.toml configuration was detected.
+reference: CWE-200
+tags:
+- exposure
+- pyproject
+- pip
+- devops
+- cicd
+- vuln
+requests:
+- method: GET
+  path: /pyproject.toml
+  matchers:
+  - type: body
+    words:
+    - '[tool.black]'
+    - exclude =
+  - type: body
+    words:
+    - '[tool.poetry]'
+    - name =
+  condition: or

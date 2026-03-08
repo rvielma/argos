@@ -1,0 +1,20 @@
+id: operations-automation-default-page
+name: Operations Automation Default Page
+severity: info
+confidence: tentative
+description: Operations Automation Default Page
+tags:
+- tech
+- default
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Operations Automation Default Page</title>
+  - type: status
+    status:
+    - 200
+  condition: and

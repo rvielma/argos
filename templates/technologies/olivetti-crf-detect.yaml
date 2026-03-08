@@ -1,0 +1,20 @@
+id: olivetti-crf-detect
+name: Olivetti CRF Detect
+severity: info
+confidence: tentative
+description: Olivetti CRF Detect
+tags:
+- tech
+- olivetti
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <TITLE>Olivetti CRF</TITLE>
+  - type: status
+    status:
+    - 200
+  condition: and

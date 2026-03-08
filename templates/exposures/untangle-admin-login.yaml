@@ -1,0 +1,29 @@
+id: untangle-admin-login
+name: Untangle Administrator Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Untangle Administrator is a centralized web-based management console that allows administrators to efficiently
+  configure, monitor, and control various network security and filtering features provided by the Untangle NG Firewall, ensuring
+  robust network protection and policy enforcement.
+reference: CWE-200
+tags:
+- panel
+- untangle
+- admin
+- login
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - Untangle Administrator Login
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /auth/login
+  matchers: *id001
+  condition: and

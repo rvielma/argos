@@ -1,0 +1,22 @@
+id: gespage-panel
+name: Gespage Login Panel - Detect
+severity: info
+confidence: tentative
+description: Gespage login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- gespage
+- discovery
+requests:
+- method: GET
+  path: /gespage/webapp/login.xhtml
+  matchers:
+  - type: body
+    words:
+    - <link rel="stylesheet" href="css/gespage.css" />
+    - <link rel="stylesheet" href="css/menugrey.css" />
+  - type: status
+    status:
+    - 200
+  condition: and

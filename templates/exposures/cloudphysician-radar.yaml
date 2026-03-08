@@ -1,0 +1,21 @@
+id: cloudphysician-radar
+name: Cloudphysician RADAR Login Panel - Detect
+severity: info
+confidence: tentative
+description: Cloudphysician RADAR login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- edb
+- discovery
+requests:
+- method: GET
+  path: /login
+  matchers:
+  - type: body
+    words:
+    - <title>Cloudphysician RADAR</title>
+  - type: status
+    status:
+    - 200
+  condition: and

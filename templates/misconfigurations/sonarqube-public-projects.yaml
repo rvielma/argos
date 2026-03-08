@@ -1,0 +1,23 @@
+id: sonarqube-public-projects
+name: Sonarqube with public projects
+severity: low
+confidence: tentative
+description: Sonarqube public projects detected.
+reference: https://next.sonarqube.com/sonarqube/web_api/api/components/suggestions?internal=true
+tags:
+- sonarqube
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /api/components/suggestions?recentlyBrowsed=
+  matchers:
+  - type: status
+    status:
+    - 200
+  - type: body
+    words:
+    - '"results":'
+    - '"items":'
+    - '"more":'
+  condition: and

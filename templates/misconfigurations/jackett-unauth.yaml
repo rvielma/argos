@@ -1,0 +1,28 @@
+id: jackett-unauth
+name: Jackett UI - Unauthenticated
+severity: high
+confidence: confirmed
+description: The Jackett UI can be accessed without authentication, potentially exposing sensitive information and configuration
+  settings to unauthorized users.
+tags:
+- unauth
+- misconfig
+- exposure
+- jackett-ui
+- vuln
+requests:
+- method: GET
+  path: /UI/Dashboard
+  matchers: &id001
+  - type: body
+    words:
+    - Jackett
+    - 'API Key:'
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /jackett/UI/Dashboard
+  matchers: *id001
+  condition: and

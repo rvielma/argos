@@ -1,0 +1,39 @@
+id: ruby-rail-storage
+name: Ruby on Rails storage.yml File Disclosure
+severity: low
+confidence: confirmed
+description: Ruby on Rails storage.yml file is disclosed.
+tags:
+- exposure
+- ruby
+- devops
+- files
+- vuln
+requests:
+- method: GET
+  path: /storage.yml
+  matchers: &id001
+  - type: body
+    words:
+    - 'service:'
+    - 'local:'
+  - type: header
+    words:
+    - application/json
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /config/storage.yml
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /ruby/config/storage.yml
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /railsapp/config/storage.yml
+  matchers: *id001
+  condition: and

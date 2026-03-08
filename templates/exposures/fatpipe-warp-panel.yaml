@@ -1,0 +1,22 @@
+id: fatpipe-warp-panel
+name: FatPipe WARP - Panel Detect
+severity: info
+confidence: tentative
+description: the FatPipe WARP administration panel was discovered.
+reference: CWE-200
+tags:
+- tech
+- fatpipe
+- panel
+- discovery
+requests:
+- method: GET
+  path: /fpui/jsp/login.jsp
+  matchers:
+  - type: body
+    words:
+    - <title>FatPipe WARP&nbsp;| Log in</title>
+  - type: status
+    status:
+    - 200
+  condition: and

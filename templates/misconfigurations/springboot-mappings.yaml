@@ -1,0 +1,32 @@
+id: springboot-mappings
+name: Detect Springboot Mappings Actuator
+severity: low
+confidence: tentative
+description: Additional routes may be displayed
+tags:
+- springboot
+- exposure
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /mappings
+  matchers: &id001
+  - type: body
+    words:
+    - mappings
+    - method
+    - produces
+  - type: header
+    words:
+    - application/json
+    - application/vnd.spring-boot.actuator
+    - application/vnd.spring-boot.actuator.v1+json
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /actuator/mappings
+  matchers: *id001
+  condition: and

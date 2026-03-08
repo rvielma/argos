@@ -1,0 +1,25 @@
+id: landrayoa-panel
+name: Landray Login Panel - Detect
+severity: info
+confidence: tentative
+description: Landray login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- landrayoa
+- discovery
+requests:
+- method: GET
+  path: /login.jsp
+  matchers:
+  - type: status
+    status:
+    - 200
+  - type: body
+    words:
+    - lui_login_input_username
+    - lui_login_input_password
+  - type: header
+    words:
+    - isopen=
+  condition: and

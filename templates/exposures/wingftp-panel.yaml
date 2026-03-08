@@ -1,0 +1,19 @@
+id: wingftp-panel
+name: Wing FTP Server Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Detects the presence of Wing FTP Server web interface
+reference: https://www.wftpserver.com/
+tags:
+- panel
+- login
+- wingftp
+- discovery
+requests:
+- method: GET
+  path: /login.html
+  matchers:
+  - type: body
+    words:
+    - Wing FTP Server
+  condition: or

@@ -1,0 +1,42 @@
+id: pi-hole-panel
+name: Pi-hole Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Pi-hole Login Panel - Detect
+tags:
+- tech
+- pihole
+- detect
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - Pi-hole
+    - Web Interface
+    - FTL
+  - type: body
+    words:
+    - <title>Pi-hole
+    - 'Pi-hole: Your black hole for Internet advertisements'
+    - 'Pi-hole: A black hole for Internet advertisements'
+    - <pre>sudo pihole -a -p</pre>
+  condition: or
+- method: GET
+  path: /admin/index.php
+  matchers: *id001
+  condition: or
+- method: GET
+  path: /admin/login.php
+  matchers: *id001
+  condition: or
+- method: GET
+  path: /admin/index.php?login
+  matchers: *id001
+  condition: or
+- method: GET
+  path: /index.php?login
+  matchers: *id001
+  condition: or

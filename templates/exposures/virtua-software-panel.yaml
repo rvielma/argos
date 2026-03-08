@@ -1,0 +1,22 @@
+id: virtua-software-panel
+name: Virtua Software Panel - Detect
+severity: info
+confidence: confirmed
+description: Virtua Software panel was detected.
+reference: CWE-200
+tags:
+- panel
+- virtua
+- virtuasoftware
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title id="tituloPagina">Virtua Software</title>
+  - type: status
+    status:
+    - 200
+  condition: and

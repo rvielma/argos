@@ -1,0 +1,21 @@
+id: ariang-debug-console
+name: AriaNg Debug Console - Exposure
+severity: medium
+confidence: confirmed
+description: Detects the presence of AriaNg Debug Console exposure
+tags:
+- exposure
+- ariang
+- debug
+- console
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - AriaNg Debug Console
+    - '''Downloading'''
+  condition: or

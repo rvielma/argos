@@ -1,0 +1,19 @@
+id: sap-netweaver-webgui
+name: SAP NetWeaver WebGUI Detection
+severity: info
+confidence: tentative
+description: Detection of SAP NetWeaver ABAP Webserver WebGUI
+tags:
+- sap
+- webserver
+- tech
+- discovery
+requests:
+- method: GET
+  path: /sap/bc/gui/sap/its/webgui
+  matchers:
+  - type: body
+    words:
+    - sap-system-login
+    - <title>Logon</title>
+  condition: or

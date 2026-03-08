@@ -1,0 +1,22 @@
+id: sicom-mgrng-login
+name: Sicom MGRNG - Administrative Login Found
+severity: info
+confidence: tentative
+description: Sicom MGRNG administrative login page found.
+reference: CWE-668
+tags:
+- sicom
+- mgrng
+- panel
+- discovery
+requests:
+- method: GET
+  path: /~sicom/mgrng/LoginForm.php
+  matchers:
+  - type: status
+    status:
+    - 200
+  - type: body
+    words:
+    - <title>MGRNG Login</title>
+  condition: and

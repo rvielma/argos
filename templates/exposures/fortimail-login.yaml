@@ -1,0 +1,23 @@
+id: fortimail-login
+name: Fortinet FortiMail Login Panel - Detect
+severity: info
+confidence: tentative
+description: Fortinet FortiMail login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- fortinet
+- fortimail
+- login
+- discovery
+requests:
+- method: GET
+  path: /m/
+  matchers:
+  - type: body
+    words:
+    - <title>FortiMail</title>
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,20 @@
+id: gstorage-detect
+name: Google Bucket detection
+severity: info
+confidence: tentative
+description: Google Bucket detection
+tags:
+- tech
+- gstorage
+- google
+- bucket
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: header
+    words:
+    - x-goog-metageneration
+    - x-goog-generation
+  condition: or

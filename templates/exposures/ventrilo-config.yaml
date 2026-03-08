@@ -1,0 +1,27 @@
+id: ventrilo-config
+name: Ventrilo Configuration File - Detect
+severity: high
+confidence: confirmed
+description: Ventrilo configuration file was detected, The file discloses the application's Adminpassword and Password.
+reference: CWE-200
+tags:
+- ventrilo
+- config
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /ventrilo_srv.ini
+  matchers:
+  - type: body
+    words:
+    - '[Server]'
+    - Name
+    - Phonetic
+  - type: header
+    words:
+    - text/plain
+  - type: status
+    status:
+    - 200
+  condition: and

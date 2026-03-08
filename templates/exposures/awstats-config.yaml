@@ -1,0 +1,28 @@
+id: awstats-config
+name: AWStats Config - Detect
+severity: info
+confidence: tentative
+description: AWStats configuration information was detected.
+reference: CWE-200
+tags:
+- config
+- exposure
+- awstats
+- vuln
+requests:
+- method: GET
+  path: /awstats/
+  matchers: &id001
+  - type: body
+    words:
+    - AWSTATS CONFIGURE
+    - MAIN SETUP SECTION
+  - type: body
+    words:
+    - Index of /awstats
+    - Parent Directory
+  condition: or
+- method: GET
+  path: /awstats.conf
+  matchers: *id001
+  condition: or

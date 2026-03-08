@@ -1,0 +1,22 @@
+id: activecollab-detect
+name: activecollab detect
+severity: info
+confidence: tentative
+description: activecollab detect
+tags:
+- acsoft
+- tech
+- activecollab
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - http://www.activecollab.com
+    - <form method="post" id="system_form_2" class="uniForm focusFirstField">
+  - type: status
+    status:
+    - 200
+  condition: and

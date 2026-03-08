@@ -1,0 +1,22 @@
+id: avantfax-panel
+name: AvantFAX Login Panel
+severity: info
+confidence: tentative
+description: An AvantFAX login panel was discovered.
+reference: CWE-668
+tags:
+- panel
+- avantfax
+- login
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>- AvantFAX - Login</title>
+  - type: status
+    status:
+    - 200
+  condition: and

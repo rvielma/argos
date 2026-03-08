@@ -1,0 +1,21 @@
+id: exposed-darcs
+name: Darcs Configuration - Detect
+severity: info
+confidence: tentative
+description: Darcs configuration was detected.
+reference: CWE-200
+tags:
+- config
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /_darcs/prefs/binaries
+  matchers:
+  - type: body
+    words:
+    - Binary file regexps
+  - type: status
+    status:
+    - 200
+  condition: and

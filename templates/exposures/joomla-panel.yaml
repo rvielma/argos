@@ -1,0 +1,18 @@
+id: joomla-panel
+name: Joomla! Panel
+severity: info
+confidence: tentative
+description: Joomla! Panel
+tags:
+- panel
+- joomla
+- discovery
+requests:
+- method: GET
+  path: /administrator/
+  matchers:
+  - type: body
+    words:
+    - <meta name="generator" content="Joomla! - Open Source Content Management" />
+    - /administrator/templates/isis/images/joomla.png
+  condition: or

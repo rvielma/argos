@@ -1,0 +1,20 @@
+id: envoy-metadata-disclosure
+name: Envoy Proxy - Metadata Disclosure
+severity: info
+confidence: tentative
+description: Detected misconfigured Envoy proxy instances that disclose sensitive information about the target infrastructure
+  via the "x-envoy-peer-metadata" response header.
+reference: https://www.acunetix.com/vulnerabilities/web/envoy-metadata-disclosure/
+tags:
+- envoy
+- exposure
+- misconfig
+- disclosure
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: header
+    words:
+    - x-envoy-peer-metadata
+  condition: or

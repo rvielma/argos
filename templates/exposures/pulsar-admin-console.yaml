@@ -1,0 +1,24 @@
+id: pulsar-admin-console
+name: Pulsar Admin Console Panel - Detect
+severity: info
+confidence: confirmed
+description: Pulsar admin console panel was detected.
+reference: CWE-200
+tags:
+- panel
+- pulsar
+- console
+- admin
+- apache
+- discovery
+requests:
+- method: GET
+  path: /#/admin/dashboard
+  matchers:
+  - type: body
+    words:
+    - <title>Pulsar Admin Console
+  - type: status
+    status:
+    - 200
+  condition: and

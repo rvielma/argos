@@ -1,0 +1,26 @@
+id: unauthenticated-airflow-instance
+name: Unauthenticated Airflow Instance
+severity: high
+confidence: tentative
+description: Airflow Instance is exposed.
+tags:
+- apache
+- airflow
+- unauth
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - <title>Airflow - DAGs</title>
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /admin/
+  matchers: *id001
+  condition: and

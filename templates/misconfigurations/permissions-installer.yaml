@@ -1,0 +1,22 @@
+id: permissions-installer
+name: Permissions Installer Exposure
+severity: high
+confidence: confirmed
+description: Permissions Installer is susceptible to the Installation page exposure due to misconfiguration.
+tags:
+- misconfig
+- permissions
+- install
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title> Permissions | Installer
+  - type: status
+    status:
+    - 200
+  condition: and

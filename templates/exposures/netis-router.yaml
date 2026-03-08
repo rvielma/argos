@@ -1,0 +1,26 @@
+id: netis-router
+name: Netis Router Login Panel - Detect
+severity: info
+confidence: tentative
+description: Netis router login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- login
+- netis
+- router
+- discovery
+requests:
+- method: GET
+  path: /login.htm
+  matchers:
+  - type: body
+    words:
+    - <title>AP setup</title>
+  - type: header
+    words:
+    - 'Server: netis'
+  - type: status
+    status:
+    - 200
+  condition: and

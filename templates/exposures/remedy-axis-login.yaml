@@ -1,0 +1,30 @@
+id: remedy-axis-login
+name: Remedy Axis Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Remedy Axis Login Panel - Detect
+reference: CWE-200
+tags:
+- panel
+- remedy
+- bmc
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - BMC&nbsp;Remedy&nbsp;Mid&nbsp;Tier&nbsp;
+    - Remedy Login Page
+    - BMC Remedy
+    - BMC Smart Reporting
+  condition: or
+- method: GET
+  path: /arsys/shared/login.jsp
+  matchers: *id001
+  condition: or
+- method: GET
+  path: /rsso/admin/
+  matchers: *id001
+  condition: or

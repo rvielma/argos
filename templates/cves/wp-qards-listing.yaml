@@ -1,0 +1,23 @@
+id: wp-qards-listing
+name: WordPress Plugin Qards
+severity: info
+confidence: tentative
+description: Searches for sensitive directories present in the qards plugin.
+tags:
+- wordpress
+- listing
+- wp-plugin
+- wp
+- vuln
+requests:
+- method: GET
+  path: /wp-content/plugins/qards/
+  matchers:
+  - type: body
+    words:
+    - Index of
+    - /wp-content/plugins/qards
+  - type: status
+    status:
+    - 200
+  condition: and

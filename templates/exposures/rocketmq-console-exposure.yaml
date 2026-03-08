@@ -1,0 +1,18 @@
+id: rocketmq-console-exposure
+name: Apache RocketMQ Console Panel - Detect
+severity: info
+confidence: confirmed
+description: Apache RocketMQ Console panel was detected.
+reference: CWE-200
+tags:
+- panel
+- apache
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>RocketMq-console-ng</title>
+  condition: or

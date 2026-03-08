@@ -1,0 +1,31 @@
+id: aem-disk-usage
+name: Adobe AEM Disk Usage Information Disclosure
+severity: low
+confidence: tentative
+description: Adobe AEM Disk Usage Information is exposed.
+reference: https://raw.githubusercontent.com/danielmiessler/SecLists/master/Discovery/Web-Content/aem2.txt
+tags:
+- misconfig
+- aem
+- adobe
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /etc/reports/diskusage.html
+  matchers: &id001
+  - type: body
+    words:
+    - Disk Usage /
+    - <th>nodes</th>
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /etc/reports/diskusage.html?path=/content/dam
+  matchers: *id001
+  condition: and

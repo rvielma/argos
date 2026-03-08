@@ -1,0 +1,24 @@
+id: express-default-page
+name: Express Default Page
+severity: info
+confidence: confirmed
+description: Express Default Page
+tags:
+- tech
+- express
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Express</title>
+    - Welcome to Express
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

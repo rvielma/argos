@@ -1,0 +1,27 @@
+id: audiobookshelf-panel
+name: Audiobookshelf Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Audiobookshelf Login Panel - Detect
+reference: https://github.com/advplyr/audiobookshelf
+tags:
+- panel
+- audiobookshelf
+- detect
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - <title>Audiobookshelf
+    - content="Audiobookshelf
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /login
+  matchers: *id001
+  condition: and

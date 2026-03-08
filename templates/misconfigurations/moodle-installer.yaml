@@ -1,0 +1,25 @@
+id: moodle-installer
+name: Moodle Installation Exposure
+severity: high
+confidence: confirmed
+description: Moodle is susceptible to the Installation page exposure due to misconfiguration.
+tags:
+- misconfig
+- moodle
+- install
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /install.php
+  matchers:
+  - type: body
+    words:
+    - Installation - Moodle
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,21 @@
+id: corebos-panel
+name: coreBOS Panel - Detect
+severity: info
+confidence: confirmed
+description: coreBOS panel was detected.
+reference: CWE-200
+tags:
+- panel
+- corebos
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Powered by coreBOS
+  - type: status
+    status:
+    - 200
+  condition: and

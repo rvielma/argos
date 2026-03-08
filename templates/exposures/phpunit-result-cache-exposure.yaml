@@ -1,0 +1,22 @@
+id: phpunit-result-cache-exposure
+name: PHPUnit Result Cache File Exposure
+severity: low
+confidence: confirmed
+description: PHPUnit cache file is exposed.
+tags:
+- config
+- exposure
+- devops
+- files
+- vuln
+requests:
+- method: GET
+  path: /.phpunit.result.cache
+  matchers:
+  - type: body
+    words:
+    - '"defects"'
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,23 @@
+id: webuzo-admin-panel
+name: Webuzo Admin Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Webuzo admin login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- webuzo
+- admin
+- softaculous
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Webuzo - Admin Panel
+  - type: status
+    status:
+    - 200
+  condition: and

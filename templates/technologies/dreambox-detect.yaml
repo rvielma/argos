@@ -1,0 +1,20 @@
+id: dreambox-detect
+name: DreamBox Detect
+severity: info
+confidence: tentative
+description: DreamBox Detect
+tags:
+- dreambox
+- tech
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: status
+    status:
+    - 200
+  - type: body
+    words:
+    - <title>Dreambox WebControl</title>
+  condition: and

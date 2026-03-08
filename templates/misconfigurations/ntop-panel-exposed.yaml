@@ -1,0 +1,25 @@
+id: ntop-panel-exposed
+name: ntop Network Traffix Exposed
+severity: info
+confidence: confirmed
+description: ntop Network Traffix Exposed
+tags:
+- misconfig
+- ntop
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Configure ntop
+    - directory is properly installed
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

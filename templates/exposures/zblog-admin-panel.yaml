@@ -1,0 +1,22 @@
+id: zblog-admin-panel
+name: Z-BlogPHP Admin Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Z-BlogPHP admin login panel was detected.
+reference: CWE-200
+tags:
+- zblog
+- panel
+- zblogcn
+- discovery
+requests:
+- method: GET
+  path: /zb_system/login.php
+  matchers:
+  - type: body
+    words:
+    - <title>Z-Blog</title>
+  - type: status
+    status:
+    - 200
+  condition: and

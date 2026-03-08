@@ -1,0 +1,33 @@
+id: scalar-detection
+name: Scalar API Documentation - Detect
+severity: info
+confidence: confirmed
+description: Scalar API documentation panel was detected.
+reference: CWE-200
+tags:
+- panel
+- scalar
+- api
+- documentation
+- detect
+- discovery
+requests:
+- method: GET
+  path: /scalar
+  matchers: &id001
+  - type: body
+    words:
+    - Scalar API Reference
+    - '@scalar/api-reference'
+    - scalar-references
+    - src="scalar.js
+    - ./scalar.aspnetcore.js
+    - /scalar/v1
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /
+  matchers: *id001
+  condition: and

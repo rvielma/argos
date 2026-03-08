@@ -1,0 +1,38 @@
+id: qmail-admin-login
+name: QmailAdmin Login Panel - Detect
+severity: info
+confidence: confirmed
+description: QmailAdmin login panel was detected.
+reference: CWE-200
+tags:
+- qmail
+- panel
+- qmail_project
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - QmailAdmin
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /qmailadmin/qmailadmin.cgi
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /cgi-bin/qmailadmin/qmailadmin
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /cgi-bin/qmailadmin
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /cgi-ssl/qmailadmin/qmailadmin
+  matchers: *id001
+  condition: and

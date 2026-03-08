@@ -1,0 +1,22 @@
+id: ntop-detect
+name: Ntop Detect Panel - Detect
+severity: info
+confidence: confirmed
+description: Ntop Detect panel was detected.
+reference: CWE-200
+tags:
+- tech
+- ntop
+- panel
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Welcome to ntop
+  - type: status
+    status:
+    - 200
+  condition: and

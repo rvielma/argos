@@ -1,0 +1,23 @@
+id: ejbca-enterprise-installer
+name: EJBCA Enterprise Cloud Configuration Wizard - Exposure
+severity: high
+confidence: confirmed
+description: Detects exposed EJBCA Enterprise Cloud Installation page.
+reference: https://aws.amazon.com/marketplace/pp/prodview-u2xdo5mkuilke
+tags:
+- misconfig
+- install
+- exposure
+- ejbca
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - EJBCA Enterprise Cloud Configuration Wizard
+  - type: status
+    status:
+    - 200
+  condition: and

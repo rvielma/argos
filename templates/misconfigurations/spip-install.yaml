@@ -1,0 +1,23 @@
+id: spip-install
+name: SPIP Install - Exposure
+severity: high
+confidence: confirmed
+description: SPIP is susceptible to the Installation page exposure due to misconfiguration.
+tags:
+- exposure
+- spip
+- install
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /ecrire/?exec=install
+  matchers:
+  - type: body
+    words:
+    - Installing publication system...
+    - SPIP
+  - type: status
+    status:
+    - 200
+  condition: and

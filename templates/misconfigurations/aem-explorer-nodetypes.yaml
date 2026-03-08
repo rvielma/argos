@@ -1,0 +1,27 @@
+id: aem-explorer-nodetypes
+name: Adobe AEM Explorer NodeTypes Exposure
+severity: high
+confidence: tentative
+description: Adobe AEM Explorer NodeTypes is exposed.
+reference: https://raw.githubusercontent.com/danielmiessler/SecLists/master/Discovery/Web-Content/aem2.txt
+tags:
+- misconfig
+- aem
+- adobe
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /crx/explorer/nodetypes/index.jsp
+  matchers:
+  - type: body
+    words:
+    - nodetypeadmin
+    - Registered Node Types
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,21 @@
+id: eg-manager-detect
+name: eG Manager Detect
+severity: info
+confidence: tentative
+description: eG Manager Detect
+tags:
+- tech
+- eg
+- discovery
+requests:
+- method: GET
+  path: /final/
+  matchers:
+  - type: body
+    words:
+    - <title> eG Innovations, Inc.</title>
+    - eG Innovations, Inc. All Rights Reserved
+  - type: status
+    status:
+    - 200
+  condition: and

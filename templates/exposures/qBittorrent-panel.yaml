@@ -1,0 +1,23 @@
+id: qBittorrent-panel
+name: qBittorrent Web UI Panel - Detect
+severity: info
+confidence: confirmed
+description: qBittorrent Web UI Panel - Detect
+reference: https://www.qbittorrent.org/
+tags:
+- panel
+- qbittorrent
+- detect
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - qBittorrent Web UI
+    - alt="qBittorrent
+  - type: status
+    status:
+    - 200
+  condition: and

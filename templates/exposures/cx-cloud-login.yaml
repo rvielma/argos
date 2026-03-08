@@ -1,0 +1,22 @@
+id: cx-cloud-login
+name: CX Cloud Panel - Detect
+severity: info
+confidence: tentative
+description: CX Cloud panel was detected,
+reference: CWE-200
+tags:
+- panel
+- cx
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - <title>CX Cloud</title>
+  condition: or
+- method: GET
+  path: /cxcum/
+  matchers: *id001
+  condition: or

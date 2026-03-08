@@ -1,0 +1,21 @@
+id: synnefo-admin-panel
+name: Synnefo Admin Login Panel - Detect
+severity: info
+confidence: tentative
+description: Synnefo Admin login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- synnefo
+- discovery
+requests:
+- method: GET
+  path: /synnefoclient/
+  matchers:
+  - type: body
+    words:
+    - <title>Synnefo Admin</title>
+  - type: status
+    status:
+    - 200
+  condition: and

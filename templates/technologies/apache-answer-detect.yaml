@@ -1,0 +1,25 @@
+id: apache-answer-detect
+name: Apache Answer - Detection
+severity: info
+confidence: confirmed
+description: Detects Apache Answer version through API endpoit
+reference: https://answer.apache.org/
+tags:
+- detect
+- tech
+- apache
+- discovery
+requests:
+- method: GET
+  path: /answer/api/v1/siteinfo
+  matchers:
+  - type: body
+    words:
+    - '"code":'
+  - type: header
+    words:
+    - application/json
+  - type: status
+    status:
+    - 200
+  condition: and

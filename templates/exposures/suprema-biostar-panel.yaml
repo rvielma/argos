@@ -1,0 +1,22 @@
+id: suprema-biostar-panel
+name: Suprema BioStar 2 Panel - Detect
+severity: info
+confidence: confirmed
+description: Suprema BioStar 2 Panel - Detect
+tags:
+- panel
+- login
+- biostar
+- detect
+- discovery
+requests:
+- method: GET
+  path: /#/login
+  matchers:
+  - type: body
+    words:
+    - BioStar 2</title>
+  - type: status
+    status:
+    - 200
+  condition: and

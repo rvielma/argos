@@ -1,0 +1,30 @@
+id: atlassian-connect-descriptor
+name: Atlassian Connect Descriptor - Detect
+severity: info
+confidence: confirmed
+description: The app descriptor is a JSON file ( atlassian-connect. json ) that describes the app to the Atlassian application.
+  The descriptor includes general information for the app, as well as the modules that the app wants to use or extend.
+reference: https://developer.atlassian.com/cloud/jira/platform/connect-app-descriptor/
+tags:
+- atlassian
+- tech
+- jira
+- discovery
+requests:
+- method: GET
+  path: /atlassian-connect.json
+  matchers:
+  - type: body
+    words:
+    - '"name":'
+    - '"vendor":'
+    - '"key":'
+    - '"baseUrl":'
+    - '"authentication":'
+  - type: header
+    words:
+    - application/json
+  - type: status
+    status:
+    - 200
+  condition: and

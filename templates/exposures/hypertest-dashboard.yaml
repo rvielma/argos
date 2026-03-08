@@ -1,0 +1,24 @@
+id: hypertest-dashboard
+name: HyperTest Common Dashboard - Detect
+severity: info
+confidence: confirmed
+description: HyperTest Common Dashboard was detected.
+reference: CWE-200
+tags:
+- panel
+- exposure
+- hypertest
+- discovery
+requests:
+- method: GET
+  path: /dashboard/
+  matchers:
+  - type: body
+    words:
+    - <title>HyperTest | Common Dashboard</title>
+    - HyperTest | Dashboard
+    - HyperTest doesn't work
+  - type: header
+    words:
+    - text/html
+  condition: and

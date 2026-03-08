@@ -1,0 +1,20 @@
+id: zap-rest-api-detect
+name: ZAP Rest API Server Running
+severity: info
+confidence: tentative
+description: ZAP Rest API Server Running
+reference: https://www.zaproxy.org/docs/api/
+tags:
+- zap
+- tech
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>ZAP API UI</title>
+    - Welcome to the OWASP Zed Attack Proxy (ZAP)
+    - 'Access-Control-Allow-Headers: ZAP-Header'
+  condition: or

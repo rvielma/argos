@@ -1,0 +1,21 @@
+id: sentinelone-console
+name: SentinelOne Management Console Login Panel - Detect
+severity: info
+confidence: confirmed
+description: SentinelOne Management Console login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- sentinelone
+- discovery
+requests:
+- method: GET
+  path: /login
+  matchers:
+  - type: body
+    words:
+    - SentinelOne - Management Console
+  - type: status
+    status:
+    - 200
+  condition: and

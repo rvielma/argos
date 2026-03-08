@@ -1,0 +1,22 @@
+id: espocrm-installer
+name: Espocrm Installer
+severity: high
+confidence: confirmed
+description: Espocrm is susceptible to the Installation page exposure due to misconfiguration.
+tags:
+- misconfig
+- espocrm
+- install
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /install/
+  matchers:
+  - type: body
+    words:
+    - <title>EspoCRM Installation
+  - type: status
+    status:
+    - 200
+  condition: and

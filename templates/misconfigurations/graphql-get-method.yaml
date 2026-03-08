@@ -1,0 +1,31 @@
+id: graphql-get-method
+name: GraphQL CSRF / GET method
+severity: info
+confidence: tentative
+description: 'Cross Site Request Forgery happens when an external website gains ability to make API calls impersonating an
+  user if he visits the website while being authenticated to your API.
+
+  Allowing API calls through GET requests can lead to CSRF attacks, because cookies are added automatically to GET requests
+  by the browser.'
+reference: https://graphql.org/learn/serving-over-http/#get-request
+tags:
+- graphql
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /graphql?query={__typename}
+  matchers: &id001
+  - type: body
+    words:
+    - '"query"'
+    - '"data"'
+    - '"__typename"'
+  - type: header
+    words:
+    - application/json
+  condition: and
+- method: GET
+  path: /api/graphql?query={__typename}
+  matchers: *id001
+  condition: and

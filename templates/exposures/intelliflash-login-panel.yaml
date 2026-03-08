@@ -1,0 +1,21 @@
+id: intelliflash-login-panel
+name: IntelliFlash Login Panel - Detect
+severity: info
+confidence: tentative
+description: IntelliFlash login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- intelliflash
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>IntelliFlash</title>
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,23 @@
+id: icecast-mediaserver-detect
+name: Icecast Streaming Media Server Information Panel - Detect
+severity: info
+confidence: confirmed
+description: Icecast Streaming Media Server information panel was detected.
+reference: CWE-200
+tags:
+- tech
+- icecast
+- media-server
+- detect
+- discovery
+requests:
+- method: GET
+  path: /server_version.xsl
+  matchers:
+  - type: body
+    words:
+    - Icecast Streaming Media Server
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,24 @@
+id: log4-properties
+name: Log4j Properties - File Disclosure
+severity: low
+confidence: confirmed
+description: Log4j Properties file is exposed.
+reference: https://docs.oracle.com/cd/E29578_01/webhelp/cas_webcrawler/src/cwcg_config_log4j_file.html
+tags:
+- exposure
+- files
+- log4j
+- oracle
+- vuln
+requests:
+- method: GET
+  path: /log4j.properties
+  matchers:
+  - type: body
+    words:
+    - log4j.rootLogger=
+    - log4j.logger
+  - type: status
+    status:
+    - 200
+  condition: and

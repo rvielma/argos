@@ -1,0 +1,23 @@
+id: wowcms-installer
+name: WoW CMS Installer Exposure
+severity: high
+confidence: confirmed
+description: WoW CMS is susceptible to the Installation page exposure due to misconfiguration.
+tags:
+- misconfig
+- wowcms
+- install
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /install/index.php
+  matchers:
+  - type: body
+    words:
+    - <title>WoW-CMS | Installation
+    - WoW-CMS installer page
+  - type: status
+    status:
+    - 200
+  condition: and

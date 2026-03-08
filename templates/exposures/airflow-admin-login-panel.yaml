@@ -1,0 +1,28 @@
+id: airflow-admin-login-panel
+name: Apache Airflow Admin Login Panel
+severity: info
+confidence: tentative
+description: An Apache Airflow admin login panel was discovered.
+reference: CWE-668
+tags:
+- panel
+- apache
+- airflow
+- admin
+- discovery
+requests:
+- method: GET
+  path: /login/
+  matchers: &id001
+  - type: body
+    words:
+    - Airflow - Login
+    - Sign In - Airflow
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /admin/airflow/login
+  matchers: *id001
+  condition: and

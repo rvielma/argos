@@ -1,0 +1,17 @@
+id: default-iis7-page
+name: IIS-7 Default Page
+severity: info
+confidence: tentative
+description: IIS-7 Default Page
+tags:
+- tech
+- iis
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>IIS7</title>
+  condition: or

@@ -1,0 +1,26 @@
+id: frappe-panel
+name: Frappe Panel - Detect
+severity: info
+confidence: confirmed
+description: Frappe ERPNext Login Panel was discovered.
+reference: https://frappeframework.com/
+tags:
+- frappe
+- login
+- web
+- erp
+- detect
+- discovery
+requests:
+- method: GET
+  path: /login#login
+  matchers:
+  - type: body
+    words:
+    - <h4>Login to Frappe</h4>
+    - frappe.csrf_token
+    - frappe.boot
+  - type: status
+    status:
+    - 200
+  condition: and

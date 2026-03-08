@@ -1,0 +1,30 @@
+id: aem-external-link-checker
+name: Adobe AEM External Link Checker Exposure
+severity: info
+confidence: tentative
+description: Adobe AEM External Link Checker Exposure
+reference: https://raw.githubusercontent.com/danielmiessler/SecLists/master/Discovery/Web-Content/aem2.txt
+tags:
+- misconfig
+- aem
+- adobe
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /etc/linkchecker.html
+  matchers: &id001
+  - type: body
+    words:
+    - <title>External Link Checker</title>
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /var/linkchecker.html
+  matchers: *id001
+  condition: and

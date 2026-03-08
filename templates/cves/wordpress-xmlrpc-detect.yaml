@@ -1,0 +1,16 @@
+id: wordpress-xmlrpc-detect
+name: WordPress XMLRPC
+severity: info
+confidence: tentative
+description: WordPress XMLRPC
+tags:
+- wordpress
+- vuln
+requests:
+- method: GET
+  path: /xmlrpc.php
+  matchers:
+  - type: body
+    words:
+    - XML-RPC server accepts POST requests only.
+  condition: or

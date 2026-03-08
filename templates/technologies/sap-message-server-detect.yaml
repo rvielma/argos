@@ -1,0 +1,17 @@
+id: sap-message-server-detect
+name: SAP Message Server HTTP - Detect
+severity: info
+confidence: tentative
+description: Detected SAP Message Server by sending an HTTP request to the root path and checking for SAP Message Server header.
+tags:
+- sap
+- discovery
+- recon
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: header
+    words:
+    - SAP Message Server
+  condition: or

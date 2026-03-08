@@ -1,0 +1,22 @@
+id: pyproject-disclosure
+name: Pyproject Disclosure
+severity: info
+confidence: tentative
+description: Pyproject Disclosure
+reference: https://github.com/detectify/ugly-duckling/blob/master/modules/crowdsourced/pyproject-disclosure.json
+tags:
+- exposure
+- files
+- vuln
+requests:
+- method: GET
+  path: /pyproject.toml
+  matchers:
+  - type: body
+    words:
+    - '[build-system]'
+    - '[tool.poetry]'
+  - type: status
+    status:
+    - 200
+  condition: and

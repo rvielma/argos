@@ -1,0 +1,27 @@
+id: linkerd-panel
+name: Linkerd Panel - Detect
+severity: info
+confidence: confirmed
+description: Linkerd panel was detected.
+reference: CWE-200
+tags:
+- panel
+- misconfig
+- linkerd
+- exposure
+- discovery
+requests:
+- method: GET
+  path: /namespaces
+  matchers:
+  - type: body
+    words:
+    - <title>Linkerd</title>
+    - data-controller-namespace="linkerd
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

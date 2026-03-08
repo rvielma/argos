@@ -1,0 +1,23 @@
+id: tornado-server-login
+name: Tornado Server Panel - Detect
+severity: info
+confidence: confirmed
+description: Tornado server panel was detected.
+reference: CWE-200
+tags:
+- panel
+- tornado
+- tech
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Welcome to Docmosis Tornado
+    - 'Please log in:'
+  - type: status
+    status:
+    - 200
+  condition: and

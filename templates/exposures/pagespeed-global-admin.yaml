@@ -1,0 +1,29 @@
+id: pagespeed-global-admin
+name: Pagespeed Global Admin - Detect
+severity: info
+confidence: tentative
+description: Pagespeed Global Admin panel was detected.
+reference: CWE-200
+tags:
+- pagespeed
+- panel
+- discovery
+requests:
+- method: GET
+  path: /pagespeed-global-admin/
+  matchers:
+  - type: header
+    words:
+    - X-Mod-Pagespeed
+  - type: status
+    status:
+    - 200
+  condition: and
+  headers:
+    X-Client-IP: 127.0.0.1
+    X-Remote-IP: 127.0.0.1
+    X-Remote-Addr: 127.0.0.1
+    X-Forwarded-For: 127.0.0.1
+    X-Originating-IP: 127.0.0.1
+    X-Host: 127.0.0.1
+    X-Forwarded-Host: 127.0.0.1

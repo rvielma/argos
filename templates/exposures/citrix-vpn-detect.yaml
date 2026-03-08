@@ -1,0 +1,18 @@
+id: citrix-vpn-detect
+name: Citrix VPN Panel - Detect
+severity: info
+confidence: tentative
+description: Citrix VPN panel was detected.
+reference: CWE-200
+tags:
+- panel
+- citrix
+- discovery
+requests:
+- method: GET
+  path: /vpn/index.html
+  matchers:
+  - type: body
+    words:
+    - <title>Citrix Gateway</title>
+  condition: or

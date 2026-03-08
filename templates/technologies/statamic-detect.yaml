@@ -1,0 +1,19 @@
+id: statamic-detect
+name: Statamic - Detect
+severity: info
+confidence: confirmed
+description: Statamic is the flat-first, Laravel + Git powered CMS designed for building beautiful, easy to manage websites.
+reference: https://github.com/statamic/cms
+tags:
+- tech
+- statamic
+- detect
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: regex
+    regex:
+    - X-Powered-By:(.*)Statamic
+  condition: or

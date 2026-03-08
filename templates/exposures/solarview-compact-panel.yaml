@@ -1,0 +1,23 @@
+id: solarview-compact-panel
+name: SolarView Compact Panel - Detect
+severity: info
+confidence: confirmed
+description: SolarView Compact panel was detected.
+reference: CWE-200
+tags:
+- panel
+- solarview
+- iot
+- contec
+- discovery
+requests:
+- method: GET
+  path: /Solar_Menu.php
+  matchers:
+  - type: body
+    words:
+    - SolarViewCompact
+  - type: status
+    status:
+    - 200
+  condition: and

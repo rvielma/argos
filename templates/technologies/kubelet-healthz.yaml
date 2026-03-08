@@ -1,0 +1,29 @@
+id: kubelet-healthz
+name: Kubelet Healthz
+severity: info
+confidence: tentative
+description: Scans for kubelet healthz
+tags:
+- tech
+- k8s
+- kubernetes
+- devops
+- kubelet
+- discovery
+requests:
+- method: GET
+  path: /healthz
+  matchers:
+  - type: status
+    status:
+    - 200
+  - type: regex
+    regex:
+    - text/plain
+  - type: body
+    words:
+    - ok
+  - type: header
+    words:
+    - Kubernetes
+  condition: and

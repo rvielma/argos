@@ -1,0 +1,24 @@
+id: bitbucket-pipelines
+name: BitBucket Pipelines Configuration Exposure
+severity: info
+confidence: confirmed
+description: BitBucket Pipelines Configuration Exposure
+tags:
+- exposure
+- bitbucket
+- devops
+- cicd
+- files
+- vuln
+requests:
+- method: GET
+  path: /bitbucket-pipelines.yml
+  matchers:
+  - type: body
+    words:
+    - 'pipelines:'
+    - 'step:'
+  - type: status
+    status:
+    - 200
+  condition: and

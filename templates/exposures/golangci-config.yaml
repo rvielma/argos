@@ -1,0 +1,36 @@
+id: golangci-config
+name: GolangCI-Lint Configuration File - Detect
+severity: info
+confidence: confirmed
+description: GolangCI-Lint configuration file was detected.
+reference: CWE-200
+tags:
+- exposure
+- golang
+- devops
+- cicd
+- vuln
+requests:
+- method: GET
+  path: /.golangci.yml
+  matchers: &id001
+  - type: body
+    words:
+    - 'linters:'
+    - 'linters-settings:'
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /.golangci.yaml
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /.golangci.toml
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /.golangci.json
+  matchers: *id001
+  condition: and

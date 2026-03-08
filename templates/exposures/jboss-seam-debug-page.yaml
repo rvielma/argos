@@ -1,0 +1,23 @@
+id: jboss-seam-debug-page
+name: Jboss Seam Debug Page Enabled
+severity: medium
+confidence: tentative
+description: Jboss Seam Debug Page was exposed.
+reference: https://github.com/jaeles-project/jaeles-signatures/blob/master/common/jboss-seam-debug-page.yaml
+tags:
+- jboss
+- logs
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /debug.seam
+  matchers:
+  - type: body
+    words:
+    - SeamDebugPage
+    - org.jboss.seam
+  - type: status
+    status:
+    - 200
+  condition: and

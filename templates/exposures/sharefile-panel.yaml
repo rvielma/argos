@@ -1,0 +1,26 @@
+id: sharefile-panel
+name: Sharefile Login - Panel
+severity: info
+confidence: confirmed
+description: ShareFile is a cloud-based file sharing and collaboration platform that provides secure access to files from
+  anywhere.
+reference: https://www.sharefile.com/
+tags:
+- sharefile
+- login
+- panel
+- detect
+- citrix
+- discovery
+requests:
+- method: GET
+  path: /Authentication/Login
+  matchers:
+  - type: body
+    words:
+    - ShareFile Login
+    - password
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,41 @@
+id: collibra-properties
+name: Collibra Properties Exposure
+severity: high
+confidence: confirmed
+description: Detected exposed Collibra Properties.
+reference: https://twitter.com/shaybt12/status/1662431219223605254
+tags:
+- exposure
+- config
+- collibra-properties
+- collibra
+- vuln
+requests:
+- method: GET
+  path: /collibra.properties
+  matchers: &id001
+  - type: body
+    words:
+    - collibra.url
+    - collibra.port
+    - collibra.user
+    - collibra.password
+  - type: header
+    words:
+    - text/plain
+    - bytes
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /app/collibra.properties
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /src/collibra.properties
+  matchers: *id001
+  condition: and

@@ -1,0 +1,21 @@
+id: jolokia-acceslogvalve-rce
+name: Jolokia write to RCE valve
+severity: critical
+confidence: tentative
+description: RCE in Jolokia < 1.7.1 using AccesLogValve
+reference: https://github.com/laluka/jolokia-exploitation-toolkit
+tags:
+- jolokia
+- rce
+- vuln
+requests:
+- method: GET
+  path: /jolokia/list
+  matchers:
+  - type: status
+    status:
+    - 200
+  - type: body
+    words:
+    - '"host=localhost,name=AccessLogValve,type=Valve"'
+  condition: and

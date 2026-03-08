@@ -1,0 +1,25 @@
+id: panos-management-panel
+name: PAN-OS Management Panel - Detect
+severity: info
+confidence: confirmed
+description: PAN-OS management panel was detected.
+reference: CWE-200
+tags:
+- panel
+- panos
+- login
+- detect
+- paloaltonetworks
+- discovery
+requests:
+- method: GET
+  path: /php/login.php
+  matchers:
+  - type: body
+    words:
+    - <TITLE>Login</TITLE>
+    - PAN_FORM_CONTENT
+  - type: status
+    status:
+    - 200
+  condition: and

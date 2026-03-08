@@ -1,0 +1,24 @@
+id: homematic-panel
+name: Homematic Panel - Detect
+severity: info
+confidence: tentative
+description: Homematic panel was deetcted.
+reference: CWE-200
+tags:
+- panel
+- homematic
+- iot
+- eq-3
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - HomeMatic Logo
+    - <title>HomeMatic WebUI</title>
+  - type: status
+    status:
+    - 200
+  condition: and

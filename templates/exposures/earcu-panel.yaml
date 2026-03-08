@@ -1,0 +1,22 @@
+id: earcu-panel
+name: eArcu Panel - Detect
+severity: info
+confidence: confirmed
+description: eArcu was detected.
+reference: https://www.earcu.com/products
+tags:
+- panel
+- earcu
+- detect
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - content="eArcu
+  - type: status
+    status:
+    - 200
+  condition: and

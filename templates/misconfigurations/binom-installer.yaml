@@ -1,0 +1,27 @@
+id: binom-installer
+name: Binom Installer Exposure
+severity: high
+confidence: confirmed
+description: Binom is susceptible to the Installation page exposure due to misconfiguration.
+tags:
+- misconfig
+- binom
+- install
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - <title>Install Binom</title>
+    - System check
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /?page=step_1
+  matchers: *id001
+  condition: and

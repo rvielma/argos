@@ -1,0 +1,21 @@
+id: mongodb-ops-manager
+name: MongoDB Ops Manager Login Panel - Detect
+severity: info
+confidence: tentative
+description: MongoDB Ops Manager login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- mongodb
+- discovery
+requests:
+- method: GET
+  path: /account/login
+  matchers:
+  - type: body
+    words:
+    - MongoDB Ops Manager</title>
+  - type: status
+    status:
+    - 200
+  condition: and

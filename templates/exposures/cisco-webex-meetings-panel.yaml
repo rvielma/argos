@@ -1,0 +1,27 @@
+id: cisco-webex-meetings-panel
+name: Cisco Webex Meetings - Panel
+severity: info
+confidence: confirmed
+description: Detects Cisco Webex Meetings panel by requesting the modern Webex dashboard and matching unique Webex HTML markers.
+reference: https://www.webex.com/
+tags:
+- panel
+- cisco
+- webex
+- detect
+- discovery
+- login
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Cisco Webex Meetings
+    - content="Cisco Webex Site
+    - 'webexTimezoneId":'
+    - 'webexClientId":'
+  - type: status
+    status:
+    - 200
+  condition: and

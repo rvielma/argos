@@ -1,0 +1,19 @@
+id: ansible-config-disclosure
+name: Ansible Configuration Page - Detect
+severity: medium
+confidence: tentative
+description: Ansible configuration page was detected.
+reference: CWE-200
+tags:
+- config
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /ansible.cfg
+  matchers:
+  - type: body
+    words:
+    - '[defaults]'
+    - '[inventory]'
+  condition: or

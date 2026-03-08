@@ -1,0 +1,22 @@
+id: pocketbase-detect
+name: PocketBase Detection
+severity: info
+confidence: confirmed
+description: Detected the presence of the PocketBase backend.
+reference: https://pocketbase.io/
+tags:
+- tech
+- pocketbase
+- detect
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>PocketBase
+  - type: status
+    status:
+    - 200
+  condition: and

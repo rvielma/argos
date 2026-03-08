@@ -1,0 +1,22 @@
+id: tableau-service-manager
+name: Tableau Services Manager Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Tableau Services Manager login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- tableau
+- tableausoftware
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Login - Tableau Services Manager</title>
+  - type: status
+    status:
+    - 200
+  condition: and

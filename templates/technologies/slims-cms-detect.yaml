@@ -1,0 +1,20 @@
+id: slims-cms-detect
+name: Slims CMS - Detect
+severity: info
+confidence: confirmed
+description: Detects Senayan Library Management System (SLiMS) CMS
+reference: https://github.com/slims
+tags:
+- tech
+- slims
+- cms
+- senayan
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - content="SLiMS
+  condition: or

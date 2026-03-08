@@ -1,0 +1,29 @@
+id: xeams-admin-console
+name: Xeams Admin Console Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Xeams Admin Console login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- xeams
+- admin
+- console
+- synametrics
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - <title>Xeams Admin Console
+    - eXtended Email And Messaging Server</span>
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /FrontController
+  matchers: *id001
+  condition: and

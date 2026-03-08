@@ -1,0 +1,23 @@
+id: collectd-exporter-metrics
+name: Collectd Exporter Metrics
+severity: low
+confidence: confirmed
+description: Collectd Exporter Metrics is exposed.
+tags:
+- collectd
+- exposure
+- debug
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /metrics
+  matchers:
+  - type: body
+    words:
+    - '# HELP'
+    - collectd_
+  - type: status
+    status:
+    - 200
+  condition: and

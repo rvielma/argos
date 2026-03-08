@@ -1,0 +1,20 @@
+id: launchdarkly-detect
+name: LaunchDarkly - Detect
+severity: info
+confidence: confirmed
+description: Detects the presence of LaunchDarkly, a feature management and feature flag platform.
+reference: https://launchdarkly.com/
+tags:
+- tech
+- discovery
+- launchdarkly
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - LDClient.initialize
+    - ldclient.min.js
+    - launchdarkly-js-client-sdk
+  condition: or

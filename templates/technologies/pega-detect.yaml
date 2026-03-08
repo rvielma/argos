@@ -1,0 +1,23 @@
+id: pega-detect
+name: Pega Infinity Detection
+severity: info
+confidence: tentative
+description: Pega Infinity Detection
+tags:
+- tech
+- pega
+- discovery
+requests:
+- method: GET
+  path: /prweb/PRRestService/unauthenticatedAPI/v1/docs
+  matchers:
+  - type: body
+    words:
+    - '"description" :"The Pega API'
+  - type: status
+    status:
+    - 200
+  - type: header
+    words:
+    - application/json
+  condition: and

@@ -1,0 +1,29 @@
+id: bloofoxcms-login-panel
+name: bloofoxCMS Login Panel - Detect
+severity: info
+confidence: confirmed
+description: bloofoxCMS Login Panel - Detect
+tags:
+- panel
+- bloofox
+- cms
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - bloofoxCMS - Home
+    - E-Mail / Username
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /admin/index.php
+  matchers: *id001
+  condition: and

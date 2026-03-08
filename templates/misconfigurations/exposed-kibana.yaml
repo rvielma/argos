@@ -1,0 +1,31 @@
+id: exposed-kibana
+name: Exposed Kibana
+severity: medium
+confidence: tentative
+description: Kibana is exposed.
+tags:
+- kibana
+- unauth
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - kibanaWelcomeView
+    - kibanaWelcomeLogo
+    - kibanaWelcomeTitle
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /app/kibana
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /app/kibana/
+  matchers: *id001
+  condition: and

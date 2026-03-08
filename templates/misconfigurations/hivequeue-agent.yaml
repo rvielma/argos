@@ -1,0 +1,24 @@
+id: hivequeue-agent
+name: HiveQueue Agent
+severity: low
+confidence: confirmed
+description: HiveQueue Agent is exposed.
+reference: https://www.facebook.com/ExWareLabs/photos/a.361854183878462/5555061814557647/
+tags:
+- misconfig
+- hivequeue
+- vuln
+requests:
+- method: GET
+  path: /monitoring
+  matchers:
+  - type: body
+    words:
+    - <title>HiveQueue Agent</title>
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

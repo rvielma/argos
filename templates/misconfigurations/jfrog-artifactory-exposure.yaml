@@ -1,0 +1,27 @@
+id: jfrog-artifactory-exposure
+name: JFrog Artifactory Artifacts Exposure
+severity: low
+confidence: confirmed
+description: JFrog Artifactory Artifact repository was exposed.
+reference: https://jfrog.com/help/r/jfrog-rest-apis/artifactory-rest-apis
+tags:
+- artifactory
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /artifactory/api/repositories
+  matchers:
+  - type: body
+    words:
+    - '"key" :'
+    - '"type" :'
+    - '"url" :'
+    - '"packageType" :'
+  - type: body
+    words:
+    - application/vnd.org.jfrog.artifactory
+  - type: status
+    status:
+    - 200
+  condition: and

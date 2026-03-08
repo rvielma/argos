@@ -1,0 +1,25 @@
+id: alma-installer
+name: Alma Installation Exposure
+severity: high
+confidence: confirmed
+description: Alma is susceptible to the Installation page exposure due to misconfiguration.
+tags:
+- misconfig
+- alma
+- install
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /setup/start
+  matchers:
+  - type: body
+    words:
+    - <title>Setup wizard | Alma Installation</title>
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

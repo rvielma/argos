@@ -1,0 +1,26 @@
+id: kubeview-dashboard
+name: KubeView Dashboard - Detect
+severity: info
+confidence: confirmed
+description: KubeView dashboard was detected.
+reference: CWE-200
+tags:
+- exposure
+- k8s
+- kubernetes
+- kubeview
+- dashboard
+- panel
+- kubeview_project
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>KubeView</title>
+  - type: status
+    status:
+    - 200
+  condition: and

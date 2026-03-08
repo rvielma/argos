@@ -1,0 +1,24 @@
+id: dgraph-dashboard-exposure
+name: Dgraph Ratel Dashboard Exposure Panel - Detect
+severity: info
+confidence: tentative
+description: Dgraph Ratel Dashboard Exposure panel was detected.
+reference: CWE-200
+tags:
+- exposure
+- unauth
+- panel
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /?dev
+  matchers:
+  - type: body
+    words:
+    - Choose a version of the Ratel interface
+    - <title>Dgraph Ratel Dashboard</title>
+  - type: header
+    words:
+    - text/html
+  condition: and

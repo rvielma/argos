@@ -1,0 +1,24 @@
+id: getsimple-installation
+name: GetSimple CMS - Installer
+severity: critical
+confidence: tentative
+description: GetSimple CMS installer was found.
+reference: CWE-284
+tags:
+- getsimple
+- exposure
+- installer
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /admin/install.php
+  matchers:
+  - type: body
+    words:
+    - <title>GetSimple &raquo; Installation</title>
+    - PHP Version
+  - type: status
+    status:
+    - 200
+  condition: and

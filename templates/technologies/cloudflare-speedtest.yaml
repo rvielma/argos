@@ -1,0 +1,18 @@
+id: cloudflare-speedtest
+name: Cloudflare Speedtest - Detect
+severity: info
+confidence: confirmed
+description: Detected the exposed default page of the Cloudflare Speedtest service.
+tags:
+- tech
+- cloudflare
+- speedtest
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - '@cloudflare/speedtest'
+  condition: or

@@ -1,0 +1,20 @@
+id: zerof-webserver-detect
+name: ZEROF Web Server Detect
+severity: info
+confidence: tentative
+description: ZEROF Web Server Detect
+tags:
+- tech
+- zerof
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>ZEROF Web Server</title>
+  - type: status
+    status:
+    - 200
+  condition: and

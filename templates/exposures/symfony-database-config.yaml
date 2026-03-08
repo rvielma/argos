@@ -1,0 +1,26 @@
+id: symfony-database-config
+name: Symfony Database Configuration File - Detect
+severity: high
+confidence: tentative
+description: Symfony database configuration file was detected and may contain database credentials.
+reference: CWE-200
+tags:
+- config
+- exposure
+- symfony
+- vuln
+requests:
+- method: GET
+  path: /config/databases.yml
+  matchers:
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  - type: body
+    words:
+    - 'class:'
+    - 'param:'
+  condition: and

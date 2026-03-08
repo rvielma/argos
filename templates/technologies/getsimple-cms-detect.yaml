@@ -1,0 +1,25 @@
+id: getsimple-cms-detect
+name: GetSimple CMS Detection
+severity: info
+confidence: tentative
+description: Template to detect a running GetSimple CMS instance
+tags:
+- tech
+- getsimple
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: status
+    status:
+    - 200
+  - type: body
+    words:
+    - Powered by  GetSimple
+    - GetSimple CMS is a flatfile CMS
+  condition: and
+- method: GET
+  path: /readme.txt
+  matchers: *id001
+  condition: and

@@ -1,0 +1,24 @@
+id: codeception-config
+name: Codeception YAML Configuration File - Detect
+severity: low
+confidence: confirmed
+description: Codeception YAML configuration file was detected.
+tags:
+- exposure
+- devops
+- codeception
+- config
+- cicd
+- vuln
+requests:
+- method: GET
+  path: /codeception.yml
+  matchers:
+  - type: body
+    words:
+    - 'paths:'
+    - 'settings:'
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,28 @@
+id: opcache-status-exposure
+name: OPcache Status Page - Detect
+severity: medium
+confidence: tentative
+description: OPcache status page was detected.
+reference: CWE-200
+tags:
+- config
+- exposure
+- status
+- vuln
+requests:
+- method: GET
+  path: /opcache-status/
+  matchers: &id001
+  - type: body
+    words:
+    - <th>opcache_enabled</th>
+    - <th>opcache_hit_rate</th>
+  condition: or
+- method: GET
+  path: /php-opcache-status/
+  matchers: *id001
+  condition: or
+- method: GET
+  path: /opcache-status/opcache.php
+  matchers: *id001
+  condition: or

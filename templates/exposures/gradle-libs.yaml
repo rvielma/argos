@@ -1,0 +1,27 @@
+id: gradle-libs
+name: Gradle Library Version Disclosure
+severity: info
+confidence: confirmed
+description: Gradle Library Version Disclosure
+tags:
+- file
+- gradle
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /gradle/libs.versions.toml
+  matchers: &id001
+  - type: body
+    words:
+    - '[versions]'
+    - '[libraries]'
+    - '[bundles]'
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /libs.versions.toml
+  matchers: *id001
+  condition: and

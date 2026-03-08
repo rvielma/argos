@@ -1,0 +1,23 @@
+id: peplink-panel
+name: Peplink Login Panel - Detect
+severity: info
+confidence: confirmed
+description: peplink login panel was detected.
+tags:
+- panel
+- peplink
+- router
+- login
+- discovery
+requests:
+- method: GET
+  path: /cgi-bin/MANGA/index.cgi
+  matchers:
+  - type: body
+    words:
+    - init_company_name = "Peplink"
+    - <title>Web Admin | Welcome
+  - type: status
+    status:
+    - 200
+  condition: and

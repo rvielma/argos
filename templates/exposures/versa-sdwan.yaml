@@ -1,0 +1,19 @@
+id: versa-sdwan
+name: Versa SD-WAN Login Panel - Detect
+severity: info
+confidence: tentative
+description: Versa SD-WAN login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- versa
+- sdwan
+- discovery
+requests:
+- method: GET
+  path: /versa/login.html
+  matchers:
+  - type: body
+    words:
+    - Versa Networks
+  condition: or

@@ -1,0 +1,23 @@
+id: onedev-panel
+name: OneDev Panel - Detect
+severity: info
+confidence: confirmed
+description: OneDev is a Git Server with CI/CD, Kanban, and Packages.
+reference: https://github.com/theonedev/onedev
+tags:
+- tech
+- detect
+- onedev
+- discovery
+requests:
+- method: GET
+  path: /~login
+  matchers:
+  - type: body
+    words:
+    - OneDev
+    - Git Server
+  - type: status
+    status:
+    - 200
+  condition: and

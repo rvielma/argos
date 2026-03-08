@@ -1,0 +1,23 @@
+id: proftpd-config
+name: ProFTPD Configuration File - Detect
+severity: info
+confidence: tentative
+description: ProFTPD configuration file was detected.
+reference: CWE-200
+tags:
+- config
+- exposure
+- proftpd
+- vuln
+requests:
+- method: GET
+  path: /proftpd.conf
+  matchers:
+  - type: body
+    words:
+    - ProFTPD
+    - ServerName
+  - type: status
+    status:
+    - 200
+  condition: and

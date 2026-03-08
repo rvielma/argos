@@ -1,0 +1,24 @@
+id: struts-problem-report
+name: Apache Struts Dev Mode - Detect
+severity: low
+confidence: tentative
+description: Multiple Apache Struts applications were detected in dev-mode.
+reference: https://www.exploit-db.com/ghdb/4278
+tags:
+- struts
+- debug
+- edb
+- exposure
+- apache
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Struts Problem Report</title>
+  - type: status
+    status:
+    - 200
+  condition: and

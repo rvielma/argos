@@ -1,0 +1,22 @@
+id: netdata-dashboard-detect
+name: Netdata Dashboard Panel - Detect
+severity: info
+confidence: tentative
+description: Netdata Dashboard panel was detected.
+reference: CWE-200
+tags:
+- netdata
+- panel
+- tech
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>netdata dashboard</title>
+  - type: status
+    status:
+    - 200
+  condition: and

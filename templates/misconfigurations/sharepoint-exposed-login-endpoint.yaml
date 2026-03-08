@@ -1,0 +1,29 @@
+id: sharepoint-exposed-login-endpoint
+name: Microsoft SharePoint - Exposed Login Endpoint
+severity: info
+confidence: confirmed
+description: Detected Microsoft SharePoint login and authentication endpoints.
+reference: https://learn.microsoft.com/en-us/sharepoint/authentication
+tags:
+- sharepoint
+- microsoft
+- login
+- exposure
+- misconfig
+- panel
+- tech
+requests:
+- method: GET
+  path: /_layouts/15/Authenticate.aspx
+  matchers: &id001
+  - type: regex
+    regex:
+    - (?i)MicrosoftSharePointTeamServices
+  - type: status
+    status:
+    - 401
+  condition: and
+- method: GET
+  path: /_layouts/Authenticate.aspx
+  matchers: *id001
+  condition: and

@@ -1,0 +1,25 @@
+id: zipline-panel
+name: Diced Zipline - Detect
+severity: info
+confidence: confirmed
+description: Zipline panel was detected.
+reference: https://github.com/diced/zipline
+tags:
+- diced
+- zipline
+- login
+- panel
+- detect
+- discovery
+requests:
+- method: GET
+  path: /auth/login
+  matchers:
+  - type: body
+    words:
+    - '"title":"Zipline"'
+    - Zipline – Login</title>
+  - type: status
+    status:
+    - 200
+  condition: and

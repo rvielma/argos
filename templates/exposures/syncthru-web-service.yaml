@@ -1,0 +1,27 @@
+id: syncthru-web-service
+name: SyncThru Web Service Panel - Detect
+severity: info
+confidence: confirmed
+description: SyncThru Web Service panel was detected.
+reference: CWE-200
+tags:
+- edb
+- panel
+- syncthru
+- printer
+- samsung
+- discovery
+requests:
+- method: GET
+  path: /sws/index.sws
+  matchers:
+  - type: body
+    words:
+    - <title>SyncThru Web Service</title>
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

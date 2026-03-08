@@ -1,0 +1,26 @@
+id: oracle-access-management
+name: Oracle Access Management Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Oracle Access Management login panel was detected.
+reference: https://www.oracle.com/security/identity-management/access-management/
+tags:
+- panel
+- oracle
+- login
+- detect
+- discovery
+requests:
+- method: GET
+  path: /oam/pages/login.jsp
+  matchers: &id001
+  - type: body
+    words:
+    - <title>Login - Oracle Access Management
+    - /oam/pages/images
+    - /oam/server/
+  condition: and
+- method: GET
+  path: /
+  matchers: *id001
+  condition: and

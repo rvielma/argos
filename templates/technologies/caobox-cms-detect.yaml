@@ -1,0 +1,27 @@
+id: caobox-cms-detect
+name: Caobox CMS - Detect
+severity: info
+confidence: confirmed
+description: Detects instances of Caobox CMS based on unique fingerprints and identifiers.
+tags:
+- detect
+- caobox
+- cms
+- tech
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Caobox CMS
+    - powered by Caobox
+    - Welcome to Caobox
+    - Caobox version
+  - type: regex
+    regex:
+    - (?i)caobox
+    - (?i)caobox\s+(v[0-9.]+)
+    - (?i)<title>Caobox CMS
+  condition: or

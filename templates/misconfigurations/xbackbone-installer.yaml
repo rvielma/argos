@@ -1,0 +1,22 @@
+id: xbackbone-installer
+name: XBackBone Installer - Exposure
+severity: high
+confidence: confirmed
+description: Checks for the presence of a XBackBone Installer.
+tags:
+- install
+- xbackbone
+- exposure
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /install/
+  matchers:
+  - type: body
+    words:
+    - <title>XBackBone Installer</title>
+  - type: status
+    status:
+    - 200
+  condition: and

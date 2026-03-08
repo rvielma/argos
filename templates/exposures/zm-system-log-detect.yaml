@@ -1,0 +1,26 @@
+id: zm-system-log-detect
+name: zm-system-log-detect
+severity: low
+confidence: tentative
+description: Zm system log file exposed.
+reference: https://www.exploit-db.com/ghdb/6926
+tags:
+- logs
+- zm
+- exposure
+- discovery
+requests:
+- method: GET
+  path: /?view=log
+  matchers: &id001
+  - type: body
+    words:
+    - <title>ZM - System Log</title>
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /zm/?view=log
+  matchers: *id001
+  condition: and

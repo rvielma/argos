@@ -1,0 +1,24 @@
+id: ibarn-installer
+name: iBarn Installer - Exposure
+severity: high
+confidence: confirmed
+description: Detects the exposure of the iBarn installer page, which could allow unauthorized setup or reinstallation of the
+  application.
+tags:
+- ibarn
+- installer
+- exposure
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - iBarn
+    - install()
+  - type: status
+    status:
+    - 200
+  condition: and

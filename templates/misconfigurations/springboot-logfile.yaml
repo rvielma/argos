@@ -1,0 +1,34 @@
+id: springboot-logfile
+name: Detects Springboot Logfile Actuator
+severity: low
+confidence: confirmed
+description: Springboot Logfile Actuator is exposed.
+reference: https://raw.githubusercontent.com/maurosoria/dirsearch/master/db/dicc.txt
+tags:
+- misconfig
+- springboot
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /logfile
+  matchers: &id001
+  - type: body
+    words:
+    - springframework.web.HttpRequestMethodNotSupportedException
+    - INFO
+  - type: header
+    words:
+    - text/plain
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /actuator/logfile
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /actuators/logfile
+  matchers: *id001
+  condition: and

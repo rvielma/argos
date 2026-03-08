@@ -1,0 +1,24 @@
+id: ollama-llm-panel
+name: Ollama LLM Panel - Detect
+severity: info
+confidence: tentative
+description: Ollama LLM Panel was detected
+reference: CWE-200
+tags:
+- panel
+- ollama
+- llm
+- detect
+- discovery
+- ai
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Ollama is running
+  - type: status
+    status:
+    - 200
+  condition: and

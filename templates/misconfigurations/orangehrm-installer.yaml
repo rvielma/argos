@@ -1,0 +1,26 @@
+id: orangehrm-installer
+name: OrangeHrm Installer
+severity: high
+confidence: confirmed
+description: OrangeHrm is susceptible to the Installation page exposure due to misconfiguration.
+tags:
+- misconfig
+- exposure
+- install
+- orangehrm
+- vuln
+requests:
+- method: GET
+  path: /installer/installerUI.php
+  matchers:
+  - type: body
+    words:
+    - OrangeHRM Web Installation Wizard
+    - admin user creation
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,21 @@
+id: user-control-panel
+name: User Control Panel - Detect
+severity: info
+confidence: tentative
+description: User Control Panel was detected.
+reference: CWE-200
+tags:
+- panel
+- ucp
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: status
+    status:
+    - 200
+  - type: body
+    words:
+    - <title>User Control Panel</title>
+  condition: and

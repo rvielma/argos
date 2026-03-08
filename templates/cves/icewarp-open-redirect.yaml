@@ -1,0 +1,22 @@
+id: icewarp-open-redirect
+name: IceWarp - Open Redirect
+severity: medium
+confidence: confirmed
+description: IceWarp open redirect vulnerabilities were detected. An attacker can redirect a user to a malicious site and
+  possibly obtain sensitive information, modify data, and/or execute unauthorized operations.
+reference: CWE-601
+tags:
+- icewarp
+- redirect
+- vuln
+requests:
+- method: GET
+  path: /interact.sh/%2F..
+  matchers:
+  - type: header
+    words:
+    - IceWarp
+  - type: regex
+    regex:
+    - (?m)^(?:Location\s*?:\s*?)(?:https?:\/\/|\/\/|\/\\\\|\/\\)(?:[a-zA-Z0-9\-_\.@]*)interact\.sh\/?(\/|[^.].*)?$
+  condition: and

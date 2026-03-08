@@ -1,0 +1,19 @@
+id: redis-commander-exposure
+name: Redis Commander Panel - Detect
+severity: info
+confidence: tentative
+description: Redis Commander panel was detected.
+reference: CWE-200
+tags:
+- panel
+- redis
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Redis Commander
+    - redisCommanderBearerToken
+  condition: or

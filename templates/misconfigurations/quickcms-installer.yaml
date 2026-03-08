@@ -1,0 +1,22 @@
+id: quickcms-installer
+name: QuickCMS Installation Wizard
+severity: high
+confidence: confirmed
+description: PMM is susceptible to the Installation page exposure due to misconfiguration.
+tags:
+- misconfig
+- exposure
+- install
+- quickcms
+- vuln
+requests:
+- method: GET
+  path: /install/
+  matchers:
+  - type: body
+    words:
+    - QuickCMS Installation
+  - type: status
+    status:
+    - 200
+  condition: and

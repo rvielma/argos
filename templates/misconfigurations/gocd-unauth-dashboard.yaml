@@ -1,0 +1,26 @@
+id: gocd-unauth-dashboard
+name: GoCd Unauth Dashboard
+severity: medium
+confidence: tentative
+description: GoCd Dashboard is exposed.
+tags:
+- go
+- gocd
+- unauth
+- misconfig
+- vuln
+- discovery
+requests:
+- method: GET
+  path: /go/admin/pipelines/create?group=defaultGroup
+  matchers:
+  - type: body
+    words:
+    - <title>Create a pipeline - Go</title>
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

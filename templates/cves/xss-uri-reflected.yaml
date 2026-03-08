@@ -1,0 +1,33 @@
+id: xss-uri-reflected
+name: Reflected XSS
+severity: low
+confidence: tentative
+description: Reflected cross-site scripting vulnerability was discovered via generic testing. Manual testing is needed to
+  verify exploitation.
+tags:
+- xss
+- generic
+- vuln
+requests:
+- method: GET
+  path: /a%22%3E%3Cinjectable%3E
+  matchers: &id001
+  - type: body
+    words:
+    - '"><injectable>'
+    - '''><injectable>'
+  - type: body
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  - type: body
+    words:
+    - <title>Access Denied</title>
+    - You don't have permission to access
+  condition: and
+- method: GET
+  path: /a%27%3E%3Cinjectable%3E
+  matchers: *id001
+  condition: and

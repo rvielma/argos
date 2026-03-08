@@ -1,0 +1,23 @@
+id: dynatrace-rum-detect
+name: Dynatrace RUM - Tech Detect
+severity: info
+confidence: confirmed
+description: Detects Dynatrace Real User Monitoring (RUM) and OneAgent artifacts.
+reference: https://docs.dynatrace.com/docs/observe/digital-experience/rum-concepts/rum-overview
+tags:
+- tech
+- discovery
+- rum
+- dynatrace
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - ruxitagentjs_
+    - data-dtconfig=
+  - type: status
+    status:
+    - 200
+  condition: and

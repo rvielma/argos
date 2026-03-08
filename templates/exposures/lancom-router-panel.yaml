@@ -1,0 +1,23 @@
+id: lancom-router-panel
+name: Lancom Router Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Lancom router login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- lancom
+- router
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - alt="LANCOM Systems GmbH"
+    - class="outside_device_string_common">LANCOM
+  - type: status
+    status:
+    - 200
+  condition: and

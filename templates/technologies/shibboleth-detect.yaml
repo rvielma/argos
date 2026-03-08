@@ -1,0 +1,27 @@
+id: shibboleth-detect
+name: Shibboleth SSO Detect
+severity: info
+confidence: confirmed
+description: A Shibboleth SSO panel was detected
+reference: https://www.shibboleth.net/
+tags:
+- shibboleth
+- sso
+- detect
+- tech
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - <title>Shibboleth IdP</title>
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /shibboleth-idp
+  matchers: *id001
+  condition: and

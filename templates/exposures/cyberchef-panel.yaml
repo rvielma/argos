@@ -1,0 +1,24 @@
+id: cyberchef-panel
+name: Cyber Chef Panel - Detect
+severity: info
+confidence: confirmed
+description: A Cyber Chef Panel was detected
+reference: https://cyberchef.org
+tags:
+- panel
+- cyberchef
+- login
+- detect
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>CyberChef</title>
+    - The Cyber Swiss Army Knife
+  - type: status
+    status:
+    - 200
+  condition: and

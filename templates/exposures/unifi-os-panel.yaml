@@ -1,0 +1,22 @@
+id: unifi-os-panel
+name: UniFi OS - Panel
+severity: info
+confidence: confirmed
+description: UniFi OS Panel was discovered
+reference: CWE-200
+tags:
+- panel
+- router
+- discovery
+requests:
+- method: GET
+  path: /login
+  matchers:
+  - type: body
+    words:
+    - <title>UniFi OS</title>
+    - UNIFI_OS_MANIFEST
+  - type: status
+    status:
+    - 200
+  condition: and

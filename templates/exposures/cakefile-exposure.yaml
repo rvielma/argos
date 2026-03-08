@@ -1,0 +1,61 @@
+id: cakefile-exposure
+name: Cakefile - Exposure
+severity: info
+confidence: confirmed
+description: Detected CoffeeScript Cakefile was exposing build tasks and project structure.
+reference: CWE-538
+tags:
+- exposure
+- config
+- coffeescript
+- cakefile
+requests:
+- method: GET
+  path: /Cakefile
+  matchers: &id001
+  - type: body
+    words:
+    - 'task '
+    - 'require '
+    - ->
+  - type: body
+    words:
+    - <!DOCTYPE
+    - <html
+    - '{"props"'
+    - <script
+  - type: body
+    words:
+    - coffee
+    - spawn
+    - exec
+    - invoke
+    - fs.readFileSync
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /src/Cakefile
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /app/Cakefile
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /lib/Cakefile
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /build/Cakefile
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /node_modules/whet.extend/Cakefile
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /node_modules/Cakefile
+  matchers: *id001
+  condition: and

@@ -1,0 +1,29 @@
+id: open-virtualization-manager-panel
+name: Open Virtualization Userportal & Webadmin Panel Detection
+severity: info
+confidence: tentative
+description: Open Virtualization Userportal & Webadmin panels were detected. Open Virtualization Manager is an open-source
+  distributed virtualization solution designed to manage enterprise infrastructure. oVirt uses the trusted KVM hypervisor
+  and is built upon several other community projects, including libvirt, Gluster, PatternFly, and Ansible.
+reference: CWE-668
+tags:
+- panel
+- ovirt
+- oss
+- discovery
+requests:
+- method: GET
+  path: /ovirt-engine/userportal/
+  matchers: &id001
+  - type: body
+    words:
+    - '"application_title":"oVirt Engine User Portal"'
+    - '"application_title":"oVirt Engine Web Administration"'
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /ovirt-engine/webadmin/
+  matchers: *id001
+  condition: and

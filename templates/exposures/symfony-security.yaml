@@ -1,0 +1,31 @@
+id: symfony-security
+name: Symfony security.yml File Disclosure
+severity: info
+confidence: confirmed
+description: Symfony security.yml File Disclosure
+tags:
+- symfony
+- devops
+- exposure
+- files
+- vuln
+requests:
+- method: GET
+  path: /security.yml
+  matchers: &id001
+  - type: body
+    words:
+    - 'security:'
+    - 'providers:'
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /config/security.yml
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /app/config/security.yml
+  matchers: *id001
+  condition: and

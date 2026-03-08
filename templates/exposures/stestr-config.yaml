@@ -1,0 +1,24 @@
+id: stestr-config
+name: Stestr Configuration File - Detect
+severity: info
+confidence: confirmed
+description: Stestr configuration file was detected.
+reference: CWE-200
+tags:
+- exposure
+- stestr
+- config
+- files
+- vuln
+requests:
+- method: GET
+  path: /.stestr.conf
+  matchers:
+  - type: body
+    words:
+    - '[DEFAULT]'
+    - test_path=
+  - type: status
+    status:
+    - 200
+  condition: and

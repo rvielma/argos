@@ -1,0 +1,20 @@
+id: request-tracker-panel
+name: Request Tracker - Panel
+severity: info
+confidence: confirmed
+description: Request Tracker panel was discovered.
+tags:
+- panel
+- login
+- request
+- tracker
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - RT.Config
+    - RT.CurrentUser
+  condition: and

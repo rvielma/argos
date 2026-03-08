@@ -1,0 +1,21 @@
+id: sms-installer
+name: SMS Gateway Installation
+severity: high
+confidence: confirmed
+description: SMS Gateway is susceptible to the Installation page exposure due to misconfiguration.
+tags:
+- misconfig
+- sms
+- install
+- vuln
+requests:
+- method: GET
+  path: /install/index.php
+  matchers:
+  - type: body
+    words:
+    - SMS Gateway | Installation
+  - type: status
+    status:
+    - 200
+  condition: and

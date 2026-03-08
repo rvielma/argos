@@ -1,0 +1,21 @@
+id: icewarp-panel-detect
+name: IceWarp Login Panel - Detect
+severity: info
+confidence: confirmed
+description: IceWarp login panel was detected.
+reference: CWE-200
+tags:
+- icewarp
+- panel
+- discovery
+requests:
+- method: GET
+  path: /webmail/
+  matchers:
+  - type: header
+    words:
+    - IceWarp
+  - type: status
+    status:
+    - 200
+  condition: and

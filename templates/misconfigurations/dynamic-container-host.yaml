@@ -1,0 +1,23 @@
+id: dynamic-container-host
+name: Dynamics Container Host - Detect
+severity: low
+confidence: confirmed
+description: Dynamics Container Host is detected in this template.
+reference: https://www.facebook.com/photo/?fbid=631801132323743&set=pcb.631801782323678
+tags:
+- exposure
+- dynamic
+- container
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Dynamics Container Host</title>
+  - type: status
+    status:
+    - 200
+  condition: and

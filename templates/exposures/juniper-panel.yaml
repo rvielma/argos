@@ -1,0 +1,23 @@
+id: juniper-panel
+name: Juniper J-Web Panel - Detect
+severity: info
+confidence: confirmed
+description: Juniper J-Web panel was detected.
+reference: CWE-200
+tags:
+- panel
+- juniper
+- vpn
+- login
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: regex
+    regex:
+    - (i?)<title>(Log In - )?Juniper Web Device Manager</title>
+  - type: status
+    status:
+    - 200
+  condition: and

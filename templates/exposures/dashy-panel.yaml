@@ -1,0 +1,25 @@
+id: dashy-panel
+name: Dashy Panel - Detect
+severity: info
+confidence: confirmed
+description: Dashy Panel - Detect
+reference: https://dashy.to/
+tags:
+- panel
+- dashy
+- detect
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Dashy
+    - content="Dashy
+    - /css/dashy.
+    - web-icons/dashy-logo.png
+  - type: status
+    status:
+    - 200
+  condition: and

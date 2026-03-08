@@ -1,0 +1,18 @@
+id: samba-swat-panel
+name: Samba SWAT Panel - Detect
+severity: info
+confidence: tentative
+description: Samba SWAT panel was detected.
+reference: CWE-200
+tags:
+- panel
+- samba
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: header
+    words:
+    - Basic realm="SWAT"
+  condition: or

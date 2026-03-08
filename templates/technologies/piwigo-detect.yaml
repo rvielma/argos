@@ -1,0 +1,21 @@
+id: piwigo-detect
+name: Piwigo Detect
+severity: info
+confidence: tentative
+description: Piwigo Detect
+tags:
+- piwigo
+- tech
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - piwigo.org">Piwigo</a>
+    - Piwigo (aka PWG), see piwigo.org
+  - type: status
+    status:
+    - 200
+  condition: and

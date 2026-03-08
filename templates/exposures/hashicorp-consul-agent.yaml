@@ -1,0 +1,23 @@
+id: hashicorp-consul-agent
+name: Hashicorp Consul Agent - Detect
+severity: info
+confidence: tentative
+description: Hashicorp Consul Agent was detected.
+reference: CWE-200
+tags:
+- tech
+- consul
+- api
+- panel
+- hashicorp
+- discovery
+requests:
+- method: GET
+  path: /v1/agent/self
+  matchers:
+  - type: body
+    words:
+    - '"Datacenter":'
+    - '"Revision":'
+    - '"PrimaryDatacenter"'
+  condition: or

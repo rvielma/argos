@@ -1,0 +1,24 @@
+id: vivotex-web-console-detect
+name: VIVOTEK Web Console Detect
+severity: info
+confidence: tentative
+description: VIVOTEK Web Console Detect
+tags:
+- tech
+- vivotex
+- console
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>VIVOTEK Web Console</title>
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

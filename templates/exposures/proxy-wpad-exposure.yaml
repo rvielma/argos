@@ -1,0 +1,24 @@
+id: proxy-wpad-exposure
+name: Web Proxy Auto-Discovery Configuration File - Detect
+severity: info
+confidence: confirmed
+description: Web Proxy Auto-Discovery configuration file was detected.
+reference: CWE-200
+tags:
+- config
+- exposure
+- proxy
+- vuln
+requests:
+- method: GET
+  path: /wpad.dat
+  matchers:
+  - type: body
+    words:
+    - FindProxyForURL
+    - url
+    - host
+  - type: status
+    status:
+    - 200
+  condition: and

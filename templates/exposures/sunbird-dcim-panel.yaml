@@ -1,0 +1,26 @@
+id: sunbird-dcim-panel
+name: Sunbird DCIM - Detect
+severity: info
+confidence: confirmed
+description: Sunbird DCIM login panel was detected.
+reference: CWE-200
+tags:
+- sunbird
+- panel
+- login
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - <title>dcTrack - Operations</title>
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /dcim/
+  matchers: *id001
+  condition: and

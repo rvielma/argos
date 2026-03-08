@@ -1,0 +1,23 @@
+id: saltstack-config-panel
+name: SaltStack Config Panel - Detect
+severity: info
+confidence: confirmed
+description: SaltStack config panel was detected.
+reference: CWE-200
+tags:
+- panel
+- vmware
+- login
+- saltstack
+- discovery
+requests:
+- method: GET
+  path: /login
+  matchers:
+  - type: body
+    words:
+    - SaltStack Config
+  - type: status
+    status:
+    - 200
+  condition: and

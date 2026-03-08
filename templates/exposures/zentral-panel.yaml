@@ -1,0 +1,20 @@
+id: zentral-panel
+name: Zentral Panel - Detect
+severity: info
+confidence: tentative
+description: Zentral panel was detected.
+reference: CWE-200
+tags:
+- panel
+- zentral
+- oss
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Zentral</title>
+    - <div class="panel-footer btn-group btn-group-justified"
+  condition: or

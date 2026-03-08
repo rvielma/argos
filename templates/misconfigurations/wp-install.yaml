@@ -1,0 +1,23 @@
+id: wp-install
+name: WordPress Exposed Installation
+severity: critical
+confidence: tentative
+description: Wordpress installation files have been detected
+reference: CWE-284
+tags:
+- misconfig
+- panel
+- wordpress
+- vuln
+requests:
+- method: GET
+  path: /wp-admin/install.php?step=1
+  matchers:
+  - type: body
+    words:
+    - <title>WordPress &rsaquo; Installation</title>
+    - Site Title
+  - type: status
+    status:
+    - 200
+  condition: and

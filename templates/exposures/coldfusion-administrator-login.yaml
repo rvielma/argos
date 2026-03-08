@@ -1,0 +1,22 @@
+id: coldfusion-administrator-login
+name: ColdFusion Administrator Login Panel - Detect
+severity: info
+confidence: tentative
+description: ColdFusion Administrator login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- coldfusion
+- adobe
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - ColdFusion Administrator Login
+  - type: status
+    status:
+    - 200
+  condition: and

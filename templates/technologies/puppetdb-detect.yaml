@@ -1,0 +1,25 @@
+id: puppetdb-detect
+name: PuppetDB Detection
+severity: info
+confidence: tentative
+description: PuppetDB Detection
+reference: https://puppet.com/docs/puppetdb/7/api/meta/v1/version.html#pdbmetav1version
+tags:
+- puppet
+- tech
+- exposure
+- discovery
+requests:
+- method: GET
+  path: /pdb/meta/v1/version
+  matchers:
+  - type: status
+    status:
+    - 200
+  - type: header
+    words:
+    - application/json
+  - type: regex
+    regex:
+    - '"version"\s:\s"([0-9.]+)"'
+  condition: and

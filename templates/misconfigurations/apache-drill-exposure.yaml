@@ -1,0 +1,25 @@
+id: apache-drill-exposure
+name: Apache Drill Exposure
+severity: low
+confidence: confirmed
+description: Apache Drill is exposed.
+tags:
+- misconfig
+- exposure
+- apache
+- drill
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Apache Drill</title>
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

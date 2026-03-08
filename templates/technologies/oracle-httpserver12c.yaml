@@ -1,0 +1,24 @@
+id: oracle-httpserver12c
+name: Oracle HTTPServer12c
+severity: info
+confidence: confirmed
+description: Oracle HTTPServer12c
+tags:
+- tech
+- oracle
+- httpserver
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Oracle HTTP Server 12c</title>
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

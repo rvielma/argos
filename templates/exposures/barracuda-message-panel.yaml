@@ -1,0 +1,23 @@
+id: barracuda-message-panel
+name: Barracuda Message Archiver - Panel Detect
+severity: info
+confidence: tentative
+description: Barracuda Networks Barracuda Message Archiver (BMA) panel was detected.
+reference: https://www.barracuda.com/products/email-protection/message-archiver
+tags:
+- barracuda
+- panel
+- login
+- discovery
+requests:
+- method: GET
+  path: /cgi-mod/index.cgi
+  matchers:
+  - type: body
+    words:
+    - <link href="/css/archiver.css
+    - <div id="barracuda_info" style="float:right">
+  - type: status
+    status:
+    - 200
+  condition: and

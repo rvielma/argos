@@ -1,0 +1,23 @@
+id: samsung-printer-detect
+name: Samsung Printer Panel - Detect
+severity: info
+confidence: tentative
+description: Samsung printer panel was detected.
+reference: CWE-200
+tags:
+- iot
+- panel
+- samsung
+- printer
+- discovery
+requests:
+- method: GET
+  path: /sws/index.html
+  matchers:
+  - type: body
+    words:
+    - SyncThru Web Service
+  - type: status
+    status:
+    - 200
+  condition: and

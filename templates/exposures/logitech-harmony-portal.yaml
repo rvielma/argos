@@ -1,0 +1,23 @@
+id: logitech-harmony-portal
+name: Logitech Harmony Pro Installer Portal Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Logitech Harmony Pro Installer Portal login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- logitech
+- harmony
+- exposure
+- discovery
+requests:
+- method: GET
+  path: /portal/login
+  matchers:
+  - type: body
+    words:
+    - Logitech Harmony Pro Installer Portal
+  - type: status
+    status:
+    - 200
+  condition: and

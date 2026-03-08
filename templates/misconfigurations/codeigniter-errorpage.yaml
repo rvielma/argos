@@ -1,0 +1,27 @@
+id: codeigniter-errorpage
+name: CodeIgniter - Error Page
+severity: low
+confidence: confirmed
+description: CodeIgniter error debug are enabled.
+tags:
+- codeigniter
+- misconfig
+- error
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Error</title>
+    - <title>ErrorException</title>
+    - <title>Database Error</title>
+  - type: body
+    words:
+    - CodeIgniter
+  - type: status
+    status:
+    - 200
+    - 500
+  condition: and

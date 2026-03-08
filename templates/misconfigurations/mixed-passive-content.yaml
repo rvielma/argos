@@ -1,0 +1,23 @@
+id: mixed-passive-content
+name: Mixed Passive Content
+severity: info
+confidence: tentative
+description: This check detects if there are any passive content being loaded over HTTP instead of HTTPS.
+reference: https://developer.mozilla.org/en-US/docs/Web/Security/Mixed_content
+tags:
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: regex
+    regex:
+    - <img[^>]*src=['"]http://[^'">]+['"]
+  - type: regex
+    regex:
+    - <audio[^>]*src=['"]http://[^'">]+['"]
+  - type: regex
+    regex:
+    - <video[^>]*src=['"]http://[^'">]+['"]
+  condition: or

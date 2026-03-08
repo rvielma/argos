@@ -1,0 +1,19 @@
+id: kafka-center-login
+name: Apache Kafka Control Center Login Panel - Detect
+severity: info
+confidence: tentative
+description: Apache Kafka Control Center login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- kafka
+- apache
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Kafka Center</title>
+  condition: or

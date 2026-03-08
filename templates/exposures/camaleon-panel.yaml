@@ -1,0 +1,22 @@
+id: camaleon-panel
+name: Camaleon CMS Login - Panel
+severity: info
+confidence: tentative
+description: Camaleon CMS admin login panel was discovered.
+tags:
+- camaleon
+- panel
+- login
+- discovery
+requests:
+- method: GET
+  path: /admin/login
+  matchers:
+  - type: body
+    words:
+    - camaleon_cms
+    - Forgot your password
+  - type: status
+    status:
+    - 200
+  condition: and

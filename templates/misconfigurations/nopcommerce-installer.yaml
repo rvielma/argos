@@ -1,0 +1,26 @@
+id: nopcommerce-installer
+name: nopCommerce Installer - Detect
+severity: critical
+confidence: confirmed
+description: nopCommerce installer panel was detected.
+reference: CWE-284
+tags:
+- misconfig
+- nopcommerce
+- install
+- vuln
+requests:
+- method: GET
+  path: /install
+  matchers:
+  - type: body
+    words:
+    - nopCommerce installation
+    - Store information
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,26 @@
+id: atlassian-bamboo-build
+name: Atlassian Bamboo Build Dashboard
+severity: info
+confidence: confirmed
+description: Atlassian Bamboo Build Dashboard
+tags:
+- misconfig
+- atlassian
+- bamboo
+- vuln
+requests:
+- method: GET
+  path: /allPlans.action
+  matchers:
+  - type: body
+    words:
+    - <th>Project</th>
+    - <th>Plan</th>
+    - <th>Build</th>
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

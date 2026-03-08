@@ -1,0 +1,24 @@
+id: polycom-admin-detect
+name: Polycom Admin Panel - Detect
+severity: info
+confidence: tentative
+description: Polycom admin panel was detected.
+reference: CWE-200
+tags:
+- panel
+- polycom
+- discovery
+requests:
+- method: GET
+  path: /systemstatus.xml
+  matchers:
+  - type: status
+    status:
+    - 200
+  - type: body
+    words:
+    - SYSTEMSTATUS
+  - type: header
+    words:
+    - 'Server: lighttpd'
+  condition: and

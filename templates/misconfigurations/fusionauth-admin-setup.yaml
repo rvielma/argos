@@ -1,0 +1,23 @@
+id: fusionauth-admin-setup
+name: FusionAuth Exposed Admin Setup
+severity: high
+confidence: confirmed
+description: FusionAuth Admin Setup is exposed.
+tags:
+- misconfig
+- fusionauth
+- admin
+- setup
+- vuln
+requests:
+- method: GET
+  path: /admin/setup-wizard
+  matchers:
+  - type: body
+    words:
+    - <title>FusionAuth Setup Wizard
+    - FusionAuth is now installed and running
+  - type: status
+    status:
+    - 200
+  condition: and

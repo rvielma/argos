@@ -1,0 +1,21 @@
+id: gocron-panel
+name: Gocron Panel - Detect
+severity: info
+confidence: tentative
+description: Gocron panel was detected.
+reference: CWE-200
+tags:
+- gocron
+- panel
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: regex
+    regex:
+    - <title>gocron - (.*)</title>
+  - type: status
+    status:
+    - 200
+  condition: and

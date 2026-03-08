@@ -1,0 +1,23 @@
+id: sqwebmail-login-panel
+name: SqWebMail Login Panel - Detect
+severity: info
+confidence: confirmed
+description: SqWebMail login panel was detected.
+reference: CWE-200
+tags:
+- webmail
+- sqwebmail
+- panel
+- discovery
+requests:
+- method: GET
+  path: /cgi-bin/sqwebmail
+  matchers: &id001
+  - type: body
+    words:
+    - SqWebMail - Copyright
+  condition: and
+- method: GET
+  path: /cgi-bin/webmail
+  matchers: *id001
+  condition: and

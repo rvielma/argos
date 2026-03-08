@@ -1,0 +1,24 @@
+id: styleci-yml-disclosure
+name: StyleCi Yaml File Disclosure
+severity: info
+confidence: confirmed
+description: StyleCi Yaml File Disclosure
+tags:
+- config
+- exposure
+- devops
+- files
+- vuln
+requests:
+- method: GET
+  path: /.styleci.yml
+  matchers:
+  - type: body
+    words:
+    - php
+    - preset
+    - disabled
+  - type: status
+    status:
+    - 200
+  condition: and

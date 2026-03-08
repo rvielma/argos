@@ -1,0 +1,24 @@
+id: netbeans-config
+name: Netbeans Config - Detect
+severity: info
+confidence: tentative
+description: Netbeans configuration information was detected.
+reference: CWE-200
+tags:
+- netbeans
+- config
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /nbproject/project.properties
+  matchers:
+  - type: regex
+    regex:
+    - (?mi)^src.dir=
+    - (?mi)^build.[a-zA-Z]+=
+    - (?mi)^jar.[a-zA-Z]+=
+  - type: status
+    status:
+    - 200
+  condition: and

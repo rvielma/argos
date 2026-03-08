@@ -1,0 +1,20 @@
+id: wildix-collaboration-panel
+name: Wildix Collaboration Panel - Detect
+severity: info
+confidence: confirmed
+description: Wildix Collaboration login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- login
+- wildix
+- detect
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - wildix
+  condition: or

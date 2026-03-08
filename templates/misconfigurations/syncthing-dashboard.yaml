@@ -1,0 +1,23 @@
+id: syncthing-dashboard
+name: Syncthing Dashboard Exposure
+severity: medium
+confidence: confirmed
+description: Syncthing Dashboard is exposed.
+reference: https://syncthing.net/
+tags:
+- misconfig
+- syncthing
+- exposure
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - The Syncthing Authors.
+    - Actions
+  - type: status
+    status:
+    - 200
+  condition: and

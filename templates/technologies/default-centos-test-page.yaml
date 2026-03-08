@@ -1,0 +1,17 @@
+id: default-centos-test-page
+name: CentOs-WebPanel Test Page
+severity: info
+confidence: tentative
+description: CentOs-WebPanel Test Page
+tags:
+- tech
+- centos
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>HTTP Server Test Page powered by CentOS-WebPanel.com</title>
+  condition: or

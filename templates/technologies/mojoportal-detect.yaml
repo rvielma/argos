@@ -1,0 +1,22 @@
+id: mojoportal-detect
+name: Mojoportal - Detect
+severity: info
+confidence: tentative
+description: Mojoportal - Detect
+tags:
+- tech
+- mojoportal
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: regex
+    regex:
+    - Powered by mojoPortal
+    - title=['"]mojoPortal
+    - alt=['"]mojoPortal
+  - type: status
+    status:
+    - 200
+  condition: and

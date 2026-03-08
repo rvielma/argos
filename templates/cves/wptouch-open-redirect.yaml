@@ -1,0 +1,21 @@
+id: wptouch-open-redirect
+name: WordPress WPtouch 3.x - Open Redirect
+severity: medium
+confidence: tentative
+description: WordPress WPtouch plugin 3.x contains an open redirect vulnerability. The plugin fails to properly sanitize user-supplied
+  input. An attacker can redirect a user to a malicious site and possibly obtain sensitive information, modify data, and/or
+  execute unauthorized operations.
+reference: CWE-601
+tags:
+- wp-plugin
+- redirect
+- wordpress
+- vuln
+requests:
+- method: GET
+  path: /?wptouch_switch=desktop&redirect=https://interact.sh/
+  matchers:
+  - type: regex
+    regex:
+    - (?m)^(?:Location\s*?:\s*?)(?:https?://|//)(?:[a-zA-Z0-9\-_\.@]*)interact\.sh.*$
+  condition: or

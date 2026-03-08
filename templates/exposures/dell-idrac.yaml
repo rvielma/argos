@@ -1,0 +1,28 @@
+id: dell-idrac
+name: Dell IDRAC Panel - Detect
+severity: info
+confidence: confirmed
+description: Dell IDRAC panel was detected.
+reference: CWE-200
+tags:
+- panel
+- idrac
+- dell
+- detect
+- discovery
+requests:
+- method: GET
+  path: /restgui/start.html
+  matchers: &id001
+  - type: body
+    words:
+    - <idrac-start-screen
+    - thisIDRACText
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /login.html
+  matchers: *id001
+  condition: and

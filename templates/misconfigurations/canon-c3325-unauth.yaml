@@ -1,0 +1,23 @@
+id: canon-c3325-unauth
+name: Canon R-ADV C3325 - Unauth
+severity: high
+confidence: confirmed
+description: Canon R-ADV C3325 unauthenticated dashboard has been exposed.
+tags:
+- canon
+- c3325
+- unauth
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - writeln('Log Out
+    - 'Remote UI : Portal'
+  - type: status
+    status:
+    - 200
+  condition: and

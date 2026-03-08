@@ -1,0 +1,24 @@
+id: hydra-dashboard
+name: Hydra Router Dashboard - Detect
+severity: info
+confidence: confirmed
+description: Hydra router dashboard was detected.
+reference: CWE-200
+tags:
+- panel
+- exposure
+- hydra
+- hydra_project
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Hydra Router Dashboard
+    - 'screen: ''dashboard'''
+  - type: status
+    status:
+    - 200
+  condition: and

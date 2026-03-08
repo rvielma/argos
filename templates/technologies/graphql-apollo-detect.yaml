@@ -1,0 +1,52 @@
+id: graphql-apollo-detect
+name: Graphql Apollo Detect
+severity: info
+confidence: tentative
+description: Graphql Apollo Detect
+reference: https://github.com/dolevf/graphw00f/blob/main/graphw00f/lib.py
+tags:
+- tech
+- graphql
+- apollo
+requests:
+- method: POST
+  path: /graphql
+  matchers: &id001
+  - type: status
+    status:
+    - 200
+  - type: body
+    words:
+    - Directive "@skip" argument "if" of type "Boolean!" is required, but it was not provided.
+  - type: header
+    words:
+    - 'Content-Type: text/html'
+  - type: body
+    words:
+    - <html
+    - <body
+  condition: and
+  headers:
+    Content-Type: application/json
+  body: '{"query":"query @skip {__typename}"}'
+- method: POST
+  path: /api/graphql
+  matchers: *id001
+  condition: and
+  headers:
+    Content-Type: application/json
+  body: '{"query":"query @skip {__typename}"}'
+- method: POST
+  path: /query
+  matchers: *id001
+  condition: and
+  headers:
+    Content-Type: application/json
+  body: '{"query":"query @skip {__typename}"}'
+- method: POST
+  path: /
+  matchers: *id001
+  condition: and
+  headers:
+    Content-Type: application/json
+  body: '{"query":"query @skip {__typename}"}'

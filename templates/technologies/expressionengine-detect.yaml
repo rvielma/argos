@@ -1,0 +1,55 @@
+id: expressionengine-detect
+name: ExpressionEngine Detection
+severity: info
+confidence: tentative
+description: An instance running ExpressionEngine is detected by looking for specific HTTP headers, HTML tags, and known endpoints.
+tags:
+- expressionengine
+- detect
+- tech
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - ExpressionEngine
+    - Powered by ExpressionEngine
+    - expressionengine.com
+    - X-Powered-By-ExpressionEngine
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /robots.txt
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /sitemap.xml
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /favicon.ico
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /system/
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /themes/
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /index.php
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /admin.php
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /cp/
+  matchers: *id001
+  condition: and

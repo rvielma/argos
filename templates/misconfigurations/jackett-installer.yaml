@@ -1,0 +1,22 @@
+id: jackett-installer
+name: Jackett - Installer
+severity: high
+confidence: confirmed
+description: Jackett installer exposed.
+tags:
+- install
+- jackett
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /configure
+  matchers:
+  - type: body
+    words:
+    - Jackett
+    - Install</a>
+  - type: status
+    status:
+    - 200
+  condition: and

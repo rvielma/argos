@@ -1,0 +1,22 @@
+id: craftcms-admin-panel
+name: Craft CMS Admin Login Panel - Detect
+severity: info
+confidence: tentative
+description: Craft CMS admin login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- craftcms
+- nystudio107
+- discovery
+requests:
+- method: GET
+  path: /admin/login
+  matchers:
+  - type: body
+    words:
+    - title="Powered by Craft CMS"
+  - type: body
+    words:
+    - <a id=\"poweredby\" href=\"http:\/\/craftcms.com\/\"
+  condition: or

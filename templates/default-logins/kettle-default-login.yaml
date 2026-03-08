@@ -1,0 +1,22 @@
+id: kettle-default-login
+name: Kettle - Default Login
+severity: medium
+confidence: confirmed
+description: Kettle contains a default login vulnerability. An attacker can obtain access to user accounts and access sensitive
+  information, modify data, and/or execute unauthorized operations.
+reference: CWE-522
+tags:
+- default-login
+- kettle
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Kettle slave server
+  - type: status
+    status:
+    - 200
+  condition: and

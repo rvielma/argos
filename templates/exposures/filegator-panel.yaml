@@ -1,0 +1,23 @@
+id: filegator-panel
+name: FileGator Panel - Detect
+severity: info
+confidence: confirmed
+description: FileGator Panel - Detect
+reference: https://serverpilot.io/docs/how-to-install-a-file-manager-on-your-server/#:~:text=You%20should%20see%20the%20FileGator,Password%3A%20admin123
+tags:
+- filegator
+- panel
+- login
+- detect
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>FileGator
+  - type: status
+    status:
+    - 200
+  condition: and

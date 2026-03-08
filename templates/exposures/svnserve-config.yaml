@@ -1,0 +1,22 @@
+id: svnserve-config
+name: Svnserve Configuration File - Detect
+severity: info
+confidence: confirmed
+description: Svnserve configuration file was detected.
+reference: CWE-200
+tags:
+- config
+- exposure
+- svnserve
+- vuln
+requests:
+- method: GET
+  path: /svnserve.conf
+  matchers:
+  - type: body
+    words:
+    - This file controls the configuration of the svnserve daemon
+  - type: status
+    status:
+    - 200
+  condition: and

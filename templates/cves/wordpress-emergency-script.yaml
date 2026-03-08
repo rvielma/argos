@@ -1,0 +1,22 @@
+id: wordpress-emergency-script
+name: WordPress Emergency Script
+severity: info
+confidence: tentative
+description: Exposed wordpress password reset emergency script.
+reference: https://wordpress.org/support/article/resetting-your-password/#using-the-emergency-password-reset-script
+tags:
+- wordpress
+- vuln
+requests:
+- method: GET
+  path: /emergency.php
+  matchers:
+  - type: body
+    words:
+    - Your use of this script is at your sole risk
+    - WordPress Administrator
+    - Update Options
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,22 @@
+id: connectwise-backup-manager
+name: ConnectWise Server Backup Manager SE Panel - Detect
+severity: info
+confidence: confirmed
+description: ConnectWise Server Backup Manager SE login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- connectwise
+- backup
+- discovery
+requests:
+- method: GET
+  path: /login.zul
+  matchers:
+  - type: body
+    words:
+    - Server Backup Manager SE
+  - type: status
+    status:
+    - 200
+  condition: and

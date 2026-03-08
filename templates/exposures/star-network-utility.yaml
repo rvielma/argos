@@ -1,0 +1,22 @@
+id: star-network-utility
+name: Star Micronics Network Utility Panel - Detect
+severity: info
+confidence: confirmed
+description: Star Micronics Network Utility panel was detected.
+reference: CWE-200
+tags:
+- panel
+- utility
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Star Micronics
+    - Network Utility
+  - type: status
+    status:
+    - 200
+  condition: and

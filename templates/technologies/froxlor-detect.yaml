@@ -1,0 +1,20 @@
+id: froxlor-detect
+name: Froxlor Detect
+severity: info
+confidence: tentative
+description: Froxlor Detect
+tags:
+- tech
+- froxlor
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Froxlor Server Management Panel</title>
+  - type: status
+    status:
+    - 200
+  condition: and

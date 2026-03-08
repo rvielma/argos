@@ -1,0 +1,20 @@
+id: semantic-ui-detect
+name: Semantic UI Framework - Detect
+severity: info
+confidence: confirmed
+description: Detects the presence of Semantic UI, a development framework that helps create beautiful, responsive layouts
+  using human-friendly HTML.
+reference: https://semantic-ui.com/
+tags:
+- tech
+- semantic-ui
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: regex
+    regex:
+    - (?i)href=["'][^"']*semantic(?:[\.-]min)?\.css
+    - (?i)src=["'][^"']*semantic(?:[\.-]min)?\.js
+  condition: or

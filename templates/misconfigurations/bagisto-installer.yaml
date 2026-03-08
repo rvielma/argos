@@ -1,0 +1,22 @@
+id: bagisto-installer
+name: Bagisto Installer Exposure
+severity: high
+confidence: confirmed
+description: Bagisto is susceptible to the Installation page exposure due to misconfiguration.
+tags:
+- misconfig
+- bagisto
+- install
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /installer
+  matchers:
+  - type: body
+    words:
+    - Bagisto Installer
+  - type: status
+    status:
+    - 200
+  condition: and

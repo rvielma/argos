@@ -1,0 +1,26 @@
+id: liferay-axis
+name: Liferay /api/axis - API Exposed
+severity: info
+confidence: confirmed
+description: Liferay /api/axis - API Exposed
+reference: https://github.com/ilmila/J2EEScan/blob/master/src/main/java/burp/j2ee/issues/impl/LiferayAPI.java
+tags:
+- misconfig
+- exposure
+- liferay
+- api
+- vuln
+requests:
+- method: GET
+  path: /api/axis
+  matchers:
+  - type: regex
+    regex:
+    - .*<h2>And now\.\.\. Some Services<\/h2>.*
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

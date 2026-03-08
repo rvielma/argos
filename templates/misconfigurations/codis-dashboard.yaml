@@ -1,0 +1,25 @@
+id: codis-dashboard
+name: Codis Dashboard Exposure
+severity: low
+confidence: confirmed
+description: Codis Dashboard is exposed.
+tags:
+- misconfig
+- exposure
+- codis
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Codis • Dashboard
+    - Sessions
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

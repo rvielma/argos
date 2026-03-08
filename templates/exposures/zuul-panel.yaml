@@ -1,0 +1,29 @@
+id: zuul-panel
+name: Zuul Panel - Detect
+severity: info
+confidence: tentative
+description: ZUUL panel was detected.
+reference: CWE-200
+tags:
+- panel
+- zuul
+- cicd
+- oss
+- discovery
+requests:
+- method: GET
+  path: /api/tenants
+  matchers: &id001
+  - type: body
+    words:
+    - '"name":'
+    - '"projects":'
+    - '"queue":'
+  - type: body
+    words:
+    - zuul_version
+  condition: or
+- method: GET
+  path: /api/status
+  matchers: *id001
+  condition: or

@@ -1,0 +1,21 @@
+id: dradis-pro-panel
+name: Dradis Professional Edition Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Dradis Professional Edition login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- dradis
+- discovery
+requests:
+- method: GET
+  path: /pro/login
+  matchers:
+  - type: body
+    words:
+    - Dradis Professional Edition
+  - type: status
+    status:
+    - 200
+  condition: and

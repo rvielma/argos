@@ -1,0 +1,21 @@
+id: struts-debug-mode
+name: Apache Struts setup in Debug-Mode
+severity: low
+confidence: tentative
+description: Apache Struts debug mode is enabled.
+tags:
+- logs
+- struts
+- apache
+- exposure
+- setup
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <debug>
+    - <struts.actionMapping>
+  condition: or

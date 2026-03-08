@@ -1,0 +1,31 @@
+id: xymon-exposure
+name: Xymon - Exposure
+severity: low
+confidence: tentative
+description: Detected the exposure of the Xymon monitoring system interface.
+reference: https://xymon.com/
+tags:
+- xymon
+- exposure
+- monitoring
+- panel
+requests:
+- method: GET
+  path: /xymon/
+  matchers: &id001
+  - type: body
+    words:
+    - Xymon
+    - xymon-se
+    - xymon-cgi
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /xymon-se/xymon/
+  matchers: *id001
+  condition: and

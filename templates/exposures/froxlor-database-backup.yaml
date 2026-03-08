@@ -1,0 +1,31 @@
+id: froxlor-database-backup
+name: Froxlor Server Management Backup File - Detect
+severity: medium
+confidence: confirmed
+description: Froxlor Server Management backup file was detected.
+reference: CWE-200
+tags:
+- froxlor
+- backup
+- exposure
+- disclosure
+- vuln
+requests:
+- method: GET
+  path: /install/froxlor.sql
+  matchers:
+  - type: body
+    words:
+    - DROP TABLE IF EXISTS
+    - CREATE TABLE
+    - PRIMARY KEY
+  - type: header
+    words:
+    - application/sql
+    - application/x-sql
+    - application/octet-stream
+    - text/plain
+  - type: status
+    status:
+    - 200
+  condition: and

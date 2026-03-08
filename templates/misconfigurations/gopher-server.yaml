@@ -1,0 +1,23 @@
+id: gopher-server
+name: Gopher Server - Exposure
+severity: medium
+confidence: confirmed
+description: Gopher Server is exposed.
+reference: https://www.facebook.com/photo/?fbid=627579942745862&set=a.467014098802448
+tags:
+- misconfig
+- gopher
+- server
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Gopher Server
+    - Environment Variables
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,23 @@
+id: cmsimple-detect
+name: CMSimple - Detect
+severity: info
+confidence: confirmed
+description: Detects the presence of CMSimple, a simple content management system that requires no database (flat-file).
+reference: https://www.cmsimple.org/
+tags:
+- tech
+- cmsimple
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: regex
+    regex:
+    - (?i)content=["']CMSimple(?:["'\s>])
+  - type: body
+    words:
+    - cmsimpleLocatorElement
+    - Welcome_to_CMSimple
+    - templates/__cmsimple_
+  condition: or

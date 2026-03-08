@@ -1,0 +1,25 @@
+id: arcgis-panel
+name: ArcGIS Enterprise Panel
+severity: info
+confidence: tentative
+description: An ArcGIS instance was discovered.
+reference: CWE-200
+tags:
+- docs
+- arcgis
+- cms
+- panel
+- esri
+- discovery
+requests:
+- method: GET
+  path: /portal/portalhelp/en/
+  matchers:
+  - type: body
+    words:
+    - ArcGIS Enterprise
+    - Installation and Deployment
+  - type: status
+    status:
+    - 200
+  condition: and

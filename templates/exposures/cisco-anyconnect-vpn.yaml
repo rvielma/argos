@@ -1,0 +1,23 @@
+id: cisco-anyconnect-vpn
+name: Cisco AnyConnect VPN Panel - Detect
+severity: info
+confidence: tentative
+description: Cisco AnyConnect VPN panel was detected.
+reference: CWE-200
+tags:
+- cisco
+- panel
+- vpn
+- discovery
+requests:
+- method: GET
+  path: /CACHE/sdesktop/data.xml
+  matchers:
+  - type: body
+    words:
+    - <config>
+    - <hostscan>
+  - type: status
+    status:
+    - 200
+  condition: and

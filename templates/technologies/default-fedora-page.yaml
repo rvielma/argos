@@ -1,0 +1,17 @@
+id: default-fedora-page
+name: Fedora Default Test Page
+severity: info
+confidence: tentative
+description: Fedora Default Test Page
+tags:
+- tech
+- fedora
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Test Page for the HTTP Server on Fedora</title>
+  condition: or

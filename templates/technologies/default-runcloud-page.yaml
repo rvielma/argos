@@ -1,0 +1,21 @@
+id: default-runcloud-page
+name: RunCloud Default Page
+severity: info
+confidence: confirmed
+description: RunCloud Default Page
+tags:
+- tech
+- runcloud
+- default-page
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Welcome To RunCloud
+  - type: status
+    status:
+    - 200
+  condition: and

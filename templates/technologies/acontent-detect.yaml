@@ -1,0 +1,21 @@
+id: acontent-detect
+name: AContent Detect
+severity: info
+confidence: tentative
+description: AContent Detect
+tags:
+- tech
+- acontent
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - '<title>AContent : Home</title>'
+    - AContent - Copyright 2010 by IDRC/IDI http://inclusivedesign.ca/
+  - type: status
+    status:
+    - 200
+  condition: and

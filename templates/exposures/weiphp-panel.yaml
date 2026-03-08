@@ -1,0 +1,22 @@
+id: weiphp-panel
+name: Weiphp Panel - Detect
+severity: info
+confidence: confirmed
+description: Weiphp panel was detected.
+reference: CWE-200
+tags:
+- panel
+- weiphp
+- discovery
+requests:
+- method: GET
+  path: /index.php
+  matchers:
+  - type: body
+    words:
+    - _blank">WeiPHP
+    - /weiphp.css?
+  - type: status
+    status:
+    - 200
+  condition: and

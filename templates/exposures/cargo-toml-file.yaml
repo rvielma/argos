@@ -1,0 +1,23 @@
+id: cargo-toml-file
+name: Cargo TOML File Disclosure
+severity: info
+confidence: confirmed
+description: Cargo TOML File Disclosure
+reference: https://doc.rust-lang.org/cargo/reference/manifest.html
+tags:
+- exposure
+- files
+- cargo
+- vuln
+requests:
+- method: GET
+  path: /Cargo.toml
+  matchers:
+  - type: body
+    words:
+    - '[package]'
+    - '[dependencies]'
+  - type: status
+    status:
+    - 200
+  condition: and

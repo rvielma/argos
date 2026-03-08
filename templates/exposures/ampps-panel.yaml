@@ -1,0 +1,24 @@
+id: ampps-panel
+name: AMPPS Login Panel
+severity: info
+confidence: tentative
+description: An AMPPS login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- ampps
+- login
+- discovery
+requests:
+- method: GET
+  path: /ampps/index.php?act=login
+  matchers:
+  - type: body
+    words:
+    - <a href="http://www.ampps.com">
+    - <title>Login</title>
+    - themes/default/images/ampps/favicon.ico
+  - type: status
+    status:
+    - 200
+  condition: and

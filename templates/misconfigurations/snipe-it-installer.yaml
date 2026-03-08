@@ -1,0 +1,24 @@
+id: snipe-it-installer
+name: Snipe-IT Setup Page - Exposure
+severity: high
+confidence: confirmed
+description: Detects exposed Snipe-IT Setup page.
+reference: https://snipeitapp.com/
+tags:
+- misconfig
+- install
+- exposure
+- snipe-it
+- vuln
+requests:
+- method: GET
+  path: /setup
+  matchers:
+  - type: body
+    words:
+    - Snipe-IT Setup
+    - Create Admin User
+  - type: status
+    status:
+    - 200
+  condition: and

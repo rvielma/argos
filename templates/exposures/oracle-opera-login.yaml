@@ -1,0 +1,28 @@
+id: oracle-opera-login
+name: Oracle Opera Login - Detect
+severity: info
+confidence: confirmed
+description: Oracle Opera Login - Detect
+reference: CWE-200
+tags:
+- panel
+- opera
+- oracle
+- detect
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - <title>Oracle, OPERA</title>
+    - <title>OPERA Login
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /OperaLogin/Welcome.do
+  matchers: *id001
+  condition: and

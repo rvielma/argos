@@ -1,0 +1,29 @@
+id: checkpoint-panel
+name: Checkpoint Login Panel - Detect
+severity: info
+confidence: tentative
+description: Checkpoint login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- checkpoint
+- discovery
+requests:
+- method: GET
+  path: /sslvpn/Login/Login
+  matchers: &id001
+  - type: status
+    status:
+    - 200
+  - type: body
+    words:
+    - Check Point Software Technologies Ltd. All rights reserved.
+    - /Login/images/CompanyLogo.png
+  - type: header
+    words:
+    - text/html
+  condition: and
+- method: GET
+  path: /Login/Login
+  matchers: *id001
+  condition: and

@@ -1,0 +1,21 @@
+id: vertex-tax-panel
+name: Vertex Tax Installer Panel - Detect
+severity: info
+confidence: confirmed
+description: Vertex Tax Installer panel was detected.
+reference: CWE-200
+tags:
+- panel
+- vertex
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Vertex Tax Installer
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,24 @@
+id: stirling-pdf-detect
+name: Stirling PDF - Detect
+severity: info
+confidence: confirmed
+description: Stirling PDF was detected.
+reference: https://github.com/Stirling-Tools/Stirling-PDF
+tags:
+- tech
+- stirling-pdf
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Stirling PDF
+    - <title>Stirling-PDF
+    - content="Stirling PDF
+    - window.stirlingPDF
+  - type: status
+    status:
+    - 200
+  condition: and

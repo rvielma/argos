@@ -1,0 +1,27 @@
+id: mongodb-exporter-metrics
+name: MongoDB Exporter - Detect
+severity: medium
+confidence: confirmed
+description: MongoDB exporter was detected.
+reference: CWE-200
+tags:
+- mongodb
+- exposure
+- debug
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /metrics
+  matchers:
+  - type: body
+    words:
+    - '# HELP'
+  - type: body
+    words:
+    - mongodb
+    - mongodb_exporter_build_info
+  - type: status
+    status:
+    - 200
+  condition: and

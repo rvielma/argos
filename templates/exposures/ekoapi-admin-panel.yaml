@@ -1,0 +1,21 @@
+id: ekoapi-admin-panel
+name: EkoAPI Admin Panel - Detect
+severity: info
+confidence: confirmed
+description: EkoAPI Admin panel was detected.
+reference: CWE-200
+tags:
+- panel
+- ekoapi
+- discovery
+requests:
+- method: GET
+  path: /admin/login
+  matchers:
+  - type: body
+    words:
+    - <title>EkoAPI Admin
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,28 @@
+id: kace-sma-installer
+name: KACE Systems Management Appliance - Installer
+severity: high
+confidence: confirmed
+description: The exposure of the KACE Systems Management Appliance’s installer interface through the /common/setup.php endpoint
+  allowed unauthorized access to the system setup wizard. This interface was publicly accessible when it should have been
+  restricted, potentially granting attackers the ability to initiate or manipulate the setup process, leading to system compromise
+  or unauthorized configuration changes.
+tags:
+- kace
+- sma
+- installer
+- exposure
+- quest
+- vuln
+requests:
+- method: GET
+  path: /common/setup.php
+  matchers:
+  - type: body
+    words:
+    - Initial Setup
+    - setup_wizard
+    - KACE
+  - type: status
+    status:
+    - 200
+  condition: and

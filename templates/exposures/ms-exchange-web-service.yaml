@@ -1,0 +1,29 @@
+id: ms-exchange-web-service
+name: Microsoft Exchange Web Service - Detect
+severity: info
+confidence: confirmed
+description: Microsoft Exchange Web Services was detected.
+reference: https://learn.microsoft.com/en-us/exchange/client-developer/exchange-web-services/start-using-web-services-in-exchange
+tags:
+- ms
+- microsoft
+- exchange
+- tech
+- panel
+- discovery
+requests:
+- method: GET
+  path: /EWS/Exchange.asmx
+  matchers: &id001
+  - type: regex
+    regex:
+    - (?i)(X-Owa-Version:)
+  - type: status
+    status:
+    - 401
+    - 302
+  condition: and
+- method: GET
+  path: /owa/service.svc
+  matchers: *id001
+  condition: and

@@ -1,0 +1,23 @@
+id: administrate-dashboard
+name: Administrate Dashboard Exposure
+severity: high
+confidence: confirmed
+description: Administrate Dashboard was exposed.
+reference: https://github.com/thoughtbot/administrate
+tags:
+- exposure
+- administrate
+- misconfig
+requests:
+- method: GET
+  path: /admin
+  matchers:
+  - type: body
+    words:
+    - Search Customers
+    - Administrate
+    - New customer</a>
+  - type: status
+    status:
+    - 200
+  condition: and

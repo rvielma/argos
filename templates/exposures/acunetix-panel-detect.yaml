@@ -1,0 +1,21 @@
+id: acunetix-panel-detect
+name: Acunetix Login Panel
+severity: info
+confidence: tentative
+description: An Acunetix login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- discovery
+requests:
+- method: GET
+  path: /#/login
+  matchers:
+  - type: body
+    words:
+    - <title>Acunetix</title>
+    - <acx-root></acx-root>
+  - type: status
+    status:
+    - 200
+  condition: and

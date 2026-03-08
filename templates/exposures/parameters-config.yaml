@@ -1,0 +1,36 @@
+id: parameters-config
+name: Parameters.yml - File Discovery
+severity: high
+confidence: confirmed
+description: Parameters.yml was discovered.
+reference: https://www.exploit-db.com/ghdb/5986
+tags:
+- exposure
+- cloud
+- devops
+- vuln
+requests:
+- method: GET
+  path: /parameters.yml
+  matchers: &id001
+  - type: body
+    words:
+    - 'parameters:'
+    - database_user
+    - database_password
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /app/config/parameters.yml
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /parameters.yml.dist
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /app/config/parameters.yml.dist
+  matchers: *id001
+  condition: and

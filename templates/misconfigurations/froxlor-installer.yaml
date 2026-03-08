@@ -1,0 +1,22 @@
+id: froxlor-installer
+name: Froxlor Server Management - Installer
+severity: high
+confidence: confirmed
+description: Detects the Froxlor Server Management Panel installation page.
+reference: https://www.exploit-db.com/ghdb/8397
+tags:
+- misconfig
+- froxlor
+- installer
+- vuln
+requests:
+- method: GET
+  path: /install/install.php
+  matchers:
+  - type: body
+    words:
+    - <title>Froxlor Server Management Panel - Installation
+  - type: status
+    status:
+    - 200
+  condition: and

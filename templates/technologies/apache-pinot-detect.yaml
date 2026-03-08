@@ -1,0 +1,22 @@
+id: apache-pinot-detect
+name: Apache Pinot - Detect
+severity: info
+confidence: confirmed
+description: Detects a Apache Pinot web application, A realtime distributed OLAP datastore.
+tags:
+- tech
+- pinot
+- apache
+- detect
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Apache Pinot</title>
+  - type: status
+    status:
+    - 200
+  condition: and

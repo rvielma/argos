@@ -1,0 +1,26 @@
+id: geoserver-login-panel
+name: GeoServer Login Panel - Detect
+severity: info
+confidence: confirmed
+description: GeoServer login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- geoserver
+- osgeo
+- discovery
+requests:
+- method: GET
+  path: /web
+  matchers: &id001
+  - type: body
+    words:
+    - '<title>GeoServer: Welcome</title>'
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /geoserver/web/
+  matchers: *id001
+  condition: and

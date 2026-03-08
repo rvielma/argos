@@ -1,0 +1,21 @@
+id: casemanager-panel
+name: CaseManager Login Panel - Detect
+severity: info
+confidence: tentative
+description: CaseManager login panel was detected.
+reference: CWE-200
+tags:
+- casemanager
+- panel
+- discovery
+requests:
+- method: GET
+  path: /login
+  matchers:
+  - type: body
+    words:
+    - <title>CaseManager</title>
+  - type: status
+    status:
+    - 200
+  condition: and

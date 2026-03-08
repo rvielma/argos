@@ -1,0 +1,33 @@
+id: production-logs
+name: Discover production log files
+severity: info
+confidence: tentative
+description: Production log file was exposed.
+tags:
+- exposure
+- logs
+- rails
+- vuln
+requests:
+- method: GET
+  path: /log/production.log
+  matchers: &id001
+  - type: body
+    words:
+    - Connecting to database specified by database.yml
+    - Started GET
+  - type: status
+    status:
+    - 200
+  - type: header
+    words:
+    - text/html
+  condition: and
+- method: GET
+  path: /logs/production.log
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /production.log
+  matchers: *id001
+  condition: and

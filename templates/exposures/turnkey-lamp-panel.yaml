@@ -1,0 +1,24 @@
+id: turnkey-lamp-panel
+name: TurnKey LAMP Panel - Detect
+severity: info
+confidence: confirmed
+description: TurnKey LAMP Control Panel was detected.
+reference: https://www.turnkeylinux.org/lamp
+tags:
+- panel
+- login
+- turnkey
+- lamp
+- detect
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - TurnKey LAMP</title>
+  - type: status
+    status:
+    - 200
+  condition: and

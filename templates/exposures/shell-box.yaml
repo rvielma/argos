@@ -1,0 +1,25 @@
+id: shell-box
+name: Shell In A Box - Detect
+severity: info
+confidence: confirmed
+description: Shell In A Box implements a web server that can export arbitrary command line tools to a web based terminal emulator
+reference: https://github.com/shellinabox/shellinabox
+tags:
+- shell
+- emulator
+- detect
+- panel
+- login
+- shellinabox_project
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Shell In A Box</title>
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,23 @@
+id: php-fpm-status
+name: PHP-FPM Status
+severity: info
+confidence: tentative
+description: PHP-FPM Status
+tags:
+- config
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /status?full
+  matchers:
+  - type: body
+    words:
+    - 'pool:'
+    - 'process manager:'
+    - 'start time:'
+    - 'pid:'
+  - type: status
+    status:
+    - 200
+  condition: and

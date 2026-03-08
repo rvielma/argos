@@ -1,0 +1,24 @@
+id: akamai-bot-manager-detect
+name: Akamai Bot Manager Protection - Detect
+severity: info
+confidence: tentative
+description: Checks if the website is protected by Akamai Bot Manager
+reference: https://www.akamai.com/legal/manage-cookie-preferences
+tags:
+- akamai
+- bot
+- security
+- detect
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: regex
+    regex:
+    - Set-Cookie:\s*_abck=
+    - Set-Cookie:\s*bm_sv=
+    - Set-Cookie:\s*ak_bmsc=
+    - Set-Cookie:\s*bm_sz=
+    - Set-Cookie:\s*bm_mi=
+  condition: or

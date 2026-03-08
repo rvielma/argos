@@ -1,0 +1,22 @@
+id: geo-webserver-detect
+name: GeoWebServer Detector Panel - Detect
+severity: info
+confidence: confirmed
+description: GeoWebServer Detector panel was detected.
+reference: CWE-200
+tags:
+- panel
+- geowebserver
+- tech
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: status
+    status:
+    - 200
+  - type: body
+    words:
+    - <TITLE>GeoWebServer</TITLE>
+  condition: and

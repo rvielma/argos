@@ -1,0 +1,26 @@
+id: camunda-login-panel
+name: Camunda Login Panel - Detect
+severity: info
+confidence: tentative
+description: Camunda login panel was detected.
+reference: CWE-200
+tags:
+- camunda
+- panel
+- login
+- discovery
+requests:
+- method: GET
+  path: /app/welcome/default/#!/login
+  matchers: &id001
+  - type: body
+    words:
+    - Camunda Welcome
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /camunda/app/welcome/default/#!/login
+  matchers: *id001
+  condition: and

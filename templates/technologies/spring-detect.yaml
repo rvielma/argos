@@ -1,0 +1,22 @@
+id: spring-detect
+name: Java Spring Detection
+severity: info
+confidence: tentative
+description: Java Spring Detection
+reference: https://mkyong.com/spring-boot/spring-rest-error-handling-example/
+tags:
+- tech
+- java
+- spring
+- discovery
+requests:
+- method: GET
+  path: /error
+  matchers:
+  - type: body
+    words:
+    - '"status":999'
+  - type: status
+    status:
+    - 500
+  condition: and

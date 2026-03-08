@@ -1,0 +1,24 @@
+id: tigase-xmpp-server
+name: Tigase XMPP Server - Exposure
+severity: info
+confidence: confirmed
+description: Tigase XMPP Server - Exposure
+reference: https://www.facebook.com/photo/?fbid=617926933711163&set=a.467014098802448
+tags:
+- tigase
+- xmpp
+- server
+- panel
+- exposure
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Tigase XMPP Server</title>
+  - type: status
+    status:
+    - 200
+  condition: and

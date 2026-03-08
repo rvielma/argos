@@ -1,0 +1,22 @@
+id: json-server
+name: Json Server
+severity: low
+confidence: confirmed
+description: Json Server
+reference: https://www.exploit-db.com/ghdb/4550
+tags:
+- exposure
+- devops
+- tech
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>JSON Server</title>
+  - type: status
+    status:
+    - 200
+  condition: and

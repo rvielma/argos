@@ -1,0 +1,21 @@
+id: thinkific-redirect
+name: Thinkific - Open Redirect
+severity: medium
+confidence: tentative
+description: Thinkific contains an open redirect vulnerability via the http://interact.sh URL. An attacker can redirect a
+  user to a malicious site and possibly obtain sensitive information, modify data, and/or execute unauthorized operations.
+reference: CWE-601
+tags:
+- redirect
+- vuln
+requests:
+- method: GET
+  path: /api/sso/v2/sso/jwt?error_url=http://interact.sh
+  matchers:
+  - type: status
+    status:
+    - 302
+  - type: body
+    words:
+    - <a href="http://interact.sh?kind=jwt&message=Nil+JSON+web+token"
+  condition: and

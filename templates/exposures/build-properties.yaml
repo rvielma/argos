@@ -1,0 +1,30 @@
+id: build-properties
+name: Build Properties File Exposure
+severity: info
+confidence: confirmed
+description: Build Properties File Exposure
+tags:
+- exposure
+- config
+- files
+- vuln
+requests:
+- method: GET
+  path: /build.properties
+  matchers: &id001
+  - type: body
+    words:
+    - manpages.8 = \
+    - manpages.1 = \
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /build/build.properties
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /manual/style/build.properties
+  matchers: *id001
+  condition: and

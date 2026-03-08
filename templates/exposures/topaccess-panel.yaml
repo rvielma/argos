@@ -1,0 +1,25 @@
+id: topaccess-panel
+name: Toshiba TopAccess Panel - Detect
+severity: info
+confidence: confirmed
+description: Toshiba TopAccess Panel - Detect
+reference: https://business.toshiba.com/downloads/KB/f1Ulds/11646/KH-1020_TAG_EN_0002.pdf
+tags:
+- topaccess
+- panel
+- login
+- detect
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - content="TopAccess
+    - locale_TopAccess_Messages
+    - <title>TopAccess
+  - type: status
+    status:
+    - 200
+  condition: and

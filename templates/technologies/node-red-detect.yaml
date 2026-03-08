@@ -1,0 +1,22 @@
+id: node-red-detect
+name: Node-RED Dashboard - Detect
+severity: info
+confidence: tentative
+description: Node-RED dashboard was detected.
+reference: CWE-200
+tags:
+- tech
+- apache
+- node-red-dashboard
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Node-RED</title>
+  - type: status
+    status:
+    - 200
+  condition: and

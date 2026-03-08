@@ -1,0 +1,36 @@
+id: drupal-user-enum-ajax
+name: Drupal User Enumration [Ajax]
+severity: info
+confidence: tentative
+description: Drupal User Enumration [Ajax]
+tags:
+- drupal
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /admin/views/ajax/autocomplete/user/a
+  matchers: &id001
+  - type: body
+    words:
+    - '":"a.'
+    - '":"A.'
+  - type: header
+    words:
+    - application/json
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /views/ajax/autocomplete/user/a
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /?q=admin/views/ajax/autocomplete/user/a
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /?q=views/ajax/autocomplete/user/a
+  matchers: *id001
+  condition: and

@@ -1,0 +1,22 @@
+id: urbackup-panel
+name: UrBackup Panel - Detect
+severity: info
+confidence: confirmed
+description: UrBackup Panel - Detect
+tags:
+- urbackup
+- panel
+- login
+- detect
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>UrBackup - Keeps your data safe</title>
+  - type: status
+    status:
+    - 200
+  condition: and

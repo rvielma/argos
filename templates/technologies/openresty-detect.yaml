@@ -1,0 +1,17 @@
+id: openresty-detect
+name: OpenResty detection
+severity: info
+confidence: tentative
+description: Some deployments of OpenResty spill their version numbers.
+tags:
+- tech
+- openresty
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - openresty
+  condition: or

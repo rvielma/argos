@@ -1,0 +1,24 @@
+id: apache-hertzbeat-detect
+name: Apache Hertzbeat - Detect
+severity: info
+confidence: tentative
+description: Detects a Apache Hertzbeat web application is in use, that is a real-time monitoring system with agentless, performance
+  cluster, prometheus-compatible, custom monitoring and status page building capabilities.
+tags:
+- tech
+- hertzbeat
+- apache
+- detect
+- discovery
+requests:
+- method: GET
+  path: /assets/app-data.json
+  matchers:
+  - type: body
+    words:
+    - '"name": "HertzBeat"'
+    - hertzbeat.apache.org
+  - type: status
+    status:
+    - 200
+  condition: and

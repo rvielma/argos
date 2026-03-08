@@ -1,0 +1,22 @@
+id: trace-axd-detect
+name: ASP.NET Trace.AXD Information Leak
+severity: low
+confidence: tentative
+description: ASP.NET Trace.AXD Information was exposed.
+reference: https://www.rapid7.com/db/vulnerabilities/spider-asp-dot-net-trace-axd/
+tags:
+- logs
+- asp
+- exposure
+- discovery
+requests:
+- method: GET
+  path: /Trace.axd
+  matchers:
+  - type: body
+    words:
+    - <td><h1>Application Trace</h1></td>
+  - type: status
+    status:
+    - 200
+  condition: and

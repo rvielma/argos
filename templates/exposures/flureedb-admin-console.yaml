@@ -1,0 +1,21 @@
+id: flureedb-admin-console
+name: FlureeDB Admin Console Login Panel - Detect
+severity: info
+confidence: confirmed
+description: FlureeDB Admin Console login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- flureedb
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>FlureeDB Admin Console | Flur.ee</title>
+  - type: status
+    status:
+    - 200
+  condition: and

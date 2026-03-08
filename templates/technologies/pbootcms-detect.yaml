@@ -1,0 +1,21 @@
+id: pbootcms-detect
+name: PbootCMS Detect
+severity: info
+confidence: confirmed
+description: PbootCMS Detect
+reference: https://www.pbootcms.com/
+tags:
+- tech
+- pbootcms
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - content="PbootCMS
+  - type: regex
+    regex:
+    - <title>PbootCMS(.*)</title>
+  condition: or

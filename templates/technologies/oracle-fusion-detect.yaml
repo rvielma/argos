@@ -1,0 +1,22 @@
+id: oracle-fusion-detect
+name: Oracle Fusion Middleware - Detect
+severity: info
+confidence: confirmed
+description: Oracle Fusion Middleware was detected.
+tags:
+- oracle
+- middleware
+- detect
+- tech
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Welcome to Oracle Fusion Middleware
+  - type: status
+    status:
+    - 200
+  condition: and

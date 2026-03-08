@@ -1,0 +1,23 @@
+id: imprivata-installer
+name: Imprivata Appliance Installation Exposure
+severity: medium
+confidence: confirmed
+description: Imprivata Appliance is susceptible to the Installation page exposure due to misconfiguration.
+tags:
+- misconfig
+- imprivata
+- install
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /wizard/base.php
+  matchers:
+  - type: body
+    words:
+    - <title>Appliance Setup Wizard
+    - Imprivata
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,22 @@
+id: myq-panel
+name: MyQ Print Server Panel - Detect
+severity: info
+confidence: confirmed
+description: MyQ Print Server Panel - Detect
+tags:
+- panel
+- myq
+- detect
+- discovery
+requests:
+- method: GET
+  path: /en
+  matchers:
+  - type: body
+    words:
+    - <title>MyQ
+    - Wsf_App
+  - type: status
+    status:
+    - 200
+  condition: and

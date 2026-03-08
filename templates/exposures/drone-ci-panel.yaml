@@ -1,0 +1,23 @@
+id: drone-ci-panel
+name: Drone CI Login Panel - Detect
+severity: info
+confidence: tentative
+description: Drone CI login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- droneci
+- cicd
+- discovery
+requests:
+- method: GET
+  path: /welcome
+  matchers:
+  - type: body
+    words:
+    - <title>Drone CI</title>
+    - <title>Drone | Continuous Integration</title>
+  - type: status
+    status:
+    - 200
+  condition: and

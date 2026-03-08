@@ -1,0 +1,23 @@
+id: apache-shenyu-detect
+name: Apache Shenyu Gateway Management System - Detect
+severity: info
+confidence: tentative
+description: Detects a Apache Shenyu Gateway Management System, a Java native API Gateway for service proxy, protocol conversion
+  and API governance.
+tags:
+- tech
+- shenyu
+- apache
+- detect
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Apache ShenYu Gateway</title>
+  - type: status
+    status:
+    - 200
+  condition: and

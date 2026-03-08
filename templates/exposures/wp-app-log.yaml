@@ -1,0 +1,25 @@
+id: wp-app-log
+name: Discover wp-app.log Files
+severity: info
+confidence: tentative
+description: wp-app.log file is exposed.
+tags:
+- exposure
+- logs
+- vuln
+requests:
+- method: GET
+  path: /wp-app.log
+  matchers:
+  - type: body
+    words:
+    - LANG
+    - Array
+  - type: header
+    words:
+    - text/html
+    - application/javascript
+  - type: status
+    status:
+    - 200
+  condition: and

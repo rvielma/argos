@@ -1,0 +1,31 @@
+id: dzzoffice-panel
+name: DzzOffice Login Panel - Detect
+severity: info
+confidence: confirmed
+description: DzzOffice login panel was detected.
+reference: CWE-200
+tags:
+- dzzoffice
+- panel
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - content="DzzOffice
+    - DZZSCRIPT
+    - dzzoffice.com
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /index.php
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /user.php?mod=login
+  matchers: *id001
+  condition: and

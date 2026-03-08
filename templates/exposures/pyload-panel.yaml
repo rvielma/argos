@@ -1,0 +1,27 @@
+id: pyload-panel
+name: PyLoad Login - Panel
+severity: info
+confidence: confirmed
+description: A Pyload Login was detected.
+reference: https://github.com/pyload/pyload
+tags:
+- panel
+- pyload
+- login
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - Login - pyLoad
+    - alt="Pyload
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /login
+  matchers: *id001
+  condition: and

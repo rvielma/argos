@@ -1,0 +1,26 @@
+id: aws-xray-application
+name: AWS X-Ray Sample Application
+severity: info
+confidence: confirmed
+description: AWS X-Ray is a service that helps developers analyze and debug distributed applications.
+reference: https://www.facebook.com/ExWareLabs/photos/a.361854183878462/5566269380103557/
+tags:
+- misconfig
+- aws
+- x-ray
+- amazon
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>AWS X-Ray Sample Application</title>
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

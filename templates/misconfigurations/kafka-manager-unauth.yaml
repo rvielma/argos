@@ -1,0 +1,24 @@
+id: kafka-manager-unauth
+name: Kafka Manager Panel - Unauthorized Access
+severity: low
+confidence: tentative
+description: A kafka manager unauthorized access was discovered.
+reference: https://github.com/yahoo/CMAK
+tags:
+- misconfig
+- apache
+- kafka
+- unauth
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Kafka Manager</title>
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,23 @@
+id: netscaler-aaa-login
+name: NetScaler AAA Login Panel - Detect
+severity: info
+confidence: tentative
+description: NetScaler AAA login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- netscaler
+- login
+- edb
+- citrix
+- detect
+- discovery
+requests:
+- method: GET
+  path: /logon/LogonPoint/tmindex.html
+  matchers:
+  - type: body
+    words:
+    - NetScaler AAA</title>
+    - _ctxstxt_NetscalerAAA
+  condition: or

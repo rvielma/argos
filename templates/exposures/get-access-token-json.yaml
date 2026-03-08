@@ -1,0 +1,25 @@
+id: get-access-token-json
+name: Get Access Token Json
+severity: low
+confidence: confirmed
+description: Internal file is exposed in Constant Contact Forms wordpress plugin.
+tags:
+- exposure
+- files
+- vuln
+requests:
+- method: GET
+  path: /wp-content/plugins/constant-contact-forms/vendor/constantcontact/constantcontact/test/Json/Auth/get_access_token.json
+  matchers: &id001
+  - type: body
+    words:
+    - '"access_token":'
+    - '"token_type":'
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /wp-content/plugins/constant-contact-api-old/vendor/constantcontact/constantcontact/test/Json/Auth/get_access_token.json
+  matchers: *id001
+  condition: and

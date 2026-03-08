@@ -1,0 +1,25 @@
+id: locust-exposure
+name: Locust Exposure
+severity: medium
+confidence: confirmed
+description: Locust is exposed.
+tags:
+- exposure
+- locust
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: regex
+    regex:
+    - '<title>Locust(?: for.+)?</title>'
+  - type: body
+    words:
+    - locust.js
+    - Charts</a>
+  - type: status
+    status:
+    - 200
+  condition: and

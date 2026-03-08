@@ -1,0 +1,23 @@
+id: espeasy-mega-exposure
+name: ESPEasy Mega Panel Exposure
+severity: high
+confidence: confirmed
+description: ESPEasy Mega Panel is exposed.
+tags:
+- misconfig
+- espeasy
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - 'ESP Easy Mega:'
+    - Config
+    - Tools
+  - type: status
+    status:
+    - 200
+  condition: and

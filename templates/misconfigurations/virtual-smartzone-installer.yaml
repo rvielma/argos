@@ -1,0 +1,24 @@
+id: virtual-smartzone-installer
+name: Virtual SmartZone Setup Wizard - Exposure
+severity: high
+confidence: confirmed
+description: Detects exposed Virtual SmartZone Installation page.
+reference: https://support.ruckuswireless.com/products/83-virtual-smartzone-vsz
+tags:
+- misconfig
+- install
+- exposure
+- virtual-smartzone
+- vuln
+requests:
+- method: GET
+  path: /adminweb/
+  matchers:
+  - type: body
+    words:
+    - Virtual SmartZone
+    - Setup Wizard
+  - type: status
+    status:
+    - 200
+  condition: and

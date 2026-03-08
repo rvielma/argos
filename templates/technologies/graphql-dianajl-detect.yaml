@@ -1,0 +1,46 @@
+id: graphql-dianajl-detect
+name: Graphql Dianajl Detect
+severity: info
+confidence: tentative
+description: Graphql Dianajl Detect
+reference: https://github.com/dolevf/graphw00f/blob/main/graphw00f/lib.py
+tags:
+- tech
+- graphql
+- dianajl
+requests:
+- method: POST
+  path: /graphql
+  matchers: &id001
+  - type: status
+    status:
+    - 200
+    - 400
+  - type: body
+    words:
+    - Syntax Error GraphQL request (1:1) Unexpected Name "queryy"
+  condition: and
+  headers:
+    Content-Type: application/json
+  body: '{"query":"queryy { __typename }"}'
+- method: POST
+  path: /api/graphql
+  matchers: *id001
+  condition: and
+  headers:
+    Content-Type: application/json
+  body: '{"query":"queryy { __typename }"}'
+- method: POST
+  path: /query
+  matchers: *id001
+  condition: and
+  headers:
+    Content-Type: application/json
+  body: '{"query":"queryy { __typename }"}'
+- method: POST
+  path: /
+  matchers: *id001
+  condition: and
+  headers:
+    Content-Type: application/json
+  body: '{"query":"queryy { __typename }"}'

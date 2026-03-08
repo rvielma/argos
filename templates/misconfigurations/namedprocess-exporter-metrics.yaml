@@ -1,0 +1,23 @@
+id: namedprocess-exporter-metrics
+name: Named Process Exporter
+severity: low
+confidence: confirmed
+description: Named process exporter is exposed.
+tags:
+- namedprocess
+- exposure
+- debug
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /metrics
+  matchers:
+  - type: body
+    words:
+    - namedprocess
+    - '# HELP'
+  - type: status
+    status:
+    - 200
+  condition: and

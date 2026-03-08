@@ -1,0 +1,19 @@
+id: tinyproxy-detect
+name: Tinyproxy - Detect
+severity: info
+confidence: confirmed
+description: Lightweight HTTP/HTTPS proxy daemon for POSIX operating systems
+reference: https://github.com/tinyproxy/tinyproxy
+tags:
+- tech
+- proxy
+- detect
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: header
+    words:
+    - 'server: tinyproxy'
+  condition: or

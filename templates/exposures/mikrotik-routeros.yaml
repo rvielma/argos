@@ -1,0 +1,33 @@
+id: mikrotik-routeros
+name: MikroTik Router OS Login Panel - Detect
+severity: info
+confidence: tentative
+description: MikroTik Router OS login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- login
+- mikrotik
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - If this device is not in your possession, please contact your local network administrator
+    - .mikrotik.com
+  - type: body
+    words:
+    - <title>mikrotik routeros > administration</title>
+    - <title>Mikrotik Router
+    - <img src="/webcfg/
+    - <title>MikroTik RouterOS Managing Webpage</title>
+  - type: body
+    words:
+    - Please log on to use the mikrotik hotspot service
+    - mikrotik hotspot > login
+  - type: header
+    words:
+    - 'Server: mikrotik httpproxy'
+  condition: and

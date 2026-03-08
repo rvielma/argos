@@ -1,0 +1,25 @@
+id: jira-unauthenticated-projectcategories
+name: Jira Unauthenticated Project Categories
+severity: info
+confidence: tentative
+description: Jira Unauthenticated Project Categories
+tags:
+- atlassian
+- jira
+- vuln
+requests:
+- method: GET
+  path: /rest/api/2/projectCategory?maxResults=1000
+  matchers:
+  - type: body
+    words:
+    - self
+    - description
+    - name
+  - type: status
+    status:
+    - 200
+  - type: header
+    words:
+    - atlassian.xsrf.token
+  condition: and

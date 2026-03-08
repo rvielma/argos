@@ -1,0 +1,24 @@
+id: bitrix-login
+name: Bitrix Login Panel
+severity: info
+confidence: confirmed
+description: Bitrix24 is a unified work space that places a complete set of business tools into a single, intuitive interface.
+reference: CWE-200
+tags:
+- panel
+- bitrix
+- login
+- discovery
+requests:
+- method: GET
+  path: /bitrix/admin/
+  matchers: &id001
+  - type: body
+    words:
+    - USER_LOGIN
+    - /bitrix/js/main/
+  condition: or
+- method: GET
+  path: /bitrix/components/bitrix/map.yandex.view/settings/settings.php
+  matchers: *id001
+  condition: or

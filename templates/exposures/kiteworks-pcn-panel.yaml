@@ -1,0 +1,28 @@
+id: kiteworks-pcn-panel
+name: Kiteworks PCN Panel - Detect
+severity: info
+confidence: confirmed
+description: Kiteworks PCN Login Panel was detected.
+reference: https://www.kiteworks.com/platform/private-content-network/
+tags:
+- panel
+- kiteworks
+- login
+- detect
+- accellion
+- discovery
+requests:
+- method: GET
+  path: /login/locales/login_en.json
+  matchers:
+  - type: body
+    words:
+    - Secured by Kiteworks
+    - Return to sign in
+  - type: header
+    words:
+    - application/octet-stream
+  - type: status
+    status:
+    - 200
+  condition: and

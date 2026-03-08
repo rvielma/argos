@@ -1,0 +1,22 @@
+id: selenium-grid
+name: Selenium Grid Panel - Detect
+severity: info
+confidence: tentative
+description: Selenium Grid panel was detected.
+reference: CWE-200
+tags:
+- panel
+- unauth
+- selenium
+- discovery
+requests:
+- method: GET
+  path: /ui/index.html
+  matchers:
+  - type: body
+    words:
+    - <title>Selenium Grid</title>
+  - type: status
+    status:
+    - 200
+  condition: and

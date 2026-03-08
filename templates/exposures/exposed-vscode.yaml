@@ -1,0 +1,18 @@
+id: exposed-vscode
+name: Visual Studio Code Directories - Detect
+severity: medium
+confidence: tentative
+description: Visual Studio Code directories were detected.
+reference: CWE-200
+tags:
+- vscode
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /.vscode/
+  matchers:
+  - type: body
+    words:
+    - Index of /.vscode
+  condition: or

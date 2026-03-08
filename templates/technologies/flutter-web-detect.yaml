@@ -1,0 +1,32 @@
+id: flutter-web-detect
+name: Flutter Web Application - Detect
+severity: info
+confidence: confirmed
+description: Detect flutter web apps looking for flutter_bootstrap.js,main.dart.js and flutter_service_worker.js files.
+tags:
+- tech
+- detect
+- flutter
+- discovery
+requests:
+- method: GET
+  path: /flutter_service_worker.js
+  matchers: &id001
+  - type: body
+    words:
+    - _flutter.loader.didCreateEngineInitializer
+    - _flutter.buildConfig
+    - flutter-app-manifest
+    - flutter-temp-cache
+    - flutter-app-cache
+    - ext.flutter.disassemble
+    - '#flutterweb-theme'
+  condition: or
+- method: GET
+  path: /main.dart.js
+  matchers: *id001
+  condition: or
+- method: GET
+  path: /flutter_bootstrap.js
+  matchers: *id001
+  condition: or

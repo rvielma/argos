@@ -1,0 +1,23 @@
+id: tasmota-install
+name: Tasmota Installer Exposure
+severity: high
+confidence: confirmed
+description: Tasmota is susceptible to the Installation page exposure due to misconfiguration.
+tags:
+- misconfig
+- tasmota
+- install
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /install/
+  matchers:
+  - type: body
+    words:
+    - Install Tasmota
+    - Tasmota Installer
+  - type: status
+    status:
+    - 200
+  condition: and

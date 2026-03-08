@@ -1,0 +1,26 @@
+id: tibco-spotfire-panel
+name: TIBCO Spotfire Login Panel - Detect
+severity: info
+confidence: confirmed
+description: TIBCO Spotfire login panel was detected.
+reference: https://www.tibco.com/products/tibco-spotfire
+tags:
+- panel
+- tibco
+- login
+- detect
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - <title>TIBCO Spotfire Server
+    - content="TIBCO Spotfire
+    - /spotfire/ui/
+  condition: or
+- method: GET
+  path: /spotfire/login.html
+  matchers: *id001
+  condition: or

@@ -1,0 +1,22 @@
+id: cisco-prime-license-manager-panel
+name: Cisco Prime License Manager - Detect
+severity: info
+confidence: tentative
+description: Detected exposed Cisco Prime License Manager portals
+reference: https://www.cisco.com/c/en/us/support/cloud-systems-management/prime-license-manager/series.html
+tags:
+- cisco
+- cisco-prime-license-manager
+- panel
+- discovery
+requests:
+- method: GET
+  path: /elm-admin/
+  matchers:
+  - type: body
+    words:
+    - <title>Cisco Prime License Manager
+  - type: status
+    status:
+    - 200
+  condition: and

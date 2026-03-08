@@ -1,0 +1,21 @@
+id: cisco-edge-340
+name: Cisco Edge 340 Panel - Detect
+severity: info
+confidence: tentative
+description: Cisco Edge 340 panel was detected.
+reference: CWE-200
+tags:
+- panel
+- cisco
+- discovery
+requests:
+- method: GET
+  path: /auth/?next=%2F
+  matchers:
+  - type: body
+    words:
+    - <title>Cisco Edge 340</title>
+  - type: status
+    status:
+    - 200
+  condition: and

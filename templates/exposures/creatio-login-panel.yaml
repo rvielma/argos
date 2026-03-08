@@ -1,0 +1,23 @@
+id: creatio-login-panel
+name: Creatio Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Creatio login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- creatio
+- discovery
+requests:
+- method: GET
+  path: /Login/NuiLogin.aspx
+  matchers:
+  - type: body
+    words:
+    - /creatio/widget
+    - creatio-sdk/
+    - Creatio Debug mode
+  - type: status
+    status:
+    - 200
+  condition: and

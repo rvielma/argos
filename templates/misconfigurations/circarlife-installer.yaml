@@ -1,0 +1,33 @@
+id: circarlife-installer
+name: CirCarLife - Installer
+severity: critical
+confidence: confirmed
+description: A CirCarLife admin panel was accessed. CirCarLife is an internet-connected electric vehicle charging station
+reference: CWE-284
+tags:
+- scada
+- circontrol
+- circarlife
+- setup
+- exposure
+- panel
+- installer
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /html/setup.html
+  matchers:
+  - type: header
+    words:
+    - CirCarLife Scada
+  - type: body
+    words:
+    - <title>- setup</title>
+    - Network setup
+    - Modem setup
+    - Security setup
+  - type: status
+    status:
+    - 200
+  condition: and

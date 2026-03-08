@@ -1,0 +1,27 @@
+id: ws-ftp-log
+name: WS FTP File Disclosure
+severity: low
+confidence: confirmed
+description: WS_FTP software, which is a popular FTP (File Transfer Protocol) client used for transferring files between a
+  local computer and a remote server has its log file exposed.
+tags:
+- exposure
+- ftp
+- logs
+- vuln
+requests:
+- method: GET
+  path: /ws_ftp.log
+  matchers: &id001
+  - type: regex
+    regex:
+    - \d{4}\.\d{2}\.\d{2} \d{2}:\d{2} [A-Z] C:\\
+    - \d{4}\.\d{2}\.\d{2} \d{2}:\d{2} [A-Z] D:\\
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /WS_FTP.LOG
+  matchers: *id001
+  condition: and

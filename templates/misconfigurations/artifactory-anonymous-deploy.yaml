@@ -1,0 +1,24 @@
+id: artifactory-anonymous-deploy
+name: Artifactory anonymous deploy
+severity: high
+confidence: tentative
+description: Artifactory anonymous repo is exposed.
+reference: https://www.errno.fr/artifactory/Attacking_Artifactory.html
+tags:
+- artifactory
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /artifactory/ui/repodata?deploy=true
+  matchers:
+  - type: body
+    words:
+    - '"repoKey"'
+  - type: status
+    status:
+    - 200
+  - type: header
+    words:
+    - application/json
+  condition: and

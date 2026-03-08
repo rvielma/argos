@@ -1,0 +1,19 @@
+id: kafka-connect-ui
+name: Apache Kafka Connect UI Login Panel - Detect
+severity: info
+confidence: tentative
+description: Apache Kafka Connect UI login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- kafka
+- apache
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Kafka Connect UI</title>
+  condition: or

@@ -1,0 +1,20 @@
+id: hpe-system-management-anonymous-access
+name: HPE System Management Anonymous Access
+severity: low
+confidence: tentative
+description: HPE system management anonymous access is enabled.
+tags:
+- hp
+- unauth
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /chpstrt.php?chppath=Home
+  matchers:
+  - type: body
+    words:
+    - username = "hpsmh_anonymous";
+    - var host_addr = '
+    - var ip_addr   = '
+  condition: and

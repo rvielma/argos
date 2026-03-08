@@ -1,0 +1,28 @@
+id: iclock-admin-panel
+name: iClock Automatic Data Master Server Admin Panel - Detect
+severity: info
+confidence: confirmed
+description: An iClock Automatic Data Master Server Admin login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- iclock
+- login
+- admin
+- discovery
+requests:
+- method: GET
+  path: /iclock/accounts/login/
+  matchers: &id001
+  - type: body
+    words:
+    - '"site-name">iClock Automatic Data Master Server'
+    - <title> | Django site admin</title>
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /iclock/accounts/login/?next=/iclock/data/iclock/
+  matchers: *id001
+  condition: and

@@ -1,0 +1,22 @@
+id: apache-druid-unauth
+name: Apache Druid Unauth
+severity: low
+confidence: confirmed
+description: Apache Druid is exposed to external users.
+tags:
+- misconfig
+- druid
+- unauth
+- apache
+- vuln
+requests:
+- method: GET
+  path: /unified-console.html
+  matchers:
+  - type: body
+    words:
+    - <title>Apache Druid</title>
+  - type: status
+    status:
+    - 200
+  condition: and

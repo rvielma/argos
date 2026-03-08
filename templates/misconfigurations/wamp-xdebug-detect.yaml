@@ -1,0 +1,20 @@
+id: wamp-xdebug-detect
+name: WAMP Xdebug - Detect
+severity: info
+confidence: tentative
+description: WAMP Xdebug was detected.
+reference: CWE-200
+tags:
+- debug
+- config
+- wamp
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /?phpinfo=-1
+  matchers:
+  - type: body
+    words:
+    - xdebug.remote_connect_back</td><td class="v">On</td><td class="v">On</td>
+  condition: or

@@ -1,0 +1,21 @@
+id: ymhome-detect
+name: Ymhome-detect
+severity: info
+confidence: tentative
+description: Ymhome-detect
+tags:
+- ymhome
+- tech
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - yimioa.apk
+    - 'isSavePwd:'
+  - type: status
+    status:
+    - 200
+  condition: and

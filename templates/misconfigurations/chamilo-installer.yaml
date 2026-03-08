@@ -1,0 +1,27 @@
+id: chamilo-installer
+name: Chamilo Installer Exposure
+severity: high
+confidence: confirmed
+description: Chamilo is susceptible to the Installation page exposure due to misconfiguration.
+tags:
+- misconfig
+- chamilo
+- install
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - Chamilo installation
+    - Installation Language
+  - type: body
+    words:
+    - <title>Chamilo has not been installed</title>
+  condition: or
+- method: GET
+  path: /main/install/index.php
+  matchers: *id001
+  condition: or

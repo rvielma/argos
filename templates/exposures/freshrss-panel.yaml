@@ -1,0 +1,24 @@
+id: freshrss-panel
+name: Freshrss Panel - Detect
+severity: info
+confidence: confirmed
+description: Freshrss panel has been detected.
+tags:
+- freshrss
+- panel
+- detect
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - content="FreshRSS
+    - alt="FreshRSS
+    - About FreshRSS
+    - FreshRSS</title>
+  - type: status
+    status:
+    - 200
+  condition: and

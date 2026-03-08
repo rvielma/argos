@@ -1,0 +1,22 @@
+id: elastic-beanstalk-detect
+name: AWS Elastic Beanstalk Detect
+severity: info
+confidence: tentative
+description: AWS Elastic Beanstalk Detect
+tags:
+- aws
+- tech
+- beanstalk
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <li><a href="http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/Welcome.html">AWS Elastic Beanstalk overview</a></li>
+    - <li><a href="http://docs.amazonwebservices.com/elasticbeanstalk/latest/dg/">AWS Elastic Beanstalk overview</a></li>
+  - type: status
+    status:
+    - 200
+  condition: and

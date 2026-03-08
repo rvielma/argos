@@ -1,0 +1,23 @@
+id: snapcomms-panel
+name: SnapComms Content Manager Panel - Detect
+severity: info
+confidence: confirmed
+description: SnapComms Content Manager was detected.
+reference: https://www.snapcomms.com/
+tags:
+- panel
+- snapcomms
+- login
+- detect
+- discovery
+requests:
+- method: GET
+  path: /Manager/
+  matchers:
+  - type: body
+    words:
+    - <title>SnapComms Content Manager</title>
+  - type: status
+    status:
+    - 200
+  condition: and

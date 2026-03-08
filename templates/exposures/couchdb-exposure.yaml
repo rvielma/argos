@@ -1,0 +1,23 @@
+id: couchdb-exposure
+name: Apache CouchDB Panel - Detect
+severity: info
+confidence: tentative
+description: Apache CouchDB panel was detected.
+reference: CWE-200
+tags:
+- panel
+- couchdb
+- apache
+- discovery
+requests:
+- method: GET
+  path: /_all_dbs
+  matchers:
+  - type: header
+    words:
+    - CouchDB/
+    - Erlang OTP/
+  - type: status
+    status:
+    - 200
+  condition: and

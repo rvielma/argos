@@ -1,0 +1,44 @@
+id: config-json
+name: Configuration File - Detect
+severity: medium
+confidence: confirmed
+description: Multiple configuration files were detected.
+reference: CWE-200
+tags:
+- config
+- exposure
+- files
+- vuln
+requests:
+- method: GET
+  path: /config/default.json
+  matchers: &id001
+  - type: body
+    words:
+    - '"api_keys":'
+    - '"aws":'
+    - '"server":'
+    - '"users":'
+    - '"password":'
+    - '"user"'
+    - '"path":'
+  - type: body
+    words:
+    - text/html
+    - text/javascript
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /config.json
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /config/config.json
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /credentials/config.json
+  matchers: *id001
+  condition: and

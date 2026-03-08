@@ -1,0 +1,22 @@
+id: oauth2-detect
+name: OAuth 2.0 Authorization Server Detection Template
+severity: info
+confidence: tentative
+description: Try to detect OAuth 2.0 Authorization Server via the "oauth/token" endpoint
+tags:
+- tech
+- oauth
+- discovery
+requests:
+- method: POST
+  path: /oauth/token
+  matchers:
+  - type: status
+    status:
+    - 401
+    - 400
+  - type: body
+    words:
+    - error":"invalid_client"
+  condition: and
+  body: grant_type=authorization_code&client_id=xxx&redirect_uri=https%3A%2F%2Fprojectdiscovery.io&code=xxx&client_secret=xxx

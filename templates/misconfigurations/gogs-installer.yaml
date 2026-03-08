@@ -1,0 +1,24 @@
+id: gogs-installer
+name: Gogs (Go Git Service) - Installer
+severity: critical
+confidence: confirmed
+description: Go Git Service installer panel was detected.
+reference: CWE-284
+tags:
+- misconfig
+- exposure
+- gogs
+- install
+- vuln
+requests:
+- method: GET
+  path: /install
+  matchers:
+  - type: body
+    words:
+    - General Settings
+    - Database Settings
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,21 @@
+id: lighttpd-placeholder-page
+name: Lighttpd Placeholder Page
+severity: info
+confidence: tentative
+description: Lighttpd Placeholder Page
+tags:
+- tech
+- lighttpd
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - If you find a bug in this Lighttpd package, or in Lighttpd itself
+    - <h1> Placeholder page </h1>
+  - type: status
+    status:
+    - 200
+  condition: and

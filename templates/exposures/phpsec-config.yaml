@@ -1,0 +1,30 @@
+id: phpsec-config
+name: phpspec Config - Detect
+severity: info
+confidence: confirmed
+description: phpspec configuration information was detected.
+reference: CWE-200
+tags:
+- exposure
+- phpsec
+- php
+- devops
+- cicd
+- vuln
+requests:
+- method: GET
+  path: /.phpspec.yml
+  matchers: &id001
+  - type: body
+    words:
+    - 'suites:'
+    - 'main:'
+    - 'namespace:'
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /phpspec.yml
+  matchers: *id001
+  condition: and

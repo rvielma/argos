@@ -1,0 +1,26 @@
+id: nagvis-panel
+name: NagVis Login Panel - Detect
+severity: info
+confidence: confirmed
+description: NagVis login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- nagvis
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - /nagvis/userfiles
+    - <title>NagVis
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /nagvis/frontend/nagvis-js/index.php
+  matchers: *id001
+  condition: and

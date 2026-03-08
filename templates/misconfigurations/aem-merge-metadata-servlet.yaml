@@ -1,0 +1,21 @@
+id: aem-merge-metadata-servlet
+name: AEM MergeMetadataServlet
+severity: info
+confidence: tentative
+description: AEM MergeMetadataServlet
+reference: https://speakerdeck.com/0ang3el/aem-hacker-approaching-adobe-experience-manager-webapps-in-bug-bounty-programs?slide=91
+tags:
+- aem
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /libs/dam/merge/metadata.html?path=/etc&.ico
+  matchers:
+  - type: status
+    status:
+    - 200
+  - type: body
+    words:
+    - assetPaths
+  condition: and

@@ -1,0 +1,22 @@
+id: pypicloud-panel
+name: PyPICloud Login Panel - Detect
+severity: info
+confidence: tentative
+description: PyPLCloud login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- pypicloud
+- discovery
+requests:
+- method: GET
+  path: /login
+  matchers:
+  - type: body
+    words:
+    - <title>Pypicloud</title>
+    - <html ng-app="pypicloud">
+  - type: status
+    status:
+    - 200
+  condition: and

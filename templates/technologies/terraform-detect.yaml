@@ -1,0 +1,21 @@
+id: terraform-detect
+name: Detect Terraform Provider
+severity: info
+confidence: tentative
+description: Write Infrastructure as Code - https://www.terraform.io/
+tags:
+- tech
+- terraform
+- discovery
+requests:
+- method: GET
+  path: /provider.tf
+  matchers:
+  - type: body
+    words:
+    - access_key
+    - terraform
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,24 @@
+id: ffserver-status
+name: FFserver Status Detect
+severity: low
+confidence: confirmed
+description: FFserver status panel exposed.
+tags:
+- exposure
+- exposures
+- logs
+- ffserver
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - ffserver Status
+    - Available Streams
+    - Connection Status
+  - type: status
+    status:
+    - 200
+  condition: and

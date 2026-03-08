@@ -1,0 +1,27 @@
+id: unauth-fastvue-dashboard
+name: Fastvue Dashboard Panel - Unauthenticated Detect
+severity: medium
+confidence: confirmed
+description: Fastvue Dashboard panel was detected without authentication.
+reference: CWE-200
+tags:
+- panel
+- fastvue
+- unauth
+- misconfig
+- discovery
+requests:
+- method: GET
+  path: /dashboard.aspx
+  matchers:
+  - type: body
+    words:
+    - <title>Fastvue Sophos Reporter</title>
+    - <title>Fastvue Reporter for SonicWall</title>
+  - type: body
+    words:
+    - Dashboard
+  - type: status
+    status:
+    - 200
+  condition: and

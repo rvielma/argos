@@ -1,0 +1,25 @@
+id: ganglia-cluster-dashboard
+name: Ganglia Cluster Dashboard - Detect
+severity: low
+confidence: confirmed
+description: Ganglia Cluster dashboard was detected.
+tags:
+- misconfig
+- ganglia
+- dashboard
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - ganglia_form.submit()
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /ganglia/
+  matchers: *id001
+  condition: and

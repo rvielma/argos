@@ -1,0 +1,24 @@
+id: php-cs-cache
+name: PHP-CS-Fixer Cache - File Disclosure
+severity: medium
+confidence: confirmed
+description: PHP CS fixer cache internal file is disclosed.
+reference: https://www.acunetix.com/vulnerabilities/web/php-cs-fixer-cache-file-publicly-accessible-php_cs-cache/
+tags:
+- exposure
+- files
+- php
+- vuln
+requests:
+- method: GET
+  path: /.php_cs.cache
+  matchers:
+  - type: body
+    words:
+    - '{"php":'
+    - '"version":'
+    - '"indent":'
+  - type: status
+    status:
+    - 200
+  condition: and

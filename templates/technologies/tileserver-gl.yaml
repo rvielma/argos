@@ -1,0 +1,22 @@
+id: tileserver-gl
+name: TileServer GL Page - Detect
+severity: info
+confidence: tentative
+description: TileServer GL page was detected.
+reference: CWE-200
+tags:
+- tech
+- tileserver
+- edb
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>TileServer GL - Server for vector and raster maps with GL styles</title>
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,22 @@
+id: project-insight-login
+name: Project Insight Login Panel - Detect
+severity: info
+confidence: tentative
+description: Project Insight login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- edb
+- helpproject
+- discovery
+requests:
+- method: GET
+  path: /auth/login
+  matchers:
+  - type: body
+    words:
+    - <title>Project Insight - Login</title>
+  - type: status
+    status:
+    - 200
+  condition: and

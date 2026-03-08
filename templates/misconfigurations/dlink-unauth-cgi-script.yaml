@@ -1,0 +1,26 @@
+id: dlink-unauth-cgi-script
+name: D-Link DNS Series  CGI Script - Unauthenticated
+severity: low
+confidence: confirmed
+description: A vulnerability has been identified in the D-Link DNS series network storage devices, allowing for the exposure
+  of sensitive device information to unauthorized actors. This vulnerability is due to an unauthenticated access flaw in the
+  info.cgi script, which can be exploited via a simple HTTP GET request, affecting over 920,000 devices on the Internet.
+reference: https://github.com/netsecfish/info_cgi
+tags:
+- unauth
+- dlink
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /cgi-bin/info.cgi
+  matchers:
+  - type: body
+    words:
+    - Product=
+    - Version=
+    - Model=
+  - type: status
+    status:
+    - 200
+  condition: and

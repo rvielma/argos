@@ -1,0 +1,34 @@
+id: aem-acs-common
+name: Adobe AEM ACS Common Exposure
+severity: medium
+confidence: tentative
+description: Adobe AEM ACS Common pages exposed.
+reference: https://raw.githubusercontent.com/danielmiessler/SecLists/master/Discovery/Web-Content/aem2.txt
+tags:
+- misconfig
+- aem
+- adobe
+- vuln
+requests:
+- method: GET
+  path: /etc/acs-commons/jcr-compare.html
+  matchers: &id001
+  - type: body
+    words:
+    - <title>Version Compare | ACS AEM Commons</title>
+    - <title>Oak Index Manager | ACS AEM Commons</title>
+    - <title>JCR Compare | ACS AEM Commons</title>
+    - <title>Workflow Remover | ACS AEM Commons</title>
+  condition: or
+- method: GET
+  path: /etc/acs-commons/workflow-remover.html
+  matchers: *id001
+  condition: or
+- method: GET
+  path: /etc/acs-commons/version-compare.html
+  matchers: *id001
+  condition: or
+- method: GET
+  path: /etc/acs-commons/oak-index-manager.html
+  matchers: *id001
+  condition: or

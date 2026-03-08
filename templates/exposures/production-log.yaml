@@ -1,0 +1,32 @@
+id: production-log
+name: Production Log File Disclosure
+severity: low
+confidence: confirmed
+description: Production log file was exposed.
+tags:
+- exposure
+- files
+- logs
+- vuln
+requests:
+- method: GET
+  path: /log/production.log
+  matchers: &id001
+  - type: body
+    words:
+    - Connecting to database specified by database.yml
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /logs/production.log
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /production.log
+  matchers: *id001
+  condition: and

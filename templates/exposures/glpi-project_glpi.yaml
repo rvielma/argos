@@ -1,0 +1,29 @@
+id: glpi-project_glpi
+name: GLPI Panel - Detect
+severity: info
+confidence: confirmed
+description: GLPI panel was detected.
+reference: CWE-200
+tags:
+- glpi
+- edb
+- panel
+- glpi-project
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - GLPI
+    - glpi-project.org
+  condition: or
+- method: GET
+  path: /CHANGELOG.md
+  matchers: *id001
+  condition: or
+- method: GET
+  path: /glpi/
+  matchers: *id001
+  condition: or

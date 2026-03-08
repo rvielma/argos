@@ -1,0 +1,26 @@
+id: windows-communication-foundation-detect
+name: Windows Communication Foundation - Detect
+severity: info
+confidence: tentative
+description: Windows Communication Foundation - Detect
+tags:
+- tech
+- wcf
+- windows
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Endpoint not found.
+    - class="heading1">Service
+    - This is a Windows&#169; Communication Foundation service.
+  - type: body
+    words:
+    - <title>Service</title>
+  - type: status
+    status:
+    - 200
+  condition: and

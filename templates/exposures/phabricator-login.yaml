@@ -1,0 +1,22 @@
+id: phabricator-login
+name: Phabricator Login Panel - Detect
+severity: info
+confidence: tentative
+description: Phabricator login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- phabricator
+- phacility
+- discovery
+requests:
+- method: GET
+  path: /auth/login/
+  matchers:
+  - type: body
+    words:
+    - phabricator-standard-page
+  - type: status
+    status:
+    - 200
+  condition: and

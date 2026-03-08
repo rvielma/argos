@@ -1,0 +1,22 @@
+id: veeam-backup-gcp
+name: Veeam Backup for Google Cloud Platform Panel - Detect
+severity: info
+confidence: confirmed
+description: Veeam Backup for Google Cloud Platform panel was detected.
+reference: CWE-200
+tags:
+- panel
+- google
+- cloud
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Veeam Backup for GCP</title>
+  - type: status
+    status:
+    - 200
+  condition: and

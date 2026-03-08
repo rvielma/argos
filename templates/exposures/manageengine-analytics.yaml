@@ -1,0 +1,23 @@
+id: manageengine-analytics
+name: ZOHO ManageEngine Analytics Plus Panel - Detect
+severity: info
+confidence: tentative
+description: ZOHO ManageEngine analytics plus panel was detected.
+reference: CWE-200
+tags:
+- panel
+- zoho
+- manageengine
+- zohocorp
+- discovery
+requests:
+- method: GET
+  path: /iam/login
+  matchers:
+  - type: body
+    words:
+    - <title>ManageEngine Analytics Plus</title>
+  - type: status
+    status:
+    - 200
+  condition: and

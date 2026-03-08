@@ -1,0 +1,24 @@
+id: librephotos-panel
+name: LibrePhotos Panel - Detect
+severity: info
+confidence: confirmed
+description: LibrePhotos Panel - Detect
+reference: https://github.com/LibrePhotos/librephotos
+tags:
+- panel
+- librephotos
+- detect
+- login
+- discovery
+requests:
+- method: GET
+  path: /login
+  matchers:
+  - type: body
+    words:
+    - <title>LibrePhotos
+  - type: status
+    status:
+    - 200
+    - 404
+  condition: and

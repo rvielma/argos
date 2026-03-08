@@ -1,0 +1,28 @@
+id: etcd-version
+name: Etcd Version - Detect
+severity: info
+confidence: confirmed
+description: Template detects Etcd version.
+reference: https://etcd.io/
+tags:
+- tech
+- k8s
+- kubernetes
+- devops
+- etcd
+- discovery
+requests:
+- method: GET
+  path: /version
+  matchers:
+  - type: body
+    words:
+    - '"etcdserver"'
+    - '"etcdcluster"'
+  - type: header
+    words:
+    - application/json
+  - type: status
+    status:
+    - 200
+  condition: and

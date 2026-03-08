@@ -1,0 +1,24 @@
+id: kubelet-stats
+name: Kubelet Stats
+severity: info
+confidence: tentative
+description: Scans for kubelet stats
+tags:
+- tech
+- k8s
+- kubernetes
+- devops
+- kubelet
+- discovery
+requests:
+- method: GET
+  path: /stats/summary
+  matchers:
+  - type: status
+    status:
+    - 200
+  - type: body
+    words:
+    - '"node":'
+    - '"nodeName":'
+  condition: and

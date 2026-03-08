@@ -1,0 +1,27 @@
+id: npmrc-authtoken
+name: Hardcoded .npmrc AuthToken
+severity: info
+confidence: confirmed
+description: Hardcoded .npmrc AuthToken
+reference: https://docs.npmjs.com/cli/v8/configuring-npm/npmrc
+tags:
+- npm
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /.npmrc
+  matchers:
+  - type: body
+    words:
+    - _authToken=
+    - _auth=
+  - type: header
+    words:
+    - text/html
+    - application/javascript
+    - application/json
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,27 @@
+id: wp-bricks-builder-theme
+name: WordPress Bricks Builder Theme Version
+severity: info
+confidence: confirmed
+description: '- Checks for Bricks Builder Theme versions.'
+reference: https://0day.today/exploit/description/39489
+tags:
+- wordpress
+- theme
+- wp-theme
+- wp
+- bricks
+- discovery
+requests:
+- method: GET
+  path: /wp-content/themes/bricks/readme.txt
+  matchers:
+  - type: body
+    words:
+    - Bricks - Visual Website Builder
+  - type: regex
+    regex:
+    - Stable tag:([ 0-9.]+)
+  - type: status
+    status:
+    - 200
+  condition: and

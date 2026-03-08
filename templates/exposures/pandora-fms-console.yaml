@@ -1,0 +1,22 @@
+id: pandora-fms-console
+name: Pandora FMS Mobile Console Login Panel - Detect
+severity: info
+confidence: tentative
+description: Pandora FMS Mobile Console login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- edb
+- pandorafms
+- discovery
+requests:
+- method: GET
+  path: /pandora_console/mobile/
+  matchers:
+  - type: body
+    words:
+    - <title>Pandora FMS mobile</title>
+  - type: status
+    status:
+    - 200
+  condition: and

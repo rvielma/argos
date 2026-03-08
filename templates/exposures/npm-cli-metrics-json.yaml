@@ -1,0 +1,27 @@
+id: npm-cli-metrics-json
+name: NPM Anonymous CLI Metrics Json
+severity: low
+confidence: confirmed
+description: anonymous-cli-metrics.json internal file in NPM is exposed.
+tags:
+- npm
+- devops
+- exposure
+- files
+- vuln
+requests:
+- method: GET
+  path: /anonymous-cli-metrics.json
+  matchers: &id001
+  - type: body
+    words:
+    - '"metricId"'
+    - '"metrics"'
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /.npm/anonymous-cli-metrics.json
+  matchers: *id001
+  condition: and

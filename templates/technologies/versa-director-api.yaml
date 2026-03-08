@@ -1,0 +1,22 @@
+id: versa-director-api
+name: Versa Director API Endpoint Detection
+severity: info
+confidence: confirmed
+description: Versa Director API Endpoint (Unauthorized) Detection
+reference: https://versa-networks.com/products/components/
+tags:
+- api
+- versa
+- tech
+- discovery
+requests:
+- method: GET
+  path: :9182
+  matchers:
+  - type: regex
+    regex:
+    - (?i)"more_info":"http://nms.versa.com/errors/4001"
+  - type: status
+    status:
+    - 401
+  condition: and

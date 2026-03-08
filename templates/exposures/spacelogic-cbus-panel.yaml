@@ -1,0 +1,23 @@
+id: spacelogic-cbus-panel
+name: SpaceLogic C-Bus Home Panel - Detect
+severity: info
+confidence: confirmed
+description: SpaceLogic C-Bus Home Panel - Detect
+tags:
+- panel
+- spacelogic
+- login
+- schneider-electric
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>SpaceLogic C-Bus Home</title>
+    - content="SpaceLogic C-Bus Home
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,25 @@
+id: alibaba-mongoshake-unauth
+name: Alibaba Mongoshake Unauth
+severity: info
+confidence: tentative
+description: Alibaba Mongoshake Unauth
+tags:
+- mongoshake
+- unauth
+- alibaba
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - '{"Uri":"/worker","Method":"GET"}'
+  - type: header
+    words:
+    - text/plain
+  - type: status
+    status:
+    - 200
+  condition: and

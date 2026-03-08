@@ -1,0 +1,20 @@
+id: apple-httpserver
+name: Apple HttpServer Detect
+severity: info
+confidence: confirmed
+description: Apple HttpServer Detect
+tags:
+- tech
+- apple
+- httpserver
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: header
+    words:
+    - X-Apple-Jingle-Correlation-Key
+    - AppleHttpServer
+    - X-Apple-Request-UUID
+  condition: and

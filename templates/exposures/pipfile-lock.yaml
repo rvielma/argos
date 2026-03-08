@@ -1,0 +1,24 @@
+id: pipfile-lock
+name: Pipfile.lock Disclosure
+severity: info
+confidence: confirmed
+description: Pipfile.lock Disclosure
+tags:
+- exposure
+- pip
+- devops
+- cicd
+- files
+- vuln
+requests:
+- method: GET
+  path: /Pipfile.lock
+  matchers:
+  - type: body
+    words:
+    - '"pipfile-spec":'
+    - '"requires"'
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,25 @@
+id: octoprint-panel
+name: OctoPrint Login Panel - Detect
+severity: info
+confidence: tentative
+description: OctoPrint login panel was detected.
+reference: CWE-200
+tags:
+- octoprint
+- panel
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - <title>OctoPrint Login</title>
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /login/
+  matchers: *id001
+  condition: and

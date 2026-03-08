@@ -1,0 +1,22 @@
+id: burp-collaborator-detect
+name: Burp Collaborator Server - Detect
+severity: info
+confidence: confirmed
+description: Burp Collaborator server detected.
+reference: CWE-200
+tags:
+- burp
+- tech
+- detect
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: header
+    words:
+    - 'Server: Burp Collaborator https://burpcollaborator.net/'
+  - type: status
+    status:
+    - 200
+  condition: and

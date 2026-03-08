@@ -1,0 +1,23 @@
+id: apache-gravitino-detect
+name: Apache Gravitino - Detect
+severity: info
+confidence: tentative
+description: Detects a Apache Gravitino web application, world's most powerful open data catalog for building a high-performance,
+  geo-distributed and federated metadata lake.
+tags:
+- tech
+- gravitino
+- apache
+- detect
+- discovery
+requests:
+- method: GET
+  path: /ui/metalakes
+  matchers:
+  - type: body
+    words:
+    - <title>Gravitino
+  - type: status
+    status:
+    - 200
+  condition: and

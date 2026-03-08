@@ -1,0 +1,22 @@
+id: amp-application-panel
+name: Application Management Panel - Detect
+severity: info
+confidence: confirmed
+description: Application Management Panel was detected.
+reference: CWE-200
+tags:
+- panel
+- amp
+- cubecoders
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>AMP - Application Management Panel</title>
+  - type: header
+    words:
+    - text/html
+  condition: and

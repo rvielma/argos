@@ -1,0 +1,22 @@
+id: arangodb-web-interface
+name: ArangoDB Web Interface - Detect
+severity: info
+confidence: confirmed
+description: ArangoDB Web Interface was detected.
+reference: https://www.arangodb.com/docs/stable/
+tags:
+- panel
+- arangodb
+- login
+- discovery
+requests:
+- method: GET
+  path: /_db/_system/_admin/aardvark/index.html
+  matchers:
+  - type: body
+    words:
+    - <title>ArangoDB Web Interface</title>
+  - type: status
+    status:
+    - 200
+  condition: and

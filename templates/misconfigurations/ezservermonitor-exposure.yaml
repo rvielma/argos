@@ -1,0 +1,41 @@
+id: ezservermonitor-exposure
+name: eZ Server Monitor - Exposure
+severity: low
+confidence: confirmed
+description: Detected exposed eZ Server Monitor instances that revealed sensitive server information, including hostname,
+  OS, kernel version, CPU details, memory usage, disk space, network interfaces with IP addresses, service status, and user
+  login history.
+reference: https://github.com/shevabam/ezservermonitor-web
+tags:
+- misconfig
+- exposure
+- ezservermonitor
+- monitoring
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - <title>eZ Server Monitor
+    - eZ Server Monitor - v
+  - type: body
+    words:
+    - web/css/frontend.css
+    - <span class="icon-gauge"></span>eSM
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /esm/
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /monitoring/
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /ezservermonitor/
+  matchers: *id001
+  condition: and

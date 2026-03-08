@@ -1,0 +1,22 @@
+id: openvpn-hhi
+name: OpenVPN Host Header Injection
+severity: info
+confidence: tentative
+description: A vulnerability in OpenVPN Access Server allows remote attackers to inject arbitrary redirection URLs by using
+  the 'Host' HTTP header field.
+tags:
+- openvpn
+- hostheader-injection
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: header
+    words:
+    - https://{{randstr}}.tld/__session_start__/
+    - openvpn_sess
+  - type: status
+    status:
+    - 302
+  condition: and

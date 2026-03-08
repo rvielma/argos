@@ -1,0 +1,29 @@
+id: npm-anonymous-cli
+name: NPM Anonymous CLI Metrics Exposure
+severity: info
+confidence: confirmed
+description: NPM Anonymous CLI Metrics Exposure
+reference: https://github.com/maurosoria/dirsearch/blob/master/db/dicc.txt
+tags:
+- exposure
+- npm
+- config
+- files
+- vuln
+requests:
+- method: GET
+  path: /.npm/anonymous-cli-metrics.json
+  matchers: &id001
+  - type: body
+    words:
+    - '"metricId":'
+    - '"metrics":'
+    - '"successfulInstalls":'
+  - type: header
+    words:
+    - application/json
+  condition: and
+- method: GET
+  path: /anonymous-cli-metrics.json
+  matchers: *id001
+  condition: and

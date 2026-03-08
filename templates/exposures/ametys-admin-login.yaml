@@ -1,0 +1,23 @@
+id: ametys-admin-login
+name: Ametys Admin Login Panel
+severity: info
+confidence: tentative
+description: An Ametys admin login panel was discovered.
+reference: CWE-200
+tags:
+- panel
+- ametys
+- cms
+- discovery
+requests:
+- method: GET
+  path: /_admin/index.html
+  matchers:
+  - type: body
+    words:
+    - Ametys - Log in
+    - <span class="ametys-version">
+  - type: status
+    status:
+    - 200
+  condition: and

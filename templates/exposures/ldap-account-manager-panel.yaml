@@ -1,0 +1,26 @@
+id: ldap-account-manager-panel
+name: LDAP Account Manager Login Panel - Detect
+severity: info
+confidence: confirmed
+description: LDAP Account Manager login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- ldap
+- discovery
+requests:
+- method: GET
+  path: /templates/login.php
+  matchers: &id001
+  - type: body
+    words:
+    - LDAP Account Manager
+    - LAM configuration
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /lam/templates/login.php
+  matchers: *id001
+  condition: and

@@ -1,0 +1,20 @@
+id: bigbluebutton-detect
+name: BigBlueButton Detect
+severity: info
+confidence: tentative
+description: BigBlueButton Detect
+tags:
+- tech
+- bigbluebutton
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>BigBlueButton</title>
+  - type: status
+    status:
+    - 200
+  condition: and

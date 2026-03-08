@@ -1,0 +1,28 @@
+id: tibco-mft-panel
+name: TIBCO Managed File Transfer - Panel
+severity: info
+confidence: confirmed
+description: TIBCO Managed File Transfer Login Panel was discovered.
+reference: https://www.tibco.com/products/managed-file-transfer
+tags:
+- tibco
+- mft
+- login
+- web
+- panel
+- discovery
+requests:
+- method: GET
+  path: /cfcc/login/login.jsp
+  matchers: &id001
+  - type: body
+    words:
+    - <title>TIBCO Managed File Transfer</title>
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /login/login.jsp
+  matchers: *id001
+  condition: and

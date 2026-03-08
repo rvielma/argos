@@ -1,0 +1,33 @@
+id: firebase-config-exposure
+name: Firebase Configuration File - Detect
+severity: medium
+confidence: tentative
+description: Firebase configuration file was detected.
+reference: CWE-200
+tags:
+- firebase
+- exposure
+- config
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - 'apiKey:'
+    - 'authDomain:'
+    - 'databaseURL:'
+    - 'storageBucket:'
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /public/config.js
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /config.js
+  matchers: *id001
+  condition: and

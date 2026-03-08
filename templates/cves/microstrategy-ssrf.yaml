@@ -1,0 +1,23 @@
+id: microstrategy-ssrf
+name: MicroStrategy tinyurl - Server-Side Request Forgery (Blind)
+severity: high
+confidence: tentative
+description: Blind server-side (SSRF) request forgery vulnerability on MicroStrategy URL shortener.
+reference: https://medium.com/@win3zz/how-i-made-31500-by-submitting-a-bug-to-facebook-d31bb046e204
+tags:
+- microstrategy
+- ssrf
+- vuln
+requests:
+- method: GET
+  path: /servlet/taskProc?taskId=shortURL&taskEnv=xml&taskContentType=xml&srcURL=https://google.com
+  matchers: &id001
+  - type: body
+    words:
+    - taskResponse
+    - The source URL is not valid
+  condition: or
+- method: GET
+  path: /MicroStrategy/servlet/taskProc?taskId=shortURL&taskEnv=xml&taskContentType=xml&srcURL=https://google.com
+  matchers: *id001
+  condition: or

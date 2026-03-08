@@ -1,0 +1,29 @@
+id: qdpm-login-panel
+name: qdPM Login Panel
+severity: info
+confidence: confirmed
+description: qdPM Login Panel
+tags:
+- panel
+- qdpm
+- login
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - qdPM
+    - /index.php/login/restorePassword
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /index.php/login
+  matchers: *id001
+  condition: and

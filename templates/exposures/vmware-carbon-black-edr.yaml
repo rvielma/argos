@@ -1,0 +1,21 @@
+id: vmware-carbon-black-edr
+name: VMware Carbon Black EDR Panel - Detect
+severity: info
+confidence: confirmed
+description: VMware Carbon Black EDR panel was detected.
+reference: CWE-200
+tags:
+- panel
+- vmware
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - VMware Carbon Black EDR
+  - type: status
+    status:
+    - 200
+  condition: and

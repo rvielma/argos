@@ -1,0 +1,32 @@
+id: ampache-panel
+name: Ampache Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Ampache login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- ampache
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - 'Ampache :: For the Love of Music'
+  - type: body
+    words:
+    - Music - Installation
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /login.php
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /public/login.php
+  matchers: *id001
+  condition: and

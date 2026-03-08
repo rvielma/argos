@@ -1,0 +1,29 @@
+id: psalm-config
+name: Psalm Configuration Exposure - Detect
+severity: low
+confidence: confirmed
+description: Psalm configuration page was detected.
+reference: CWE-200
+tags:
+- devops
+- exposure
+- php
+- psalm
+- config
+- vuln
+requests:
+- method: GET
+  path: /psalm.xml
+  matchers:
+  - type: body
+    words:
+    - <psalm
+    - <projectFiles
+    - xmlns:xsi
+  - type: header
+    words:
+    - application/xml
+  - type: status
+    status:
+    - 200
+  condition: and

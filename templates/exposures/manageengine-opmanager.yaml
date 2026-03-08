@@ -1,0 +1,25 @@
+id: manageengine-opmanager
+name: ZOHO ManageEngine OpManager Panel - Detect
+severity: info
+confidence: tentative
+description: ZOHO ManageEngine OpManager panel was detected.
+reference: CWE-200
+tags:
+- panel
+- zoho
+- manageengine
+- zohocorp
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <div class='opmIconsHolder'>
+    - <div class='opmLoginFieldHolder'>
+    - <div class='opmIconsRight'>
+  - type: status
+    status:
+    - 200
+  condition: and

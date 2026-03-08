@@ -1,0 +1,25 @@
+id: weaver-userselect-unauth
+name: OA E-Office UserSelect Unauthorized Access
+severity: high
+confidence: confirmed
+description: OA E-Office UserSelect interface has an unauthorized access vulnerability, through which attackers can obtain
+  sensitive information
+reference: https://github.com/achuna33/MYExploit/blob/8ffbf7ee60cbd77ad90b0831b93846aba224ab29/src/main/java/com/achuna33/Controllers/WeaverEOfficeController.java
+tags:
+- weaver
+- e-office
+- oa
+- unauth
+- vuln
+requests:
+- method: GET
+  path: /UserSelect/
+  matchers:
+  - type: body
+    words:
+    - <title>选择人员</title>
+    - /UserSelect/dept.php
+  - type: status
+    status:
+    - 200
+  condition: and

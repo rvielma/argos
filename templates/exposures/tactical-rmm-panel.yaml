@@ -1,0 +1,23 @@
+id: tactical-rmm-panel
+name: Tactical RMM Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Tactical RMM login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- tacticalrmm
+- login
+- detect
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Tactical RMM - Login
+  - type: status
+    status:
+    - 200
+  condition: and

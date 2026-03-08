@@ -1,0 +1,23 @@
+id: setup-github-enterprise
+name: Setup GitHub Enterprise - Detect
+severity: info
+confidence: confirmed
+description: Setup GitHub Enterprise - Detect
+tags:
+- misconfig
+- installer
+- github
+- setup
+- vuln
+requests:
+- method: GET
+  path: /setup/start
+  matchers:
+  - type: body
+    words:
+    - Setup GitHub Enterprise
+    - Install GitHub Enterprise
+  - type: status
+    status:
+    - 200
+  condition: and

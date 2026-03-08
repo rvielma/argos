@@ -1,0 +1,24 @@
+id: qvidium-management-system-exposed
+name: QVidium Management System Exposed
+severity: medium
+confidence: confirmed
+description: QVidium Management System is Exposed.
+tags:
+- misconfig
+- qvidium
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - QVidium Management
+    - src="/cgi-bin/banner.cgi
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

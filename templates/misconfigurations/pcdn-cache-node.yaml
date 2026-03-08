@@ -1,0 +1,26 @@
+id: pcdn-cache-node
+name: PCDN Cache Node Dataset
+severity: low
+confidence: confirmed
+description: PCDN Cache Node dataset is exposed.
+tags:
+- node
+- pcdn
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Bandwidth
+    - ReportEventID
+    - ReadDiskDuration
+  - type: header
+    words:
+    - application/json
+  - type: status
+    status:
+    - 200
+  condition: and

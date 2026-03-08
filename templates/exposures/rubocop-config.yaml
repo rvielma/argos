@@ -1,0 +1,25 @@
+id: rubocop-config
+name: Rubocop Configuration - Detect
+severity: info
+confidence: confirmed
+description: Rubocop configuration information was detected.
+reference: CWE-200
+tags:
+- exposure
+- files
+- config
+- ruby
+- vuln
+requests:
+- method: GET
+  path: /.rubocop.yml
+  matchers:
+  - type: body
+    words:
+    - 'AllCops:'
+    - 'Include:'
+    - 'Exclude:'
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,21 @@
+id: mailwatch-login
+name: MailWatch Login Panel - Detect
+severity: info
+confidence: confirmed
+description: MailWatch login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- mailwatch
+- discovery
+requests:
+- method: GET
+  path: /mailscanner/login.php
+  matchers:
+  - type: body
+    words:
+    - MailWatch Login
+  - type: status
+    status:
+    - 200
+  condition: and

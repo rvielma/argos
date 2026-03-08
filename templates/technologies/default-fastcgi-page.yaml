@@ -1,0 +1,17 @@
+id: default-fastcgi-page
+name: Fastcgi Default Test Page
+severity: info
+confidence: tentative
+description: Fastcgi Default Test Page
+tags:
+- tech
+- fastcgi
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>TurnKey NGINX PHP FastCGI Server</title>
+  condition: or

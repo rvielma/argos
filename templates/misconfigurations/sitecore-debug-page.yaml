@@ -1,0 +1,21 @@
+id: sitecore-debug-page
+name: SiteCore Debug Page
+severity: low
+confidence: tentative
+description: SiteCore debug page is exposed.
+tags:
+- debug
+- sitecore
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /sitecore/'
+  matchers:
+  - type: body
+    words:
+    - extranet\Anonymous
+  - type: status
+    status:
+    - 404
+  condition: and

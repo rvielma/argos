@@ -1,0 +1,28 @@
+id: cisco-unity-panel
+name: Cisco Unity Connection Panel - Detect
+severity: info
+confidence: confirmed
+description: A Cisco Unity Connection instance was detected.
+tags:
+- panel
+- cisco
+- unity
+- login
+- detect
+- discovery
+requests:
+- method: GET
+  path: /cuadmin/home.do
+  matchers: &id001
+  - type: body
+    words:
+    - Cisco Unity Connection Administration
+    - '>Cisco Unity Connection</a>'
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /
+  matchers: *id001
+  condition: and

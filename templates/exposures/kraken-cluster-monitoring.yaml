@@ -1,0 +1,23 @@
+id: kraken-cluster-monitoring
+name: Kraken Cluster Monitoring Dashboard - Detect
+severity: info
+confidence: confirmed
+description: Kraken Cluster Monitoring Dashboard was detected.
+reference: CWE-200
+tags:
+- panel
+- kraken
+- cluster
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Kraken dashboard
+    - Kraken cluster monitoring
+  - type: status
+    status:
+    - 200
+  condition: and

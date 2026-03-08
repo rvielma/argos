@@ -1,0 +1,46 @@
+id: graphql-go-detect
+name: Graphql Go Detect
+severity: info
+confidence: tentative
+description: Graphql Go Detect
+reference: https://github.com/dolevf/graphw00f/blob/main/graphw00f/lib.py
+tags:
+- tech
+- graphql
+- go
+requests:
+- method: POST
+  path: /graphql
+  matchers: &id001
+  - type: status
+    status:
+    - 200
+    - 400
+  - type: body
+    words:
+    - Must provide an operation.
+  condition: and
+  headers:
+    Content-Type: application/json
+  body: '{"query":""}'
+- method: POST
+  path: /api/graphql
+  matchers: *id001
+  condition: and
+  headers:
+    Content-Type: application/json
+  body: '{"query":""}'
+- method: POST
+  path: /query
+  matchers: *id001
+  condition: and
+  headers:
+    Content-Type: application/json
+  body: '{"query":""}'
+- method: POST
+  path: /
+  matchers: *id001
+  condition: and
+  headers:
+    Content-Type: application/json
+  body: '{"query":""}'

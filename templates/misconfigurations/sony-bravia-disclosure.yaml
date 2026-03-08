@@ -1,0 +1,31 @@
+id: sony-bravia-disclosure
+name: Sony BRAVIA Digital Signage 1.7.8 System API Information Disclosure
+severity: low
+confidence: tentative
+description: The application is vulnerable to sensitive information disclosure vulnerability. An unauthenticated attacker
+  can visit several API endpoints and disclose information running on the device.
+reference: https://www.zeroscience.mk/en/vulnerabilities/ZSL-2020-5610.php
+tags:
+- misconfig
+- sony
+- unauth
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /api/system
+  matchers:
+  - type: body
+    words:
+    - '"contentsServer":'
+    - '"networkInterfaces":'
+    - '"serverTime":'
+    - '"hostIp":'
+  - type: header
+    words:
+    - text/plain
+    - application/json
+  - type: status
+    status:
+    - 200
+  condition: and

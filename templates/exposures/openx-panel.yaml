@@ -1,0 +1,30 @@
+id: openx-panel
+name: OpenX/Revive Adserver Login Panel - Detect
+severity: info
+confidence: confirmed
+description: OpenX login panel was detected. Note that OpenX is now a Revive Adserver.
+reference: CWE-200
+tags:
+- panel
+- openx
+- revive
+- adserver
+- login
+- revive-adserver
+- discovery
+requests:
+- method: GET
+  path: /www/admin/index.php
+  matchers: &id001
+  - type: regex
+    regex:
+    - <title>OpenX</title>
+    - <title>Revive Adserver</title>
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /admin/index.php
+  matchers: *id001
+  condition: and

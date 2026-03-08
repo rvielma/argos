@@ -1,0 +1,22 @@
+id: sophos-web-appliance
+name: Sophos Web Appliance
+severity: info
+confidence: confirmed
+description: Sophos Web Appliance
+reference: https://docs.sophos.com/nsg/swa/help/en-us/nsg/swa/concepts/AboutYourAppliance.html
+tags:
+- panel
+- login
+- sophos
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Sophos Web Appliance</title>
+  - type: status
+    status:
+    - 200
+  condition: and

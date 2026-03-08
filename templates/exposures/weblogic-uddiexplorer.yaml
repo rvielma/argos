@@ -1,0 +1,23 @@
+id: weblogic-uddiexplorer
+name: Oracle WebLogic UDDI Explorer Panel - Detect
+severity: info
+confidence: tentative
+description: Oracle WebLogic UDDI Explorer panel was detected.
+reference: CWE-200
+tags:
+- panel
+- oracle
+- weblogic
+- tenable
+- discovery
+requests:
+- method: GET
+  path: /uddiexplorer/
+  matchers:
+  - type: body
+    words:
+    - WebLogic UDDI Explorer
+  - type: status
+    status:
+    - 200
+  condition: and

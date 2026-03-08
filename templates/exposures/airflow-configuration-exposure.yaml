@@ -1,0 +1,21 @@
+id: airflow-configuration-exposure
+name: Apache Airflow Configuration Page - Detect
+severity: medium
+confidence: tentative
+description: Apache Airflow configuration page was detected.
+reference: CWE-200
+tags:
+- exposure
+- config
+- airflow
+- apache
+- vuln
+requests:
+- method: GET
+  path: /airflow.cfg
+  matchers:
+  - type: body
+    words:
+    - '[core]'
+    - '[api]'
+  condition: or

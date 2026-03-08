@@ -1,0 +1,23 @@
+id: aqua-enterprise-panel
+name: Aqua Enterprise - Panel Detect
+severity: info
+confidence: confirmed
+description: Aqua Enterprise panel was detected.
+reference: CWE-200
+tags:
+- panel
+- aqua
+- aquasec
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Aqua Enterprise</title>
+    - <title>Aqua Cloud Native Security Platform</title>
+  - type: status
+    status:
+    - 200
+  condition: and

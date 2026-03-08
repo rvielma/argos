@@ -1,0 +1,26 @@
+id: sass-lint
+name: Sass Lint File Exposure
+severity: info
+confidence: confirmed
+description: Sass Lint File Exposure
+reference: https://github.com/sasstools/sass-lint/blob/develop/docs/sass-lint.yml
+tags:
+- exposure
+- sass
+- devops
+- cicd
+- files
+- vuln
+requests:
+- method: GET
+  path: /.sass-lint.yml
+  matchers:
+  - type: body
+    words:
+    - 'options:'
+    - 'formatter:'
+    - 'files:'
+  - type: status
+    status:
+    - 200
+  condition: and

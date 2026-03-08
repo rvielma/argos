@@ -1,0 +1,22 @@
+id: audiocodes-detect
+name: AudioCodes Login - Panel Detect
+severity: info
+confidence: confirmed
+description: AudioCodes login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- audiocodes
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - AudioCodes
+    - login
+  - type: status
+    status:
+    - 203
+  condition: and

@@ -1,0 +1,17 @@
+id: sql-server-reporting
+name: Detect Microsoft SQL Server Reporting
+severity: info
+confidence: tentative
+description: Detect Microsoft SQL Server Reporting
+tags:
+- tech
+- microsoft
+- discovery
+requests:
+- method: GET
+  path: /Reports/Pages/Folder.aspx
+  matchers:
+  - type: body
+    words:
+    - Report Manager
+  condition: or

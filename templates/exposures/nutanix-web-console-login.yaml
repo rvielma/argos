@@ -1,0 +1,22 @@
+id: nutanix-web-console-login
+name: Nutanix Web Console Login Panel - Detect
+severity: info
+confidence: tentative
+description: Nutanix Web Console login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- nutanix
+- login
+- discovery
+requests:
+- method: GET
+  path: /console/
+  matchers:
+  - type: body
+    words:
+    - <title>Nutanix Web Console</title>
+  - type: status
+    status:
+    - 200
+  condition: and

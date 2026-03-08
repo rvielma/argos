@@ -1,0 +1,27 @@
+id: unauth-kubecost
+name: KubeCost - Unauthenticated Dashboard Exposure
+severity: medium
+confidence: confirmed
+description: KubeCost Dashboard is exposed to external users.
+reference: https://www.facebook.com/photo?fbid=470414125129112&set=pcb.470413798462478
+tags:
+- misconfig
+- exposure
+- unauth
+- kubecost
+- vuln
+requests:
+- method: GET
+  path: /overview.html
+  matchers:
+  - type: body
+    words:
+    - <title>Cluster Overview | Kubecost</title>
+    - <title>Kubecost</title>
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

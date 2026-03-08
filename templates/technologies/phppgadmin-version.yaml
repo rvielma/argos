@@ -1,0 +1,21 @@
+id: phppgadmin-version
+name: PhpPgAdmin Version Information - Detect
+severity: info
+confidence: tentative
+description: PhpPgAdmin version information was detected via the intro.php file.
+reference: CWE-200
+tags:
+- tech
+- phppgadmin
+- discovery
+requests:
+- method: GET
+  path: /phppgadmin/intro.php
+  matchers:
+  - type: regex
+    regex:
+    - <span class="appname">phpPgAdmin</span> <span class="version">.*</span>
+  - type: status
+    status:
+    - 200
+  condition: and

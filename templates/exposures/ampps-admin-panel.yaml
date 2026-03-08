@@ -1,0 +1,24 @@
+id: ampps-admin-panel
+name: AMPPS Admin Login Panel
+severity: info
+confidence: tentative
+description: An AMPPS Admin login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- ampps
+- login
+- discovery
+requests:
+- method: GET
+  path: /ampps-admin/index.php?act=login
+  matchers:
+  - type: body
+    words:
+    - <a href="http://www.ampps.com">
+    - <title>Login</title>
+    - enduser/themes/default/js/universal.js
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,23 @@
+id: libvirt-exporter-metrics
+name: Libvirt Exporter Metrics
+severity: low
+confidence: confirmed
+description: Libvirt Exporter is leaking metrics.
+tags:
+- libvirt
+- exposure
+- debug
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /metrics
+  matchers:
+  - type: body
+    words:
+    - '# HELP'
+    - libvirt_
+  - type: status
+    status:
+    - 200
+  condition: and

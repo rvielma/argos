@@ -1,0 +1,22 @@
+id: phpmyfaq-installer
+name: phpMyFAQ Installation - Exposure
+severity: high
+confidence: confirmed
+description: phpMyFAQ installation is exposed.
+tags:
+- misconfig
+- phpmyfaq
+- install
+- vuln
+requests:
+- method: GET
+  path: /setup/index.php
+  matchers:
+  - type: body
+    words:
+    - <title>phpMyFAQ
+    - Setup</title>
+  - type: header
+    words:
+    - phpmyfaq-setup
+  condition: or

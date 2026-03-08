@@ -1,0 +1,22 @@
+id: addonfinance-portal
+name: AddOnFinance Portal - Detect
+severity: info
+confidence: confirmed
+description: AddOnFinance Portal Panel was detected.
+tags:
+- panel
+- addon
+- finance
+- detect
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - AddOnFinancePortal</title>
+  - type: status
+    status:
+    - 200
+  condition: and

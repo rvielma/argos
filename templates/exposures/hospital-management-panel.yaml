@@ -1,0 +1,25 @@
+id: hospital-management-panel
+name: Hospital Management System Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Hospital Management System login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- hms
+- cms
+- hospital_management_system_project
+- discovery
+requests:
+- method: GET
+  path: /index.html
+  matchers:
+  - type: body
+    words:
+    - Hospital Management System
+    - Doctors Login
+    - Admin Login
+  - type: status
+    status:
+    - 200
+  condition: and

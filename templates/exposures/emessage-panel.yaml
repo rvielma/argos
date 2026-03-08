@@ -1,0 +1,21 @@
+id: emessage-panel
+name: eMessage Login Panel - Detect
+severity: info
+confidence: tentative
+description: eMessage login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- emessage
+- discovery
+requests:
+- method: GET
+  path: /login.jsp
+  matchers:
+  - type: regex
+    regex:
+    - (?i)<title>emessage.*</title>
+  - type: status
+    status:
+    - 200
+  condition: and

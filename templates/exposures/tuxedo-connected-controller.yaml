@@ -1,0 +1,22 @@
+id: tuxedo-connected-controller
+name: Tuxedo Connected Controller Login Panel - Detect
+severity: info
+confidence: tentative
+description: Tuxedo Connected Controller login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- tuxedo
+- edb
+- discovery
+requests:
+- method: GET
+  path: /login.html
+  matchers:
+  - type: body
+    words:
+    - <title>Tuxedo Connected Controller</title>
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,28 @@
+id: nginx-shards
+name: NGINX Shards Disclosure
+severity: medium
+confidence: tentative
+description: NGINX internal information, shards page exposed.
+reference: https://infosecwriteups.com/how-i-got-rce-in-the-world-largest-russian-company-8e6e8288bc4e
+tags:
+- exposure
+- shards
+- nginx
+- vuln
+requests:
+- method: GET
+  path: /static/shards.html
+  matchers: &id001
+  - type: body
+    words:
+    - Logs
+    - Database
+    - online shards only
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /static/shards/html
+  matchers: *id001
+  condition: and

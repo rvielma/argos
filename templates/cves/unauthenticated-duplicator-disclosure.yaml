@@ -1,0 +1,32 @@
+id: unauthenticated-duplicator-disclosure
+name: WordPress Duplicator Plugin - Information disclosure
+severity: medium
+confidence: confirmed
+description: Unauthenticated Information disclosure of Duplicator WordPress plugin sensitive files.
+tags:
+- wordpress
+- wp
+- wp-plugin
+- misconfig
+- disclosure
+- unauth
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /wp-content/backups-dup-lite/tmp/
+  matchers: &id001
+  - type: body
+    words:
+    - Index of /wp-content/backups-dup-lite/
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /wp-content/backups-dup-lite
+  matchers: *id001
+  condition: and

@@ -1,0 +1,23 @@
+id: server-backup-login
+name: Server Backup Manager SE Login Panel - Detect
+severity: info
+confidence: tentative
+description: Server Backup Manager SE login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- paneil
+- idera
+- edb
+- discovery
+requests:
+- method: GET
+  path: /login.zul
+  matchers:
+  - type: body
+    words:
+    - <title>Idera Server Backup Manager SE  </title>
+  - type: status
+    status:
+    - 200
+  condition: and

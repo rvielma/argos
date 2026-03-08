@@ -1,0 +1,22 @@
+id: ruckus-unleashed-panel
+name: Ruckus Wireless Unleashed Login Panel - Detect
+severity: info
+confidence: tentative
+description: Ruckus Wireless Unleashed login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- ruckus
+- ruckuswireless
+- discovery
+requests:
+- method: GET
+  path: /admin/login.jsp
+  matchers:
+  - type: body
+    words:
+    - <title>Unleashed Login</title>
+  - type: status
+    status:
+    - 200
+  condition: and

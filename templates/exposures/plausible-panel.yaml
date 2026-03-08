@@ -1,0 +1,23 @@
+id: plausible-panel
+name: Plausible Panel - Detect
+severity: info
+confidence: confirmed
+description: Plausible is intuitive, lightweight and open source web analytics.
+reference: https://plausible.io/
+tags:
+- panel
+- plausible
+- detect
+- discovery
+requests:
+- method: GET
+  path: /login
+  matchers:
+  - type: body
+    words:
+    - Login
+    - Plausible · Web analytics
+  - type: status
+    status:
+    - 200
+  condition: and

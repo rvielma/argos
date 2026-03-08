@@ -1,0 +1,23 @@
+id: veeam-backup-manager-login
+name: Veeam Backup Enterprise Manager Login - Detect
+severity: info
+confidence: confirmed
+description: Veeam Backup Enterprise Manager Login
+tags:
+- veeam
+- panel
+- enterprise-manager
+- login
+- detect
+- discovery
+requests:
+- method: GET
+  path: /login.aspx
+  matchers:
+  - type: body
+    words:
+    - 'Veeam Backup Enterprise Manager : Login'
+  - type: status
+    status:
+    - 200
+  condition: and

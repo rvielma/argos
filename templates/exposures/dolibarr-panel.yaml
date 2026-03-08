@@ -1,0 +1,27 @@
+id: dolibarr-panel
+name: Dolibarr Login Panel - Detect
+severity: info
+confidence: tentative
+description: Dolibarr login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- dolibarr
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: header
+    words:
+    - 'Set-Cookie: DOLSESSID_'
+  - type: body
+    words:
+    - <meta name="author" content="Dolibarr Development Team">
+    - authentication mode = dolibarr
+    - Includes JS of Dolibarr
+    - <div class="login_table_title center" title="Dolibarr
+  - type: status
+    status:
+    - 200
+  condition: and

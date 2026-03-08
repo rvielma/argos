@@ -1,0 +1,26 @@
+id: jira-unauthenticated-adminprojects
+name: Jira Unauthenticated Admin Projects
+severity: info
+confidence: tentative
+description: Jira Unauthenticated Admin Projects
+tags:
+- atlassian
+- jira
+- vuln
+requests:
+- method: GET
+  path: /rest/menu/latest/admin
+  matchers:
+  - type: body
+    words:
+    - key
+    - link
+    - label
+    - self
+  - type: status
+    status:
+    - 200
+  - type: header
+    words:
+    - atlassian.xsrf.token
+  condition: and

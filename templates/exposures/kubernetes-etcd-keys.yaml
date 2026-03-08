@@ -1,0 +1,27 @@
+id: kubernetes-etcd-keys
+name: Kubernetes etcd Keys - Exposure
+severity: medium
+confidence: confirmed
+description: Kubernetes private etcd keys are exposed.
+reference: https://github.com/maurosoria/dirsearch/blob/master/db/dicc.txt
+tags:
+- files
+- exposure
+- kubernetes
+- k8s
+- vuln
+requests:
+- method: GET
+  path: /apiserver-etcd-client.key
+  matchers:
+  - type: regex
+    regex:
+    - (?m)^-----BEGIN PRIVATE KEY-----
+  - type: header
+    words:
+    - application/json
+    - application/html
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,20 @@
+id: pypiserver-detect
+name: PyPI Server Detect
+severity: info
+confidence: confirmed
+description: PyPI Server Detect
+tags:
+- tech
+- pypiserver
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Welcome to pypiserver
+  - type: status
+    status:
+    - 200
+  condition: and

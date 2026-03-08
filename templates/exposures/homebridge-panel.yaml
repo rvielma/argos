@@ -1,0 +1,22 @@
+id: homebridge-panel
+name: Homebridge Panel - Detect
+severity: info
+confidence: confirmed
+description: Homebridge allows you to integrate with smart home devices that do not natively support HomeKit.
+reference: https://homebridge.io/
+tags:
+- panel
+- homebridge
+- detect
+- discovery
+requests:
+- method: GET
+  path: /login
+  matchers:
+  - type: body
+    words:
+    - <title>Homebridge</title>
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,21 @@
+id: workspace-one-uem
+name: VMware Workspace ONE UEM Airwatch Login Panel - Detect
+severity: info
+confidence: confirmed
+description: VMware Workspace ONE UEM Airwatch login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- workspaceone
+- vmware
+- discovery
+requests:
+- method: GET
+  path: /AirWatch/Login
+  matchers:
+  - type: body
+    words:
+    - About VMware AirWatch
+    - content="AirWatch
+    - /AirWatch/Images
+  condition: or

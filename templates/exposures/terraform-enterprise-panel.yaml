@@ -1,0 +1,19 @@
+id: terraform-enterprise-panel
+name: Terraform Enterprise Panel - Detect
+severity: info
+confidence: tentative
+description: Terraform Enterprise panel was detected.
+reference: CWE-200
+tags:
+- panel
+- terraform
+- hashicorp
+- discovery
+requests:
+- method: GET
+  path: /session
+  matchers:
+  - type: body
+    words:
+    - Terraform Enterprise
+  condition: or

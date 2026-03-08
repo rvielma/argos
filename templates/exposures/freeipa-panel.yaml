@@ -1,0 +1,26 @@
+id: freeipa-panel
+name: FreeIPA Identity Management Login Panel - Detect
+severity: info
+confidence: confirmed
+description: FreeIPA Identity Management login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- login
+- freeipa
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - '''freeipa/'''
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /ipa/ui/
+  matchers: *id001
+  condition: and

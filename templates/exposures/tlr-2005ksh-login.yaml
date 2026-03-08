@@ -1,0 +1,22 @@
+id: tlr-2005ksh-login
+name: Telesquare TLR-2005KSH Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Telesquare TLR-2005KSH login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- router
+- telesquare
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Login to TLR-2005KSH</title>
+  - type: status
+    status:
+    - 200
+  condition: and

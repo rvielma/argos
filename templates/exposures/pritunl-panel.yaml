@@ -1,0 +1,22 @@
+id: pritunl-panel
+name: Pritunl - Panel
+severity: info
+confidence: confirmed
+description: Realtime website and application monitoring tool
+reference: https://github.com/louislam/uptime-kuma
+tags:
+- pritunl
+- panel
+- login
+- discovery
+requests:
+- method: GET
+  path: /login
+  matchers:
+  - type: body
+    words:
+    - <title>Pritunl</title>
+  - type: status
+    status:
+    - 200
+  condition: and

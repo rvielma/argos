@@ -1,0 +1,36 @@
+id: securenvoy-panel
+name: SecurEnvoy Login Panel - Detect
+severity: info
+confidence: tentative
+description: SecurEnvoy login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- securenvoy
+- discovery
+requests:
+- method: GET
+  path: /secadmin/
+  matchers: &id001
+  - type: body
+    words:
+    - <base href="/secadmin/">
+    - SecurEnvoy Portal
+    - SecurEnvoy Tokenless Authentication
+    - 'Manage My Token : Authentication'
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /securenvoy/
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /secenrol/
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /RDWeb
+  matchers: *id001
+  condition: and

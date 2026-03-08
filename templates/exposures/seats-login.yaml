@@ -1,0 +1,20 @@
+id: seats-login
+name: Seats Login Panel - Detect
+severity: info
+confidence: tentative
+description: Seats login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- discovery
+requests:
+- method: GET
+  path: /login
+  matchers:
+  - type: body
+    words:
+    - <title>seats.io  | login</title>
+  - type: status
+    status:
+    - 200
+  condition: and

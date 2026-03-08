@@ -1,0 +1,23 @@
+id: homer-panel
+name: Homer Panel - Detect
+severity: info
+confidence: confirmed
+description: A simple static homepage was discovered
+reference: https://github.com/bastienwirtz/homer
+tags:
+- panel
+- homer
+- detect
+- login
+- discovery
+requests:
+- method: GET
+  path: /index.html
+  matchers:
+  - type: body
+    words:
+    - <title>Homer</title>
+  - type: status
+    status:
+    - 200
+  condition: and

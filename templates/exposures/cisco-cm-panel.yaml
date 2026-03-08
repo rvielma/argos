@@ -1,0 +1,23 @@
+id: cisco-cm-panel
+name: Cisco Unified CM Console - Panel
+severity: info
+confidence: tentative
+description: Cisco Unified CM Console panel was discovered.
+reference: https://www.cisco.com/c/en_uk/products/unified-communications/unified-communications-manager-callmanager/index.html
+tags:
+- cisco
+- ciscocm
+- panel
+- login
+- discovery
+requests:
+- method: GET
+  path: /ccmadmin/showHome.do
+  matchers:
+  - type: body
+    words:
+    - <title>Cisco Unified CM Console
+  - type: status
+    status:
+    - 200
+  condition: and

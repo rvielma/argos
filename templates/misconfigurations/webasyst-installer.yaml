@@ -1,0 +1,22 @@
+id: webasyst-installer
+name: Webasyst Installer Exposure
+severity: high
+confidence: confirmed
+description: Webasyst is susceptible to the Installation page exposure due to misconfiguration.
+tags:
+- misconfig
+- webasyst
+- install
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Webasyst Installer
+  - type: status
+    status:
+    - 200
+  condition: and

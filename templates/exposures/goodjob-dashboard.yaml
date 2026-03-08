@@ -1,0 +1,26 @@
+id: goodjob-dashboard
+name: goodjob-dashboard
+severity: medium
+confidence: confirmed
+description: Rails GoodJob Dashboard panel was detected.
+reference: https://github.com/bensheldon/good_job
+tags:
+- unauth
+- panel
+- goodjob
+- discovery
+requests:
+- method: GET
+  path: /jobs
+  matchers: &id001
+  - type: body
+    words:
+    - <title>Good Job Dashboard</title>
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /good_job/jobs
+  matchers: *id001
+  condition: and

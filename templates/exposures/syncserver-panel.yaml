@@ -1,0 +1,25 @@
+id: syncserver-panel
+name: Symmetricom SyncServer Panel - Detect
+severity: info
+confidence: confirmed
+description: Symmetricom SyncServer Panel - Detect
+tags:
+- panel
+- login
+- syncserver
+- symmetricom
+- detect
+- microchip
+- discovery
+requests:
+- method: GET
+  path: /login.php
+  matchers:
+  - type: body
+    words:
+    - Symmetricom SyncServer
+    - login
+  - type: status
+    status:
+    - 200
+  condition: and

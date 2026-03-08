@@ -1,0 +1,38 @@
+id: redmine-config
+name: Redmine Configuration File - Detect
+severity: high
+confidence: confirmed
+description: Redmine configuration file was detected.
+reference: CWE-200
+tags:
+- exposure
+- redmine
+- devops
+- edb
+- files
+- vuln
+requests:
+- method: GET
+  path: /configuration.yml
+  matchers: &id001
+  - type: body
+    words:
+    - user_name
+    - password
+    - Redmine
+  - type: header
+    words:
+    - application/json
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /config/configuration.yml
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /redmine/config/configuration.yml
+  matchers: *id001
+  condition: and

@@ -1,0 +1,24 @@
+id: qualcomm-voip-router
+name: Qualcomm 4G LTE WiFi VoIP Router Panel - Detect
+severity: info
+confidence: tentative
+description: Qualcomm 4G LTE Wifi VoIP router panel was detected.
+reference: CWE-200
+tags:
+- panel
+- qualcomm
+- iot
+- router
+- voip
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>4G LTE WiFi VoIP Router</title>
+  - type: status
+    status:
+    - 200
+  condition: and

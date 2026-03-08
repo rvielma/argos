@@ -1,0 +1,25 @@
+id: ourmgmt3-panel
+name: OurMGMT3 Admin Login Panel - Detect
+severity: info
+confidence: confirmed
+description: OurMGMT3 admin login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- ourmgmt3
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - OurMGMT3 Debug client
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /admin/login
+  matchers: *id001
+  condition: and

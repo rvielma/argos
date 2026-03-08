@@ -1,0 +1,46 @@
+id: graphql-strawberry-detect
+name: Graphql Strawberry Detect
+severity: info
+confidence: tentative
+description: Graphql Strawberry Detect
+reference: https://github.com/dolevf/graphw00f/blob/main/graphw00f/lib.py
+tags:
+- tech
+- graphql
+- strawberry
+requests:
+- method: POST
+  path: /graphql
+  matchers: &id001
+  - type: status
+    status:
+    - 200
+    - 400
+  - type: body
+    words:
+    - Directive '@deprecated' may not be used on query.
+  condition: and
+  headers:
+    Content-Type: application/json
+  body: '{"query":"query @deprecated { __typename }"}'
+- method: POST
+  path: /api/graphql
+  matchers: *id001
+  condition: and
+  headers:
+    Content-Type: application/json
+  body: '{"query":"query @deprecated { __typename }"}'
+- method: POST
+  path: /query
+  matchers: *id001
+  condition: and
+  headers:
+    Content-Type: application/json
+  body: '{"query":"query @deprecated { __typename }"}'
+- method: POST
+  path: /
+  matchers: *id001
+  condition: and
+  headers:
+    Content-Type: application/json
+  body: '{"query":"query @deprecated { __typename }"}'

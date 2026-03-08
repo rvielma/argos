@@ -1,0 +1,31 @@
+id: wordpress-directory-listing
+name: Wordpress directory listing
+severity: info
+confidence: tentative
+description: Directory listing enabled in wordpress.
+tags:
+- wordpress
+- vuln
+requests:
+- method: GET
+  path: /wp-content/uploads/
+  matchers: &id001
+  - type: status
+    status:
+    - 200
+  - type: body
+    words:
+    - Index of /
+  condition: and
+- method: GET
+  path: /wp-content/themes/
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /wp-content/plugins/
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /wp-includes/
+  matchers: *id001
+  condition: and

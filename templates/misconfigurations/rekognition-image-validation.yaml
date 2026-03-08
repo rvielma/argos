@@ -1,0 +1,22 @@
+id: rekognition-image-validation
+name: Rekognition Image Validation Debug UI Panel - Detect
+severity: info
+confidence: confirmed
+description: Rekognition Image Validation UI panel was detected.
+reference: CWE-200
+tags:
+- misconfig
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Rekognition Image Validation Debug UI</title>
+    - Optional Parameters
+  - type: status
+    status:
+    - 200
+  condition: and

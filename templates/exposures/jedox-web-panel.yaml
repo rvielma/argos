@@ -1,0 +1,28 @@
+id: jedox-web-panel
+name: Jedox Web Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Jedox is an Enterprise Performance Management software which is used for planning, analytics and reporting  in
+  finance and other areas such as sales, human resources and procurement.
+reference: https://www.jedox.com
+tags:
+- panel
+- jedox
+- detect
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - Jedox Web - Login
+    - guide-jedox-software
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /ui/login/
+  matchers: *id001
+  condition: and

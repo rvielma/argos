@@ -1,0 +1,22 @@
+id: wp-gtranslate-open-redirect
+name: GTranslate < 2.8.11 - Open Redirect
+severity: medium
+confidence: tentative
+description: The Translate WordPress with GTranslate WordPress plugin was affected by an Unauthenticated Open Redirect security
+  vulnerability.
+reference: CWE-601
+tags:
+- wordpress
+- wp
+- wp-plugin
+- gtranslate
+- redirect
+- vuln
+requests:
+- method: GET
+  path: /wp-content/plugins/gtranslate/url_addon/gtranslate.php?glang=en&gurl=/oast.me
+  matchers:
+  - type: regex
+    regex:
+    - (?m)^(?:Location\s*?:\s*?)(?:https?:\/\/|\/\/|\/\\\\|\/\\)?(?:[a-zA-Z0-9\-_\.@]*)oast\.me\/?(\/|[^.].*)?$
+  condition: or

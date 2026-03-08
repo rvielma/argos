@@ -1,0 +1,21 @@
+id: b2b-builder-detect
+name: B2BBuilder Detect
+severity: info
+confidence: tentative
+description: B2BBuilder Detect
+tags:
+- b2bbuilder
+- tech
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - content="B2Bbuilder"
+    - translateButtonId = "B2Bbuilder"
+  - type: status
+    status:
+    - 200
+  condition: and

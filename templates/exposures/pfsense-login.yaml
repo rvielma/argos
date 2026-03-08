@@ -1,0 +1,21 @@
+id: pfsense-login
+name: pfSense Login Panel - Detect
+severity: info
+confidence: tentative
+description: pfSense login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- pfsense
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>pfSense - Login</title>
+  - type: status
+    status:
+    - 200
+  condition: and

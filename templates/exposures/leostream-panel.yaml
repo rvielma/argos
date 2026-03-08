@@ -1,0 +1,21 @@
+id: leostream-panel
+name: Leostream Login Panel - Detect
+severity: info
+confidence: tentative
+description: Leostream login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- leostream
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Leostream</title>
+  - type: status
+    status:
+    - 200
+  condition: and

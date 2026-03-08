@@ -1,0 +1,42 @@
+id: salesforce-aura
+name: Salesforce Lightning - API Detection
+severity: info
+confidence: tentative
+description: A Salesforce Lightning aura API was detected.
+reference: CWE-200
+tags:
+- aura
+- unauth
+- salesforce
+- exposure
+- misconfig
+- vuln
+requests:
+- method: POST
+  path: /aura
+  matchers: &id001
+  - type: body
+    words:
+    - aura:invalidSession
+  condition: or
+  body: '{}'
+- method: POST
+  path: /s/sfsites/aura
+  matchers: *id001
+  condition: or
+  body: '{}'
+- method: POST
+  path: /sfsites/aura
+  matchers: *id001
+  condition: or
+  body: '{}'
+- method: POST
+  path: /s/aura
+  matchers: *id001
+  condition: or
+  body: '{}'
+- method: POST
+  path: /s/fact
+  matchers: *id001
+  condition: or
+  body: '{}'

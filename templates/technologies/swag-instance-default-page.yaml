@@ -1,0 +1,24 @@
+id: swag-instance-default-page
+name: Swag Instance Default Page Panel - Detect
+severity: info
+confidence: confirmed
+description: Swag Instance Default Page panel was detected.
+reference: CWE-200
+tags:
+- panel
+- tech
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Welcome to your SWAG instance</title>
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

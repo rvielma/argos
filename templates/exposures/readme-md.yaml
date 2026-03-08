@@ -1,0 +1,26 @@
+id: readme-md
+name: README.md file disclosure
+severity: info
+confidence: tentative
+description: Internal documentation file often used in projects which can contain sensitive information.
+tags:
+- exposure
+- markdown
+- files
+- vuln
+requests:
+- method: GET
+  path: /README.md
+  matchers:
+  - type: body
+    words:
+    - '#'
+    - '##'
+  - type: header
+    words:
+    - text/markdown
+    - text/plain
+  - type: status
+    status:
+    - 200
+  condition: and

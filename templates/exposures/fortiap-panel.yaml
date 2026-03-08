@@ -1,0 +1,25 @@
+id: fortiap-panel
+name: FortiAP Login Panel - Detect
+severity: info
+confidence: confirmed
+description: FortiAP login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- fortinet
+- fortiap
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>FortiAP</title>
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,22 @@
+id: unauth-etherpad
+name: Unauthenticated Etherpad
+severity: low
+confidence: confirmed
+description: Finds Etherpad instances that allow adding new notes without authentication.
+tags:
+- etherpad
+- misconfig
+- unauth
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - index.createOpenPad
+    - index.newPad
+  - type: status
+    status:
+    - 200
+  condition: and

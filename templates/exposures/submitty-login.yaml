@@ -1,0 +1,23 @@
+id: submitty-login
+name: Submitty Login Panel - Detect
+severity: info
+confidence: tentative
+description: Submitty login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- submitty
+- oss
+- discovery
+requests:
+- method: GET
+  path: /authentication/login
+  matchers:
+  - type: body
+    words:
+    - submitty-banner
+    - https://submitty.org
+  - type: status
+    status:
+    - 200
+  condition: and

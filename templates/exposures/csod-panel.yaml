@@ -1,0 +1,19 @@
+id: csod-panel
+name: Cornerstone OnDemand Panel - Detect
+severity: info
+confidence: tentative
+description: Cornerstone OnDemand panel was detected.
+reference: CWE-200
+tags:
+- panel
+- csod
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - csod-custom
+    - csodcommon
+  condition: or

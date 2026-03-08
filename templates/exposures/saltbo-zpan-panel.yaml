@@ -1,0 +1,23 @@
+id: saltbo-zpan-panel
+name: Saltbo/zpan Panel - Detect
+severity: info
+confidence: confirmed
+description: Detects the presence of the Saltbo/zpan file management panel.
+reference: https://github.com/saltbo/zpan
+tags:
+- panel
+- zpan
+- login
+- detect
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>ZPan
+  - type: status
+    status:
+    - 200
+  condition: and

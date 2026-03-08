@@ -1,0 +1,21 @@
+id: default-page-azure-container
+name: Azure Container Instance Default Page
+severity: info
+confidence: confirmed
+description: Azure Container Instance Default Page
+tags:
+- tech
+- azure
+- cloud
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Welcome to Azure Container Instances!</title>
+  - type: status
+    status:
+    - 200
+  condition: and

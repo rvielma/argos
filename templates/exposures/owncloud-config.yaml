@@ -1,0 +1,22 @@
+id: owncloud-config
+name: owncloud Config - Detect
+severity: info
+confidence: tentative
+description: owncloud configuration information was detected.
+reference: CWE-200
+tags:
+- config
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /owncloud/config/
+  matchers:
+  - type: body
+    words:
+    - Index of
+    - owncloud/config
+  - type: status
+    status:
+    - 200
+  condition: and

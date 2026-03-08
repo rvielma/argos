@@ -1,0 +1,22 @@
+id: web-file-manager
+name: Web File Manager Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Web File Manager login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- filemanager
+- discovery
+requests:
+- method: GET
+  path: /Login
+  matchers:
+  - type: body
+    words:
+    - Web File Manager
+    - Login
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,27 @@
+id: bitbucket-public-repository
+name: Atlassian Bitbucket Public Repository Exposure
+severity: low
+confidence: confirmed
+description: Bitbucket Public Repository is exposed.
+tags:
+- misconfig
+- bitbucket
+- vuln
+requests:
+- method: GET
+  path: /repos?visibility=public
+  matchers: &id001
+  - type: body
+    words:
+    - Public Repositories - Bitbucket
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /bitbucket/repos?visibility=public
+  matchers: *id001
+  condition: and

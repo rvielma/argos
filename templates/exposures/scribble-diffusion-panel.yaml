@@ -1,0 +1,24 @@
+id: scribble-diffusion-panel
+name: Scribble Diffusion Panel - Detect
+severity: info
+confidence: confirmed
+description: A tool to turn your rough sketch into a refined image using AI.
+reference: https://scribblediffusion.com/
+tags:
+- panel
+- scribble
+- detect
+- discovery
+- ai
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Scribble Diffusion
+    - content="Scribble Diffusion
+  - type: status
+    status:
+    - 200
+  condition: and

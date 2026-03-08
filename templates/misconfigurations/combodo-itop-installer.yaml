@@ -1,0 +1,28 @@
+id: combodo-itop-installer
+name: Combodo iTop Installer/Upgrade - Exposure
+severity: high
+confidence: confirmed
+description: Combodo iTop is susceptible to the Installation page exposure due to misconfiguration.
+reference: https://www.itophub.io/wiki/page?id=2_4_0:install:install_wizard
+tags:
+- misconfig
+- itop
+- install
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /setup/wizard.php
+  matchers: &id001
+  - type: body
+    words:
+    - iTop Installation Wizard
+    - /setup.js
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /itop/setup/wizard.php
+  matchers: *id001
+  condition: and

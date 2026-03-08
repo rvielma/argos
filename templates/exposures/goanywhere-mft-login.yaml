@@ -1,0 +1,28 @@
+id: goanywhere-mft-login
+name: GoAnywhere Managed File Transfer Login Panel - Detect
+severity: info
+confidence: confirmed
+description: GoAnywhere Managed File Transfer login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- goanywhere
+- login
+- filetransfer
+- discovery
+requests:
+- method: GET
+  path: /goanywhere/auth/Login.xhtml
+  matchers: &id001
+  - type: body
+    words:
+    - GoAnywhere Managed File Transfer
+    - GoAnywhere Web Client
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /webclient/Login.xhtml
+  matchers: *id001
+  condition: and

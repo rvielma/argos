@@ -1,0 +1,29 @@
+id: msmtp-config
+name: Msmtp - Config Exposure
+severity: high
+confidence: confirmed
+description: Msmtp configuration was discovered.
+reference: https://wiki.archlinux.org/title/Msmtp
+tags:
+- exposure
+- msmtp
+- vuln
+requests:
+- method: GET
+  path: /.msmtprc
+  matchers:
+  - type: body
+    words:
+    - account
+    - host
+    - from
+    - auth
+    - tls
+  - type: header
+    words:
+    - text/plain
+    - octet-stream
+  - type: status
+    status:
+    - 200
+  condition: and

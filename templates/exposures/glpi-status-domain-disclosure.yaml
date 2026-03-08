@@ -1,0 +1,31 @@
+id: glpi-status-domain-disclosure
+name: GLPI Status Domain Disclosure
+severity: info
+confidence: tentative
+description: GLPI Status Domain Disclosure
+tags:
+- glpi
+- exposure
+- status
+- files
+- vuln
+requests:
+- method: GET
+  path: /status.php
+  matchers: &id001
+  - type: body
+    words:
+    - GLPI_
+    - LDAP server
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /glpi/status.php
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /glpi2/status.php
+  matchers: *id001
+  condition: and

@@ -1,0 +1,21 @@
+id: octoprint-installer
+name: OctoPrint Installation Page - Exposure
+severity: high
+confidence: confirmed
+description: Checks for the presence of a OctoPrint Installer Page.
+tags:
+- install
+- octoprint
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Thank you for installing OctoPrint
+  - type: status
+    status:
+    - 200
+  condition: and

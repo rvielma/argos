@@ -1,0 +1,21 @@
+id: dragonfly-panel
+name: DragonFly Login - Panel
+severity: info
+confidence: confirmed
+description: Dragonfly Login Panel was discovered
+tags:
+- dragonfly
+- panel
+- login
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - href="logo-dragonfly.png"
+  - type: status
+    status:
+    - 200
+  condition: and

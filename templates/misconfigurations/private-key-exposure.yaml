@@ -1,0 +1,22 @@
+id: private-key-exposure
+name: Private key exposure via helper detector
+severity: high
+confidence: tentative
+description: Searches for private key exposure by attempting to query the helper endpoint on node_modules
+tags:
+- exposure
+- node
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /node_modules/mqtt/test/helpers/
+  matchers:
+  - type: status
+    status:
+    - 200
+  - type: body
+    words:
+    - Index of /node_modules/mqtt/test/helpers
+    - Parent Directory
+  condition: and

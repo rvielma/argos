@@ -1,0 +1,35 @@
+id: nextcloud-detect
+name: Nextcloud Detect
+severity: info
+confidence: confirmed
+description: Nextcloud is a suite of client-server software for creating and using file hosting services
+reference: https://nextcloud.com
+tags:
+- tech
+- nextcloud
+- storage
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - var nc_lastLogin
+    - var nc_pageLoad
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /login
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /nextcloud/login
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /nextcloud/index.php/login
+  matchers: *id001
+  condition: and

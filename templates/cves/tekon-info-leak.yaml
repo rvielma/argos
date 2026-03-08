@@ -1,0 +1,26 @@
+id: tekon-info-leak
+name: Tekon - Unauthenticated Log Leak
+severity: low
+confidence: tentative
+description: A vulnerability in Tekon allows remote unauthenticated users to disclose the Log of the remote device
+reference: https://medium.com/@bertinjoseb/post-auth-rce-based-in-malicious-lua-plugin-script-upload-scada-controllers-located-in-russia-57044425ac38
+tags:
+- tekon
+- exposure
+- unauth
+- vuln
+requests:
+- method: GET
+  path: /cgi-bin/log.cgi
+  matchers:
+  - type: body
+    words:
+    - -- Logs begin at
+    - end at
+  - type: header
+    words:
+    - text/plain
+  - type: status
+    status:
+    - 200
+  condition: and

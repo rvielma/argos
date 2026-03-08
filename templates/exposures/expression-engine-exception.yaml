@@ -1,0 +1,19 @@
+id: expression-engine-exception
+name: ExpressionEngine Exception - Page
+severity: info
+confidence: tentative
+description: ExpressionEngine Exception - Page
+tags:
+- error
+- expressionengine
+- log
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Exception - ExpressionEngine
+    - Exception Caught
+  condition: or

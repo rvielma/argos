@@ -1,0 +1,26 @@
+id: haproxy-exporter-metrics
+name: Detect Haproxy Exporter
+severity: low
+confidence: confirmed
+description: Haproxy metrics is exposed.
+tags:
+- haproxy
+- exposure
+- debug
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /metrics
+  matchers:
+  - type: body
+    words:
+    - HELP haproxy_
+  - type: body
+    words:
+    - haproxy_exporter
+    - haproxy_backend
+  - type: status
+    status:
+    - 200
+  condition: and

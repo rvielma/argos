@@ -1,0 +1,24 @@
+id: sonarr-dashboard-unauth
+name: Sonarr Dashboard - Unauthenticated
+severity: medium
+confidence: confirmed
+description: Exposure of Sonarr dashboard which can lead to sensitive information disclosure.
+tags:
+- sonarr
+- unauth
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Sonarr</title>
+  - type: body
+    words:
+    - Login - Sonarr
+  - type: status
+    status:
+    - 200
+  condition: and

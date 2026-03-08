@@ -1,0 +1,20 @@
+id: icecast-server-detect
+name: Icecast Streaming Media Server Detection
+severity: info
+confidence: confirmed
+description: Icecast Streaming Media Server Detection
+tags:
+- tech
+- icecast
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: header
+    words:
+    - Icecast
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,23 @@
+id: akhq-panel
+name: AKHQ Panel - Detect
+severity: info
+confidence: confirmed
+description: AKHQ Panel was discovered.
+tags:
+- akhq
+- panel
+- login
+- detect
+- discovery
+requests:
+- method: GET
+  path: /ui/login
+  matchers:
+  - type: body
+    words:
+    - <title>AKHQ</title>
+    - AKHQ_PREFIX_UI
+  - type: status
+    status:
+    - 200
+  condition: and

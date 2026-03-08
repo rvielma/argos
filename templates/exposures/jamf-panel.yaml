@@ -1,0 +1,20 @@
+id: jamf-panel
+name: Jamf MDM Login Panel - Detect
+severity: info
+confidence: tentative
+description: Jamf Mobile Device Management login panel was detected.
+reference: CWE-200
+tags:
+- jamf
+- panel
+- mdm
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Jamf Pro Login
+    - Jamf Cloud Node
+  condition: and

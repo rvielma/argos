@@ -1,0 +1,19 @@
+id: exposed-kafdrop
+name: Publicly exposed Kafdrop Interface
+severity: low
+confidence: tentative
+description: Publicly Kafdrop Interface is exposed.
+tags:
+- exposure
+- misconfig
+- kafdrop
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - '<title>Kafdrop: Broker List</title>'
+    - Kafka Cluster Overview
+  condition: or

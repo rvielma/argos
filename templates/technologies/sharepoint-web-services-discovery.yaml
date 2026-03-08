@@ -1,0 +1,26 @@
+id: sharepoint-web-services-discovery
+name: Microsoft SharePoint - Web Services Discovery
+severity: info
+confidence: tentative
+description: Detected exposed SharePoint web services via /_vti_bin/spdisco.aspx endpoint
+tags:
+- sharepoint
+- iis
+- microsoft
+- tech
+- discovery
+requests:
+- method: GET
+  path: /_vti_bin/spdisco.aspx
+  matchers:
+  - type: body
+    words:
+    - <discovery
+    - <contractRef
+  - type: body
+    words:
+    - text/xml
+  - type: status
+    status:
+    - 200
+  condition: and

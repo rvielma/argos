@@ -1,0 +1,21 @@
+id: crxde-lite
+name: CRXDE Lite - Exposure
+severity: low
+confidence: confirmed
+description: CRXDE Lite exposure was detected.
+reference: CWE-200
+tags:
+- aem
+- crxde
+- exposure
+- adobe
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /crx/de/index.jsp
+  matchers:
+  - type: body
+    words:
+    - <title>CRXDE Lite</title>
+  condition: or

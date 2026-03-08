@@ -1,0 +1,23 @@
+id: linktap-gateway-exposure
+name: LinkTap Gateway Exposure
+severity: low
+confidence: confirmed
+description: LinkTap Gateway is exposed.
+tags:
+- misconfig
+- linktap
+- iot
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Device infomation
+    - Ethernet settings
+  - type: status
+    status:
+    - 200
+  condition: and

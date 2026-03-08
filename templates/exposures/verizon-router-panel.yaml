@@ -1,0 +1,22 @@
+id: verizon-router-panel
+name: Verizon Router Panel - Detect
+severity: info
+confidence: confirmed
+description: Verizon router panel was detected.
+reference: CWE-200
+tags:
+- panel
+- verizon
+- router
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Verizon Router</title>
+  - type: status
+    status:
+    - 200
+  condition: and

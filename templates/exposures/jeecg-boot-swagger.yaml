@@ -1,0 +1,19 @@
+id: jeecg-boot-swagger
+name: Jeecg Boot Swagger Bootstrap UI - Detect
+severity: info
+confidence: confirmed
+description: Jeecg Swagger Bootstrap UI exposed.
+tags:
+- jeecg
+- swagger
+- detect
+- exposure
+- discovery
+requests:
+- method: GET
+  path: /jeecg-boot/
+  matchers:
+  - type: body
+    words:
+    - <title>Swagger-Bootstrap-UI</title>
+  condition: or

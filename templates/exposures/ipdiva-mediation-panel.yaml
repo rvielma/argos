@@ -1,0 +1,30 @@
+id: ipdiva-mediation-panel
+name: IPdiva Mediation Login Panel - Detect
+severity: info
+confidence: confirmed
+description: IPdiva Mediation login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- ipdiva
+- mediation
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: header
+    words:
+    - IPdiva mediation
+  - type: body
+    words:
+    - IPdiva Secure
+  condition: or
+- method: GET
+  path: /mediation/domains
+  matchers: *id001
+  condition: or
+- method: GET
+  path: /mediation/authenticate
+  matchers: *id001
+  condition: or

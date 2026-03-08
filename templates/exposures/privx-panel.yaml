@@ -1,0 +1,21 @@
+id: privx-panel
+name: SSH PrivX Login Panel - Detect
+severity: info
+confidence: tentative
+description: SSH PrivX login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- privx
+- discovery
+requests:
+- method: GET
+  path: /auth/login
+  matchers:
+  - type: body
+    words:
+    - <title>PrivX</title>
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,21 @@
+id: bigant-login-panel
+name: BigAnt Admin Login Panel - Detect
+severity: info
+confidence: tentative
+description: BigAnt admin login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- bigant
+- discovery
+requests:
+- method: GET
+  path: /index.php/Home/login/index.html
+  matchers:
+  - type: body
+    words:
+    - <title>BigAnt Admin </title>
+  - type: status
+    status:
+    - 200
+  condition: and

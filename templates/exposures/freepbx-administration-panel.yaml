@@ -1,0 +1,26 @@
+id: freepbx-administration-panel
+name: FreePBX Admin Panel - Detect
+severity: info
+confidence: confirmed
+description: FreePBX admin panel was detected.
+reference: CWE-200
+tags:
+- freepbx
+- panel
+- sangoma
+- discovery
+requests:
+- method: GET
+  path: /admin/config.php
+  matchers:
+  - type: body
+    words:
+    - <title>FreePBX
+    - FreePBX</title>
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

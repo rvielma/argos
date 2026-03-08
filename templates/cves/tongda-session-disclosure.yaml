@@ -1,0 +1,25 @@
+id: tongda-session-disclosure
+name: Tongda User Session Disclosure
+severity: medium
+confidence: tentative
+description: Tongda User session exposed.
+reference: https://mp.weixin.qq.com/s/llyGEBRo0t-C7xOLMDYfFQ
+tags:
+- tongda
+- disclosure
+- vuln
+requests:
+- method: POST
+  path: /general/userinfo.php?UID=1
+  matchers:
+  - type: body
+    words:
+    - '"dept_name":"'
+    - '"online_flag":'
+  - type: header
+    words:
+    - application/json
+  - type: status
+    status:
+    - 200
+  condition: and

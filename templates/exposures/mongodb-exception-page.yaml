@@ -1,0 +1,18 @@
+id: mongodb-exception-page
+name: MongoDB Exception - Page
+severity: info
+confidence: tentative
+description: MongoDB Exception - Page
+tags:
+- error
+- mongodb
+- log
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - MongoDB Exception
+  condition: and

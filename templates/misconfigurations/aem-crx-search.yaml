@@ -1,0 +1,35 @@
+id: aem-crx-search
+name: Adobe AEM CRX Search Exposed
+severity: info
+confidence: tentative
+description: Adobe AEM CRX Search Exposed
+reference: https://raw.githubusercontent.com/danielmiessler/SecLists/master/Discovery/Web-Content/aem2.txt
+tags:
+- misconfig
+- aem
+- adobe
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /crx/explorer/ui/search.jsp
+  matchers: &id001
+  - type: body
+    words:
+    - <title>Search</title>
+    - '"/crx/explorer/ui/";'
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /crx/explorer/ui/search.jsp?Path=&amp;Query=
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /crx/explorer/ui/search.jsp?Path=&Query=
+  matchers: *id001
+  condition: and

@@ -1,0 +1,28 @@
+id: jolokia-logback-jndi-rce
+name: Jolokia Logback JNDI - Remote Code Execution
+severity: high
+confidence: tentative
+description: Jolokia Logback is vulnerable to RCE.
+reference: https://thinkloveshare.com/hacking/ssrf_to_rce_with_jolokia_and_mbeans/
+tags:
+- jolokia
+- springboot
+- tomcat
+- rce
+- vuln
+requests:
+- method: GET
+  path: /jolokia/list
+  matchers: &id001
+  - type: body
+    words:
+    - ch.qos.logback.classic.jmx.JMXConfigurator
+    - reloadByURL
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /actuator/jolokia/list
+  matchers: *id001
+  condition: and

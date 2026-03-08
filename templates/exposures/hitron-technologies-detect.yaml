@@ -1,0 +1,23 @@
+id: hitron-technologies-detect
+name: Hitron Technologies Router Login Panel - Detect
+severity: info
+confidence: tentative
+description: Hitron Technologies router login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- edb
+- router
+- discovery
+requests:
+- method: GET
+  path: /login.html
+  matchers:
+  - type: body
+    words:
+    - hitron
+    - $.hitron.languages.lang_init();
+  - type: status
+    status:
+    - 200
+  condition: and

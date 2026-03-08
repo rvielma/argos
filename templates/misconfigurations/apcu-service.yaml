@@ -1,0 +1,25 @@
+id: apcu-service
+name: APCu service information leakage
+severity: low
+confidence: tentative
+description: APCu service is vulnerable to information leakage.
+tags:
+- config
+- service
+- apcu
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /apc/apc.php
+  matchers: &id001
+  - type: body
+    words:
+    - APCu Version Information
+    - General Cache Information
+    - Detailed Memory Usage and Fragmentation
+  condition: or
+- method: GET
+  path: /apc.php
+  matchers: *id001
+  condition: or

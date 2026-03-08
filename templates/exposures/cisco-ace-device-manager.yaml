@@ -1,0 +1,21 @@
+id: cisco-ace-device-manager
+name: Cisco ACE 4710 Device Manager Login Panel - Detect
+severity: info
+confidence: tentative
+description: Cisco ACE 4710 Device Manager login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- cisco
+- discovery
+requests:
+- method: GET
+  path: /index.vm
+  matchers:
+  - type: body
+    words:
+    - <title>ACE 4710 DM - Login</title>
+  - type: status
+    status:
+    - 200
+  condition: and

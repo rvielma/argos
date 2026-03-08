@@ -1,0 +1,23 @@
+id: cyberpanel-panel
+name: Cyberpanel Login Panel - Detect
+severity: info
+confidence: tentative
+description: Cyberpanel login panel was detected.
+reference: CWE-200
+tags:
+- cyberpanel
+- panel
+- login
+- detect
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: regex
+    regex:
+    - <title>(.*)CyberPanel(.*)</title>
+  - type: status
+    status:
+    - 200
+  condition: and

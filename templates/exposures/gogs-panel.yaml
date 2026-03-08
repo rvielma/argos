@@ -1,0 +1,23 @@
+id: gogs-panel
+name: Gogs Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Gogs login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- gogs
+- discovery
+requests:
+- method: GET
+  path: /user/login
+  matchers:
+  - type: body
+    words:
+    - <meta property="og:description" content="Gogs is a painless self-hosted Git service.">
+    - <meta name="description" content="Gogs is a painless self-hosted Git service" />
+    - <title>Sign In - Gogs</title>
+  - type: status
+    status:
+    - 200
+  condition: and

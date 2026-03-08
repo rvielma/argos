@@ -1,0 +1,21 @@
+id: yii-error-page
+name: Yii Error Page - Detct
+severity: info
+confidence: confirmed
+description: Yii (An application framework to handle and manage errors) error page detected.
+tags:
+- exposure
+- yii
+- logs
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>yii\base\ErrorException</title>
+  - type: status
+    status:
+    - 500
+  condition: and

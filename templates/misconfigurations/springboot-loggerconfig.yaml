@@ -1,0 +1,32 @@
+id: springboot-loggerconfig
+name: Spring Boot LoggerConfig Actuator Panel - Detect
+severity: info
+confidence: confirmed
+description: Spring Boot LoggerConfig Actuator panel was detected.
+reference: CWE-200
+tags:
+- misconfig
+- springboot
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /loggingConfig
+  matchers: &id001
+  - type: body
+    words:
+    - '["loggingConfig"]'
+    - '"propertySources"'
+  - type: header
+    words:
+    - application/json
+    - application/vnd.spring-boot.actuator
+    - application/vnd.spring-boot.actuator.v1+json
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /actuator/loggingConfig
+  matchers: *id001
+  condition: and

@@ -1,0 +1,23 @@
+id: mcloud-installer
+name: mCloud Panel - Installer
+severity: critical
+confidence: confirmed
+description: mCloud installer was detected.
+reference: CWE-284
+tags:
+- panel
+- mcloud
+- exposure
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /clusterList
+  matchers:
+  - type: body
+    words:
+    - <title>mcloud-installer-web
+  - type: status
+    status:
+    - 200
+  condition: and

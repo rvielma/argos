@@ -1,0 +1,24 @@
+id: unauth-zwave-mqtt
+name: Unauthenticated ZWave To MQTT Console
+severity: low
+confidence: confirmed
+description: ZWave To MQTT Console is exposed.
+reference: https://github.com/OpenZWave/Zwave2Mqtt
+tags:
+- misconfig
+- zwave
+- mqtt
+- unauth
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - ZWave To MQTT
+    - content="Zwavejs2Mqtt"
+  - type: status
+    status:
+    - 200
+  condition: and

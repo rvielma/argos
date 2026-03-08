@@ -1,0 +1,21 @@
+id: formalms-install
+name: Formalms Exposed Installation
+severity: high
+confidence: tentative
+description: Formalms Installation is exposed.
+tags:
+- misconfig
+- formalms
+- vuln
+requests:
+- method: GET
+  path: /install/
+  matchers:
+  - type: body
+    words:
+    - <title>forma.lms installer</title>
+    - <h1>forma.lms - Installation</h1>
+  - type: status
+    status:
+    - 200
+  condition: and

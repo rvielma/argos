@@ -1,0 +1,18 @@
+id: yopass-panel
+name: Yopass Panel - Detect
+severity: info
+confidence: tentative
+description: Yopass panel was detected.
+reference: CWE-200
+tags:
+- panel
+- yopass
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Yopass
+  condition: or

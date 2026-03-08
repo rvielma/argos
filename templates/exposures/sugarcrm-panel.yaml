@@ -1,0 +1,25 @@
+id: sugarcrm-panel
+name: SugarCRM Login Panel - Detect
+severity: info
+confidence: tentative
+description: SugarCRM login panel was detected.
+reference: CWE-200
+tags:
+- sugarcrm
+- panel
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - <title>SugarCRM</title>
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /index.php?action=Login&module=Users
+  matchers: *id001
+  condition: and

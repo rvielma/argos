@@ -1,0 +1,19 @@
+id: wordpress-user-enum
+name: Wordpress User Enumeration
+severity: info
+confidence: tentative
+description: This template detects user enumeration in wordpress.
+tags:
+- wordpress
+- vuln
+requests:
+- method: GET
+  path: /?author=1
+  matchers:
+  - type: regex
+    regex:
+    - '(?i)Location: http(s|):\/\/[\w\.\-]+\/author\/\w+'
+  - type: status
+    status:
+    - 301
+  condition: and

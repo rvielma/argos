@@ -1,0 +1,23 @@
+id: unauthenticated-popup-upload
+name: Unauthenticated Popup File Upload - Detect
+severity: info
+confidence: tentative
+description: Endpoints where files can be uploaded without authentication were detected.
+reference: CWE-200
+tags:
+- edb
+- fileupload
+- misconfig
+- intrusive
+- vuln
+requests:
+- method: GET
+  path: /RichWidgets/Popup_Upload.aspx
+  matchers:
+  - type: body
+    words:
+    - Popup Upload
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,23 @@
+id: gradio-file-redirect
+name: Gradio - Open Redirect
+severity: low
+confidence: confirmed
+description: An open redirect vulnerability in Gradio allows attackers to craft malicious URLs that redirect users to external,
+  potentially harmful sites without proper validation.
+tags:
+- gradio
+- redirect
+- vuln
+- oos
+requests:
+- method: GET
+  path: /gradio_api/file=http://example.com
+  matchers: &id001
+  - type: regex
+    regex:
+    - (?m)^(?:Location\s*?:\s*?)(?:https?:\/\/|\/\/|\/\\\\|\/\\)(?:[a-zA-Z0-9\-_\.@]*)example\.com\/?(\/|[^.].*)?$
+  condition: or
+- method: GET
+  path: /file=http://example.com
+  matchers: *id001
+  condition: or

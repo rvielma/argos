@@ -1,0 +1,23 @@
+id: iptime-router
+name: ipTIME Router Login Panel - Detect
+severity: info
+confidence: tentative
+description: ipTIME router login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- login
+- iptime
+- router
+- discovery
+requests:
+- method: GET
+  path: /sess-bin/login_session.cgi
+  matchers:
+  - type: regex
+    regex:
+    - <TITLE>ipTIME ([A-Z0-9_-]+)<\/TITLE>
+  - type: status
+    status:
+    - 200
+  condition: and

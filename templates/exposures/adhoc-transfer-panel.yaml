@@ -1,0 +1,24 @@
+id: adhoc-transfer-panel
+name: WS-FTP Ad Hoc Transfer Panel - Detect
+severity: info
+confidence: confirmed
+description: WS_FTP Ad Hoc panel was detected.
+tags:
+- panel
+- wsftp
+- ad-hoc
+- detect
+- login
+- progress
+- discovery
+requests:
+- method: GET
+  path: /AHT/
+  matchers:
+  - type: body
+    words:
+    - Ad Hoc Transfer
+  - type: status
+    status:
+    - 200
+  condition: and

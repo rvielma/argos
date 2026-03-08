@@ -1,0 +1,23 @@
+id: yzmcms-panel
+name: YzmCMS Login Panel - Detect
+severity: info
+confidence: tentative
+description: YzmCMS login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- yzmcms
+- login
+- discovery
+requests:
+- method: GET
+  path: /admin/index/login.html
+  matchers:
+  - type: body
+    words:
+    - Powered By <a href="http://www.yzmcms.com"
+    - Powered By YzmCMS
+  - type: status
+    status:
+    - 200
+  condition: and

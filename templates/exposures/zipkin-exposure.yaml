@@ -1,0 +1,22 @@
+id: zipkin-exposure
+name: Zipkin Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Zipkin login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- zipkin
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - webpackJsonpzipkin-lens
+  condition: or
+- method: GET
+  path: /zipkin/
+  matchers: *id001
+  condition: or

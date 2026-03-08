@@ -1,0 +1,24 @@
+id: tableau-server-detect
+name: Salesforce Tableau Server - Detect
+severity: info
+confidence: tentative
+description: Detects Salesforce Tableau Server and extracts the buildid.
+tags:
+- tech
+- detect
+- tableau
+- salesforce
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: header
+    words:
+    - 'X-Tableau: Tableau Server'
+    - 'Server: Tableau'
+  - type: body
+    words:
+    - VizPortalRun
+    - vizportal
+  condition: or

@@ -1,0 +1,19 @@
+id: xprober-service
+name: X Prober Server - Information Disclosure
+severity: medium
+confidence: tentative
+description: X Prober Server information disclosure was detected.
+reference: CWE-200
+tags:
+- config
+- exposure
+- vuln
+requests:
+- method: GET
+  path: /xprober.php
+  matchers:
+  - type: body
+    words:
+    - '"appName":"X Prober"'
+    - <title>X Prober
+  condition: or

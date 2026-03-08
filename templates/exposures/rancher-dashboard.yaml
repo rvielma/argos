@@ -1,0 +1,29 @@
+id: rancher-dashboard
+name: Rancher Dashboard Panel - Detect
+severity: info
+confidence: confirmed
+description: Rancher Dashboard was detected.
+reference: CWE-200
+tags:
+- panel
+- rancher
+- dashboard
+- login
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers: &id001
+  - type: body
+    words:
+    - content="Rancher Dashboard
+    - 'rancherEnv:'
+    - <title>Rancher
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /dashboard/auth/login
+  matchers: *id001
+  condition: and

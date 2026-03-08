@@ -1,0 +1,24 @@
+id: wordpress-elementor-plugin-listing
+name: WordPress Elementor Plugin Directory Listing
+severity: info
+confidence: tentative
+description: Searches for sensitive directories present in the elementor wordpress plugin.
+reference: https://www.exploit-db.com/ghdb/6297
+tags:
+- listing
+- plugin
+- edb
+- wordpress
+- vuln
+requests:
+- method: GET
+  path: /wp-content/plugins/elementor/
+  matchers:
+  - type: body
+    words:
+    - Index of
+    - /wp-content/plugins/elementor/
+  - type: status
+    status:
+    - 200
+  condition: and

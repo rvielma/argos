@@ -1,0 +1,22 @@
+id: directum-login
+name: Directum Login Panel - Detect
+severity: info
+confidence: tentative
+description: Directum login panel was detected.
+reference: CWE-200
+tags:
+- directum
+- panel
+- discovery
+requests:
+- method: GET
+  path: /Login.aspx
+  matchers:
+  - type: body
+    words:
+    - DIRECTUM Login
+    - Directum Login
+  - type: status
+    status:
+    - 200
+  condition: and

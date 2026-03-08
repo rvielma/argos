@@ -1,0 +1,23 @@
+id: webpack-mix-js
+name: Webpack Mix File Disclosure
+severity: info
+confidence: confirmed
+description: Webpack Mix File Disclosure
+tags:
+- config
+- exposure
+- devops
+- files
+- vuln
+requests:
+- method: GET
+  path: /webpack.mix.js
+  matchers:
+  - type: body
+    words:
+    - Mix Asset Management
+    - const mix
+  - type: status
+    status:
+    - 200
+  condition: and

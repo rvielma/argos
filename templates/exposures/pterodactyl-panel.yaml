@@ -1,0 +1,26 @@
+id: pterodactyl-panel
+name: Pterodactyl game server - Panel
+severity: info
+confidence: confirmed
+description: Detects Pterodactyl game server management panel.
+reference: https://github.com/pterodactyl/panel
+tags:
+- detect
+- pterodactyl
+- panel
+- oos
+- discovery
+requests:
+- method: GET
+  path: /auth/login
+  matchers:
+  - type: status
+    status:
+    - 200
+  - type: header
+    words:
+    - pterodactyl_session=
+  - type: body
+    words:
+    - window.SiteConfiguration
+  condition: and

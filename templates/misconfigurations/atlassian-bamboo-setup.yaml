@@ -1,0 +1,27 @@
+id: atlassian-bamboo-setup
+name: Atlassian Bamboo Setup Wizard
+severity: info
+confidence: confirmed
+description: Atlassian Bamboo is susceptible to the Installation page exposure due to misconfiguration.
+tags:
+- misconfig
+- atlassian
+- bamboo
+- setup
+- installer
+- vuln
+requests:
+- method: GET
+  path: /setup/setupLicense.action
+  matchers:
+  - type: body
+    words:
+    - Bamboo setup wizard - Atlassian Bamboo
+    - Bamboo evaluation license
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

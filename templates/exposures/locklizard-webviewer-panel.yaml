@@ -1,0 +1,23 @@
+id: locklizard-webviewer-panel
+name: Locklizard Web Viewer Login Panel - Detect
+severity: info
+confidence: confirmed
+description: Locklizard Web Viewer login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- locklizard
+- webviewer
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Locklizard Web Viewer
+    - Did you remember your password?
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,23 @@
+id: open-virtualization-manager-detect
+name: Open Virtualization Manager Detection
+severity: info
+confidence: tentative
+description: Open Virtualization Manager was detected. Open Virtualization Manager is an open-source distributed virtualization
+  solution designed to manage enterprise infrastructure. oVirt uses the trusted KVM hypervisor and is built upon several other
+  community projects, including libvirt, Gluster, PatternFly, and Ansible.
+reference: CWE-200
+tags:
+- tech
+- ovirt
+- discovery
+requests:
+- method: GET
+  path: /ovirt-engine/
+  matchers:
+  - type: body
+    words:
+    - Welcome to Open Virtualization Manager
+    - <title>Ovirt-Engine</title>
+    - <title>oVirt Engine</title>
+    - <title>oVirt Engine Error</title>
+  condition: and

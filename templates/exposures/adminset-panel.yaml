@@ -1,0 +1,21 @@
+id: adminset-panel
+name: Adminset Login Panel
+severity: info
+confidence: tentative
+description: An Adminset login panel was detected.
+reference: CWE-200
+tags:
+- adminset
+- panel
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>AdminSet Login</title>
+  - type: status
+    status:
+    - 200
+  condition: and

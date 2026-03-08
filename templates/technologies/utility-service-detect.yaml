@@ -1,0 +1,22 @@
+id: utility-service-detect
+name: Utility Services Administration - Detect
+severity: info
+confidence: confirmed
+description: Utility Services Administration - Detect
+tags:
+- tech
+- avaya
+- aura
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Utility Services Administration</title>
+    - '>Utility-Services'
+  - type: status
+    status:
+    - 200
+  condition: and

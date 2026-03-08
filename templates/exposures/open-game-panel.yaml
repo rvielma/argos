@@ -1,0 +1,21 @@
+id: open-game-panel
+name: Open Game Panel Login Panel - Detect
+severity: info
+confidence: tentative
+description: Open Game Panel login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- edb
+- discovery
+requests:
+- method: GET
+  path: /index.php
+  matchers:
+  - type: body
+    words:
+    - <title>Open Game Panel</title>
+  - type: status
+    status:
+    - 200
+  condition: and

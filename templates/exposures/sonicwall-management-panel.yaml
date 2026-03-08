@@ -1,0 +1,19 @@
+id: sonicwall-management-panel
+name: SonicWall Management Admin Login Panel - Detect
+severity: info
+confidence: tentative
+description: SonicWall Management admin login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- sonicwall
+- discovery
+requests:
+- method: GET
+  path: /auth.html
+  matchers:
+  - type: body
+    words:
+    - <title>SonicWall - Authentication</title>
+    - SonicWall Administrator
+  condition: or

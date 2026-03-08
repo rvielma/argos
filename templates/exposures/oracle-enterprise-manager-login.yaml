@@ -1,0 +1,25 @@
+id: oracle-enterprise-manager-login
+name: Oracle Enterprise Manager Login Panel - Detect
+severity: info
+confidence: tentative
+description: Oracle Enterprise Manager login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- oracle
+- manager
+- login
+- discovery
+requests:
+- method: GET
+  path: /em/console/logon/logon
+  matchers:
+  - type: body
+    words:
+    - Oracle UIX
+    - libNPSVG3.so
+    - Oracle Enterprise Manager
+  - type: status
+    status:
+    - 200
+  condition: and

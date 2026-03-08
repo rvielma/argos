@@ -1,0 +1,25 @@
+id: interactsoftware-panel
+name: Interact Software Panel - Detect
+severity: info
+confidence: confirmed
+description: Interact Software was detected.
+reference: https://www.interactsoftware.com
+tags:
+- panel
+- interactsoftware
+- interact
+- detect
+- discovery
+requests:
+- method: GET
+  path: /login
+  matchers:
+  - type: body
+    words:
+    - www.interactsoftware.com
+    - community.interact-intranet.com
+    - /InteractV
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,24 @@
+id: vercel-config-file
+name: Vercel Config File - File Disclosure
+severity: low
+confidence: confirmed
+description: Vercel Config file is exposed.
+reference: https://vercel.com/docs/project-configuration
+tags:
+- exposure
+- files
+- vercel
+- vuln
+requests:
+- method: GET
+  path: /vercel.json
+  matchers:
+  - type: body
+    words:
+    - '"builds": ['
+    - '"routes": ['
+    - '"use": "@vercel'
+  - type: body
+    words:
+    - application/json
+  condition: and

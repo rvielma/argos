@@ -1,0 +1,30 @@
+id: springboot-dump
+name: Detect Springboot Dump Actuator
+severity: low
+confidence: tentative
+description: Performs a thread dump
+tags:
+- springboot
+- exposure
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /dump
+  matchers: &id001
+  - type: body
+    words:
+    - threadName
+    - threadId
+    - waitedTime
+    - lockName
+    - stackTrace
+    - methodName
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /actuator/dump
+  matchers: *id001
+  condition: and

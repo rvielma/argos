@@ -1,0 +1,28 @@
+id: fortiauthenticator-detect
+name: FortiAuthenticator - Detect
+severity: info
+confidence: confirmed
+description: The FortiAuthenticator panel was detected.
+reference: CWE-200
+tags:
+- panel
+- fortinet
+- fortiauthenticator
+- detect
+- discovery
+requests:
+- method: GET
+  path: /api/v1
+  matchers:
+  - type: body
+    words:
+    - list_endpoint
+    - schema
+    - faccloudhost
+  - type: header
+    words:
+    - application/json
+  - type: status
+    status:
+    - 200
+  condition: and

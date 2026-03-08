@@ -1,0 +1,22 @@
+id: unauth-spark-api
+name: Unauthenticated Spark REST API
+severity: critical
+confidence: tentative
+description: The Spark product's REST API interface allows access to unauthenticated users.
+reference: CWE-77
+tags:
+- spark
+- unauth
+- vuln
+requests:
+- method: GET
+  path: /v1/submissions
+  matchers:
+  - type: status
+    status:
+    - 400
+  - type: body
+    words:
+    - Missing an action
+    - serverSparkVersion
+  condition: and

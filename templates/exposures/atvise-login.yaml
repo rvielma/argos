@@ -1,0 +1,23 @@
+id: atvise-login
+name: Atvise Login Panel
+severity: info
+confidence: tentative
+description: An Atvise login panel was discovered. Atvise is a leading visualization and control center solutions based on
+  pure web technology.
+reference: CWE-200
+tags:
+- panel
+- atvise
+- edb
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>atvise - next generation</title>
+  - type: status
+    status:
+    - 200
+  condition: and

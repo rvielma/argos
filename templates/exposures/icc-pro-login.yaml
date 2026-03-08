@@ -1,0 +1,25 @@
+id: icc-pro-login
+name: ICC PRO Login Panel - Detect
+severity: info
+confidence: confirmed
+description: ICC PRO login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- icc-pro
+- edb
+- discovery
+requests:
+- method: GET
+  path: /Account/Login
+  matchers:
+  - type: body
+    words:
+    - <title>Login to ICC PRO system</title>
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

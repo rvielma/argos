@@ -1,0 +1,22 @@
+id: dericam-login
+name: Dericam Login Panel - Detect
+severity: info
+confidence: tentative
+description: Dericam login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- dericam
+- edb
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Dericam</title>
+  - type: status
+    status:
+    - 200
+  condition: and

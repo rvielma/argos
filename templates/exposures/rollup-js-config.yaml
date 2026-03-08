@@ -1,0 +1,24 @@
+id: rollup-js-config
+name: Rollup.js Configuration - Detect
+severity: info
+confidence: confirmed
+description: Rollup configuration was detected.
+reference: CWE-200
+tags:
+- exposure
+- devops
+- cicd
+- rollupjs
+- vuln
+requests:
+- method: GET
+  path: /rollup.config.js
+  matchers:
+  - type: body
+    words:
+    - export default [
+    - 'input:'
+  - type: status
+    status:
+    - 200
+  condition: and

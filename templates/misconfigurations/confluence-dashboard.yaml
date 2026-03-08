@@ -1,0 +1,27 @@
+id: confluence-dashboard
+name: Confluence Dashboard Exposed
+severity: low
+confidence: confirmed
+description: Confluence Dashboard is exposed.
+tags:
+- misconfig
+- exposure
+- confluence
+- atlassian
+- discovery
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - Dashboard - Confluence
+    - title="Spaces">
+    - Atlassian Confluence
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,22 @@
+id: cisco-secure-desktop
+name: Cisco Secure Desktop Installation Panel - Detect
+severity: info
+confidence: tentative
+description: Cisco Secure Desktop installation panel was detected.
+reference: CWE-200
+tags:
+- cisco
+- panel
+- discovery
+requests:
+- method: GET
+  path: /CACHE/sdesktop/install/start.htm
+  matchers:
+  - type: body
+    words:
+    - Installation
+    - WebLaunch
+  - type: status
+    status:
+    - 200
+  condition: and

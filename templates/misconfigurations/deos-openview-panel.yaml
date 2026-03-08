@@ -1,0 +1,23 @@
+id: deos-openview-panel
+name: DEOS OPENview Admin Panel Unauthenticated Access
+severity: high
+confidence: tentative
+description: The DEOS OPENview administrative panel is accessible without authentication.
+reference: CWE-284
+tags:
+- openview
+- disclosure
+- panel
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /client/index.html
+  matchers:
+  - type: status
+    status:
+    - 200
+  - type: body
+    words:
+    - <title>OPENview</title>
+  condition: and

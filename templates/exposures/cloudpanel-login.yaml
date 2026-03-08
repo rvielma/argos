@@ -1,0 +1,24 @@
+id: cloudpanel-login
+name: CloudPanel Login - Detect
+severity: info
+confidence: confirmed
+description: CloudPanel Login - Detect
+tags:
+- panel
+- login
+- cloudpanel
+- detect
+- mgt-commerce
+- discovery
+requests:
+- method: GET
+  path: /login
+  matchers:
+  - type: body
+    words:
+    - CloudPanel | Log In
+    - Forgot password
+  - type: status
+    status:
+    - 200
+  condition: and

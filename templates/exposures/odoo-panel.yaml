@@ -1,0 +1,33 @@
+id: odoo-panel
+name: Odoo - Panel Detect
+severity: info
+confidence: confirmed
+description: Odoo - Panel Detect
+tags:
+- login
+- panel
+- odoo
+- discovery
+requests:
+- method: GET
+  path: /web/login
+  matchers: &id001
+  - type: body
+    words:
+    - <title>Odoo</title>
+    - odoo.session_info
+    - web.layout.odooscript
+  - type: body
+    words:
+    - Log in
+  - type: header
+    words:
+    - text/html
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /
+  matchers: *id001
+  condition: and

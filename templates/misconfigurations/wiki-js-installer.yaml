@@ -1,0 +1,22 @@
+id: wiki-js-installer
+name: Wiki.js Setup - Exposure
+severity: high
+confidence: confirmed
+description: Checks for the presence of a Wiki.js Setup Page.
+tags:
+- install
+- wiki-js
+- exposure
+- misconfig
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Wiki.js Setup</title>
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,22 @@
+id: odoo-database-manager
+name: Odoo - Database Manager Discovery
+severity: low
+confidence: confirmed
+description: Odoo database manager was discovered.
+tags:
+- panel
+- odoo
+- backup
+- discovery
+requests:
+- method: GET
+  path: /web/database/manager
+  matchers:
+  - type: body
+    words:
+    - <title>Odoo</title>
+    - .o_database_delete
+  - type: status
+    status:
+    - 200
+  condition: and

@@ -1,0 +1,28 @@
+id: npm-debug-log
+name: NPM Debug Log Disclosure
+severity: low
+confidence: confirmed
+description: NPM Debug log file exposed.
+reference: https://github.com/maurosoria/dirsearch/blob/master/db/dicc.txt
+tags:
+- exposure
+- npm
+- logs
+- debug
+- vuln
+requests:
+- method: GET
+  path: /npm-debug.log
+  matchers: &id001
+  - type: body
+    words:
+    - verbose cli
+    - verbose stack
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /assets/npm-debug.log
+  matchers: *id001
+  condition: and

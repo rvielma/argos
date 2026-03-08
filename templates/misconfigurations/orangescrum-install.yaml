@@ -1,0 +1,21 @@
+id: orangescrum-install
+name: Orangescrum Exposed Installation
+severity: high
+confidence: confirmed
+description: Orangescrum is susceptible to the Installation page exposure due to misconfiguration.
+tags:
+- misconfig
+- orangescrum
+- install
+- vuln
+requests:
+- method: GET
+  path: /
+  matchers:
+  - type: body
+    words:
+    - <title>Orangescrum Setup Wizard
+  - type: status
+    status:
+    - 200
+  condition: and

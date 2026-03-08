@@ -1,0 +1,21 @@
+id: icinga-web-login
+name: Icinga Web 2 Login Panel - Detect
+severity: info
+confidence: tentative
+description: Icinga Web 2 login panel was detected.
+reference: CWE-200
+tags:
+- panel
+- icinga
+- discovery
+requests:
+- method: GET
+  path: /authentication/login
+  matchers:
+  - type: body
+    words:
+    - <title>Icinga Web 2 Login</title>
+  - type: status
+    status:
+    - 200
+  condition: and

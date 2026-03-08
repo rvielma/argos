@@ -1,0 +1,43 @@
+id: teccom-openmessaging-detect
+name: TecConnect OpenMessaging Webservice Detection
+severity: info
+confidence: confirmed
+description: TecCom TecConnect OpenMessaging webservice was detected.
+tags:
+- tech
+- teccom
+- tecconnect
+- eol
+- wsdl
+- discovery
+requests:
+- method: GET
+  path: /openmessaging.asmx?wsdl
+  matchers: &id001
+  - type: body
+    words:
+    - ProcessRequestResponse
+    - ProcessRequestResult
+  - type: body
+    words:
+    - text/xml
+  - type: status
+    status:
+    - 200
+  condition: and
+- method: GET
+  path: /tecopenmessaging/openmessaging.asmx?wsdl
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /tomconnect/openmessaging.asmx?wsdl
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /tomconnect_apo/openmessaging.asmx?wsdl
+  matchers: *id001
+  condition: and
+- method: GET
+  path: /tompreprod/openmessaging.asmx?wsdl
+  matchers: *id001
+  condition: and
