@@ -318,6 +318,12 @@ pub struct ScanConfig {
     /// Directory for Nuclei-compatible templates
     #[serde(default)]
     pub nuclei_templates_dir: Option<String>,
+    /// Maximum number of URLs to crawl
+    #[serde(default = "default_max_urls")]
+    pub max_urls: usize,
+    /// Include subdomains in crawl scope
+    #[serde(default)]
+    pub include_subdomains: bool,
 }
 
 fn default_template_clustering() -> bool {
@@ -346,6 +352,10 @@ fn default_oob_timeout() -> u64 {
 
 fn default_render_wait() -> u64 {
     3000
+}
+
+fn default_max_urls() -> usize {
+    500
 }
 
 impl Default for ScanConfig {
@@ -392,6 +402,8 @@ impl Default for ScanConfig {
             render_enabled: false,
             render_wait_ms: 3000,
             nuclei_templates_dir: None,
+            max_urls: 500,
+            include_subdomains: false,
         }
     }
 }

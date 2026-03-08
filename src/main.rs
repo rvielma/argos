@@ -170,6 +170,14 @@ enum Commands {
         #[arg(long, default_value_t = 3000)]
         render_wait: u64,
 
+        /// Maximum number of URLs to crawl (default: 500)
+        #[arg(long, default_value_t = 500)]
+        max_urls: usize,
+
+        /// Include subdomains in crawl scope
+        #[arg(long)]
+        include_subdomains: bool,
+
         /// Report language (en, es)
         #[arg(long, default_value = "en")]
         lang: String,
@@ -392,6 +400,8 @@ async fn main() -> std::result::Result<(), Box<dyn std::error::Error>> {
             profile,
             render,
             render_wait,
+            max_urls,
+            include_subdomains,
             lang,
             verbose,
         } => {
@@ -546,6 +556,10 @@ async fn main() -> std::result::Result<(), Box<dyn std::error::Error>> {
             if render {
                 scan_config.render_enabled = true;
                 scan_config.render_wait_ms = render_wait;
+            }
+            scan_config.max_urls = max_urls;
+            if include_subdomains {
+                scan_config.include_subdomains = true;
             }
 
             println!("  {} {}", "Target:".bold(), scan_config.target.green());
