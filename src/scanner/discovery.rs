@@ -294,7 +294,8 @@ impl super::Scanner for DiscoveryScanner {
                                             "Discovery",
                                             &url,
                                         )
-                                        .with_evidence(format!("GET {url} returned HTTP {status}")),
+                                        .with_evidence(format!("GET {url} returned HTTP {status}"))
+                                        .with_recommendation("Review if this endpoint should be publicly accessible. Restrict access if it exposes internal functionality."),
                                     )
                                 }
                                 301 | 302 => {
@@ -313,7 +314,8 @@ impl super::Scanner for DiscoveryScanner {
                                         )
                                         .with_evidence(
                                             format!("GET {url} -> {status} -> {location}"),
-                                        ),
+                                        )
+                                        .with_recommendation("Verify the redirect destination is safe and the endpoint should be publicly accessible."),
                                     )
                                 }
                                 403 => None,

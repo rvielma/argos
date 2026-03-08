@@ -170,6 +170,10 @@ enum Commands {
         #[arg(long, default_value_t = 3000)]
         render_wait: u64,
 
+        /// Report language (en, es)
+        #[arg(long, default_value = "en")]
+        lang: String,
+
         /// Verbose output
         #[arg(short, long)]
         verbose: bool,
@@ -210,6 +214,10 @@ enum Commands {
         /// Output file path
         #[arg(short, long, default_value = "argos_report.html")]
         output: String,
+
+        /// Report language (en, es)
+        #[arg(long, default_value = "en")]
+        lang: String,
     },
 }
 
@@ -384,6 +392,7 @@ async fn main() -> std::result::Result<(), Box<dyn std::error::Error>> {
             profile,
             render,
             render_wait,
+            lang,
             verbose,
         } => {
             let filter = if verbose { "argos=debug" } else { "argos=info" };
@@ -680,7 +689,7 @@ async fn main() -> std::result::Result<(), Box<dyn std::error::Error>> {
                     report::sarif::export(&result, output_path)?;
                 }
                 _ => {
-                    report::html::generate(&result, output_path)?;
+                    report::html::generate_with_lang(&result, output_path, &lang)?;
                     let json_path = output_path.with_extension("json");
                     report::json::export(&result, &json_path)?;
                 }
@@ -774,6 +783,7 @@ async fn main() -> std::result::Result<(), Box<dyn std::error::Error>> {
             input,
             format,
             output,
+            lang,
         } => {
             tracing_subscriber::fmt()
                 .with_env_filter(EnvFilter::new("argos=info"))
@@ -800,7 +810,7 @@ async fn main() -> std::result::Result<(), Box<dyn std::error::Error>> {
                     report::sarif::export(&result, output_path)?;
                 }
                 _ => {
-                    report::html::generate(&result, output_path)?;
+                    report::html::generate_with_lang(&result, output_path, &lang)?;
                 }
             }
 

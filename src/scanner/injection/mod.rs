@@ -290,11 +290,15 @@ impl InjectionScanner {
 
         let has_param = pairs.iter().any(|(k, _)| k == param);
         parsed.set_query(None);
-        let mut query_parts: Vec<String> = pairs.iter().map(|(k, v)| format!("{k}={v}")).collect();
-        if !has_param {
-            query_parts.push(format!("{param}={payload}"));
+        {
+            let mut serializer = parsed.query_pairs_mut();
+            for (k, v) in &pairs {
+                serializer.append_pair(k, v);
+            }
+            if !has_param {
+                serializer.append_pair(param, payload);
+            }
         }
-        parsed.set_query(Some(&query_parts.join("&")));
         Some(parsed.to_string())
     }
 

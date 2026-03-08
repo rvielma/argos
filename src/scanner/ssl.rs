@@ -70,7 +70,8 @@ impl super::Scanner for SslScanner {
                             "SSL/TLS",
                             &config.target,
                         )
-                        .with_evidence(format!("Failed to resolve: {addr}")),
+                        .with_evidence(format!("Failed to resolve: {addr}"))
+                        .with_recommendation("Verify the target hostname is correct and DNS is properly configured."),
                     );
                     return Ok(findings);
                 }
@@ -84,7 +85,8 @@ impl super::Scanner for SslScanner {
                         "SSL/TLS",
                         &config.target,
                     )
-                    .with_evidence(format!("DNS error for {addr}: {e}")),
+                    .with_evidence(format!("DNS error for {addr}: {e}"))
+                    .with_recommendation("Verify the target hostname is correct and DNS is properly configured."),
                 );
                 return Ok(findings);
             }
@@ -379,7 +381,8 @@ async fn extract_cert_info(
                 target_url,
             )
             .with_confidence(Confidence::Confirmed)
-            .with_evidence(format!("Cipher: {:?}", cipher.suite())),
+            .with_evidence(format!("Cipher: {:?}", cipher.suite()))
+            .with_recommendation("Ensure only strong cipher suites are enabled. Disable CBC-mode and RC4 ciphers."),
         );
     }
 
