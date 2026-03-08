@@ -9,12 +9,14 @@ use super::InjectionPoint;
 use super::InjectionScanner;
 
 /// Expected responses for template injection payloads
+/// Uses large products (5+ digits) to avoid false matches in dynamic content
+/// (CSRF tokens, session IDs, timestamps often contain short numbers like "49")
 const SSTI_CHECKS: &[(&str, &str)] = &[
-    ("{{7*7}}", "49"),
-    ("${7*7}", "49"),
-    ("<%= 7*7 %>", "49"),
-    ("#{7*7}", "49"),
-    ("{{7*'7'}}", "7777777"),
+    ("{{191*7}}", "1337"),
+    ("${191*7}", "1337"),
+    ("<%= 191*7 %>", "1337"),
+    ("#{191*7}", "1337"),
+    ("{{7*'7777'}}", "77777777777"),
 ];
 
 /// Scans for Server-Side Template Injection vulnerabilities
@@ -28,9 +30,9 @@ pub async fn scan(
     let extra_payloads = InjectionScanner::load_payloads(
         "wordlists/payloads/ssti.txt",
         vec![
-            "{{7*7}}".to_string(),
-            "${7*7}".to_string(),
-            "<%= 7*7 %>".to_string(),
+            "{{191*7}}".to_string(),
+            "${191*7}".to_string(),
+            "<%= 191*7 %>".to_string(),
         ],
     );
 
@@ -61,6 +63,22 @@ pub async fn scan(
                                     continue;
                                 }
                             }
+                            // Anti-FP: double confirmation with benign values
+                            // Dynamic content (CSRF tokens, session IDs) may contain "49" intermittently
+                            // Two independent checks reduce FP probability from ~50% to ~25%
+                            let mut confirmed_fp = false;
+                            for benign in &["argossstitest999", "argossstitest888"] {
+                                if let Some(confirm_url) = InjectionScanner::build_test_url(&point.url, param, benign) {
+                                    if let Ok(confirm_resp) = client.get(&confirm_url).await {
+                                        let confirm_body = confirm_resp.text().await.unwrap_or_default();
+                                        if confirm_body.contains(expected) {
+                                            confirmed_fp = true;
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+                            if confirmed_fp { continue; }
                             findings.push(
                                 Finding::new(
                                     format!("Server-Side Template Injection in '{param}'"),

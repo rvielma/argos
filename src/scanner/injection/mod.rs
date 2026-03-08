@@ -570,9 +570,9 @@ impl InjectionScanner {
     ) -> Vec<Finding> {
         let mut findings = Vec::new();
         let checks: &[(&str, &str)] = &[
-            ("{{7*7}}", "49"),
-            ("${7*7}", "49"),
-            ("{{7*'7'}}", "7777777"),
+            ("{{191*7}}", "1337"),
+            ("${191*7}", "1337"),
+            ("{{7*'7777'}}", "77777777777"),
         ];
 
         for point in points.iter().take(5) {
@@ -592,6 +592,18 @@ impl InjectionScanner {
                                     continue;
                                 }
                             }
+                            // Anti-FP: double confirmation with benign values
+                            // Dynamic content (CSRF tokens, session IDs) may contain "49" intermittently
+                            let mut confirmed_fp = false;
+                            for benign in &["argossstitest999", "argossstitest888"] {
+                                if let Some((confirm_body, _)) = Self::send_test_request(client, point, param, benign).await {
+                                    if confirm_body.contains(expected) {
+                                        confirmed_fp = true;
+                                        break;
+                                    }
+                                }
+                            }
+                            if confirmed_fp { continue; }
                             findings.push(
                                 Finding::new(
                                     format!("SSTI via {:?} '{param}'", point.point_type),

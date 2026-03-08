@@ -1,11 +1,217 @@
 //! HTML report generation using Tera templates
 
 use crate::error::Result;
-use crate::models::{ScanResult, Severity};
+use crate::models::{Finding, ScanResult, Severity};
+use serde::Serialize;
 use std::collections::HashMap;
 use std::path::Path;
 use tera::{Context, Tera};
 use tracing::info;
+
+/// An attack scenario generated from findings
+#[derive(Serialize, Clone)]
+struct AttackScenario {
+    title: String,
+    description: String,
+    impact: String,
+    likelihood: String,
+    severity_class: String,
+}
+
+/// A remediation step generated from findings
+#[derive(Serialize, Clone)]
+struct RemediationStep {
+    priority: String,
+    finding: String,
+    action: String,
+    effort: String,
+    severity_class: String,
+}
+
+/// Generates attack scenarios from findings based on CWE patterns
+fn generate_attack_scenarios(findings: &[Finding]) -> Vec<AttackScenario> {
+    let mut scenarios = Vec::new();
+    let mut seen = std::collections::HashSet::new();
+
+    // Collect CWEs present
+    let cwes: Vec<String> = findings
+        .iter()
+        .filter_map(|f| f.cwe_id.as_ref())
+        .cloned()
+        .collect();
+
+    // CWE-319: Missing HSTS / Cleartext transmission
+    if cwes.iter().any(|c| c == "CWE-319") && !seen.contains("mitm") {
+        seen.insert("mitm");
+        scenarios.push(AttackScenario {
+            title: "Man-in-the-Middle Attack (Network Interception)".into(),
+            description: "Without HSTS, the first connection from a user's browser can be intercepted. An attacker on the same network (WiFi, corporate LAN) can use tools like sslstrip to downgrade HTTPS to HTTP, capturing credentials and session tokens in plaintext.".into(),
+            impact: "Complete credential theft. Attacker gains authenticated access to the application with the victim's permissions. All data transmitted during the session is exposed.".into(),
+            likelihood: "Medium — Requires network proximity (same WiFi, ARP spoofing). Common in shared networks.".into(),
+            severity_class: "High".into(),
+        });
+    }
+
+    // CWE-1021: Missing X-Frame-Options (Clickjacking)
+    if cwes.iter().any(|c| c == "CWE-1021") && !seen.contains("clickjacking") {
+        seen.insert("clickjacking");
+        scenarios.push(AttackScenario {
+            title: "Clickjacking (UI Redress Attack)".into(),
+            description: "The application can be embedded in an invisible iframe on an attacker-controlled page. Users interact with what they think is a legitimate site, but their clicks are actually performed on the embedded application — submitting forms, changing settings, or authorizing actions.".into(),
+            impact: "Unauthorized actions performed under the victim's session. Credential harvesting through overlaid login forms.".into(),
+            likelihood: "Medium — Requires social engineering to lure victims to the attacker's page.".into(),
+            severity_class: "Medium".into(),
+        });
+    }
+
+    // CWE-693: Missing CSP
+    if cwes.iter().any(|c| c == "CWE-693") && !seen.contains("xss-csp") {
+        seen.insert("xss-csp");
+        scenarios.push(AttackScenario {
+            title: "Cross-Site Scripting Amplification (No CSP)".into(),
+            description: "Without Content-Security-Policy, any XSS vulnerability becomes significantly more dangerous. Injected scripts can load external resources, exfiltrate data to attacker-controlled servers, keylog input fields, and hijack sessions without any browser restriction.".into(),
+            impact: "If an XSS vector is found (stored or reflected), the attacker has unrestricted script execution. Data exfiltration, session hijacking, and full account takeover become trivial.".into(),
+            likelihood: "Low-Medium — Requires an XSS vector, but the lack of CSP removes all mitigation.".into(),
+            severity_class: "Medium".into(),
+        });
+    }
+
+    // CWE-352: CSRF
+    if cwes.iter().any(|c| c == "CWE-352") && !seen.contains("csrf") {
+        seen.insert("csrf");
+        scenarios.push(AttackScenario {
+            title: "Cross-Site Request Forgery (Unauthorized Actions)".into(),
+            description: "Forms without CSRF protection allow an attacker to craft a malicious page that automatically submits requests on behalf of an authenticated user. Visiting the attacker's page while logged in triggers actions the user never intended.".into(),
+            impact: "Unauthorized state changes: password resets, data modifications, privilege escalation. Login CSRF can force authentication with attacker-controlled credentials for session monitoring.".into(),
+            likelihood: "Medium — Requires victim to visit attacker's page while authenticated.".into(),
+            severity_class: "Medium".into(),
+        });
+    }
+
+    // CWE-89: SQL Injection
+    if cwes.iter().any(|c| c == "CWE-89") && !seen.contains("sqli") {
+        seen.insert("sqli");
+        scenarios.push(AttackScenario {
+            title: "Database Compromise via SQL Injection".into(),
+            description: "SQL injection allows an attacker to execute arbitrary database queries. This can bypass authentication, extract entire database contents, modify or delete records, and in some cases execute operating system commands on the database server.".into(),
+            impact: "Complete database compromise. Mass data exfiltration (user records, credentials, business data). Data manipulation or destruction. Potential lateral movement to internal systems.".into(),
+            likelihood: "High — Automated tools can exploit SQL injection with minimal effort.".into(),
+            severity_class: "Critical".into(),
+        });
+    }
+
+    // CWE-79: XSS
+    if cwes.iter().any(|c| c == "CWE-79") && !seen.contains("xss") {
+        seen.insert("xss");
+        scenarios.push(AttackScenario {
+            title: "Account Takeover via Cross-Site Scripting".into(),
+            description: "Reflected or stored XSS allows an attacker to execute JavaScript in the context of other users' sessions. This enables session cookie theft, keylogging of credentials, defacement, and redirection to phishing pages.".into(),
+            impact: "Session hijacking and account takeover. Stored XSS affects every user who views the infected page. Credential theft through fake login forms injected into the page.".into(),
+            likelihood: "High — Reflected XSS requires a crafted link; Stored XSS affects all visitors automatically.".into(),
+            severity_class: "High".into(),
+        });
+    }
+
+    // CWE-1336: SSTI
+    if cwes.iter().any(|c| c == "CWE-1336") && !seen.contains("ssti") {
+        seen.insert("ssti");
+        scenarios.push(AttackScenario {
+            title: "Remote Code Execution via Template Injection".into(),
+            description: "Server-Side Template Injection allows an attacker to inject template expressions that are evaluated on the server. Depending on the template engine, this can escalate from information disclosure to full remote code execution on the server.".into(),
+            impact: "Remote code execution on the server. Full system compromise. Access to internal databases, file systems, and network resources. Data exfiltration at scale.".into(),
+            likelihood: "High — Once identified, SSTI exploitation is well-documented for all major template engines.".into(),
+            severity_class: "Critical".into(),
+        });
+    }
+
+    // CWE-78: Command Injection
+    if cwes.iter().any(|c| c == "CWE-78") && !seen.contains("cmdi") {
+        seen.insert("cmdi");
+        scenarios.push(AttackScenario {
+            title: "Server Compromise via OS Command Injection".into(),
+            description: "Command injection allows an attacker to execute arbitrary operating system commands on the server. This provides direct access to the underlying system, bypassing all application-level controls.".into(),
+            impact: "Complete server compromise. File system access, credential harvesting, lateral movement to other systems, installation of backdoors or malware.".into(),
+            likelihood: "High — Exploitation is straightforward once the injection point is identified.".into(),
+            severity_class: "Critical".into(),
+        });
+    }
+
+    // CWE-200: Information Disclosure (server version)
+    if cwes.iter().any(|c| c == "CWE-200") && !seen.contains("info-disc") {
+        seen.insert("info-disc");
+        scenarios.push(AttackScenario {
+            title: "Targeted Exploitation via Information Disclosure".into(),
+            description: "Server version headers and technology fingerprints allow attackers to identify exact software versions running on the server. This enables targeted searches for known CVEs and public exploits specific to the detected versions.".into(),
+            impact: "Reduces attacker effort significantly. Instead of blind testing, the attacker can use known exploits for the specific version detected.".into(),
+            likelihood: "High — Automated scanners routinely collect this information. This is often the first step in a targeted attack.".into(),
+            severity_class: "Low".into(),
+        });
+    }
+
+    // Combined scenarios: Missing HSTS + CSRF = session attack chain
+    if cwes.iter().any(|c| c == "CWE-319") && cwes.iter().any(|c| c == "CWE-352") && !seen.contains("chain-session") {
+        seen.insert("chain-session");
+        scenarios.push(AttackScenario {
+            title: "Attack Chain: Network Interception + CSRF".into(),
+            description: "The combination of missing HSTS and CSRF vulnerabilities creates an attack chain. An attacker on the network intercepts the initial HTTP connection (no HSTS), injects a CSRF payload into the response, and the victim's browser executes unauthorized actions with their authenticated session.".into(),
+            impact: "Combined impact: credential theft AND unauthorized actions. The attacker both steals the session and uses it to perform actions the victim never intended.".into(),
+            likelihood: "Medium — Requires network proximity but the chain is well-established.".into(),
+            severity_class: "High".into(),
+        });
+    }
+
+    // Sort by severity
+    scenarios.sort_by(|a, b| {
+        let ord = |s: &str| match s { "Critical" => 0, "High" => 1, "Medium" => 2, _ => 3 };
+        ord(&a.severity_class).cmp(&ord(&b.severity_class))
+    });
+
+    scenarios
+}
+
+/// Generates a prioritized remediation plan from findings
+fn generate_remediation_plan(findings: &[Finding]) -> Vec<RemediationStep> {
+    let mut steps = Vec::new();
+    let mut seen_cwes = std::collections::HashSet::new();
+
+    // Sort findings by severity first
+    let mut sorted: Vec<&Finding> = findings.iter().collect();
+    sorted.sort_by(|a, b| a.severity.cmp(&b.severity));
+
+    for f in &sorted {
+        let cwe = f.cwe_id.as_deref().unwrap_or("");
+        if cwe.is_empty() || seen_cwes.contains(cwe) {
+            continue;
+        }
+        seen_cwes.insert(cwe.to_string());
+
+        let (priority, action, effort) = match cwe {
+            "CWE-89" => ("P0 — Blocker", "Use parameterized queries/prepared statements. Review all database queries for string concatenation with user input.", "Medium"),
+            "CWE-79" => ("P0 — Blocker", "Implement context-aware output encoding. Deploy Content-Security-Policy header to restrict script execution.", "Medium"),
+            "CWE-1336" => ("P0 — Blocker", "Never pass user input to template engines. Use sandboxed/logic-less templates. Validate and sanitize all dynamic content.", "Medium"),
+            "CWE-78" => ("P0 — Blocker", "Eliminate OS command construction from user input. Use language-native APIs instead of shell commands.", "Medium"),
+            "CWE-319" => ("P1 — Pre-launch", "Add Strict-Transport-Security header: max-age=31536000; includeSubDomains. Configure HTTPS redirect at load balancer/proxy level.", "Low"),
+            "CWE-1021" => ("P1 — Pre-launch", "Add X-Frame-Options: DENY header. Also add frame-ancestors 'none' in CSP for defense in depth.", "Low"),
+            "CWE-352" => ("P1 — Pre-launch", "Implement anti-CSRF tokens in all state-changing forms. Use SameSite=Strict or Lax on session cookies.", "Medium"),
+            "CWE-693" => ("P2 — Next sprint", "Deploy Content-Security-Policy, X-Content-Type-Options, Referrer-Policy, and Permissions-Policy headers.", "Low"),
+            "CWE-200" => ("P2 — Next sprint", "Remove or obfuscate Server header. Disable version disclosure in application server configuration.", "Low"),
+            "CWE-93" => ("P1 — Pre-launch", "Strip CRLF characters (\\r\\n) from all user input reflected in HTTP headers.", "Low"),
+            _ => ("P3 — Backlog", &*f.recommendation, "Varies"),
+        };
+
+        let sev_class = format!("{:?}", f.severity);
+
+        steps.push(RemediationStep {
+            priority: priority.into(),
+            finding: f.title.clone(),
+            action: action.into(),
+            effort: effort.into(),
+            severity_class: sev_class,
+        });
+    }
+
+    steps
+}
 
 /// Generates an HTML report from scan results
 pub fn generate(result: &ScanResult, output_path: &Path) -> Result<()> {
@@ -96,6 +302,14 @@ pub fn generate(result: &ScanResult, output_path: &Path) -> Result<()> {
     } else {
         context.insert("duration", "N/A");
     }
+
+    // Attack scenarios & remediation plan
+    let scenarios = generate_attack_scenarios(&result.findings);
+    let remediation = generate_remediation_plan(&result.findings);
+    context.insert("attack_scenarios", &scenarios);
+    context.insert("has_scenarios", &!scenarios.is_empty());
+    context.insert("remediation_plan", &remediation);
+    context.insert("has_remediation", &!remediation.is_empty());
 
     // Diff report
     let has_diff = result.diff.is_some();
@@ -221,6 +435,33 @@ fn default_template() -> &'static str {
         .diff-item.new { background: #fef2f2; }
         .diff-item.resolved { background: #f0fdf4; }
 
+        /* Attack Scenarios */
+        .scenarios-section, .remediation-section { background: white; padding: 25px; border-radius: 10px; margin-bottom: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .scenarios-section h2, .remediation-section h2 { font-size: 1.3em; margin-bottom: 8px; color: #1e293b; }
+        .scenarios-intro, .remediation-intro { color: #64748b; font-size: 0.9em; margin-bottom: 18px; }
+        .scenario { border-left: 4px solid #e2e8f0; padding: 15px 20px; margin-bottom: 12px; border-radius: 0 8px 8px 0; background: #f8fafc; }
+        .scenario.sev-Critical { border-left-color: #dc2626; background: #fef2f2; }
+        .scenario.sev-High { border-left-color: #ea580c; background: #fff7ed; }
+        .scenario.sev-Medium { border-left-color: #ca8a04; background: #fffbeb; }
+        .scenario.sev-Low { border-left-color: #2563eb; background: #eff6ff; }
+        .scenario-header { margin-bottom: 10px; font-size: 1.05em; }
+        .scenario-body p { color: #475569; margin-bottom: 10px; font-size: 0.92em; }
+        .scenario-detail { display: flex; gap: 8px; margin-top: 6px; font-size: 0.88em; color: #64748b; }
+        .scenario-detail .label { font-weight: 600; color: #1e293b; min-width: 85px; }
+
+        /* Remediation Table */
+        .remediation-table { width: 100%; border-collapse: collapse; font-size: 0.9em; margin-top: 10px; }
+        .remediation-table th { background: #f1f5f9; padding: 10px 12px; text-align: left; font-size: 0.85em; text-transform: uppercase; letter-spacing: 0.5px; color: #64748b; border-bottom: 2px solid #e2e8f0; }
+        .remediation-table td { padding: 10px 12px; border-bottom: 1px solid #f1f5f9; vertical-align: top; }
+        .rem-row.rem-Critical td { background: #fef2f2; }
+        .rem-row.rem-High td { background: #fff7ed; }
+        .rem-row.rem-Medium td { background: #fffbeb; }
+        .priority-badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.8em; font-weight: 600; white-space: nowrap; }
+        .priority-P0 { background: #dc2626; color: white; }
+        .priority-P1 { background: #ea580c; color: white; }
+        .priority-P2 { background: #ca8a04; color: white; }
+        .priority-P3 { background: #6b7280; color: white; }
+
         /* Footer */
         .footer { text-align: center; padding: 30px; color: #94a3b8; font-size: 0.85em; margin-top: 30px; }
 
@@ -303,6 +544,59 @@ fn default_template() -> &'static str {
             {% for cat in categories %}
             <span class="cat-tag">{{ cat.0 }} ({{ cat.1 }})</span>
             {% endfor %}
+        </div>
+        {% endif %}
+
+        {% if has_scenarios %}
+        <div class="scenarios-section">
+            <h2>Attack Scenarios</h2>
+            <p class="scenarios-intro">Based on the findings detected, the following attack scenarios are possible against this application:</p>
+            {% for scenario in attack_scenarios %}
+            <div class="scenario sev-{{ scenario.severity_class }}">
+                <div class="scenario-header">
+                    <span class="badge badge-{{ scenario.severity_class }}">{{ scenario.severity_class }}</span>
+                    <strong>{{ scenario.title }}</strong>
+                </div>
+                <div class="scenario-body">
+                    <p>{{ scenario.description }}</p>
+                    <div class="scenario-detail">
+                        <span class="label">Impact:</span>
+                        <span>{{ scenario.impact }}</span>
+                    </div>
+                    <div class="scenario-detail">
+                        <span class="label">Likelihood:</span>
+                        <span>{{ scenario.likelihood }}</span>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {% if has_remediation %}
+        <div class="remediation-section">
+            <h2>Remediation Plan</h2>
+            <p class="remediation-intro">Prioritized actions to address the findings. P0 items should be resolved before production deployment.</p>
+            <table class="remediation-table">
+                <thead>
+                    <tr>
+                        <th>Priority</th>
+                        <th>Finding</th>
+                        <th>Action Required</th>
+                        <th>Effort</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for step in remediation_plan %}
+                    <tr class="rem-row rem-{{ step.severity_class }}">
+                        <td><span class="priority-badge priority-{{ step.priority | truncate(length=2, end="") | trim }}">{{ step.priority }}</span></td>
+                        <td>{{ step.finding }}</td>
+                        <td>{{ step.action }}</td>
+                        <td>{{ step.effort }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
         </div>
         {% endif %}
 
