@@ -6,6 +6,18 @@ Built in Rust. Single binary. No dependencies.
 
 *"El que todo lo ve"*
 
+## What's New in v2.1
+
+- **Scan Profiles**: `--profile quick|standard|full|api|ci` for pre-configured module sets
+- **Attack Scenarios**: HTML reports auto-generate realistic attack narratives based on detected CWEs, including combined attack chains
+- **Remediation Plan**: Prioritized action table (P0-P3) with concrete remediation steps per finding
+- **Adaptive Rate Limiting**: Automatic Retry-After parsing, exponential backoff on 429, WAF detection on 403
+- **WAF-Aware Injection**: Pre-scan WAF detection with bypass payloads per WAF vendor (Cloudflare, ModSecurity, AWS WAF, Imperva)
+- **Nuclei Compatibility**: Import Nuclei templates with `--nuclei-templates <DIR>`
+- **Injection Expansion**: Header and JSON body injection testing (SQLi, XSS, SSTI, Command, CRLF)
+- **GitHub Action**: Composite action for CI pipelines with SARIF upload
+- **Browser Rendering**: JS-rendered SPA crawling with `--render` (requires `--features browser`)
+
 ## Installation
 
 ### Homebrew (macOS/Linux)
@@ -33,30 +45,63 @@ The binary will be at `target/release/argos`.
 ## Quick Start
 
 ```bash
-# Scan a target with default modules
+# Scan with default modules
 argos scan -t https://target.com
+
+# Scan with a profile
+argos scan -t https://target.com --profile full --concurrent
 
 # Scan with specific modules
 argos scan -t https://target.com -m headers,ssl,injection,templates,secrets
+
+# CI mode: auto fail-on high, SARIF output
+argos scan -t https://target.com --profile ci -f sarif -o results.sarif
 
 # Differential scan against a baseline
 argos scan -t https://target.com -f json -o baseline.json
 argos scan -t https://target.com --baseline baseline.json
 
+# Import Nuclei templates
+argos scan -t https://target.com --nuclei-templates ~/nuclei-templates/
+
 # List available modules
 argos modules
 ```
 
+## Scan Profiles
+
+Pre-configured module sets for common use cases:
+
+| Profile | Modules | Use Case |
+|---------|---------|----------|
+| `quick` | headers, ssl, cookies, info_disclosure | Fast security check (< 30s) |
+| `standard` | quick + cors, discovery, templates, secrets | Default comprehensive scan |
+| `full` | All 14 modules | Complete security audit |
+| `api` | headers, ssl, cors, injection, api, templates, secrets | API-focused scan |
+| `ci` | headers, ssl, templates (+ auto `--fail-on high`) | CI/CD pipeline integration |
+
+```bash
+argos scan -t https://target.com --profile full --concurrent
+```
+
+`--profile` and `--modules` are mutually exclusive.
+
 ## Features
 
 - **15 scanner modules**: headers, SSL/TLS, cookies, CORS, info disclosure, discovery, injection, API security, templates, WAF detection, WebSocket, DAST, OOB testing, GraphQL, secrets
-- **7 injection sub-modules**: SQLi (boolean + time-based), XSS (reflected + DOM), command injection, SSTI, path traversal, open redirect, CRLF
+- **7 injection sub-modules**: SQLi (boolean + time-based), XSS (reflected + DOM), command injection, SSTI, path traversal, open redirect, CRLF — with Header and JSON body injection support
 - **Secrets scanner** with 50+ patterns, 15 active verification providers, JWT analysis with HS256 brute-force, JS config secrets, and git exposure deep scan
 - **1000+ YAML detection templates** across 8 categories, embedded in the binary
+- **Attack scenarios & remediation plan** auto-generated in HTML reports based on CWE analysis
+- **Scan profiles** for quick, standard, full, API, and CI use cases
+- **Adaptive rate limiting** with Retry-After parsing and WAF-aware backoff
+- **WAF-aware injection** with bypass payloads per vendor (Cloudflare, ModSecurity, AWS WAF, Imperva)
+- **Nuclei template compatibility** via `--nuclei-templates`
 - **Differential reporting** with `--baseline` to track security posture over time
 - **SARIF v2.1.0 output** for GitHub Code Scanning integration
-- **CI/CD ready** with `--fail-on` exit codes
+- **CI/CD ready** with `--fail-on` exit codes and GitHub Action (`action.yml`)
 - Concurrent BFS crawler with deduplication
+- Browser rendering for SPA crawling (`--render`)
 - Intercept proxy with HAR export
 - Authentication support (form, bearer, cookie)
 - Out-of-Band (OOB) testing via HTTP/DNS callbacks
@@ -229,6 +274,17 @@ argos scan -t https://target.com -f csv
 argos scan -t https://target.com -f sarif
 ```
 
+## HTML Report
+
+The default HTML report includes:
+
+- **Executive Summary**: risk score, severity distribution chart, findings by category
+- **Attack Scenarios**: auto-generated realistic attack narratives based on detected CWEs, including combined attack chains (e.g., missing HSTS + CSRF = network interception + unauthorized actions)
+- **Remediation Plan**: prioritized action table (P0 blocker → P3 backlog) with concrete steps and effort estimates
+- **Findings Detail**: collapsible evidence, request/response data, CWE/OWASP references, confidence badges
+- **Differential Analysis**: new/resolved/persisting findings when using `--baseline`
+- Print-optimized CSS for PDF export
+
 ## Authentication
 
 ```bash
@@ -256,12 +312,25 @@ argos scan -t https://target.com --baseline previous-scan.json --fail-on high
 
 ### GitHub Actions
 
+Using the built-in composite action:
+
+```yaml
+- name: Security Scan
+  uses: rvielma/argos@master
+  with:
+    target: ${{ env.TARGET_URL }}
+    profile: ci
+    fail-on: high
+    format: sarif
+```
+
+Or manually:
+
 ```yaml
 - name: Security Scan
   run: |
     argos scan -t ${{ env.TARGET_URL }} \
-      --fail-on high \
-      -f sarif -o results.sarif
+      --profile ci -f sarif -o results.sarif
 
 - name: Upload SARIF
   uses: github/codeql-action/upload-sarif@v3
@@ -274,6 +343,7 @@ argos scan -t https://target.com --baseline previous-scan.json --fail-on high
 ```
   -t, --target <URL>              Target URL
   -m, --modules <LIST>            Modules to run (comma-separated)
+      --profile <PROFILE>         Scan profile: quick, standard, full, api, ci
   -o, --output <FILE>             Output file path
   -f, --format <FORMAT>           Output format: html, json, jsonl, csv, sarif
   -H, --header <HEADER>           Custom headers ("Key: Value")
@@ -285,6 +355,7 @@ argos scan -t https://target.com --baseline previous-scan.json --fail-on high
       --rate-limit <N>            Max requests per second
       --templates-dir <DIR>       Custom templates directory
       --extra-template-dirs <DIR> Additional template directories
+      --nuclei-templates <DIR>    Import Nuclei-format templates
       --concurrent                Run modules concurrently
       --fail-on <SEVERITY>        Exit code 1 if findings >= severity
       --baseline <FILE>           Previous scan JSON for differential report
