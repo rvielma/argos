@@ -32,8 +32,10 @@ pub struct InjectionScanner;
 /// Type of injection point — determines how payloads are delivered
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum PointType {
-    /// Query string parameter or form field
+    /// Query string parameter or GET form field
     QueryParam,
+    /// POST/PUT form body (application/x-www-form-urlencoded)
+    FormBody,
     /// HTTP header injection (Referer, X-Forwarded-For, etc.)
     Header,
     /// Cookie value injection
@@ -160,6 +162,7 @@ impl InjectionScanner {
         if let Ok(form_selector) = Selector::parse("form") {
             for form in document.select(&form_selector) {
                 let action = form.value().attr("action").unwrap_or("");
+                let method = form.value().attr("method").unwrap_or("get").to_lowercase();
                 let form_url = if action.is_empty() || action == "#" {
                     base_url.to_string()
                 } else if action.starts_with("http") {
@@ -173,11 +176,14 @@ impl InjectionScanner {
                 };
 
                 let mut params = Vec::new();
+                let mut default_values = Vec::new();
                 if let Ok(input_sel) = Selector::parse("input[name]") {
                     for input in form.select(&input_sel) {
                         if let Some(name) = input.value().attr("name") {
                             if !Self::is_security_param(name) {
                                 params.push(name.to_string());
+                                let val = input.value().attr("value").unwrap_or("test");
+                                default_values.push((name.to_string(), val.to_string()));
                             }
                         }
                     }
@@ -187,16 +193,27 @@ impl InjectionScanner {
                         if let Some(name) = ta.value().attr("name") {
                             if !Self::is_security_param(name) {
                                 params.push(name.to_string());
+                                default_values.push((name.to_string(), "test".to_string()));
                             }
                         }
                     }
                 }
                 if !params.is_empty() {
+                    let is_post = method == "post" || method == "put" || method == "delete";
+                    let (point_type, original_body) = if is_post {
+                        let body = default_values.iter()
+                            .map(|(k, v)| format!("{k}={v}"))
+                            .collect::<Vec<_>>()
+                            .join("&");
+                        (PointType::FormBody, Some(body))
+                    } else {
+                        (PointType::QueryParam, None)
+                    };
                     points.push(InjectionPoint {
                         url: form_url,
                         params,
-                        point_type: PointType::QueryParam,
-                        original_body: None,
+                        point_type,
+                        original_body,
                     });
                 }
             }
@@ -278,7 +295,7 @@ impl InjectionScanner {
     fn forms_to_injection_points(forms: &[FormInfo]) -> Vec<InjectionPoint> {
         let mut points = Vec::new();
         for form in forms {
-            let params: Vec<String> = form
+            let usable_inputs: Vec<&(String, String, Option<String>)> = form
                 .inputs
                 .iter()
                 .filter(|(name, input_type, _)| {
@@ -289,15 +306,30 @@ impl InjectionScanner {
                         && input_type != "reset"
                         && !Self::is_security_param(name)
                 })
-                .map(|(name, _, _)| name.clone())
                 .collect();
 
+            let params: Vec<String> = usable_inputs.iter().map(|(name, _, _)| name.clone()).collect();
+
             if !params.is_empty() && !Self::is_oauth_url(&form.action) {
+                let method = form.method.to_lowercase();
+                let is_post = method == "post" || method == "put" || method == "delete";
+                let (point_type, original_body) = if is_post {
+                    let body = usable_inputs.iter()
+                        .map(|(name, _, value)| {
+                            let val = value.as_deref().unwrap_or("test");
+                            format!("{name}={val}")
+                        })
+                        .collect::<Vec<_>>()
+                        .join("&");
+                    (PointType::FormBody, Some(body))
+                } else {
+                    (PointType::QueryParam, None)
+                };
                 points.push(InjectionPoint {
                     url: form.action.clone(),
                     params,
-                    point_type: PointType::QueryParam,
-                    original_body: None,
+                    point_type,
+                    original_body,
                 });
             }
         }
@@ -454,6 +486,30 @@ impl InjectionScanner {
                 let cookie_value = format!("{param}={payload}");
                 let headers = vec![("Cookie".to_string(), cookie_value)];
                 Some((reqwest::Method::GET, point.url.clone(), headers, None))
+            }
+            PointType::FormBody => {
+                let mut pairs: Vec<(String, String)> = if let Some(ref orig) = point.original_body {
+                    orig.split('&')
+                        .filter_map(|pair| {
+                            let mut parts = pair.splitn(2, '=');
+                            Some((parts.next()?.to_string(), parts.next().unwrap_or("").to_string()))
+                        })
+                        .collect()
+                } else {
+                    vec![]
+                };
+                let found = pairs.iter_mut().any(|(k, v)| {
+                    if k == param { *v = payload.to_string(); true } else { false }
+                });
+                if !found {
+                    pairs.push((param.to_string(), payload.to_string()));
+                }
+                let body = pairs.iter()
+                    .map(|(k, v)| format!("{k}={v}"))
+                    .collect::<Vec<_>>()
+                    .join("&");
+                let headers = vec![("Content-Type".to_string(), "application/x-www-form-urlencoded".to_string())];
+                Some((reqwest::Method::POST, point.url.clone(), headers, Some(body)))
             }
             PointType::JsonBody => {
                 let original = point.original_body.as_deref().unwrap_or("{}");
@@ -826,13 +882,6 @@ impl super::Scanner for InjectionScanner {
             crawled_urls.iter().map(|s| s.as_str()).collect()
         };
 
-        // Track form URLs from crawler to avoid duplicate extraction
-        let crawler_form_urls: std::collections::HashSet<String> = config
-            .crawled_forms
-            .iter()
-            .map(|f| f.action.clone())
-            .collect();
-
         // Resolve base host/domain for subdomain-aware filtering
         let base_host = Url::parse(&config.target)
             .ok()
@@ -885,28 +934,10 @@ impl super::Scanner for InjectionScanner {
 
                 let body = response.text().await.unwrap_or_default();
 
-                // Extract forms only from pages NOT already covered by crawler forms
-                if !crawler_form_urls.contains(*url) {
-                    let points = Self::extract_injection_points(url, &body);
-                    injection_points.extend(points);
-                } else {
-                    // Still extract query params from URL itself (not covered by form extraction)
-                    if let Ok(parsed) = Url::parse(url) {
-                        let params: Vec<String> = parsed
-                            .query_pairs()
-                            .map(|(k, _)| k.to_string())
-                            .filter(|k| !k.is_empty() && !Self::is_security_param(k))
-                            .collect();
-                        if !params.is_empty() {
-                            injection_points.push(InjectionPoint {
-                                url: url.to_string(),
-                                params,
-                                point_type: PointType::QueryParam,
-                                original_body: None,
-                            });
-                        }
-                    }
-                }
+                // Extract injection points (forms, query params, links)
+                // Duplicates with crawler forms are removed by dedup_by below
+                let points = Self::extract_injection_points(url, &body);
+                injection_points.extend(points);
 
                 // Header injection points (one per URL)
                 injection_points.push(Self::extract_header_points(url));
@@ -981,6 +1012,12 @@ impl super::Scanner for InjectionScanner {
             .cloned()
             .collect();
 
+        let form_body_points: Vec<InjectionPoint> = injection_points
+            .iter()
+            .filter(|p| p.point_type == PointType::FormBody)
+            .cloned()
+            .collect();
+
         // Run sub-scanners with QueryParam points (original behavior)
         let sqli_findings = sqli::scan(client, &query_points, &baselines).await;
         findings.extend(sqli_findings);
@@ -1026,6 +1063,19 @@ impl super::Scanner for InjectionScanner {
         // CRLF via Header points
         let header_crlf = Self::generic_crlf_scan(client, &header_points, &baselines).await;
         findings.extend(header_crlf);
+
+        // --- FormBody points (POST forms) ---
+        if !form_body_points.is_empty() {
+            info!("Testing {} POST form injection points", form_body_points.len());
+            let form_sqli = Self::generic_sqli_scan(client, &form_body_points, &baselines).await;
+            findings.extend(form_sqli);
+            let form_xss = Self::generic_xss_scan(client, &form_body_points, &baselines).await;
+            findings.extend(form_xss);
+            let form_ssti = Self::generic_ssti_scan(client, &form_body_points, &baselines).await;
+            findings.extend(form_ssti);
+            let form_cmd = Self::generic_cmd_scan(client, &form_body_points, &baselines).await;
+            findings.extend(form_cmd);
+        }
 
         Ok(findings)
     }

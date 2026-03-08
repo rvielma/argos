@@ -482,7 +482,19 @@ async fn test_ssti_detection() {
         .mount(&mock_server)
         .await;
 
-    // Baseline request returns a clean page without "49"
+    // Catch-all: SSTI payload requests return "1337" with extra content (>100 bytes diff from baseline)
+    Mock::given(method("GET"))
+        .and(path("/render"))
+        .respond_with(
+            ResponseTemplate::new(200)
+                .set_body_string(
+                    "<html><body><div class=\"template-output\"><h1>Template Rendered</h1><p>The computed result of your expression is: 1337</p><p>Template engine processed the input successfully and returned the evaluated value above.</p></div></body></html>"
+                ),
+        )
+        .mount(&mock_server)
+        .await;
+
+    // Specific mocks override catch-all (mounted later = higher priority)
     Mock::given(method("GET"))
         .and(path("/render"))
         .and(query_param("tpl", "argosbaselinetest123"))
@@ -493,13 +505,22 @@ async fn test_ssti_detection() {
         .mount(&mock_server)
         .await;
 
-    // Other requests to /render return "49" (simulating template evaluation)
-    // Note: the response must NOT contain the raw payload "{{7*7}}"
     Mock::given(method("GET"))
         .and(path("/render"))
+        .and(query_param("tpl", "argossstitest999"))
         .respond_with(
             ResponseTemplate::new(200)
-                .set_body_string("<html><body><p>Result: 49</p></body></html>"),
+                .set_body_string("<html><body><p>Result: none</p></body></html>"),
+        )
+        .mount(&mock_server)
+        .await;
+
+    Mock::given(method("GET"))
+        .and(path("/render"))
+        .and(query_param("tpl", "argossstitest888"))
+        .respond_with(
+            ResponseTemplate::new(200)
+                .set_body_string("<html><body><p>Result: none</p></body></html>"),
         )
         .mount(&mock_server)
         .await;
@@ -522,7 +543,7 @@ async fn test_ssti_detection() {
 
     assert!(
         !ssti_findings.is_empty(),
-        "Should detect SSTI when template expression evaluates to 49. All findings: {:?}",
+        "Should detect SSTI when template expression evaluates to 1337. All findings: {:?}",
         findings.iter().map(|f| &f.title).collect::<Vec<_>>()
     );
 }
@@ -540,13 +561,13 @@ async fn test_ssti_no_finding_when_49_in_baseline() {
         .mount(&mock_server)
         .await;
 
-    // ALL responses from /render contain "49" (including baseline),
+    // ALL responses from /render contain "1337" (including baseline),
     // so the scanner should NOT flag it as SSTI.
     Mock::given(method("GET"))
         .and(path("/render"))
         .respond_with(
             ResponseTemplate::new(200).set_body_string(
-                "<html><body><p>Item count: 49 products available</p></body></html>",
+                "<html><body><p>Item count: 1337 products available</p></body></html>",
             ),
         )
         .mount(&mock_server)
@@ -570,7 +591,7 @@ async fn test_ssti_no_finding_when_49_in_baseline() {
 
     assert!(
         ssti_findings.is_empty(),
-        "Should NOT report SSTI when '49' is already in the baseline. Found: {:?}",
+        "Should NOT report SSTI when '1337' is already in the baseline. Found: {:?}",
         ssti_findings
             .iter()
             .map(|f| &f.title)
