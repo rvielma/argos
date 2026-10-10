@@ -168,8 +168,20 @@ impl ScanEngine {
             seen.insert(key)
         });
 
-        // Sort findings by severity
-        result.findings.sort_by(|a, b| a.severity.cmp(&b.severity));
+        // Assign a representative CVSS v3.1 vector/score to every finding that
+        // doesn't already carry one (derived from CWE or severity).
+        for f in &mut result.findings {
+            f.ensure_cvss();
+        }
+
+        // Sort by severity, then by CVSS score (descending) within each severity.
+        result.findings.sort_by(|a, b| {
+            a.severity.cmp(&b.severity).then_with(|| {
+                b.cvss_score
+                    .partial_cmp(&a.cvss_score)
+                    .unwrap_or(std::cmp::Ordering::Equal)
+            })
+        });
 
         Ok(result)
     }

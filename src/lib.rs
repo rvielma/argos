@@ -6,6 +6,7 @@
 
 pub mod config;
 pub mod crawler;
+pub mod cvss;
 pub mod error;
 pub mod http;
 pub mod models;

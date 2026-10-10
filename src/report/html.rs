@@ -793,6 +793,7 @@ fn default_template() -> &'static str {
         .badge-Low { background: #2563eb; }
         .badge-Info { background: #6b7280; }
         .confidence-badge { display: inline-block; padding: 1px 8px; border-radius: 10px; font-size: 0.7em; font-weight: 600; text-transform: uppercase; vertical-align: middle; margin-left: 5px; }
+        .cvss-badge { display: inline-block; padding: 1px 8px; border-radius: 10px; font-size: 0.7em; font-weight: 700; vertical-align: middle; margin-left: 5px; background: #1e293b; color: #fff; }
         .conf-Confirmed { background: #dcfce7; color: #166534; }
         .conf-Tentative { background: #fef9c3; color: #854d0e; }
         .conf-Informational { background: #f1f5f9; color: #64748b; }
@@ -1042,6 +1043,7 @@ fn default_template() -> &'static str {
                 <span class="badge badge-{{ finding.severity }}">{{ finding.severity }}</span>
                 {{ finding.title }}
                 <span class="confidence-badge conf-{{ finding.confidence }}">{{ finding.confidence }}</span>
+                {% if finding.cvss_score %}<span class="cvss-badge">CVSS {{ finding.cvss_score }}</span>{% endif %}
             </h3>
             <p>{{ finding.description }}</p>
             {% if finding.evidence %}
@@ -1066,6 +1068,7 @@ fn default_template() -> &'static str {
             <div class="meta-info">
                 {% if finding.cwe_id %}<span>{{ finding.cwe_id }}</span>{% endif %}
                 {% if finding.owasp_category %}<span>{{ finding.owasp_category }}</span>{% endif %}
+                {% if finding.cvss_vector %}<span>{{ finding.cvss_vector }}</span>{% endif %}
                 <span>{{ finding.url }}</span>
             </div>
         </div>

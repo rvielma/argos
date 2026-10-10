@@ -96,6 +96,12 @@ pub struct Finding {
     pub cwe_id: Option<String>,
     /// OWASP Top 10 reference
     pub owasp_category: Option<String>,
+    /// CVSS v3.1 base score (0.0-10.0), computed from `cvss_vector`
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub cvss_score: Option<f64>,
+    /// CVSS v3.1 base vector string the score was computed from
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub cvss_vector: Option<String>,
     /// Affected URL
     pub url: String,
     /// HTTP request that demonstrates the issue
@@ -126,10 +132,32 @@ impl Finding {
             recommendation: String::new(),
             cwe_id: None,
             owasp_category: None,
+            cvss_score: None,
+            cvss_vector: None,
             url: url.into(),
             request: None,
             response: None,
         }
+    }
+
+    /// Sets the CVSS v3.1 vector and computes the base score from it.
+    /// Invalid vectors leave the score unset.
+    pub fn with_cvss(mut self, vector: impl Into<String>) -> Self {
+        let vector = vector.into();
+        self.cvss_score = crate::cvss::base_score(&vector);
+        self.cvss_vector = Some(vector);
+        self
+    }
+
+    /// Fills in a representative CVSS vector/score derived from the finding's
+    /// CWE (when known) or severity, but only if one was not already set.
+    pub fn ensure_cvss(&mut self) {
+        if self.cvss_vector.is_some() {
+            return;
+        }
+        let vector = crate::cvss::representative_vector(self.cwe_id.as_deref(), &self.severity);
+        self.cvss_score = crate::cvss::base_score(vector);
+        self.cvss_vector = Some(vector.to_string());
     }
 
     /// Sets the confidence level for this finding

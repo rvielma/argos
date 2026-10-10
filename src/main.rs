@@ -889,7 +889,11 @@ async fn main() -> std::result::Result<(), Box<dyn std::error::Error>> {
 
             print_banner();
 
-            let result = report::json::load(&input)?;
+            let mut result = report::json::load(&input)?;
+            // Backfill CVSS for scans produced before CVSS support existed.
+            for f in &mut result.findings {
+                f.ensure_cvss();
+            }
             let output_path = Path::new(&output);
             let report_meta = report::html::ReportMeta {
                 client,
