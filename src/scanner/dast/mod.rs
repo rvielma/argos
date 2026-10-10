@@ -63,7 +63,10 @@ impl super::Scanner for DastScanner {
 
         // CSRF checks — use pre-collected crawler forms first
         if !config.crawled_forms.is_empty() {
-            info!("DAST: checking {} pre-collected forms for CSRF", config.crawled_forms.len());
+            info!(
+                "DAST: checking {} pre-collected forms for CSRF",
+                config.crawled_forms.len()
+            );
             let crawler_csrf = csrf::check_csrf_from_forms(client, &config.crawled_forms).await;
             findings.extend(crawler_csrf);
         }
@@ -77,8 +80,7 @@ impl super::Scanner for DastScanner {
         // Access control checks (only if auth is configured)
         if !matches!(config.auth, crate::http::AuthConfig::None) {
             let unauth_client = client.without_auth();
-            let access_findings =
-                access::check_access_control(&unauth_client, crawled_urls).await;
+            let access_findings = access::check_access_control(&unauth_client, crawled_urls).await;
             findings.extend(access_findings);
         } else {
             debug!("DAST: skipping access control checks (no auth configured)");

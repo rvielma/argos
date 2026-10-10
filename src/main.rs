@@ -5,8 +5,8 @@ use colored::Colorize;
 use std::path::{Path, PathBuf};
 use tabled::builder::Builder;
 use tabled::settings::Style;
-use tracing_subscriber::EnvFilter;
 use tracing_subscriber::fmt::time::FormatTime;
+use tracing_subscriber::EnvFilter;
 use url::Url;
 
 /// Local time formatter for tracing logs using chrono
@@ -14,7 +14,11 @@ struct LocalTimer;
 
 impl FormatTime for LocalTimer {
     fn format_time(&self, w: &mut tracing_subscriber::fmt::format::Writer<'_>) -> std::fmt::Result {
-        write!(w, "{}", chrono::Local::now().format("%Y-%m-%dT%H:%M:%S%.3f%:z"))
+        write!(
+            w,
+            "{}",
+            chrono::Local::now().format("%Y-%m-%dT%H:%M:%S%.3f%:z")
+        )
     }
 }
 
@@ -454,40 +458,63 @@ async fn main() -> std::result::Result<(), Box<dyn std::error::Error>> {
                 match profile_name.as_str() {
                     "quick" => {
                         scan_config.modules = vec![
-                            "headers".into(), "ssl".into(), "cookies".into(), "waf".into(),
+                            "headers".into(),
+                            "ssl".into(),
+                            "cookies".into(),
+                            "waf".into(),
                         ];
                     }
                     "standard" => {
                         scan_config.modules = vec![
-                            "headers".into(), "ssl".into(), "cookies".into(), "cors".into(),
-                            "discovery".into(), "templates".into(), "info_disclosure".into(),
+                            "headers".into(),
+                            "ssl".into(),
+                            "cookies".into(),
+                            "cors".into(),
+                            "discovery".into(),
+                            "templates".into(),
+                            "info_disclosure".into(),
                             "secrets".into(),
                         ];
                     }
                     "full" => {
                         scan_config.modules = vec![
-                            "headers".into(), "ssl".into(), "cookies".into(), "cors".into(),
-                            "info_disclosure".into(), "discovery".into(), "injection".into(),
-                            "api".into(), "templates".into(), "waf".into(), "websocket".into(),
-                            "dast".into(), "graphql".into(), "secrets".into(),
+                            "headers".into(),
+                            "ssl".into(),
+                            "cookies".into(),
+                            "cors".into(),
+                            "info_disclosure".into(),
+                            "discovery".into(),
+                            "injection".into(),
+                            "api".into(),
+                            "templates".into(),
+                            "waf".into(),
+                            "websocket".into(),
+                            "dast".into(),
+                            "graphql".into(),
+                            "secrets".into(),
                         ];
                     }
                     "api" => {
                         scan_config.modules = vec![
-                            "headers".into(), "ssl".into(), "api".into(), "injection".into(),
-                            "graphql".into(), "templates".into(), "secrets".into(),
+                            "headers".into(),
+                            "ssl".into(),
+                            "api".into(),
+                            "injection".into(),
+                            "graphql".into(),
+                            "templates".into(),
+                            "secrets".into(),
                         ];
                     }
                     "ci" => {
-                        scan_config.modules = vec![
-                            "templates".into(), "secrets".into(), "injection".into(),
-                        ];
+                        scan_config.modules =
+                            vec!["templates".into(), "secrets".into(), "injection".into()];
                         profile_fail_on = Some("high".to_string());
                     }
                     other => {
                         eprintln!(
                             "  {} Unknown profile '{}'. Available: quick, standard, full, api, ci",
-                            "Error:".red().bold(), other
+                            "Error:".red().bold(),
+                            other
                         );
                         std::process::exit(1);
                     }
@@ -731,10 +758,8 @@ async fn main() -> std::result::Result<(), Box<dyn std::error::Error>> {
                 };
 
                 if let Some(threshold_sev) = fail_severity {
-                    let has_findings_at_or_above = result
-                        .findings
-                        .iter()
-                        .any(|f| f.severity <= threshold_sev);
+                    let has_findings_at_or_above =
+                        result.findings.iter().any(|f| f.severity <= threshold_sev);
 
                     if has_findings_at_or_above {
                         println!(

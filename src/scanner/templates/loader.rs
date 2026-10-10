@@ -226,10 +226,7 @@ pub fn load_template_from_str(content: &str, source: &str) -> Result<CveTemplate
     let template: CveTemplate = serde_yaml::from_str(content)?;
 
     if let Err(msg) = validate_template(&template) {
-        return Err(ArgosError::TemplateValidationError(
-            source.to_string(),
-            msg,
-        ));
+        return Err(ArgosError::TemplateValidationError(source.to_string(), msg));
     }
 
     Ok(template)

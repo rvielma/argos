@@ -93,7 +93,10 @@ impl<'a> Crawler<'a> {
         // Phase 0: Seed with sitemap.xml and robots.txt
         let seed_urls = self.fetch_seed_urls(&base_url).await;
         if !seed_urls.is_empty() {
-            info!("Seeded {} URLs from sitemap.xml/robots.txt", seed_urls.len());
+            info!(
+                "Seeded {} URLs from sitemap.xml/robots.txt",
+                seed_urls.len()
+            );
             let mut v = visited.lock().await;
             let mut d = discovered.lock().await;
             for url in &seed_urls {
@@ -130,8 +133,7 @@ impl<'a> Crawler<'a> {
                 js_urls: Vec<String>,
             }
 
-            let (tx, mut rx) =
-                tokio::sync::mpsc::channel::<PageResult>(current_layer.len() + 1);
+            let (tx, mut rx) = tokio::sync::mpsc::channel::<PageResult>(current_layer.len() + 1);
 
             let mut handles = Vec::new();
 
@@ -166,15 +168,25 @@ impl<'a> Crawler<'a> {
 
                     if is_json {
                         // Parse JSON responses for URLs
-                        result.new_urls.extend(extractor::extract_from_json(&page_url, &body));
+                        result
+                            .new_urls
+                            .extend(extractor::extract_from_json(&page_url, &body));
                     } else if is_js {
                         // Pure JS file
-                        result.new_urls.extend(extractor::extract_from_js(&page_url, &body));
+                        result
+                            .new_urls
+                            .extend(extractor::extract_from_js(&page_url, &body));
                     } else {
                         // HTML page
-                        result.new_urls.extend(extractor::extract_from_html(&page_url, &body));
-                        result.new_urls.extend(extractor::extract_from_js(&page_url, &body));
-                        result.new_urls.extend(extractor::extract_from_comments(&page_url, &body));
+                        result
+                            .new_urls
+                            .extend(extractor::extract_from_html(&page_url, &body));
+                        result
+                            .new_urls
+                            .extend(extractor::extract_from_js(&page_url, &body));
+                        result
+                            .new_urls
+                            .extend(extractor::extract_from_comments(&page_url, &body));
                         result.forms = extractor::extract_forms(&page_url, &body);
 
                         // Collect JS file URLs to fetch separately
@@ -325,7 +337,11 @@ impl<'a> Crawler<'a> {
         let base_host = base_url.host_str().unwrap_or("");
 
         // Try sitemap.xml
-        let sitemap_url = format!("{}://{}/sitemap.xml", base_url.scheme(), base_url.host_str().unwrap_or(""));
+        let sitemap_url = format!(
+            "{}://{}/sitemap.xml",
+            base_url.scheme(),
+            base_url.host_str().unwrap_or("")
+        );
         if let Some(body) = fetch_body(self.client, &sitemap_url).await {
             let sitemap_urls = parse_sitemap(&body, base_url);
             debug!("Found {} URLs in sitemap.xml", sitemap_urls.len());
@@ -333,7 +349,11 @@ impl<'a> Crawler<'a> {
         }
 
         // Try robots.txt
-        let robots_url = format!("{}://{}/robots.txt", base_url.scheme(), base_url.host_str().unwrap_or(""));
+        let robots_url = format!(
+            "{}://{}/robots.txt",
+            base_url.scheme(),
+            base_url.host_str().unwrap_or("")
+        );
         if let Some(body) = fetch_body(self.client, &robots_url).await {
             let robots_urls = parse_robots_txt(&body, base_url, base_host);
             debug!("Found {} URLs/paths in robots.txt", robots_urls.len());
@@ -377,7 +397,11 @@ impl<'a> Crawler<'a> {
             }
         }
 
-        debug!("Fetched {} JS files, found {} new URLs", js_urls.len().min(50), discovered.len());
+        debug!(
+            "Fetched {} JS files, found {} new URLs",
+            js_urls.len().min(50),
+            discovered.len()
+        );
         discovered
     }
 
@@ -399,7 +423,12 @@ impl<'a> Crawler<'a> {
         let mut result = urls;
 
         let render_limit = 20.min(result.len());
-        for url in result.iter().take(render_limit).cloned().collect::<Vec<_>>() {
+        for url in result
+            .iter()
+            .take(render_limit)
+            .cloned()
+            .collect::<Vec<_>>()
+        {
             match renderer.render(&url, self.render_wait_ms).await {
                 Ok(page) => {
                     for new_url in page.urls {
@@ -525,7 +554,9 @@ fn normalize_path_pattern(url: &str) -> String {
     if let Ok(parsed) = Url::parse(url) {
         let path = parsed.path();
         let id_re = Regex::new(r"/\d+(?:/|$)").expect("valid regex");
-        let uuid_re = Regex::new(r"/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}(?:/|$)").expect("valid regex");
+        let uuid_re =
+            Regex::new(r"/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}(?:/|$)")
+                .expect("valid regex");
         let hash_re = Regex::new(r"/[0-9a-f]{24,}(?:/|$)").expect("valid regex");
 
         let mut pattern = path.to_string();
@@ -534,14 +565,17 @@ fn normalize_path_pattern(url: &str) -> String {
         pattern = id_re.replace_all(&pattern, "/:id/").to_string();
 
         // Include query parameter names (but not values) in pattern
-        let mut query_keys: Vec<String> = parsed
-            .query_pairs()
-            .map(|(k, _)| k.to_string())
-            .collect();
+        let mut query_keys: Vec<String> =
+            parsed.query_pairs().map(|(k, _)| k.to_string()).collect();
         query_keys.sort();
 
         if query_keys.is_empty() {
-            format!("{}://{}{}", parsed.scheme(), parsed.host_str().unwrap_or(""), pattern)
+            format!(
+                "{}://{}{}",
+                parsed.scheme(),
+                parsed.host_str().unwrap_or(""),
+                pattern
+            )
         } else {
             format!(
                 "{}://{}{}?{}",
@@ -665,10 +699,7 @@ mod tests {
     fn test_extract_base_domain() {
         assert_eq!(extract_base_domain("sub.example.com"), "example.com");
         assert_eq!(extract_base_domain("example.com"), "example.com");
-        assert_eq!(
-            extract_base_domain("deep.sub.example.com"),
-            "example.com"
-        );
+        assert_eq!(extract_base_domain("deep.sub.example.com"), "example.com");
     }
 
     #[test]

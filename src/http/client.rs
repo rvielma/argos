@@ -175,8 +175,7 @@ impl HttpClient {
 
     /// Sends an OPTIONS request
     pub async fn options(&self, url: &str) -> Result<Response> {
-        self.request(reqwest::Method::OPTIONS, url, &[], None)
-            .await
+        self.request(reqwest::Method::OPTIONS, url, &[], None).await
     }
 
     /// Returns the total number of requests made
@@ -216,10 +215,7 @@ impl HttpClient {
         // Circuit breaker: check if host has exceeded error threshold
         let req_url = {
             let req = build_request();
-            let url_str = req
-                .build()
-                .map(|r| r.url().to_string())
-                .unwrap_or_default();
+            let url_str = req.build().map(|r| r.url().to_string()).unwrap_or_default();
             url_str
         };
         let host = Self::extract_host(&req_url);
@@ -310,7 +306,8 @@ impl HttpClient {
                             sleep(wait).await;
                         } else {
                             // Exponential backoff: 1s, 2s, 4s, 8s... max 30s
-                            let delay = (1000u64 * 2u64.pow(state.consecutive_429s.min(5) - 1)).min(30_000);
+                            let delay =
+                                (1000u64 * 2u64.pow(state.consecutive_429s.min(5) - 1)).min(30_000);
                             state.current_delay_ms = delay;
                             warn!("Rate limited (429), adaptive delay: {}ms", delay);
                             drop(state);

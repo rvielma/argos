@@ -59,10 +59,11 @@ impl super::Scanner for SslScanner {
         let addr = format!("{host}:{port}");
 
         let socket_addr = match addr.to_socket_addrs() {
-            Ok(mut addrs) => match addrs.next() {
-                Some(a) => a,
-                None => {
-                    findings.push(
+            Ok(mut addrs) => {
+                match addrs.next() {
+                    Some(a) => a,
+                    None => {
+                        findings.push(
                         Finding::new(
                             "DNS Resolution Failed",
                             "Could not resolve the target hostname.",
@@ -73,9 +74,10 @@ impl super::Scanner for SslScanner {
                         .with_evidence(format!("Failed to resolve: {addr}"))
                         .with_recommendation("Verify the target hostname is correct and DNS is properly configured."),
                     );
-                    return Ok(findings);
+                        return Ok(findings);
+                    }
                 }
-            },
+            }
             Err(e) => {
                 findings.push(
                     Finding::new(
@@ -86,7 +88,9 @@ impl super::Scanner for SslScanner {
                         &config.target,
                     )
                     .with_evidence(format!("DNS error for {addr}: {e}"))
-                    .with_recommendation("Verify the target hostname is correct and DNS is properly configured."),
+                    .with_recommendation(
+                        "Verify the target hostname is correct and DNS is properly configured.",
+                    ),
                 );
                 return Ok(findings);
             }
@@ -243,8 +247,7 @@ async fn probe_tls_versions(
     }
 
     // Probe TLS 1.3
-    let tls13_supported =
-        probe_single_version(host, socket_addr, &rustls::version::TLS13).await;
+    let tls13_supported = probe_single_version(host, socket_addr, &rustls::version::TLS13).await;
     if tls13_supported {
         supported_versions.push("TLS 1.3");
     }
@@ -382,7 +385,9 @@ async fn extract_cert_info(
             )
             .with_confidence(Confidence::Confirmed)
             .with_evidence(format!("Cipher: {:?}", cipher.suite()))
-            .with_recommendation("Ensure only strong cipher suites are enabled. Disable CBC-mode and RC4 ciphers."),
+            .with_recommendation(
+                "Ensure only strong cipher suites are enabled. Disable CBC-mode and RC4 ciphers.",
+            ),
         );
     }
 
@@ -409,10 +414,7 @@ async fn extract_cert_info(
                         _ => 0,
                     });
 
-                    let sig_algo = cert
-                        .signature_algorithm
-                        .algorithm
-                        .to_id_string();
+                    let sig_algo = cert.signature_algorithm.algorithm.to_id_string();
 
                     let evidence = format!(
                         "Subject: {}\nIssuer: {}\nValid: {} to {}\nKey size: {} bits\nSignature: {}",
@@ -474,7 +476,9 @@ async fn extract_cert_info(
                                     "Certificate expires: {} ({} days remaining)",
                                     not_after, days_remaining
                                 ))
-                                .with_recommendation("Renew the SSL/TLS certificate before it expires.")
+                                .with_recommendation(
+                                    "Renew the SSL/TLS certificate before it expires.",
+                                )
                                 .with_cwe("CWE-298")
                                 .with_owasp("A02:2021 Cryptographic Failures"),
                             );

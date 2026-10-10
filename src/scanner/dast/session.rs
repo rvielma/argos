@@ -187,10 +187,7 @@ async fn check_session_fixation(client: &HttpClient, target: &str) -> bool {
     let fixed_session = "argos_fixation_test_session_12345";
 
     for &name in &["PHPSESSID", "JSESSIONID", "session_id", "sid"] {
-        let headers = vec![(
-            "Cookie".to_string(),
-            format!("{}={}", name, fixed_session),
-        )];
+        let headers = vec![("Cookie".to_string(), format!("{}={}", name, fixed_session))];
 
         match client.get_with_headers(target, &headers).await {
             Ok(response) => {

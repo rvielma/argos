@@ -378,7 +378,10 @@ fn generate_attack_scenarios(findings: &[Finding], lang: &str) -> Vec<AttackScen
         });
     }
 
-    if cwes.iter().any(|c| c == "CWE-319") && cwes.iter().any(|c| c == "CWE-352") && !seen.contains("chain-session") {
+    if cwes.iter().any(|c| c == "CWE-319")
+        && cwes.iter().any(|c| c == "CWE-352")
+        && !seen.contains("chain-session")
+    {
         seen.insert("chain-session");
         scenarios.push(if is_es {
             AttackScenario {
@@ -400,7 +403,12 @@ fn generate_attack_scenarios(findings: &[Finding], lang: &str) -> Vec<AttackScen
     }
 
     scenarios.sort_by(|a, b| {
-        let ord = |s: &str| match s { "Critical" => 0, "High" => 1, "Medium" => 2, _ => 3 };
+        let ord = |s: &str| match s {
+            "Critical" => 0,
+            "High" => 1,
+            "Medium" => 2,
+            _ => 3,
+        };
         ord(&a.severity_class).cmp(&ord(&b.severity_class))
     });
 

@@ -183,9 +183,7 @@ async fn test_http_options() {
 
     Mock::given(method("OPTIONS"))
         .and(path("/api"))
-        .respond_with(
-            ResponseTemplate::new(204).append_header("Allow", "GET, POST, OPTIONS"),
-        )
+        .respond_with(ResponseTemplate::new(204).append_header("Allow", "GET, POST, OPTIONS"))
         .mount(&mock_server)
         .await;
 
@@ -223,7 +221,10 @@ async fn test_http_retry_on_rate_limit() {
     let result = client.get(&format!("{}/retry", mock_server.uri())).await;
 
     // All retries exhausted with 429 should yield an error
-    assert!(result.is_err(), "expected error after all retries return 429");
+    assert!(
+        result.is_err(),
+        "expected error after all retries return 429"
+    );
 
     // The client should have made exactly 3 attempts (MAX_RETRIES)
     assert_eq!(client.request_count(), 3);
@@ -298,9 +299,7 @@ async fn test_crawler_discovers_links() {
         max_depth: 2,
         ..test_config(&mock_server.uri())
     };
-    let client = HttpClient::from_config(&config)
-        .await
-        .expect("client");
+    let client = HttpClient::from_config(&config).await.expect("client");
 
     let mut crawler = Crawler::new(&client, &config);
     let urls = crawler.crawl(&format!("{}/", mock_server.uri())).await;
@@ -357,9 +356,7 @@ async fn test_crawler_depth_limiting() {
         max_depth: 1,
         ..test_config(&mock_server.uri())
     };
-    let client = HttpClient::from_config(&config)
-        .await
-        .expect("client");
+    let client = HttpClient::from_config(&config).await.expect("client");
 
     let mut crawler = Crawler::new(&client, &config);
     let urls = crawler.crawl(&format!("{}/", mock_server.uri())).await;
@@ -404,9 +401,7 @@ async fn test_crawler_deduplication() {
         max_depth: 2,
         ..test_config(&mock_server.uri())
     };
-    let client = HttpClient::from_config(&config)
-        .await
-        .expect("client");
+    let client = HttpClient::from_config(&config).await.expect("client");
 
     let mut crawler = Crawler::new(&client, &config);
     let urls = crawler.crawl(&format!("{}/", mock_server.uri())).await;
@@ -445,9 +440,7 @@ async fn test_crawler_same_host_filter() {
         max_depth: 2,
         ..test_config(&mock_server.uri())
     };
-    let client = HttpClient::from_config(&config)
-        .await
-        .expect("client");
+    let client = HttpClient::from_config(&config).await.expect("client");
 
     let mut crawler = Crawler::new(&client, &config);
     let urls = crawler.crawl(&format!("{}/", mock_server.uri())).await;
@@ -455,9 +448,7 @@ async fn test_crawler_same_host_filter() {
     let urls_str = urls.join(" ");
     assert!(urls_str.contains("/internal"), "should discover /internal");
 
-    let has_external = urls
-        .iter()
-        .any(|u| u.contains("external-site.example.com"));
+    let has_external = urls.iter().any(|u| u.contains("external-site.example.com"));
     assert!(
         !has_external,
         "external URLs should be filtered out: {:?}",
@@ -468,9 +459,7 @@ async fn test_crawler_same_host_filter() {
 #[tokio::test]
 async fn test_crawler_invalid_url() {
     let config = test_config("not-a-valid-url");
-    let client = HttpClient::from_config(&config)
-        .await
-        .expect("client");
+    let client = HttpClient::from_config(&config).await.expect("client");
 
     let mut crawler = Crawler::new(&client, &config);
     let urls = crawler.crawl("not-a-valid-url").await;

@@ -26,9 +26,7 @@ pub async fn start_http_server(
         tokio::spawn(async move {
             let service = service_fn(move |req: Request<Incoming>| {
                 let store = store.clone();
-                async move {
-                    handle_request(req, remote_addr, store).await
-                }
+                async move { handle_request(req, remote_addr, store).await }
             });
 
             if let Err(e) = hyper::server::conn::http1::Builder::new()
@@ -55,12 +53,7 @@ async fn handle_request(
             interaction_type: InteractionType::Http,
             remote_addr,
             timestamp: chrono::Utc::now(),
-            raw_data: format!(
-                "{} {} {:?}",
-                req.method(),
-                req.uri(),
-                req.headers()
-            ),
+            raw_data: format!("{} {} {:?}", req.method(), req.uri(), req.headers()),
         };
 
         debug!(
@@ -69,10 +62,7 @@ async fn handle_request(
         );
 
         let mut store = store.lock().await;
-        store
-            .entry(interaction_id)
-            .or_default()
-            .push(interaction);
+        store.entry(interaction_id).or_default().push(interaction);
     }
 
     Ok(Response::new("ok".to_string()))

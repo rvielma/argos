@@ -139,13 +139,8 @@ impl OobServer {
     }
 
     /// Waits for an interaction with the given ID, up to timeout_secs
-    pub async fn check_interaction(
-        &self,
-        id: &str,
-        timeout_secs: u64,
-    ) -> Option<Vec<Interaction>> {
-        let deadline =
-            tokio::time::Instant::now() + std::time::Duration::from_secs(timeout_secs);
+    pub async fn check_interaction(&self, id: &str, timeout_secs: u64) -> Option<Vec<Interaction>> {
+        let deadline = tokio::time::Instant::now() + std::time::Duration::from_secs(timeout_secs);
         let poll_interval = std::time::Duration::from_millis(500);
 
         loop {

@@ -146,8 +146,11 @@ impl WafInfo {
                     // Case alternation
                     let mut alt = String::new();
                     for (i, c) in original.chars().enumerate() {
-                        if i % 2 == 0 { alt.push(c.to_uppercase().next().unwrap_or(c)); }
-                        else { alt.push(c.to_lowercase().next().unwrap_or(c)); }
+                        if i % 2 == 0 {
+                            alt.push(c.to_uppercase().next().unwrap_or(c));
+                        } else {
+                            alt.push(c.to_lowercase().next().unwrap_or(c));
+                        }
                     }
                     payloads.push(alt);
                 }
@@ -389,7 +392,12 @@ pub async fn detect_waf(client: &HttpClient, target: &str) -> WafInfo {
         let headers: Vec<(String, String)> = response
             .headers()
             .iter()
-            .map(|(k, v)| (k.as_str().to_lowercase(), v.to_str().unwrap_or("").to_lowercase()))
+            .map(|(k, v)| {
+                (
+                    k.as_str().to_lowercase(),
+                    v.to_str().unwrap_or("").to_lowercase(),
+                )
+            })
             .collect();
 
         let cookies: String = headers
@@ -407,17 +415,24 @@ pub async fn detect_waf(client: &HttpClient, target: &str) -> WafInfo {
 
             for (header_name, header_pattern) in sig.headers {
                 for (name, value) in &headers {
-                    if name == *header_name && (header_pattern.is_empty() || value.contains(header_pattern)) {
+                    if name == *header_name
+                        && (header_pattern.is_empty() || value.contains(header_pattern))
+                    {
                         matched = true;
                         break;
                     }
                 }
-                if matched { break; }
+                if matched {
+                    break;
+                }
             }
 
             if !matched {
                 for cookie_pattern in sig.cookies {
-                    if cookies.to_lowercase().contains(&cookie_pattern.to_lowercase()) {
+                    if cookies
+                        .to_lowercase()
+                        .contains(&cookie_pattern.to_lowercase())
+                    {
                         matched = true;
                         break;
                     }

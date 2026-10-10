@@ -171,10 +171,7 @@ async fn test_csrf_ignores_get_forms() {
 
     let findings = scanner.scan(&client, &config, &[]).await.expect("scan");
 
-    let csrf_findings: Vec<_> = findings
-        .iter()
-        .filter(|f| f.category == "CSRF")
-        .collect();
+    let csrf_findings: Vec<_> = findings.iter().filter(|f| f.category == "CSRF").collect();
     assert!(
         csrf_findings.is_empty(),
         "Expected no CSRF findings for GET forms"
@@ -310,12 +307,10 @@ async fn test_session_good_entropy() {
     let mock_server = MockServer::start().await;
 
     Mock::given(method("GET"))
-        .respond_with(
-            ResponseTemplate::new(200).insert_header(
-                "Set-Cookie",
-                "sessionid=a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6; Path=/; HttpOnly",
-            ),
-        )
+        .respond_with(ResponseTemplate::new(200).insert_header(
+            "Set-Cookie",
+            "sessionid=a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6; Path=/; HttpOnly",
+        ))
         .mount(&mock_server)
         .await;
 
@@ -459,7 +454,10 @@ async fn test_dast_scanner_no_crash_on_empty() {
     let scanner = DastScanner;
 
     let result = scanner.scan(&client, &config, &[]).await;
-    assert!(result.is_ok(), "DAST scanner should not crash on empty page");
+    assert!(
+        result.is_ok(),
+        "DAST scanner should not crash on empty page"
+    );
 }
 
 #[tokio::test]

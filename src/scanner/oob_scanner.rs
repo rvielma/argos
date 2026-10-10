@@ -135,8 +135,7 @@ impl super::Scanner for OobScanner {
                 let callback_url = server.callback_url(&id);
                 let callback_dns = server.callback_dns(&id);
 
-                let sqli_payloads =
-                    oob::payloads::sqli_oob_payloads(&callback_url, &callback_dns);
+                let sqli_payloads = oob::payloads::sqli_oob_payloads(&callback_url, &callback_dns);
 
                 for (_db_type, payload) in &sqli_payloads {
                     if let Some(test_url) =
@@ -184,16 +183,13 @@ impl super::Scanner for OobScanner {
 
             let xxe_payloads = oob::payloads::xxe_payloads(&callback_url);
             for payload in &xxe_payloads {
-                let headers = vec![
-                    ("Content-Type".to_string(), "application/xml".to_string()),
-                ];
+                let headers = vec![("Content-Type".to_string(), "application/xml".to_string())];
                 let _ = client
                     .request(reqwest::Method::POST, url, &headers, Some(payload))
                     .await;
             }
 
-            if let Some(interactions) =
-                server.check_interaction(&id, config.oob_timeout_secs).await
+            if let Some(interactions) = server.check_interaction(&id, config.oob_timeout_secs).await
             {
                 let finding = Finding::new(
                     "XXE (Out-of-Band)",

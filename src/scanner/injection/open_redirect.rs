@@ -47,17 +47,11 @@ pub async fn scan(
             }
 
             'redirect: for payload in REDIRECT_PAYLOADS {
-                if let Some(test_url) =
-                    InjectionScanner::build_test_url(&point.url, param, payload)
+                if let Some(test_url) = InjectionScanner::build_test_url(&point.url, param, payload)
                 {
                     // Use a client that doesn't follow redirects for this check
                     if let Ok(resp) = client
-                        .request(
-                            reqwest::Method::GET,
-                            &test_url,
-                            &[],
-                            None,
-                        )
+                        .request(reqwest::Method::GET, &test_url, &[], None)
                         .await
                     {
                         let status = resp.status().as_u16();
@@ -70,12 +64,12 @@ pub async fn scan(
                         let body = resp.text().await.unwrap_or_default();
 
                         // Check 3xx redirect to evil.com
-                        let is_redirect = (300..400).contains(&status)
-                            && location.contains("evil.com");
+                        let is_redirect =
+                            (300..400).contains(&status) && location.contains("evil.com");
 
                         // Check meta refresh redirect
-                        let meta_redirect = body.contains("http-equiv=\"refresh\"")
-                            && body.contains("evil.com");
+                        let meta_redirect =
+                            body.contains("http-equiv=\"refresh\"") && body.contains("evil.com");
 
                         // Check JS redirect patterns
                         let js_redirect = (body.contains("window.location")

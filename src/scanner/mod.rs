@@ -115,7 +115,11 @@ impl ScanEngine {
         );
 
         // Run WAF detection first if WAF or injection modules are enabled
-        let waf_info = if config.modules.iter().any(|m| m == "waf" || m == "injection") {
+        let waf_info = if config
+            .modules
+            .iter()
+            .any(|m| m == "waf" || m == "injection")
+        {
             info!("Running WAF detection");
             let info = waf::detect_waf(&client, &config.target).await;
             if !info.detected_wafs.is_empty() {

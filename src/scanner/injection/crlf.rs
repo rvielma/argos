@@ -28,8 +28,7 @@ pub async fn scan(
     for point in points.iter().take(10) {
         for param in &point.params {
             'crlf: for payload in CRLF_PAYLOADS {
-                if let Some(test_url) =
-                    InjectionScanner::build_test_url(&point.url, param, payload)
+                if let Some(test_url) = InjectionScanner::build_test_url(&point.url, param, payload)
                 {
                     if let Ok(resp) = client.get(&test_url).await {
                         let has_injected_header = resp

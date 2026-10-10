@@ -37,11 +37,7 @@ pub async fn start_dns_server(
         // Parse the query name from the DNS packet
         if let Some(name) = parse_dns_name(data) {
             // The interaction ID is the first label
-            let interaction_id = name
-                .split('.')
-                .next()
-                .unwrap_or("")
-                .to_string();
+            let interaction_id = name.split('.').next().unwrap_or("").to_string();
 
             if !interaction_id.is_empty() {
                 debug!(

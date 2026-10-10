@@ -144,8 +144,14 @@ impl Finding {
             "SQL Injection" | "XSS" | "Command Injection" | "SSTI" | "Path Traversal" => {
                 Confidence::Confirmed
             }
-            "Security Headers" | "SSL/TLS" | "Cookies" | "CORS" | "Information Disclosure"
-            | "WAF Detection" | "WebSocket" | "API Security" => Confidence::Informational,
+            "Security Headers"
+            | "SSL/TLS"
+            | "Cookies"
+            | "CORS"
+            | "Information Disclosure"
+            | "WAF Detection"
+            | "WebSocket"
+            | "API Security" => Confidence::Informational,
             _ => Confidence::Tentative,
         }
     }

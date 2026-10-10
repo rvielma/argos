@@ -76,7 +76,9 @@ async fn handle_ftp_session(
         } else if upper.starts_with("TYPE") {
             writer.write_all(b"200 Type set\r\n").await?;
         } else if upper.starts_with("PWD") {
-            writer.write_all(b"257 \"/\" is current directory\r\n").await?;
+            writer
+                .write_all(b"257 \"/\" is current directory\r\n")
+                .await?;
         } else {
             writer.write_all(b"502 Command not implemented\r\n").await?;
         }

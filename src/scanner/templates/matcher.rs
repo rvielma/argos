@@ -124,7 +124,9 @@ fn evaluate_version_range(detected: &[u64], range: &str) -> bool {
             } else {
                 return false;
             }
-        } else if parts[i].starts_with('<') || parts[i].starts_with('>') || parts[i].starts_with('=')
+        } else if parts[i].starts_with('<')
+            || parts[i].starts_with('>')
+            || parts[i].starts_with('=')
         {
             if parts[i].len() > 1 {
                 (&parts[i][..1], &parts[i][1..])

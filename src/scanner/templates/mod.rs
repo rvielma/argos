@@ -200,7 +200,11 @@ impl super::Scanner for TemplateScanner {
             let nuclei_path = Path::new(nuclei_dir);
             let nuclei_templates = nuclei::load_nuclei_templates(nuclei_path);
             if !nuclei_templates.is_empty() {
-                info!("Loaded {} Nuclei templates from {}", nuclei_templates.len(), nuclei_dir);
+                info!(
+                    "Loaded {} Nuclei templates from {}",
+                    nuclei_templates.len(),
+                    nuclei_dir
+                );
                 templates.extend(nuclei_templates);
             }
         }
@@ -347,4 +351,23 @@ async fn execute_templates_parallel(
     }
 
     findings
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    // Regression guard: the binary must always ship with embedded templates so an
+    // installed copy (no `templates/` directory on disk) still has detections.
+    // If the include_dir! path or build ever breaks, this fails instead of silently
+    // scanning with zero templates.
+    #[test]
+    fn embedded_templates_are_present() {
+        let templates = load_embedded_templates();
+        assert!(
+            templates.len() > 100,
+            "expected the binary to embed its template corpus, got {}",
+            templates.len()
+        );
+    }
 }

@@ -205,11 +205,7 @@ fn extract_forms(base_url: &str, html: &str) -> Vec<FormData> {
     };
 
     for form in document.select(&form_selector) {
-        let method = form
-            .value()
-            .attr("method")
-            .unwrap_or("get")
-            .to_lowercase();
+        let method = form.value().attr("method").unwrap_or("get").to_lowercase();
 
         // Only check POST/PUT/DELETE forms
         if method != "post" && method != "put" && method != "delete" {
@@ -236,16 +232,13 @@ fn extract_forms(base_url: &str, html: &str) -> Vec<FormData> {
             for input in form.select(&input_sel) {
                 if let Some(name) = input.value().attr("name") {
                     let lower = name.to_lowercase();
-                    let is_csrf =
-                        CSRF_FIELD_NAMES.iter().any(|&csrf_name| lower.contains(csrf_name));
+                    let is_csrf = CSRF_FIELD_NAMES
+                        .iter()
+                        .any(|&csrf_name| lower.contains(csrf_name));
 
                     if is_csrf {
                         // Check hidden inputs for CSRF tokens
-                        let input_type = input
-                            .value()
-                            .attr("type")
-                            .unwrap_or("")
-                            .to_lowercase();
+                        let input_type = input.value().attr("type").unwrap_or("").to_lowercase();
                         if input_type == "hidden" {
                             has_csrf_token = true;
                         }
@@ -284,10 +277,7 @@ async fn check_csrf_enforcement(client: &HttpClient, form: &FormData) -> bool {
             // If the server returns 200 or 302 (redirect), it likely accepted the request
             // 403/419/422 would indicate the token is being validated
             if status == 200 || status == 302 || status == 301 {
-                debug!(
-                    "CSRF not enforced at {}: status {}",
-                    form.form_url, status
-                );
+                debug!("CSRF not enforced at {}: status {}", form.form_url, status);
                 return false; // Not enforced
             }
             true // Token is enforced (4xx response)

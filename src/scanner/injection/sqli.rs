@@ -57,6 +57,25 @@ pub async fn scan(
                                 continue;
                             }
 
+                            // Quote-balanced confirmation: escaping the quotes in the
+                            // payload should make a genuine SQL error disappear. If the
+                            // same error still shows, the pattern is likely static page
+                            // content (docs, WAF block page) -> false positive.
+                            let balanced = payload.replace('\'', "''");
+                            if balanced != *payload {
+                                if let Some(balanced_url) =
+                                    InjectionScanner::build_test_url(&point.url, param, &balanced)
+                                {
+                                    if let Ok(bresp) = client.get(&balanced_url).await {
+                                        let bbody = bresp.text().await.unwrap_or_default();
+                                        if InjectionScanner::check_sql_errors(&bbody).is_some() {
+                                            debug!("Skipping SQLi for {param}: error persists with balanced quotes (static content)");
+                                            continue;
+                                        }
+                                    }
+                                }
+                            }
+
                             findings.push(
                                 Finding::new(
                                     format!("SQL Injection (Error-Based) in '{param}'"),
@@ -86,56 +105,85 @@ pub async fn scan(
                 continue;
             }
 
-            // Boolean-based SQLi — requires baseline comparison
-            let true_payload = "' OR '1'='1";
-            let false_payload = "' OR '1'='2";
+            // Boolean-based SQLi — requires baseline comparison.
+            // Test both string context (' OR '1'='1) and numeric context (OR 1=1) so
+            // numeric parameters aren't missed (they'd only throw a syntax error with
+            // the quoted payloads).
+            let bool_pairs: &[(&str, &str)] =
+                &[("' OR '1'='1", "' OR '1'='2"), (" OR 1=1", " OR 1=2")];
 
-            if let (Some(true_url), Some(false_url)) = (
-                InjectionScanner::build_test_url(&point.url, param, true_payload),
-                InjectionScanner::build_test_url(&point.url, param, false_payload),
-            ) {
-                if let (Ok(true_resp), Ok(false_resp)) =
-                    (client.get(&true_url).await, client.get(&false_url).await)
-                {
-                    let true_body = true_resp.text().await.unwrap_or_default();
-                    let false_body = false_resp.text().await.unwrap_or_default();
+            let mut found_boolean = false;
+            'boolean: for (true_payload, false_payload) in bool_pairs {
+                if let (Some(true_url), Some(false_url)) = (
+                    InjectionScanner::build_test_url(&point.url, param, true_payload),
+                    InjectionScanner::build_test_url(&point.url, param, false_payload),
+                ) {
+                    if let (Ok(true_resp), Ok(false_resp)) =
+                        (client.get(&true_url).await, client.get(&false_url).await)
+                    {
+                        let true_body = true_resp.text().await.unwrap_or_default();
+                        let false_body = false_resp.text().await.unwrap_or_default();
 
-                    let len_diff =
-                        (true_body.len() as i64 - false_body.len() as i64).unsigned_abs();
+                        // Compare normalized bodies to ignore volatile tokens.
+                        let true_norm = InjectionScanner::normalize_body(&true_body).len();
+                        let false_norm = InjectionScanner::normalize_body(&false_body).len();
+                        let len_diff = true_norm.abs_diff(false_norm);
 
-                    // Compare against baseline: if the baseline response length is similar
-                    // to the true response, then the "true" condition isn't changing behavior
-                    let baseline_similar = baseline.map(|bl| {
-                        let bl_diff = (bl.body.len() as i64 - true_body.len() as i64).unsigned_abs();
-                        // If baseline and true response are within 500 bytes, not SQLi
-                        bl_diff < 500
-                    }).unwrap_or(false);
+                        // Threshold is relative to the page: at least 3x the observed
+                        // natural variance, and at least 5% of the baseline size. This
+                        // avoids flagging normal per-request jitter on large pages and
+                        // avoids missing small API responses.
+                        let (variance, norm_len) = baseline
+                            .map(|bl| (bl.len_variance, bl.norm_len))
+                            .unwrap_or((0, true_norm));
+                        let threshold = (variance.saturating_mul(3)).max(norm_len / 20).max(32);
 
-                    // Require: significant diff between true/false, AND true response
-                    // differs from baseline (meaning the SQL condition actually changed behavior)
-                    if len_diff > 500 && true_body.len() > 100 && !baseline_similar {
-                        findings.push(
-                            Finding::new(
-                                format!("Potential SQL Injection (Boolean-Based) in '{param}'"),
-                                format!(
-                                    "Parameter '{param}' shows different responses for true/false SQL conditions."
-                                ),
-                                Severity::High,
-                                "Injection",
-                                &point.url,
-                            )
-                            .with_evidence(format!(
-                                "Param: {param}\nTrue payload length: {}\nFalse payload length: {}\nDiff: {len_diff}",
-                                true_body.len(),
-                                false_body.len()
-                            ))
-                            .with_recommendation("Use parameterized queries or prepared statements.")
-                            .with_cwe("CWE-89")
-                            .with_owasp("A03:2021 Injection"),
-                        );
-                        continue;
+                        // Semantic check: the TRUE condition should resemble the normal
+                        // (baseline) page while the FALSE condition should differ from it.
+                        // That is the real signature of boolean-based SQLi.
+                        let (true_like_baseline, false_unlike_baseline) = baseline
+                            .map(|bl| {
+                                let tol = (bl.len_variance.saturating_mul(3))
+                                    .max(bl.norm_len / 20)
+                                    .max(32);
+                                (
+                                    InjectionScanner::similar_len(true_norm, bl.norm_len, tol),
+                                    !InjectionScanner::similar_len(false_norm, bl.norm_len, tol),
+                                )
+                            })
+                            // Without a baseline we can't verify semantics -> stay conservative.
+                            .unwrap_or((false, false));
+
+                        if len_diff > threshold
+                            && true_norm > 100
+                            && true_like_baseline
+                            && false_unlike_baseline
+                        {
+                            findings.push(
+                                Finding::new(
+                                    format!("Potential SQL Injection (Boolean-Based) in '{param}'"),
+                                    format!(
+                                        "Parameter '{param}' shows different responses for true/false SQL conditions."
+                                    ),
+                                    Severity::High,
+                                    "Injection",
+                                    &point.url,
+                                )
+                                .with_evidence(format!(
+                                    "Param: {param}\nTrue payload: {true_payload}\nFalse payload: {false_payload}\nTrue norm length: {true_norm}\nFalse norm length: {false_norm}\nDiff: {len_diff} (threshold: {threshold})"
+                                ))
+                                .with_recommendation("Use parameterized queries or prepared statements.")
+                                .with_cwe("CWE-89")
+                                .with_owasp("A03:2021 Injection"),
+                            );
+                            found_boolean = true;
+                            break 'boolean;
+                        }
                     }
                 }
+            }
+            if found_boolean {
+                continue;
             }
 
             // Time-based blind SQLi — compare against baseline latency
@@ -160,6 +208,46 @@ pub async fn scan(
                         // Only flag if: elapsed >= 3s AND elapsed exceeds baseline by at least 2.5s
                         let excess_ms = elapsed_ms.saturating_sub(baseline_ms);
                         if elapsed.as_secs() >= 3 && excess_ms >= 2500 {
+                            // Confirmation pass to rule out a one-off slow response:
+                            //  1) a SLEEP(0) control must come back fast (< 2.5s excess),
+                            //  2) re-sending the delay payload must reproduce the delay.
+                            let control_payload =
+                                time_payload.replace("(3)", "(0)").replace("0:0:3", "0:0:0");
+                            let control_ok = match InjectionScanner::build_test_url(
+                                &point.url,
+                                param,
+                                &control_payload,
+                            ) {
+                                Some(curl) => {
+                                    let cstart = Instant::now();
+                                    match client.get(&curl).await {
+                                        Ok(cresp) => {
+                                            let celapsed = cstart.elapsed();
+                                            let _ = cresp.text().await;
+                                            // control is valid only if it's clearly fast
+                                            (celapsed.as_millis() as u64) < baseline_ms + 2500
+                                        }
+                                        Err(_) => false,
+                                    }
+                                }
+                                None => false,
+                            };
+
+                            let rstart = Instant::now();
+                            let replay_slow = match client.get(&test_url).await {
+                                Ok(rresp) => {
+                                    let relapsed = rstart.elapsed();
+                                    let _ = rresp.text().await;
+                                    relapsed.as_secs() >= 3
+                                }
+                                Err(_) => false,
+                            };
+
+                            if !(control_ok && replay_slow) {
+                                debug!("Skipping time-based SQLi for {param}: not reproducible (control_ok={control_ok}, replay_slow={replay_slow})");
+                                continue;
+                            }
+
                             findings.push(
                                 Finding::new(
                                     format!("SQL Injection (Time-Based Blind) in '{param}'"),

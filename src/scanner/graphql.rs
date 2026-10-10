@@ -81,10 +81,7 @@ impl super::Scanner for GraphQLScanner {
 
 /// Checks if GraphQL introspection is enabled
 async fn check_introspection(client: &HttpClient, url: &str) -> Option<Finding> {
-    let headers = vec![(
-        "Content-Type".to_string(),
-        "application/json".to_string(),
-    )];
+    let headers = vec![("Content-Type".to_string(), "application/json".to_string())];
 
     let resp = client
         .post_with_headers(url, &headers, INTROSPECTION_QUERY)
@@ -159,10 +156,7 @@ async fn check_graphql_ui(client: &HttpClient, url: &str) -> Option<Finding> {
 
 /// Checks if the GraphQL endpoint leaks field suggestions
 async fn check_field_suggestions(client: &HttpClient, url: &str) -> Option<Finding> {
-    let headers = vec![(
-        "Content-Type".to_string(),
-        "application/json".to_string(),
-    )];
+    let headers = vec![("Content-Type".to_string(), "application/json".to_string())];
 
     let resp = client
         .post_with_headers(url, &headers, SUGGESTION_QUERY)
@@ -198,10 +192,7 @@ async fn check_field_suggestions(client: &HttpClient, url: &str) -> Option<Findi
 
 /// Checks if batch queries are supported (potential DoS vector)
 async fn check_batch_queries(client: &HttpClient, url: &str) -> Option<Finding> {
-    let headers = vec![(
-        "Content-Type".to_string(),
-        "application/json".to_string(),
-    )];
+    let headers = vec![("Content-Type".to_string(), "application/json".to_string())];
 
     let resp = client
         .post_with_headers(url, &headers, BATCH_QUERY)

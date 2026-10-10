@@ -56,54 +56,214 @@ struct SecretMatch {
 // ---------------------------------------------------------------------------
 const SERVICE_TOKEN_PATTERNS: &[(&str, &str, u8, &str)] = &[
     // -- Version Control --
-    (r"ghp_[a-zA-Z0-9]{36}", "GitHub Personal Access Token", 0, "CWE-798"),
-    (r"gho_[a-zA-Z0-9]{36}", "GitHub OAuth Access Token", 0, "CWE-798"),
-    (r"ghu_[a-zA-Z0-9]{36}", "GitHub User-to-Server Token", 0, "CWE-798"),
-    (r"ghs_[A-Za-z0-9_]{36,}", "GitHub Server-to-Server Token", 0, "CWE-798"),
+    (
+        r"ghp_[a-zA-Z0-9]{36}",
+        "GitHub Personal Access Token",
+        0,
+        "CWE-798",
+    ),
+    (
+        r"gho_[a-zA-Z0-9]{36}",
+        "GitHub OAuth Access Token",
+        0,
+        "CWE-798",
+    ),
+    (
+        r"ghu_[a-zA-Z0-9]{36}",
+        "GitHub User-to-Server Token",
+        0,
+        "CWE-798",
+    ),
+    (
+        r"ghs_[A-Za-z0-9_]{36,}",
+        "GitHub Server-to-Server Token",
+        0,
+        "CWE-798",
+    ),
     (r"ghr_[a-zA-Z0-9]{36}", "GitHub Refresh Token", 0, "CWE-798"),
-    (r"github_pat_[a-zA-Z0-9]{22}_[a-zA-Z0-9]{59}", "GitHub Fine-Grained PAT", 0, "CWE-798"),
-    (r"glpat-[0-9a-zA-Z_\-]{20,}", "GitLab Personal Access Token", 0, "CWE-798"),
+    (
+        r"github_pat_[a-zA-Z0-9]{22}_[a-zA-Z0-9]{59}",
+        "GitHub Fine-Grained PAT",
+        0,
+        "CWE-798",
+    ),
+    (
+        r"glpat-[0-9a-zA-Z_\-]{20,}",
+        "GitLab Personal Access Token",
+        0,
+        "CWE-798",
+    ),
     // -- Communication: Tokens --
-    (r"xoxb-[0-9]{10,13}-[0-9]{10,13}[a-zA-Z0-9\-]*", "Slack Bot Token", 0, "CWE-798"),
-    (r"xoxp-[0-9]{10,13}-[0-9]{10,13}[a-zA-Z0-9\-]*", "Slack User Token", 0, "CWE-798"),
-    (r"xapp-[0-9]-[A-Z0-9]+-[0-9]+-[a-z0-9]+", "Slack App-Level Token", 0, "CWE-798"),
+    (
+        r"xoxb-[0-9]{10,13}-[0-9]{10,13}[a-zA-Z0-9\-]*",
+        "Slack Bot Token",
+        0,
+        "CWE-798",
+    ),
+    (
+        r"xoxp-[0-9]{10,13}-[0-9]{10,13}[a-zA-Z0-9\-]*",
+        "Slack User Token",
+        0,
+        "CWE-798",
+    ),
+    (
+        r"xapp-[0-9]-[A-Z0-9]+-[0-9]+-[a-z0-9]+",
+        "Slack App-Level Token",
+        0,
+        "CWE-798",
+    ),
     // -- Communication: Webhooks --
-    (r"https://hooks\.slack\.com/services/T[a-zA-Z0-9_]{8,}/B[a-zA-Z0-9_]{8,}/[a-zA-Z0-9_]{24}", "Slack Webhook URL", 1, "CWE-798"),
-    (r"https://discord(?:app)?\.com/api/webhooks/[0-9]+/[a-zA-Z0-9_\-]+", "Discord Webhook URL", 1, "CWE-798"),
+    (
+        r"https://hooks\.slack\.com/services/T[a-zA-Z0-9_]{8,}/B[a-zA-Z0-9_]{8,}/[a-zA-Z0-9_]{24}",
+        "Slack Webhook URL",
+        1,
+        "CWE-798",
+    ),
+    (
+        r"https://discord(?:app)?\.com/api/webhooks/[0-9]+/[a-zA-Z0-9_\-]+",
+        "Discord Webhook URL",
+        1,
+        "CWE-798",
+    ),
     // -- AI / LLM Providers --
-    (r"sk-proj-[A-Za-z0-9_\-]{48,}", "OpenAI API Key", 0, "CWE-798"),
-    (r"sk-ant-api03-[a-zA-Z0-9_\-]{90,}", "Anthropic API Key", 0, "CWE-798"),
-    (r"hf_[a-zA-Z0-9]{34,}", "HuggingFace Access Token", 1, "CWE-798"),
+    (
+        r"sk-proj-[A-Za-z0-9_\-]{48,}",
+        "OpenAI API Key",
+        0,
+        "CWE-798",
+    ),
+    (
+        r"sk-ant-api03-[a-zA-Z0-9_\-]{90,}",
+        "Anthropic API Key",
+        0,
+        "CWE-798",
+    ),
+    (
+        r"hf_[a-zA-Z0-9]{34,}",
+        "HuggingFace Access Token",
+        1,
+        "CWE-798",
+    ),
     // -- Email / SMS --
-    (r"SG\.[a-zA-Z0-9_\-]{22}\.[a-zA-Z0-9_\-]{43}", "SendGrid API Key", 0, "CWE-798"),
+    (
+        r"SG\.[a-zA-Z0-9_\-]{22}\.[a-zA-Z0-9_\-]{43}",
+        "SendGrid API Key",
+        0,
+        "CWE-798",
+    ),
     // -- Package Registries --
     (r"npm_[a-zA-Z0-9]{36}", "npm Access Token", 0, "CWE-798"),
     (r"pypi-[A-Za-z0-9_\-]{50,}", "PyPI API Token", 0, "CWE-798"),
     // -- E-commerce --
-    (r"shpat_[0-9a-fA-F]{32}", "Shopify Admin Access Token", 0, "CWE-798"),
-    (r"shpss_[0-9a-fA-F]{32}", "Shopify Shared Secret", 0, "CWE-798"),
-    (r"shpca_[0-9a-fA-F]{32}", "Shopify Custom App Token", 0, "CWE-798"),
-    (r"shppa_[0-9a-fA-F]{32}", "Shopify Private App Token", 0, "CWE-798"),
-    (r"sq0atp-[0-9A-Za-z_\-]{22}", "Square Access Token", 1, "CWE-798"),
-    (r"sq0csp-[0-9A-Za-z_\-]{43}", "Square OAuth Secret", 0, "CWE-798"),
+    (
+        r"shpat_[0-9a-fA-F]{32}",
+        "Shopify Admin Access Token",
+        0,
+        "CWE-798",
+    ),
+    (
+        r"shpss_[0-9a-fA-F]{32}",
+        "Shopify Shared Secret",
+        0,
+        "CWE-798",
+    ),
+    (
+        r"shpca_[0-9a-fA-F]{32}",
+        "Shopify Custom App Token",
+        0,
+        "CWE-798",
+    ),
+    (
+        r"shppa_[0-9a-fA-F]{32}",
+        "Shopify Private App Token",
+        0,
+        "CWE-798",
+    ),
+    (
+        r"sq0atp-[0-9A-Za-z_\-]{22}",
+        "Square Access Token",
+        1,
+        "CWE-798",
+    ),
+    (
+        r"sq0csp-[0-9A-Za-z_\-]{43}",
+        "Square OAuth Secret",
+        0,
+        "CWE-798",
+    ),
     // -- Cloud / Infrastructure --
-    (r"dop_v1_[a-z0-9]{64}", "DigitalOcean Personal Access Token", 0, "CWE-798"),
-    (r"hvs\.[a-zA-Z0-9]{24,}", "HashiCorp Vault Service Token", 0, "CWE-798"),
-    (r"hvb\.[a-zA-Z0-9]{24,}", "HashiCorp Vault Batch Token", 0, "CWE-798"),
+    (
+        r"dop_v1_[a-z0-9]{64}",
+        "DigitalOcean Personal Access Token",
+        0,
+        "CWE-798",
+    ),
+    (
+        r"hvs\.[a-zA-Z0-9]{24,}",
+        "HashiCorp Vault Service Token",
+        0,
+        "CWE-798",
+    ),
+    (
+        r"hvb\.[a-zA-Z0-9]{24,}",
+        "HashiCorp Vault Batch Token",
+        0,
+        "CWE-798",
+    ),
     // -- Monitoring / Observability --
     (r"NRAK-[A-Z0-9]{27}", "New Relic User API Key", 1, "CWE-798"),
-    (r"glsa_[a-zA-Z0-9_]{32,}", "Grafana Service Account Token", 1, "CWE-798"),
-    (r"glc_[a-zA-Z0-9+/=]{30,}", "Grafana Cloud API Token", 1, "CWE-798"),
-    (r"sntrys_[a-zA-Z0-9]{60,}", "Sentry Auth Token", 0, "CWE-798"),
+    (
+        r"glsa_[a-zA-Z0-9_]{32,}",
+        "Grafana Service Account Token",
+        1,
+        "CWE-798",
+    ),
+    (
+        r"glc_[a-zA-Z0-9+/=]{30,}",
+        "Grafana Cloud API Token",
+        1,
+        "CWE-798",
+    ),
+    (
+        r"sntrys_[a-zA-Z0-9]{60,}",
+        "Sentry Auth Token",
+        0,
+        "CWE-798",
+    ),
     // -- OAuth Tokens --
-    (r"ya29\.[0-9A-Za-z_\-]{30,}", "Google OAuth Access Token", 0, "CWE-798"),
-    (r"EAACEdEose0cBA[0-9A-Za-z]{20,}", "Facebook Access Token", 0, "CWE-798"),
+    (
+        r"ya29\.[0-9A-Za-z_\-]{30,}",
+        "Google OAuth Access Token",
+        0,
+        "CWE-798",
+    ),
+    (
+        r"EAACEdEose0cBA[0-9A-Za-z]{20,}",
+        "Facebook Access Token",
+        0,
+        "CWE-798",
+    ),
     // -- Other Services --
     (r"lin_api_[a-zA-Z0-9]{40}", "Linear API Key", 0, "CWE-798"),
-    (r"dp\.st\.[a-zA-Z0-9._\-]{40,}", "Doppler Service Token", 0, "CWE-798"),
+    (
+        r"dp\.st\.[a-zA-Z0-9._\-]{40,}",
+        "Doppler Service Token",
+        0,
+        "CWE-798",
+    ),
     (r"sbp_[a-f0-9]{40}", "Supabase Service Key", 0, "CWE-798"),
-    (r"cloudinary://[0-9]+:[a-zA-Z0-9_\-]+@[a-zA-Z0-9]+", "Cloudinary Credentials URL", 0, "CWE-798"),
-    (r"AAAA[A-Za-z0-9_\-]{7}:[A-Za-z0-9_\-]{140}", "Firebase Cloud Messaging Key", 1, "CWE-798"),
+    (
+        r"cloudinary://[0-9]+:[a-zA-Z0-9_\-]+@[a-zA-Z0-9]+",
+        "Cloudinary Credentials URL",
+        0,
+        "CWE-798",
+    ),
+    (
+        r"AAAA[A-Za-z0-9_\-]{7}:[A-Za-z0-9_\-]{140}",
+        "Firebase Cloud Messaging Key",
+        1,
+        "CWE-798",
+    ),
     // -- Email (Mailgun) --
     (r"key-[0-9a-f]{32}", "Mailgun API Key", 0, "CWE-798"),
 ];
@@ -570,10 +730,9 @@ fn detect_hardcoded_passwords(body: &str) -> Vec<SecretMatch> {
             }
             matches.push(SecretMatch {
                 title: "Hardcoded Password".to_string(),
-                description:
-                    "A hardcoded password was found in the page source. \
+                description: "A hardcoded password was found in the page source. \
                     Credentials in client-side code can be extracted by any visitor."
-                        .to_string(),
+                    .to_string(),
                 severity: Severity::High,
                 confidence: Confidence::Tentative,
                 cwe: "CWE-798",
@@ -622,11 +781,7 @@ fn detect_credential_pairs(body: &str) -> Vec<SecretMatch> {
             severity: Severity::Critical,
             confidence: Confidence::Confirmed,
             cwe: "CWE-798",
-            evidence: format!(
-                "Credentials: {} / {}",
-                email,
-                truncate_secret(password)
-            ),
+            evidence: format!("Credentials: {} / {}", email, truncate_secret(password)),
             raw_value: None,
         });
     }
@@ -854,7 +1009,14 @@ fn detect_js_config_secrets(body: &str) -> Vec<SecretMatch> {
         Err(_) => return matches,
     };
 
-    let sensitive_keywords = ["KEY", "SECRET", "TOKEN", "PASSWORD", "PRIVATE", "CREDENTIAL"];
+    let sensitive_keywords = [
+        "KEY",
+        "SECRET",
+        "TOKEN",
+        "PASSWORD",
+        "PRIVATE",
+        "CREDENTIAL",
+    ];
 
     for cap in env_re.captures_iter(body) {
         let full_match = cap.get(0).expect("full match");
@@ -898,8 +1060,17 @@ fn detect_js_config_secrets(body: &str) -> Vec<SecretMatch> {
     };
 
     let safe_env_vars = [
-        "NODE_ENV", "PORT", "HOST", "DEBUG", "HOSTNAME", "HOME", "PATH", "LANG", "TZ",
-        "PUBLIC_URL", "BASE_URL",
+        "NODE_ENV",
+        "PORT",
+        "HOST",
+        "DEBUG",
+        "HOSTNAME",
+        "HOME",
+        "PATH",
+        "LANG",
+        "TZ",
+        "PUBLIC_URL",
+        "BASE_URL",
     ];
     let mut seen_vars: HashSet<String> = HashSet::new();
 
@@ -1204,8 +1375,8 @@ async fn verify_http_basic_auth(
     username: &str,
     password: &str,
 ) -> VerificationResult {
-    let credentials = base64::engine::general_purpose::STANDARD
-        .encode(format!("{username}:{password}"));
+    let credentials =
+        base64::engine::general_purpose::STANDARD.encode(format!("{username}:{password}"));
     verify_http_get(
         client,
         url,
@@ -1272,10 +1443,23 @@ async fn verify_slack_token(client: &reqwest::Client, token: &str) -> Verificati
 
 /// Common weak secrets used for HS256 JWT signing
 const WEAK_JWT_SECRETS: &[&str] = &[
-    "secret", "password", "123456", "key", "private",
-    "default", "changeme", "admin", "test", "jwt_secret",
-    "your-256-bit-secret", "shhhhh", "supersecret",
-    "my-secret", "mysecret", "s3cr3t", "qwerty",
+    "secret",
+    "password",
+    "123456",
+    "key",
+    "private",
+    "default",
+    "changeme",
+    "admin",
+    "test",
+    "jwt_secret",
+    "your-256-bit-secret",
+    "shhhhh",
+    "supersecret",
+    "my-secret",
+    "mysecret",
+    "s3cr3t",
+    "qwerty",
 ];
 
 /// Try common weak secrets against a HS256-signed JWT.
@@ -1324,12 +1508,10 @@ fn verify_jwt_expiration(token: &str) -> VerificationResult {
     let payload = parts[1];
     let decoded = match base64::engine::general_purpose::URL_SAFE_NO_PAD.decode(payload) {
         Ok(d) => d,
-        Err(_) => {
-            match base64::engine::general_purpose::STANDARD.decode(payload) {
-                Ok(d) => d,
-                Err(_) => return VerificationResult::Unknown,
-            }
-        }
+        Err(_) => match base64::engine::general_purpose::STANDARD.decode(payload) {
+            Ok(d) => d,
+            Err(_) => return VerificationResult::Unknown,
+        },
     };
     let json_str = match std::str::from_utf8(&decoded) {
         Ok(s) => s,
@@ -1352,7 +1534,9 @@ fn verify_jwt_expiration(token: &str) -> VerificationResult {
         details_parts.push(format!("aud={aud}"));
     }
     if let Some(sub) = json.get("sub") {
-        let sub_str = sub.as_str().map(|s| s.to_string())
+        let sub_str = sub
+            .as_str()
+            .map(|s| s.to_string())
             .unwrap_or_else(|| sub.to_string());
         details_parts.push(format!("sub={sub_str}"));
     }
@@ -1372,7 +1556,8 @@ fn verify_jwt_expiration(token: &str) -> VerificationResult {
                 if a.eq_ignore_ascii_case("HS256") {
                     if let Some(weak_secret) = try_weak_jwt_secrets(token) {
                         details_parts.push(format!(
-                            "CRITICAL: signed with weak secret '{}'", weak_secret
+                            "CRITICAL: signed with weak secret '{}'",
+                            weak_secret
                         ));
                         return VerificationResult::JwtDecoded {
                             status: format!("CRITICAL: weak secret '{}'", weak_secret),
@@ -1576,10 +1761,7 @@ fn resolve_map_url(js_url: &str, map_ref: &str) -> String {
 // ---------------------------------------------------------------------------
 
 /// Scan exposed .git directory for secrets in config and reflog
-async fn scan_git_exposure(
-    client: &HttpClient,
-    base_url: &str,
-) -> Vec<(String, SecretMatch)> {
+async fn scan_git_exposure(client: &HttpClient, base_url: &str) -> Vec<(String, SecretMatch)> {
     let mut results = Vec::new();
     let base = base_url.trim_end_matches('/');
 
@@ -1594,34 +1776,48 @@ async fn scan_git_exposure(
                     for cap in re.captures_iter(&body) {
                         if let Some(token_match) = cap.get(1) {
                             let token = token_match.as_str();
-                            if !is_placeholder(token) && shannon_entropy(token) >= MIN_ENTROPY_GENERIC {
-                                results.push((config_url.clone(), SecretMatch {
-                                    title: "Git Config: Credentials in Remote URL".to_string(),
-                                    description: "The .git/config file is publicly accessible and \
+                            if !is_placeholder(token)
+                                && shannon_entropy(token) >= MIN_ENTROPY_GENERIC
+                            {
+                                results.push((
+                                    config_url.clone(),
+                                    SecretMatch {
+                                        title: "Git Config: Credentials in Remote URL".to_string(),
+                                        description:
+                                            "The .git/config file is publicly accessible and \
                                         contains credentials embedded in a remote URL. This allows \
-                                        access to the source code repository.".to_string(),
-                                    severity: Severity::Critical,
-                                    confidence: Confidence::Confirmed,
-                                    cwe: "CWE-540",
-                                    evidence: format!("Token in .git/config remote URL: {}", truncate_secret(token)),
-                                    raw_value: Some(token.to_string()),
-                                }));
+                                        access to the source code repository."
+                                                .to_string(),
+                                        severity: Severity::Critical,
+                                        confidence: Confidence::Confirmed,
+                                        cwe: "CWE-540",
+                                        evidence: format!(
+                                            "Token in .git/config remote URL: {}",
+                                            truncate_secret(token)
+                                        ),
+                                        raw_value: Some(token.to_string()),
+                                    },
+                                ));
                             }
                         }
                     }
                 }
 
                 // Also report .git/config exposure itself if it looks valid
-                results.push((config_url.clone(), SecretMatch {
-                    title: "Git Configuration File Exposed".to_string(),
-                    description: "The .git/config file is publicly accessible. This reveals \
-                        repository structure, remote URLs, and potentially credentials.".to_string(),
-                    severity: Severity::High,
-                    confidence: Confidence::Confirmed,
-                    cwe: "CWE-540",
-                    evidence: format!(".git/config accessible at {}", config_url),
-                    raw_value: None,
-                }));
+                results.push((
+                    config_url.clone(),
+                    SecretMatch {
+                        title: "Git Configuration File Exposed".to_string(),
+                        description: "The .git/config file is publicly accessible. This reveals \
+                        repository structure, remote URLs, and potentially credentials."
+                            .to_string(),
+                        severity: Severity::High,
+                        confidence: Confidence::Confirmed,
+                        cwe: "CWE-540",
+                        evidence: format!(".git/config accessible at {}", config_url),
+                        raw_value: None,
+                    },
+                ));
             }
         }
     }
@@ -1733,12 +1929,20 @@ impl super::Scanner for SecretsScanner {
             let result = verify_secret(&secret.title, &raw).await;
             match result {
                 VerificationResult::Valid => {
-                    debug!("Secrets: verified VALID — {}: {}", secret.title, truncate_secret(&raw));
+                    debug!(
+                        "Secrets: verified VALID — {}: {}",
+                        secret.title,
+                        truncate_secret(&raw)
+                    );
                     secret.confidence = Confidence::Confirmed;
                     secret.evidence = format!("{} [verified: active]", secret.evidence);
                 }
                 VerificationResult::Invalid => {
-                    debug!("Secrets: verified INVALID (rotated) — {}: {}", secret.title, truncate_secret(&raw));
+                    debug!(
+                        "Secrets: verified INVALID (rotated) — {}: {}",
+                        secret.title,
+                        truncate_secret(&raw)
+                    );
                     // Mark for removal by setting a sentinel title
                     secret.title = String::new();
                 }

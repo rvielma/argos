@@ -206,9 +206,8 @@ async fn test_sqli_error_based_detection() {
     Mock::given(method("GET"))
         .and(path("/search"))
         .respond_with(
-            ResponseTemplate::new(200).set_body_string(
-                "You have an error in your SQL syntax near 'test' at line 1",
-            ),
+            ResponseTemplate::new(200)
+                .set_body_string("You have an error in your SQL syntax near 'test' at line 1"),
         )
         .mount(&mock_server)
         .await;
@@ -565,11 +564,9 @@ async fn test_ssti_no_finding_when_49_in_baseline() {
     // so the scanner should NOT flag it as SSTI.
     Mock::given(method("GET"))
         .and(path("/render"))
-        .respond_with(
-            ResponseTemplate::new(200).set_body_string(
-                "<html><body><p>Item count: 1337 products available</p></body></html>",
-            ),
-        )
+        .respond_with(ResponseTemplate::new(200).set_body_string(
+            "<html><body><p>Item count: 1337 products available</p></body></html>",
+        ))
         .mount(&mock_server)
         .await;
 
@@ -592,10 +589,7 @@ async fn test_ssti_no_finding_when_49_in_baseline() {
     assert!(
         ssti_findings.is_empty(),
         "Should NOT report SSTI when '1337' is already in the baseline. Found: {:?}",
-        ssti_findings
-            .iter()
-            .map(|f| &f.title)
-            .collect::<Vec<_>>()
+        ssti_findings.iter().map(|f| &f.title).collect::<Vec<_>>()
     );
 }
 
@@ -620,21 +614,18 @@ async fn test_command_injection_detection() {
     Mock::given(method("GET"))
         .and(path("/ping"))
         .and(query_param("host", "argosbaselinetest123"))
-        .respond_with(
-            ResponseTemplate::new(200)
-                .set_body_string("<html><body><pre>PING argosbaselinetest123: unknown host</pre></body></html>"),
-        )
+        .respond_with(ResponseTemplate::new(200).set_body_string(
+            "<html><body><pre>PING argosbaselinetest123: unknown host</pre></body></html>",
+        ))
         .mount(&mock_server)
         .await;
 
     // Other requests to /ping return command output (simulating injection)
     Mock::given(method("GET"))
         .and(path("/ping"))
-        .respond_with(
-            ResponseTemplate::new(200).set_body_string(
-                "<html><body><pre>uid=1000(user) gid=1000(user) groups=1000(user)</pre></body></html>",
-            ),
-        )
+        .respond_with(ResponseTemplate::new(200).set_body_string(
+            "<html><body><pre>uid=1000(user) gid=1000(user) groups=1000(user)</pre></body></html>",
+        ))
         .mount(&mock_server)
         .await;
 
@@ -678,11 +669,9 @@ async fn test_command_injection_baseline_filter() {
     // so the scanner should NOT report it.
     Mock::given(method("GET"))
         .and(path("/info"))
-        .respond_with(
-            ResponseTemplate::new(200).set_body_string(
-                "<html><body><pre>uid=1000(webuser) gid=1000(webuser)</pre></body></html>",
-            ),
-        )
+        .respond_with(ResponseTemplate::new(200).set_body_string(
+            "<html><body><pre>uid=1000(webuser) gid=1000(webuser)</pre></body></html>",
+        ))
         .mount(&mock_server)
         .await;
 
@@ -705,10 +694,7 @@ async fn test_command_injection_baseline_filter() {
     assert!(
         cmd_findings.is_empty(),
         "Should NOT report command injection when pattern exists in baseline. Found: {:?}",
-        cmd_findings
-            .iter()
-            .map(|f| &f.title)
-            .collect::<Vec<_>>()
+        cmd_findings.iter().map(|f| &f.title).collect::<Vec<_>>()
     );
 }
 
@@ -733,11 +719,9 @@ async fn test_path_traversal_detection() {
     // so all requests to /download return /etc/passwd content.
     Mock::given(method("GET"))
         .and(path("/download"))
-        .respond_with(
-            ResponseTemplate::new(200).set_body_string(
-                "root:x:0:0:root:/root:/bin/bash\ndaemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin",
-            ),
-        )
+        .respond_with(ResponseTemplate::new(200).set_body_string(
+            "root:x:0:0:root:/root:/bin/bash\ndaemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin",
+        ))
         .mount(&mock_server)
         .await;
 
@@ -760,6 +744,81 @@ async fn test_path_traversal_detection() {
     assert!(
         !pt_findings.is_empty(),
         "Should detect path traversal (root:x:0:0: pattern). All findings: {:?}",
+        findings.iter().map(|f| &f.title).collect::<Vec<_>>()
+    );
+}
+
+// --- Anti-FP helper tests (P0/P1 improvements) ---
+
+#[test]
+fn test_normalize_body_strips_volatile_tokens() {
+    let a = r#"<input name="csrf_token" value="abc123def456"><p>2026-01-15 10:30:00</p><span>id:9876543210</span>"#;
+    let b = r#"<input name="csrf_token" value="zzz999yyy888"><p>2026-02-20 11:45:12</p><span>id:1234509876</span>"#;
+    // Two responses that differ only in volatile tokens must normalize to the same length.
+    let na = InjectionScanner::normalize_body(a);
+    let nb = InjectionScanner::normalize_body(b);
+    assert_eq!(
+        na.len(),
+        nb.len(),
+        "Volatile tokens should be stripped so lengths match.\nA: {na}\nB: {nb}"
+    );
+}
+
+#[test]
+fn test_similar_len_tolerance() {
+    assert!(InjectionScanner::similar_len(1000, 1020, 32));
+    assert!(!InjectionScanner::similar_len(1000, 1100, 32));
+    assert!(InjectionScanner::similar_len(500, 500, 0));
+}
+
+#[tokio::test]
+async fn test_sqli_boolean_no_fp_on_volatile_tokens() {
+    // A page that is NOT vulnerable but whose body changes on every request (a rotating
+    // CSRF token) must not be flagged as boolean-based SQLi.
+    let mock_server = MockServer::start().await;
+
+    Mock::given(method("GET"))
+        .and(path("/"))
+        .respond_with(ResponseTemplate::new(200).set_body_string(
+            r#"<html><body><form action="/item"><input name="id" type="text"/></form></body></html>"#,
+        ))
+        .mount(&mock_server)
+        .await;
+
+    // Every /item response carries a different long token but is otherwise identical.
+    // Served to baseline (benign), true and false payloads alike.
+    let counter = std::sync::Arc::new(std::sync::atomic::AtomicU64::new(0));
+    Mock::given(method("GET"))
+        .and(path("/item"))
+        .respond_with(move |_req: &wiremock::Request| {
+            let n = counter.fetch_add(1, std::sync::atomic::Ordering::SeqCst) + 1;
+            let token = format!("{:040x}", n.wrapping_mul(2654435761));
+            ResponseTemplate::new(200).set_body_string(format!(
+                "<html><body><p>Item page</p><input name=\"csrf\" value=\"{token}\"></body></html>"
+            ))
+        })
+        .mount(&mock_server)
+        .await;
+
+    let config = test_config(&mock_server.uri());
+    let client = HttpClient::from_config(&config)
+        .await
+        .expect("Failed to create client");
+    let scanner = InjectionScanner;
+
+    let findings = scanner
+        .scan(&client, &config, &[])
+        .await
+        .expect("Scan failed");
+
+    let boolean_fp: Vec<_> = findings
+        .iter()
+        .filter(|f| f.title.contains("Boolean-Based"))
+        .collect();
+
+    assert!(
+        boolean_fp.is_empty(),
+        "Volatile-token-only differences must not be flagged as boolean SQLi. Findings: {:?}",
         findings.iter().map(|f| &f.title).collect::<Vec<_>>()
     );
 }

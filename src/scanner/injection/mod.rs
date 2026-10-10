@@ -24,7 +24,12 @@ use url::Url;
 use serde_json;
 
 /// Represents a prepared test request: (method, url, headers, optional body)
-pub type TestRequest = (reqwest::Method, String, Vec<(String, String)>, Option<String>);
+pub type TestRequest = (
+    reqwest::Method,
+    String,
+    Vec<(String, String)>,
+    Option<String>,
+);
 
 /// Detects injection vulnerabilities across multiple categories
 pub struct InjectionScanner;
@@ -59,6 +64,11 @@ pub struct InjectionPoint {
 #[derive(Debug, Clone)]
 pub struct BaselineResponse {
     pub body: String,
+    /// Length of the body after stripping volatile tokens (CSRF, nonces, timestamps).
+    pub norm_len: usize,
+    /// Observed |max-min| raw body length across benign samples (natural page variance).
+    pub len_variance: usize,
+    /// Minimum elapsed time across benign samples, in milliseconds.
     pub elapsed_ms: u64,
 }
 
@@ -201,7 +211,8 @@ impl InjectionScanner {
                 if !params.is_empty() {
                     let is_post = method == "post" || method == "put" || method == "delete";
                     let (point_type, original_body) = if is_post {
-                        let body = default_values.iter()
+                        let body = default_values
+                            .iter()
                             .map(|(k, v)| format!("{k}={v}"))
                             .collect::<Vec<_>>()
                             .join("&");
@@ -224,7 +235,8 @@ impl InjectionScanner {
             if Self::is_oauth_url(base_url) {
                 return points;
             }
-            let params: Vec<String> = parsed.query_pairs()
+            let params: Vec<String> = parsed
+                .query_pairs()
                 .map(|(k, _)| k.to_string())
                 .filter(|k| !k.is_empty() && !Self::is_security_param(k))
                 .collect();
@@ -270,11 +282,11 @@ impl InjectionScanner {
                                 continue;
                             }
                         }
-                        let params: Vec<String> =
-                            parsed.query_pairs()
-                                .map(|(k, _)| k.to_string())
-                                .filter(|k| !k.is_empty() && !Self::is_security_param(k))
-                                .collect();
+                        let params: Vec<String> = parsed
+                            .query_pairs()
+                            .map(|(k, _)| k.to_string())
+                            .filter(|k| !k.is_empty() && !Self::is_security_param(k))
+                            .collect();
                         if !params.is_empty() {
                             points.push(InjectionPoint {
                                 url: full_url,
@@ -308,13 +320,17 @@ impl InjectionScanner {
                 })
                 .collect();
 
-            let params: Vec<String> = usable_inputs.iter().map(|(name, _, _)| name.clone()).collect();
+            let params: Vec<String> = usable_inputs
+                .iter()
+                .map(|(name, _, _)| name.clone())
+                .collect();
 
             if !params.is_empty() && !Self::is_oauth_url(&form.action) {
                 let method = form.method.to_lowercase();
                 let is_post = method == "post" || method == "put" || method == "delete";
                 let (point_type, original_body) = if is_post {
-                    let body = usable_inputs.iter()
+                    let body = usable_inputs
+                        .iter()
                         .map(|(name, _, value)| {
                             let val = value.as_deref().unwrap_or("test");
                             format!("{name}={val}")
@@ -385,11 +401,48 @@ impl InjectionScanner {
     ) -> Option<BaselineResponse> {
         let benign_value = "argosbaselinetest123";
         let test_url = Self::build_test_url(url, param, benign_value)?;
-        let start = std::time::Instant::now();
-        let resp = client.get(&test_url).await.ok()?;
-        let elapsed_ms = start.elapsed().as_millis() as u64;
-        let body = resp.text().await.unwrap_or_default();
-        Some(BaselineResponse { body, elapsed_ms })
+
+        // Sample the benign response several times to learn the page's natural
+        // variance (dynamic content, rotating banners) and its fastest latency.
+        let mut bodies: Vec<String> = Vec::new();
+        let mut min_ms = u64::MAX;
+        for _ in 0..3 {
+            let start = std::time::Instant::now();
+            let resp = match client.get(&test_url).await {
+                Ok(r) => r,
+                Err(_) => continue,
+            };
+            let elapsed_ms = start.elapsed().as_millis() as u64;
+            min_ms = min_ms.min(elapsed_ms);
+            bodies.push(resp.text().await.unwrap_or_default());
+        }
+        if bodies.is_empty() {
+            return None;
+        }
+
+        Some(Self::build_baseline(bodies, min_ms))
+    }
+
+    /// Builds a `BaselineResponse` from one or more benign-response samples,
+    /// computing the normalized length and the observed raw-length variance.
+    fn build_baseline(bodies: Vec<String>, elapsed_ms: u64) -> BaselineResponse {
+        let min_len = bodies.iter().map(|b| b.len()).min().unwrap_or(0);
+        let max_len = bodies.iter().map(|b| b.len()).max().unwrap_or(0);
+        let len_variance = max_len - min_len;
+        // Keep the last sample as the representative body for content checks.
+        let body = bodies.into_iter().next_back().unwrap_or_default();
+        let norm_len = Self::normalize_body(&body).len();
+        let elapsed_ms = if elapsed_ms == u64::MAX {
+            0
+        } else {
+            elapsed_ms
+        };
+        BaselineResponse {
+            body,
+            norm_len,
+            len_variance,
+            elapsed_ms,
+        }
     }
 
     /// Headers commonly injectable by attackers
@@ -417,7 +470,10 @@ impl InjectionScanner {
     }
 
     /// Extracts cookie-based injection points from response Set-Cookie headers
-    pub fn extract_cookie_points(url: &str, set_cookie_headers: &[String]) -> Option<InjectionPoint> {
+    pub fn extract_cookie_points(
+        url: &str,
+        set_cookie_headers: &[String],
+    ) -> Option<InjectionPoint> {
         let mut cookie_names = Vec::new();
         for header in set_cookie_headers {
             // Parse "name=value; ..." format
@@ -492,31 +548,46 @@ impl InjectionScanner {
                     orig.split('&')
                         .filter_map(|pair| {
                             let mut parts = pair.splitn(2, '=');
-                            Some((parts.next()?.to_string(), parts.next().unwrap_or("").to_string()))
+                            Some((
+                                parts.next()?.to_string(),
+                                parts.next().unwrap_or("").to_string(),
+                            ))
                         })
                         .collect()
                 } else {
                     vec![]
                 };
                 let found = pairs.iter_mut().any(|(k, v)| {
-                    if k == param { *v = payload.to_string(); true } else { false }
+                    if k == param {
+                        *v = payload.to_string();
+                        true
+                    } else {
+                        false
+                    }
                 });
                 if !found {
                     pairs.push((param.to_string(), payload.to_string()));
                 }
-                let body = pairs.iter()
+                let body = pairs
+                    .iter()
                     .map(|(k, v)| format!("{k}={v}"))
                     .collect::<Vec<_>>()
                     .join("&");
-                let headers = vec![("Content-Type".to_string(), "application/x-www-form-urlencoded".to_string())];
-                Some((reqwest::Method::POST, point.url.clone(), headers, Some(body)))
+                let headers = vec![(
+                    "Content-Type".to_string(),
+                    "application/x-www-form-urlencoded".to_string(),
+                )];
+                Some((
+                    reqwest::Method::POST,
+                    point.url.clone(),
+                    headers,
+                    Some(body),
+                ))
             }
             PointType::JsonBody => {
                 let original = point.original_body.as_deref().unwrap_or("{}");
-                let mut parsed: serde_json::Value =
-                    serde_json::from_str(original).unwrap_or(serde_json::Value::Object(
-                        serde_json::Map::new(),
-                    ));
+                let mut parsed: serde_json::Value = serde_json::from_str(original)
+                    .unwrap_or(serde_json::Value::Object(serde_json::Map::new()));
                 if let Some(obj) = parsed.as_object_mut() {
                     obj.insert(
                         param.to_string(),
@@ -524,11 +595,13 @@ impl InjectionScanner {
                     );
                 }
                 let body = serde_json::to_string(&parsed).unwrap_or_default();
-                let headers = vec![(
-                    "Content-Type".to_string(),
-                    "application/json".to_string(),
-                )];
-                Some((reqwest::Method::POST, point.url.clone(), headers, Some(body)))
+                let headers = vec![("Content-Type".to_string(), "application/json".to_string())];
+                Some((
+                    reqwest::Method::POST,
+                    point.url.clone(),
+                    headers,
+                    Some(body),
+                ))
             }
         }
     }
@@ -561,7 +634,7 @@ impl InjectionScanner {
         let benign_value = "argosbaselinetest123";
         let (body, elapsed_ms) =
             Self::send_test_request(client, point, param, benign_value).await?;
-        Some(BaselineResponse { body, elapsed_ms })
+        Some(Self::build_baseline(vec![body], elapsed_ms))
     }
 
     /// Generic SQLi scan for non-QueryParam injection points (Header/Cookie/JsonBody)
@@ -577,12 +650,16 @@ impl InjectionScanner {
             for param in point.params.iter().take(4) {
                 let baseline = baselines.get(&(point.url.clone(), param.clone()));
                 for payload in &payloads {
-                    if let Some((body, _)) = Self::send_test_request(client, point, param, payload).await {
+                    if let Some((body, _)) =
+                        Self::send_test_request(client, point, param, payload).await
+                    {
                         if let Some(db_type) = Self::check_sql_errors(&body) {
                             let in_baseline = baseline
                                 .map(|bl| Self::check_sql_errors(&bl.body).is_some())
                                 .unwrap_or(false);
-                            if in_baseline { continue; }
+                            if in_baseline {
+                                continue;
+                            }
 
                             findings.push(
                                 Finding::new(
@@ -623,12 +700,16 @@ impl InjectionScanner {
             for param in point.params.iter().take(4) {
                 let baseline = baselines.get(&(point.url.clone(), param.clone()));
                 for payload in &payloads {
-                    if let Some((body, _)) = Self::send_test_request(client, point, param, payload).await {
+                    if let Some((body, _)) =
+                        Self::send_test_request(client, point, param, payload).await
+                    {
                         if body.contains(payload) {
                             let in_baseline = baseline
                                 .map(|bl| bl.body.contains(payload))
                                 .unwrap_or(false);
-                            if in_baseline { continue; }
+                            if in_baseline {
+                                continue;
+                            }
 
                             findings.push(
                                 Finding::new(
@@ -670,14 +751,19 @@ impl InjectionScanner {
                 let baseline = baselines.get(&(point.url.clone(), param.clone()));
                 for (payload, expected) in checks {
                     if let Some(bl) = baseline {
-                        if bl.body.contains(expected) { continue; }
+                        if bl.body.contains(expected) {
+                            continue;
+                        }
                     }
-                    if let Some((body, _)) = Self::send_test_request(client, point, param, payload).await {
+                    if let Some((body, _)) =
+                        Self::send_test_request(client, point, param, payload).await
+                    {
                         if body.contains(expected) && !body.contains(payload) {
                             // Anti-FP: if response body length is very similar to baseline,
                             // the server ignored our input (e.g., health endpoints with dynamic numbers)
                             if let Some(bl) = baseline {
-                                let bl_diff = (bl.body.len() as i64 - body.len() as i64).unsigned_abs();
+                                let bl_diff =
+                                    (bl.body.len() as i64 - body.len() as i64).unsigned_abs();
                                 if bl_diff < 100 {
                                     continue;
                                 }
@@ -686,14 +772,18 @@ impl InjectionScanner {
                             // Dynamic content (CSRF tokens, session IDs) may contain "49" intermittently
                             let mut confirmed_fp = false;
                             for benign in &["argossstitest999", "argossstitest888"] {
-                                if let Some((confirm_body, _)) = Self::send_test_request(client, point, param, benign).await {
+                                if let Some((confirm_body, _)) =
+                                    Self::send_test_request(client, point, param, benign).await
+                                {
                                     if confirm_body.contains(expected) {
                                         confirmed_fp = true;
                                         break;
                                     }
                                 }
                             }
-                            if confirmed_fp { continue; }
+                            if confirmed_fp {
+                                continue;
+                            }
                             findings.push(
                                 Finding::new(
                                     format!("SSTI via {:?} '{param}'", point.point_type),
@@ -733,14 +823,17 @@ impl InjectionScanner {
             for param in point.params.iter().take(4) {
                 let baseline = baselines.get(&(point.url.clone(), param.clone()));
                 'cmd: for payload in &payloads {
-                    if let Some((body, _)) = Self::send_test_request(client, point, param, payload).await {
+                    if let Some((body, _)) =
+                        Self::send_test_request(client, point, param, payload).await
+                    {
                         for (pattern, description) in patterns {
                             if let Ok(re) = Regex::new(pattern) {
                                 if re.is_match(&body) {
-                                    let in_baseline = baseline
-                                        .map(|bl| re.is_match(&bl.body))
-                                        .unwrap_or(false);
-                                    if in_baseline { continue; }
+                                    let in_baseline =
+                                        baseline.map(|bl| re.is_match(&bl.body)).unwrap_or(false);
+                                    if in_baseline {
+                                        continue;
+                                    }
 
                                     findings.push(
                                         Finding::new(
@@ -773,19 +866,20 @@ impl InjectionScanner {
         _baselines: &HashMap<(String, String), BaselineResponse>,
     ) -> Vec<Finding> {
         let mut findings = Vec::new();
-        let payloads = [
-            "%0d%0aX-Injected:%20argos",
-            "\r\nX-Injected: argos",
-        ];
+        let payloads = ["%0d%0aX-Injected:%20argos", "\r\nX-Injected: argos"];
 
         for point in points.iter().take(5) {
             for param in point.params.iter().take(3) {
                 for payload in &payloads {
-                    let (method, url, headers, body) = match Self::build_test_request(point, param, payload) {
-                        Some(r) => r,
-                        None => continue,
-                    };
-                    if let Ok(resp) = client.request(method, &url, &headers, body.as_deref()).await {
+                    let (method, url, headers, body) =
+                        match Self::build_test_request(point, param, payload) {
+                            Some(r) => r,
+                            None => continue,
+                        };
+                    if let Ok(resp) = client
+                        .request(method, &url, &headers, body.as_deref())
+                        .await
+                    {
                         let has_injected = resp
                             .headers()
                             .get("x-injected")
@@ -818,6 +912,39 @@ impl InjectionScanner {
     }
 
     /// Checks response body for SQL error patterns and returns the DB type
+    /// Strips volatile tokens (CSRF tokens, nonces, timestamps, long digit runs,
+    /// hex ids) from a body so two responses can be compared for structural
+    /// similarity instead of raw bytes. Reduces false positives caused by content
+    /// that changes on every request.
+    pub fn normalize_body(body: &str) -> String {
+        // Compiled once per call; patterns are static literals so Regex::new never fails,
+        // but we fall back to the original fragment if it ever did.
+        let patterns = [
+            // name="csrf"/"token"/"nonce"/"_ts"/"viewstate" value="..."
+            r#"(?i)(csrf|token|nonce|_ts|timestamp|viewstate|authenticity)[^=]{0,20}=\s*["'][^"']*["']"#,
+            // JSON-ish "token": "..."
+            r#"(?i)"(csrf|token|nonce|timestamp|viewstate)"\s*:\s*"[^"]*""#,
+            // ISO timestamps and long digit runs
+            r"\d{4}-\d{2}-\d{2}[ T]\d{2}:\d{2}:\d{2}",
+            r"\d{8,}",
+            // long hex ids (session ids, uuids without dashes)
+            r"\b[0-9a-fA-F]{24,}\b",
+        ];
+        let mut out = body.to_string();
+        for p in patterns {
+            if let Ok(re) = Regex::new(p) {
+                out = re.replace_all(&out, "").into_owned();
+            }
+        }
+        out
+    }
+
+    /// True if two normalized bodies are structurally similar in size, i.e. their
+    /// length differs by no more than `tolerance` bytes.
+    pub fn similar_len(a_len: usize, b_len: usize, tolerance: usize) -> bool {
+        a_len.abs_diff(b_len) <= tolerance
+    }
+
     pub fn check_sql_errors(body: &str) -> Option<&'static str> {
         let patterns: &[(&str, &str)] = &[
             (r"(?i)you have an error in your sql syntax", "MySQL"),
@@ -963,7 +1090,9 @@ impl super::Scanner for InjectionScanner {
 
         // Deduplicate query param points by URL
         injection_points.sort_by(|a, b| {
-            a.url.cmp(&b.url).then(format!("{:?}", a.point_type).cmp(&format!("{:?}", b.point_type)))
+            a.url
+                .cmp(&b.url)
+                .then(format!("{:?}", a.point_type).cmp(&format!("{:?}", b.point_type)))
         });
         injection_points.dedup_by(|a, b| a.url == b.url && a.point_type == b.point_type);
 
@@ -983,9 +1112,7 @@ impl super::Scanner for InjectionScanner {
                     PointType::QueryParam => {
                         InjectionScanner::get_baseline(client, &point.url, param).await
                     }
-                    _ => {
-                        InjectionScanner::get_baseline_generic(client, point, param).await
-                    }
+                    _ => InjectionScanner::get_baseline_generic(client, point, param).await,
                 };
                 if let Some(bl) = baseline {
                     baselines.insert((point.url.clone(), param.clone()), bl);
@@ -1034,8 +1161,7 @@ impl super::Scanner for InjectionScanner {
         let pt_findings = path_traversal::scan(client, &query_points).await;
         findings.extend(pt_findings);
 
-        let redirect_findings =
-            open_redirect::scan(client, &query_points, &baselines).await;
+        let redirect_findings = open_redirect::scan(client, &query_points, &baselines).await;
         findings.extend(redirect_findings);
 
         let crlf_findings = crlf::scan(client, &query_points, &baselines).await;
@@ -1066,7 +1192,10 @@ impl super::Scanner for InjectionScanner {
 
         // --- FormBody points (POST forms) ---
         if !form_body_points.is_empty() {
-            info!("Testing {} POST form injection points", form_body_points.len());
+            info!(
+                "Testing {} POST form injection points",
+                form_body_points.len()
+            );
             let form_sqli = Self::generic_sqli_scan(client, &form_body_points, &baselines).await;
             findings.extend(form_sqli);
             let form_xss = Self::generic_xss_scan(client, &form_body_points, &baselines).await;

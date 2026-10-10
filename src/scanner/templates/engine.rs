@@ -77,8 +77,7 @@ pub async fn execute_template(
                 // Evaluate version matchers separately (they need access to variables)
                 for m in &request.matchers {
                     if m.matcher_type == "version" {
-                        let ver_result =
-                            matcher::evaluate_version_matcher(m, &variables);
+                        let ver_result = matcher::evaluate_version_matcher(m, &variables);
                         if !ver_result.matched {
                             result.matched = false;
                         }
@@ -98,7 +97,11 @@ pub async fn execute_template(
                     if request.stop_at_first_match {
                         let severity = parse_severity(&template.severity);
                         let confidence = parse_confidence(&template.confidence);
-                        let category = if template.category.is_empty() { "Template" } else { &template.category };
+                        let category = if template.category.is_empty() {
+                            "Template"
+                        } else {
+                            &template.category
+                        };
                         let recommendation = super::category_recommendation(category, &template.id);
                         let finding = Finding::new(
                             format!("{}: {}", template.id, template.name),
@@ -133,7 +136,11 @@ pub async fn execute_template(
     if all_matched && !combined_evidence.is_empty() {
         let severity = parse_severity(&template.severity);
         let confidence = parse_confidence(&template.confidence);
-        let category = if template.category.is_empty() { "Template" } else { &template.category };
+        let category = if template.category.is_empty() {
+            "Template"
+        } else {
+            &template.category
+        };
         let recommendation = super::category_recommendation(category, &template.id);
         let finding = Finding::new(
             format!("{}: {}", template.id, template.name),
@@ -305,7 +312,11 @@ pub fn evaluate_template_against_response(
     if result.matched {
         let severity = parse_severity(&template.severity);
         let confidence = parse_confidence(&template.confidence);
-        let category = if template.category.is_empty() { "Template" } else { &template.category };
+        let category = if template.category.is_empty() {
+            "Template"
+        } else {
+            &template.category
+        };
         let recommendation = super::category_recommendation(category, &template.id);
         let finding = Finding::new(
             format!("{}: {}", template.id, template.name),

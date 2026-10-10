@@ -58,7 +58,8 @@ pub async fn scan(
                             // Anti-FP: if response body length is very similar to baseline,
                             // the server ignored our input (e.g., endpoints with dynamic numbers)
                             if let Some(bl) = baseline {
-                                let bl_diff = (bl.body.len() as i64 - resp_body.len() as i64).unsigned_abs();
+                                let bl_diff =
+                                    (bl.body.len() as i64 - resp_body.len() as i64).unsigned_abs();
                                 if bl_diff < 100 {
                                     continue;
                                 }
@@ -68,9 +69,12 @@ pub async fn scan(
                             // Two independent checks reduce FP probability from ~50% to ~25%
                             let mut confirmed_fp = false;
                             for benign in &["argossstitest999", "argossstitest888"] {
-                                if let Some(confirm_url) = InjectionScanner::build_test_url(&point.url, param, benign) {
+                                if let Some(confirm_url) =
+                                    InjectionScanner::build_test_url(&point.url, param, benign)
+                                {
                                     if let Ok(confirm_resp) = client.get(&confirm_url).await {
-                                        let confirm_body = confirm_resp.text().await.unwrap_or_default();
+                                        let confirm_body =
+                                            confirm_resp.text().await.unwrap_or_default();
                                         if confirm_body.contains(expected) {
                                             confirmed_fp = true;
                                             break;
@@ -78,7 +82,9 @@ pub async fn scan(
                                     }
                                 }
                             }
-                            if confirmed_fp { continue; }
+                            if confirmed_fp {
+                                continue;
+                            }
                             findings.push(
                                 Finding::new(
                                     format!("Server-Side Template Injection in '{param}'"),

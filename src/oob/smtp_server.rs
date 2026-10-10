@@ -57,9 +57,7 @@ async fn handle_smtp_session(
         raw_lines.push(line.trim().to_string());
 
         if trimmed.starts_with("EHLO") || trimmed.starts_with("HELO") {
-            writer
-                .write_all(b"250 argos Hello\r\n")
-                .await?;
+            writer.write_all(b"250 argos Hello\r\n").await?;
         } else if trimmed.starts_with("MAIL FROM") {
             writer.write_all(b"250 OK\r\n").await?;
         } else if trimmed.starts_with("RCPT TO") {

@@ -2,15 +2,15 @@
 
 use argos::http::{AuthConfig, HttpClient};
 use argos::models::ScanConfig;
+use argos::scanner::api::ApiScanner;
 use argos::scanner::cookies::CookiesScanner;
 use argos::scanner::cors::CorsScanner;
-use argos::scanner::info_disclosure::InfoDisclosureScanner;
 use argos::scanner::discovery::DiscoveryScanner;
-use argos::scanner::api::ApiScanner;
+use argos::scanner::info_disclosure::InfoDisclosureScanner;
 use argos::scanner::waf::WafScanner;
 use argos::scanner::Scanner;
 use std::collections::HashMap;
-use wiremock::matchers::{method, path, header};
+use wiremock::matchers::{header, method, path};
 use wiremock::{Mock, MockServer, ResponseTemplate};
 
 fn test_config(target: &str) -> ScanConfig {
@@ -51,7 +51,9 @@ async fn test_cookies_missing_secure() {
 
     let findings = scanner.scan(&client, &config, &[]).await.expect("scan");
 
-    let secure_finding = findings.iter().find(|f| f.title.contains("Missing Secure Flag"));
+    let secure_finding = findings
+        .iter()
+        .find(|f| f.title.contains("Missing Secure Flag"));
     assert!(
         secure_finding.is_some(),
         "Expected finding for missing Secure flag, got: {:?}",
@@ -77,7 +79,9 @@ async fn test_cookies_missing_httponly() {
 
     let findings = scanner.scan(&client, &config, &[]).await.expect("scan");
 
-    let httponly_finding = findings.iter().find(|f| f.title.contains("Missing HttpOnly Flag"));
+    let httponly_finding = findings
+        .iter()
+        .find(|f| f.title.contains("Missing HttpOnly Flag"));
     assert!(
         httponly_finding.is_some(),
         "Expected finding for missing HttpOnly flag, got: {:?}",
@@ -103,7 +107,9 @@ async fn test_cookies_missing_samesite() {
 
     let findings = scanner.scan(&client, &config, &[]).await.expect("scan");
 
-    let samesite_finding = findings.iter().find(|f| f.title.contains("Missing SameSite"));
+    let samesite_finding = findings
+        .iter()
+        .find(|f| f.title.contains("Missing SameSite"));
     assert!(
         samesite_finding.is_some(),
         "Expected finding for missing SameSite, got: {:?}",
@@ -116,10 +122,10 @@ async fn test_cookies_all_flags_present() {
     let mock_server = MockServer::start().await;
 
     Mock::given(method("GET"))
-        .respond_with(
-            ResponseTemplate::new(200)
-                .insert_header("Set-Cookie", "track=abc123; Secure; HttpOnly; SameSite=Strict"),
-        )
+        .respond_with(ResponseTemplate::new(200).insert_header(
+            "Set-Cookie",
+            "track=abc123; Secure; HttpOnly; SameSite=Strict",
+        ))
         .mount(&mock_server)
         .await;
 
@@ -162,7 +168,10 @@ async fn test_cookies_session_cookie_higher_severity() {
     assert!(
         !high_findings.is_empty(),
         "Expected High severity findings for session cookie, got severities: {:?}",
-        findings.iter().map(|f| (&f.title, &f.severity)).collect::<Vec<_>>()
+        findings
+            .iter()
+            .map(|f| (&f.title, &f.severity))
+            .collect::<Vec<_>>()
     );
 }
 
@@ -225,7 +234,10 @@ async fn test_cors_reflects_arbitrary_origin() {
         "Expected CORS arbitrary origin reflection finding, got: {:?}",
         findings.iter().map(|f| &f.title).collect::<Vec<_>>()
     );
-    assert_eq!(reflects.expect("checked above").severity, argos::models::Severity::High);
+    assert_eq!(
+        reflects.expect("checked above").severity,
+        argos::models::Severity::High
+    );
 }
 
 #[tokio::test]
@@ -241,8 +253,7 @@ async fn test_cors_null_origin() {
     Mock::given(method("GET"))
         .and(header("Origin", "null"))
         .respond_with(
-            ResponseTemplate::new(200)
-                .insert_header("Access-Control-Allow-Origin", "null"),
+            ResponseTemplate::new(200).insert_header("Access-Control-Allow-Origin", "null"),
         )
         .mount(&mock_server)
         .await;
@@ -253,15 +264,16 @@ async fn test_cors_null_origin() {
 
     let findings = scanner.scan(&client, &config, &[]).await.expect("scan");
 
-    let null_finding = findings
-        .iter()
-        .find(|f| f.title.contains("Null Origin"));
+    let null_finding = findings.iter().find(|f| f.title.contains("Null Origin"));
     assert!(
         null_finding.is_some(),
         "Expected CORS null origin finding, got: {:?}",
         findings.iter().map(|f| &f.title).collect::<Vec<_>>()
     );
-    assert_eq!(null_finding.expect("checked above").severity, argos::models::Severity::High);
+    assert_eq!(
+        null_finding.expect("checked above").severity,
+        argos::models::Severity::High
+    );
 }
 
 #[tokio::test]
@@ -340,10 +352,9 @@ async fn test_info_disclosure_stack_trace() {
     let mock_server = MockServer::start().await;
 
     Mock::given(method("GET"))
-        .respond_with(
-            ResponseTemplate::new(200)
-                .set_body_string("<html><body>Error: stack trace at com.example.Main(Main.java:42)</body></html>"),
-        )
+        .respond_with(ResponseTemplate::new(200).set_body_string(
+            "<html><body>Error: stack trace at com.example.Main(Main.java:42)</body></html>",
+        ))
         .mount(&mock_server)
         .await;
 
@@ -369,8 +380,9 @@ async fn test_info_disclosure_html_comment_password() {
 
     Mock::given(method("GET"))
         .respond_with(
-            ResponseTemplate::new(200)
-                .set_body_string("<html><body><!-- password: admin123 --><p>Hello</p></body></html>"),
+            ResponseTemplate::new(200).set_body_string(
+                "<html><body><!-- password: admin123 --><p>Hello</p></body></html>",
+            ),
         )
         .mount(&mock_server)
         .await;
@@ -396,10 +408,9 @@ async fn test_info_disclosure_directory_listing() {
     let mock_server = MockServer::start().await;
 
     Mock::given(method("GET"))
-        .respond_with(
-            ResponseTemplate::new(200)
-                .set_body_string("<html><body><h1>Index of /uploads</h1><ul><li>file1.txt</li></ul></body></html>"),
-        )
+        .respond_with(ResponseTemplate::new(200).set_body_string(
+            "<html><body><h1>Index of /uploads</h1><ul><li>file1.txt</li></ul></body></html>",
+        ))
         .mount(&mock_server)
         .await;
 
@@ -454,10 +465,9 @@ async fn test_info_disclosure_clean_page() {
     let mock_server = MockServer::start().await;
 
     Mock::given(method("GET"))
-        .respond_with(
-            ResponseTemplate::new(200)
-                .set_body_string("<html><head><title>Welcome</title></head><body><p>Clean page.</p></body></html>"),
-        )
+        .respond_with(ResponseTemplate::new(200).set_body_string(
+            "<html><head><title>Welcome</title></head><body><p>Clean page.</p></body></html>",
+        ))
         .mount(&mock_server)
         .await;
 
@@ -509,9 +519,7 @@ async fn test_discovery_robots_txt() {
 
     let findings = scanner.scan(&client, &config, &[]).await.expect("scan");
 
-    let robots_finding = findings
-        .iter()
-        .find(|f| f.title.contains("Robots.txt"));
+    let robots_finding = findings.iter().find(|f| f.title.contains("Robots.txt"));
     assert!(
         robots_finding.is_some(),
         "Expected robots.txt finding, got: {:?}",
@@ -556,9 +564,7 @@ async fn test_discovery_env_file() {
 
     let findings = scanner.scan(&client, &config, &[]).await.expect("scan");
 
-    let env_finding = findings
-        .iter()
-        .find(|f| f.title.contains(".env"));
+    let env_finding = findings.iter().find(|f| f.title.contains(".env"));
     assert!(
         env_finding.is_some(),
         "Expected .env sensitive file finding, got: {:?}",
@@ -600,9 +606,7 @@ async fn test_discovery_git_config() {
 
     let findings = scanner.scan(&client, &config, &[]).await.expect("scan");
 
-    let git_finding = findings
-        .iter()
-        .find(|f| f.title.contains(".git/config"));
+    let git_finding = findings.iter().find(|f| f.title.contains(".git/config"));
     assert!(
         git_finding.is_some(),
         "Expected .git/config finding, got: {:?}",
@@ -793,9 +797,7 @@ async fn test_waf_cloudflare_detection() {
 
     let findings = scanner.scan(&client, &config, &[]).await.expect("scan");
 
-    let cf_finding = findings
-        .iter()
-        .find(|f| f.title.contains("Cloudflare"));
+    let cf_finding = findings.iter().find(|f| f.title.contains("Cloudflare"));
     assert!(
         cf_finding.is_some(),
         "Expected Cloudflare WAF detection finding, got: {:?}",

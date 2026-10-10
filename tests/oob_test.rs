@@ -99,10 +99,7 @@ fn test_xxe_payloads_content() {
             payload.contains("http://callback.test/xxe123"),
             "XXE payload should contain callback URL"
         );
-        assert!(
-            payload.contains("<?xml"),
-            "XXE payload should be valid XML"
-        );
+        assert!(payload.contains("<?xml"), "XXE payload should be valid XML");
     }
 
     // Verify specific patterns

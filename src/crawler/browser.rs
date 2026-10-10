@@ -45,9 +45,7 @@ impl BrowserRenderer {
         .await?;
 
         // Spawn handler as background task
-        tokio::spawn(async move {
-            while handler.next().await.is_some() {}
-        });
+        tokio::spawn(async move { while handler.next().await.is_some() {} });
 
         info!("Browser renderer initialized");
         Ok(Self {

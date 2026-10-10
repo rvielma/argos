@@ -22,7 +22,8 @@ pub fn detect_spa(html: &str) -> SpaDetection {
     let lower = html.to_lowercase();
 
     // React indicators
-    if lower.contains("__next") || lower.contains("_next/static") || lower.contains("__next_data__") {
+    if lower.contains("__next") || lower.contains("_next/static") || lower.contains("__next_data__")
+    {
         frameworks.push("Next.js".to_string());
     } else if lower.contains("data-reactroot")
         || lower.contains("data-reactid")

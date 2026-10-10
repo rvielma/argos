@@ -48,7 +48,8 @@ pub fn extract_from_html(base_url: &Url, html: &str) -> Vec<String> {
 pub fn extract_from_comments(base_url: &Url, html: &str) -> Vec<String> {
     let mut urls = Vec::new();
     let comment_re = Regex::new(r"<!--([\s\S]*?)-->").expect("valid regex");
-    let url_re = Regex::new(r#"(?:https?://[^\s"'<>]+|/[a-zA-Z0-9_\-/.?&=]+)"#).expect("valid regex");
+    let url_re =
+        Regex::new(r#"(?:https?://[^\s"'<>]+|/[a-zA-Z0-9_\-/.?&=]+)"#).expect("valid regex");
 
     for cap in comment_re.captures_iter(html) {
         if let Some(content) = cap.get(1) {
@@ -99,8 +100,7 @@ pub fn extract_forms(base_url: &Url, html: &str) -> Vec<FormInfo> {
 
     for form_el in document.select(&form_selector) {
         let action_raw = form_el.value().attr("action").unwrap_or("");
-        let action = resolve_url(base_url, action_raw)
-            .unwrap_or_else(|| base_url.to_string());
+        let action = resolve_url(base_url, action_raw).unwrap_or_else(|| base_url.to_string());
         let method = form_el
             .value()
             .attr("method")
@@ -183,7 +183,8 @@ pub fn extract_from_js(base_url: &Url, js_content: &str) -> Vec<String> {
 /// Extracts URLs from JSON responses (API endpoint discovery)
 pub fn extract_from_json(base_url: &Url, json_text: &str) -> Vec<String> {
     let mut urls = Vec::new();
-    let url_re = Regex::new(r#""((?:https?://[^"]+|/[a-zA-Z0-9_\-/.?&=]+))""#).expect("valid regex");
+    let url_re =
+        Regex::new(r#""((?:https?://[^"]+|/[a-zA-Z0-9_\-/.?&=]+))""#).expect("valid regex");
 
     for cap in url_re.captures_iter(json_text) {
         if let Some(m) = cap.get(1) {

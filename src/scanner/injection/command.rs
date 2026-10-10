@@ -53,9 +53,8 @@ pub async fn scan(
                                 if re.is_match(&resp_body) {
                                     // Check if this pattern already matches in the baseline
                                     // (e.g., "linux" appearing naturally in the page)
-                                    let in_baseline = baseline
-                                        .map(|bl| re.is_match(&bl.body))
-                                        .unwrap_or(false);
+                                    let in_baseline =
+                                        baseline.map(|bl| re.is_match(&bl.body)).unwrap_or(false);
 
                                     if in_baseline {
                                         continue;

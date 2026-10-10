@@ -111,13 +111,39 @@ pub async fn scan(
     // DOM-based XSS detection (analyze JS for dangerous sinks)
     // Skip known libraries — their internal use of innerHTML/eval is not a real vulnerability
     let known_libraries: &[&str] = &[
-        "jquery", "angular", "react", "vue", "bootstrap", "lodash",
-        "moment", "backbone", "ember", "mootools", "prototype",
-        "dojo", "ext-all", "yui", "d3.", "chart.", "highcharts",
-        "popper", "select2", "datatables", "sweetalert", "toastr",
-        "handlebars", "mustache", "underscore", "zepto", "modernizr",
-        "vendor.", "vendors.", "vendor-", "vendors-",
-        "chunk-vendors", "bundle.",
+        "jquery",
+        "angular",
+        "react",
+        "vue",
+        "bootstrap",
+        "lodash",
+        "moment",
+        "backbone",
+        "ember",
+        "mootools",
+        "prototype",
+        "dojo",
+        "ext-all",
+        "yui",
+        "d3.",
+        "chart.",
+        "highcharts",
+        "popper",
+        "select2",
+        "datatables",
+        "sweetalert",
+        "toastr",
+        "handlebars",
+        "mustache",
+        "underscore",
+        "zepto",
+        "modernizr",
+        "vendor.",
+        "vendors.",
+        "vendor-",
+        "vendors-",
+        "chunk-vendors",
+        "bundle.",
     ];
 
     let dom_sinks: &[(&str, &str)] = &[
@@ -145,9 +171,7 @@ pub async fn scan(
     for &url in &urls_to_check {
         // Skip known JS libraries — their internal DOM manipulation is safe
         let url_lower = url.to_lowercase();
-        let is_library = known_libraries
-            .iter()
-            .any(|lib| url_lower.contains(lib));
+        let is_library = known_libraries.iter().any(|lib| url_lower.contains(lib));
         if is_library {
             debug!("Skipping DOM XSS check for known library: {url}");
             continue;

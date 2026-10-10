@@ -102,7 +102,10 @@ pub fn load_nuclei_templates(dir: &Path) -> Vec<CveTemplate> {
     let mut templates = Vec::new();
 
     if !dir.exists() {
-        warn!("Nuclei templates directory does not exist: {}", dir.display());
+        warn!(
+            "Nuclei templates directory does not exist: {}",
+            dir.display()
+        );
         return templates;
     }
 
@@ -115,7 +118,11 @@ fn load_nuclei_dir(dir: &Path, templates: &mut Vec<CveTemplate>) {
     let entries = match std::fs::read_dir(dir) {
         Ok(e) => e,
         Err(e) => {
-            warn!("Failed to read Nuclei templates dir {}: {}", dir.display(), e);
+            warn!(
+                "Failed to read Nuclei templates dir {}: {}",
+                dir.display(),
+                e
+            );
             return;
         }
     };
@@ -139,14 +146,14 @@ fn load_nuclei_dir(dir: &Path, templates: &mut Vec<CveTemplate>) {
 
 /// Converts a single Nuclei YAML file to CveTemplate
 fn load_nuclei_template(path: &Path) -> std::result::Result<CveTemplate, String> {
-    let content = std::fs::read_to_string(path)
-        .map_err(|e| format!("IO error: {e}"))?;
+    let content = std::fs::read_to_string(path).map_err(|e| format!("IO error: {e}"))?;
 
-    let nuclei: NucleiTemplate = serde_yaml::from_str(&content)
-        .map_err(|e| format!("YAML parse error: {e}"))?;
+    let nuclei: NucleiTemplate =
+        serde_yaml::from_str(&content).map_err(|e| format!("YAML parse error: {e}"))?;
 
     // Get HTTP requests (Nuclei uses either 'http' or 'requests')
-    let http_requests = nuclei.http
+    let http_requests = nuclei
+        .http
         .or(nuclei.requests)
         .ok_or("No HTTP requests defined (dns/tcp/code protocols not supported)")?;
 
@@ -157,8 +164,14 @@ fn load_nuclei_template(path: &Path) -> std::result::Result<CveTemplate, String>
     let mut requests = Vec::new();
 
     for nuclei_req in &http_requests {
-        let method = nuclei_req.method.clone().unwrap_or_else(|| "GET".to_string());
-        let paths = nuclei_req.path.clone().unwrap_or_else(|| vec!["/".to_string()]);
+        let method = nuclei_req
+            .method
+            .clone()
+            .unwrap_or_else(|| "GET".to_string());
+        let paths = nuclei_req
+            .path
+            .clone()
+            .unwrap_or_else(|| vec!["/".to_string()]);
 
         // Convert Nuclei matchers
         let mut matchers = Vec::new();
@@ -179,7 +192,11 @@ fn load_nuclei_template(path: &Path) -> std::result::Result<CveTemplate, String>
             let clean_path = req_path
                 .replace("{{BaseURL}}", "")
                 .replace("{{RootURL}}", "");
-            let clean_path = if clean_path.is_empty() { "/".to_string() } else { clean_path };
+            let clean_path = if clean_path.is_empty() {
+                "/".to_string()
+            } else {
+                clean_path
+            };
 
             requests.push(TemplateRequest {
                 method: method.to_uppercase(),
@@ -208,14 +225,18 @@ fn load_nuclei_template(path: &Path) -> std::result::Result<CveTemplate, String>
     };
 
     // Parse tags
-    let tags: Vec<String> = nuclei.info.tags
+    let tags: Vec<String> = nuclei
+        .info
+        .tags
         .unwrap_or_default()
         .split(',')
         .map(|t| t.trim().to_string())
         .filter(|t| !t.is_empty())
         .collect();
 
-    let reference = nuclei.info.reference
+    let reference = nuclei
+        .info
+        .reference
         .as_ref()
         .and_then(|r| r.first())
         .map(|s| s.to_string());
@@ -238,10 +259,16 @@ fn load_nuclei_template(path: &Path) -> std::result::Result<CveTemplate, String>
 fn convert_matcher(nm: &NucleiMatcher) -> std::result::Result<TemplateMatcher, String> {
     match nm.matcher_type.as_str() {
         "word" => {
-            let words = nm.words.clone()
+            let words = nm
+                .words
+                .clone()
                 .ok_or("Word matcher missing 'words' field")?;
             let part = nm.part.clone().unwrap_or_else(|| "body".to_string());
-            let header = if part == "header" { Some("".to_string()) } else { None };
+            let header = if part == "header" {
+                Some("".to_string())
+            } else {
+                None
+            };
 
             Ok(TemplateMatcher {
                 matcher_type: "word".to_string(),
@@ -255,7 +282,9 @@ fn convert_matcher(nm: &NucleiMatcher) -> std::result::Result<TemplateMatcher, S
             })
         }
         "status" => {
-            let status = nm.status.clone()
+            let status = nm
+                .status
+                .clone()
                 .ok_or("Status matcher missing 'status' field")?;
 
             Ok(TemplateMatcher {
@@ -270,7 +299,9 @@ fn convert_matcher(nm: &NucleiMatcher) -> std::result::Result<TemplateMatcher, S
             })
         }
         "regex" => {
-            let regex = nm.regex.clone()
+            let regex = nm
+                .regex
+                .clone()
                 .ok_or("Regex matcher missing 'regex' field")?;
 
             Ok(TemplateMatcher {
