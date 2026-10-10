@@ -28,6 +28,34 @@ struct RemediationStep {
     severity_class: String,
 }
 
+/// Optional engagement metadata that turns the scan output into a formal
+/// ethical-hacking deliverable (scope, authorization, assessor, etc.).
+/// All fields are optional; unset fields render as "not specified".
+#[derive(Debug, Clone, Default, serde::Serialize)]
+pub struct ReportMeta {
+    /// Client / organization the assessment was performed for.
+    pub client: Option<String>,
+    /// Person or team that performed the assessment.
+    pub assessor: Option<String>,
+    /// Engagement type (e.g. "Automated grey-box", "Black-box pentest").
+    pub test_type: Option<String>,
+    /// Authorization reference (contract, ticket, written consent).
+    pub authorization: Option<String>,
+    /// Free-text scope notes / rules of engagement.
+    pub scope_note: Option<String>,
+}
+
+impl ReportMeta {
+    /// True when the operator supplied any engagement metadata.
+    fn is_set(&self) -> bool {
+        self.client.is_some()
+            || self.assessor.is_some()
+            || self.test_type.is_some()
+            || self.authorization.is_some()
+            || self.scope_note.is_some()
+    }
+}
+
 /// All translatable strings for the HTML report
 #[derive(Serialize, Clone)]
 struct ReportLabels {
@@ -39,6 +67,25 @@ struct ReportLabels {
     duration_label: &'static str,
     requests: &'static str,
     modules_label: &'static str,
+    // Scope & authorization
+    scope_title: &'static str,
+    scope_client: &'static str,
+    scope_assessor: &'static str,
+    scope_test_type: &'static str,
+    scope_authorization: &'static str,
+    scope_target: &'static str,
+    scope_window: &'static str,
+    scope_notes: &'static str,
+    not_specified: &'static str,
+    // Methodology
+    methodology_title: &'static str,
+    methodology_intro: &'static str,
+    methodology_modules: &'static str,
+    // Disclaimer
+    disclaimer_title: &'static str,
+    disclaimer_text: &'static str,
+    confidentiality_title: &'static str,
+    confidentiality_text: &'static str,
     // Executive summary
     executive_summary: &'static str,
     risk_suffix: &'static str,
@@ -90,6 +137,22 @@ impl ReportLabels {
             duration_label: "Duration:",
             requests: "Requests:",
             modules_label: "Modules:",
+            scope_title: "Scope & Authorization",
+            scope_client: "Client",
+            scope_assessor: "Assessor",
+            scope_test_type: "Assessment Type",
+            scope_authorization: "Authorization",
+            scope_target: "Target(s)",
+            scope_window: "Assessment Window",
+            scope_notes: "Scope Notes / Rules of Engagement",
+            not_specified: "Not specified",
+            methodology_title: "Methodology",
+            methodology_intro: "This assessment was performed with Argos Panoptes following the OWASP Web Security Testing Guide (WSTG) and PTES principles. Checks are automated; findings are rated by confidence and should be validated before remediation. The following scanner modules were executed:",
+            methodology_modules: "Modules executed",
+            disclaimer_title: "Disclaimer & Limitations",
+            disclaimer_text: "This report reflects the security posture observed at the time of the scan and is based on automated testing. Automated analysis may produce false positives and does not replace a manual penetration test; absence of a finding does not guarantee absence of vulnerability. Each finding includes a confidence level — low-confidence and high-impact findings should be manually verified before acting.",
+            confidentiality_title: "Confidentiality Notice",
+            confidentiality_text: "This document contains sensitive security information about the target systems. Distribution is restricted to authorized personnel only.",
             executive_summary: "Executive Summary",
             risk_suffix: "Risk",
             critical: "Critical",
@@ -133,6 +196,22 @@ impl ReportLabels {
             duration_label: "Duración:",
             requests: "Peticiones:",
             modules_label: "Módulos:",
+            scope_title: "Alcance y Autorización",
+            scope_client: "Cliente",
+            scope_assessor: "Evaluador",
+            scope_test_type: "Tipo de Evaluación",
+            scope_authorization: "Autorización",
+            scope_target: "Objetivo(s)",
+            scope_window: "Ventana de Evaluación",
+            scope_notes: "Notas de Alcance / Reglas de Compromiso",
+            not_specified: "No especificado",
+            methodology_title: "Metodología",
+            methodology_intro: "Esta evaluación se realizó con Argos Panoptes siguiendo la OWASP Web Security Testing Guide (WSTG) y los principios de PTES. Las pruebas son automatizadas; los hallazgos se califican por nivel de confianza y deben validarse antes de remediar. Se ejecutaron los siguientes módulos de escaneo:",
+            methodology_modules: "Módulos ejecutados",
+            disclaimer_title: "Aviso y Limitaciones",
+            disclaimer_text: "Este reporte refleja la postura de seguridad observada al momento del escaneo y se basa en pruebas automatizadas. El análisis automatizado puede producir falsos positivos y no reemplaza un test de penetración manual; la ausencia de un hallazgo no garantiza la ausencia de vulnerabilidad. Cada hallazgo incluye un nivel de confianza — los de baja confianza y alto impacto deben verificarse manualmente antes de actuar.",
+            confidentiality_title: "Aviso de Confidencialidad",
+            confidentiality_text: "Este documento contiene información sensible de seguridad sobre los sistemas objetivo. Su distribución está restringida únicamente a personal autorizado.",
             executive_summary: "Resumen Ejecutivo",
             risk_suffix: "Riesgo",
             critical: "Crítico",
@@ -486,8 +565,19 @@ pub fn generate(result: &ScanResult, output_path: &Path) -> Result<()> {
     generate_with_lang(result, output_path, "en")
 }
 
-/// Generates an HTML report from scan results in the specified language
+/// Generates an HTML report from scan results in the specified language.
 pub fn generate_with_lang(result: &ScanResult, output_path: &Path, lang: &str) -> Result<()> {
+    generate_with_meta(result, output_path, lang, &ReportMeta::default())
+}
+
+/// Generates an HTML report including optional engagement metadata (scope,
+/// authorization, assessor) so the output reads as a formal assessment report.
+pub fn generate_with_meta(
+    result: &ScanResult,
+    output_path: &Path,
+    lang: &str,
+    meta: &ReportMeta,
+) -> Result<()> {
     let template_path = "templates/report.html";
     let template_content =
         std::fs::read_to_string(template_path).unwrap_or_else(|_| default_template().to_string());
@@ -580,6 +670,11 @@ pub fn generate_with_lang(result: &ScanResult, output_path: &Path, lang: &str) -
     let labels = ReportLabels::for_lang(lang);
     context.insert("l", &labels);
 
+    // Engagement metadata (scope & authorization). Always render the scope and
+    // methodology sections; engagement fields fall back to "not specified".
+    context.insert("meta", meta);
+    context.insert("has_meta", &meta.is_set());
+
     // Attack scenarios & remediation plan
     let scenarios = generate_attack_scenarios(&result.findings, lang);
     let remediation = generate_remediation_plan(&result.findings, lang);
@@ -630,6 +725,17 @@ fn default_template() -> &'static str {
         /* Executive Summary */
         .exec-summary { background: white; padding: 25px; border-radius: 10px; margin-bottom: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
         .exec-summary h2 { font-size: 1.3em; margin-bottom: 15px; color: #1e293b; }
+        .scope-section, .methodology-section, .disclaimer-section { background: white; padding: 25px; border-radius: 10px; margin-bottom: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .scope-section h2, .methodology-section h2, .disclaimer-section h2 { font-size: 1.3em; margin-bottom: 15px; color: #1e293b; }
+        .scope-table { width: 100%; border-collapse: collapse; }
+        .scope-table th { text-align: left; width: 220px; padding: 8px 12px; color: #475569; font-weight: 600; vertical-align: top; border-bottom: 1px solid #f1f5f9; }
+        .scope-table td { padding: 8px 12px; color: #1e293b; border-bottom: 1px solid #f1f5f9; }
+        .scope-table em { color: #94a3b8; font-style: italic; }
+        .methodology-section p { color: #475569; line-height: 1.6; }
+        .methodology-modules { margin-top: 12px; color: #475569; font-size: 0.9em; }
+        .disclaimer-section { border-left: 4px solid #f59e0b; }
+        .disclaimer-section p { color: #475569; line-height: 1.6; font-size: 0.9em; }
+        .disclaimer-section h3 { font-size: 1.05em; margin: 15px 0 8px; color: #1e293b; }
         .risk-badge { display: inline-block; padding: 6px 20px; border-radius: 25px; color: white; font-weight: 700; font-size: 1em; letter-spacing: 0.5px; }
         .risk-badge.Critical { background: #dc2626; }
         .risk-badge.High { background: #ea580c; }
@@ -747,7 +853,7 @@ fn default_template() -> &'static str {
             body { background: white; }
             .container { max-width: 100%; padding: 10px; }
             .header { background: #1e293b !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-            .card, .finding, .exec-summary, .diff-section, .categories, .info-bar { box-shadow: none; border: 1px solid #e2e8f0; }
+            .card, .finding, .exec-summary, .diff-section, .categories, .info-bar, .scope-section, .methodology-section, .disclaimer-section { box-shadow: none; border: 1px solid #e2e8f0; }
             .chart-bar { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
             .badge, .risk-badge, .confidence-badge { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
             details { open; }
@@ -769,6 +875,27 @@ fn default_template() -> &'static str {
             <span><strong>{{ l.duration_label }}</strong> {{ duration }}</span>
             <span><strong>{{ l.requests }}</strong> {{ total_requests }}</span>
             <span><strong>{{ l.modules_label }}</strong> {{ modules_executed | join(sep=", ") }}</span>
+        </div>
+
+        <!-- Scope & Authorization -->
+        <div class="scope-section">
+            <h2>{{ l.scope_title }}</h2>
+            <table class="scope-table">
+                <tr><th>{{ l.scope_client }}</th><td>{% if meta.client %}{{ meta.client }}{% else %}<em>{{ l.not_specified }}</em>{% endif %}</td></tr>
+                <tr><th>{{ l.scope_assessor }}</th><td>{% if meta.assessor %}{{ meta.assessor }}{% else %}<em>{{ l.not_specified }}</em>{% endif %}</td></tr>
+                <tr><th>{{ l.scope_test_type }}</th><td>{% if meta.test_type %}{{ meta.test_type }}{% else %}<em>{{ l.not_specified }}</em>{% endif %}</td></tr>
+                <tr><th>{{ l.scope_authorization }}</th><td>{% if meta.authorization %}{{ meta.authorization }}{% else %}<em>{{ l.not_specified }}</em>{% endif %}</td></tr>
+                <tr><th>{{ l.scope_target }}</th><td>{{ target }}</td></tr>
+                <tr><th>{{ l.scope_window }}</th><td>{{ started_at }} &rarr; {{ finished_at }}</td></tr>
+                {% if meta.scope_note %}<tr><th>{{ l.scope_notes }}</th><td>{{ meta.scope_note }}</td></tr>{% endif %}
+            </table>
+        </div>
+
+        <!-- Methodology -->
+        <div class="methodology-section">
+            <h2>{{ l.methodology_title }}</h2>
+            <p>{{ l.methodology_intro }}</p>
+            <div class="methodology-modules"><strong>{{ l.methodology_modules }}:</strong> {{ modules_executed | join(sep=", ") }}</div>
         </div>
 
         <!-- Executive Summary -->
@@ -946,6 +1073,13 @@ fn default_template() -> &'static str {
         {% if total_findings == 0 %}
         <div class="finding"><h3>{{ l.no_findings }}</h3><p>{{ l.no_findings_desc }}</p></div>
         {% endif %}
+        <div class="disclaimer-section">
+            <h2>{{ l.disclaimer_title }}</h2>
+            <p>{{ l.disclaimer_text }}</p>
+            <h3>{{ l.confidentiality_title }}</h3>
+            <p>{{ l.confidentiality_text }}</p>
+        </div>
+
         <div class="footer">{{ l.generated_by }} v{{ version }} | {{ started_at }}</div>
     </div>
 </body>

@@ -186,6 +186,26 @@ enum Commands {
         #[arg(long, default_value = "en")]
         lang: String,
 
+        /// Report: client / organization name (for scope section)
+        #[arg(long)]
+        client: Option<String>,
+
+        /// Report: assessor name or team
+        #[arg(long)]
+        assessor: Option<String>,
+
+        /// Report: assessment type (e.g. "Automated grey-box")
+        #[arg(long)]
+        test_type: Option<String>,
+
+        /// Report: authorization reference (contract, ticket, consent)
+        #[arg(long)]
+        authorization: Option<String>,
+
+        /// Report: free-text scope notes / rules of engagement
+        #[arg(long)]
+        scope_note: Option<String>,
+
         /// Verbose output
         #[arg(short, long)]
         verbose: bool,
@@ -230,6 +250,26 @@ enum Commands {
         /// Report language (en, es)
         #[arg(long, default_value = "en")]
         lang: String,
+
+        /// Report: client / organization name (for scope section)
+        #[arg(long)]
+        client: Option<String>,
+
+        /// Report: assessor name or team
+        #[arg(long)]
+        assessor: Option<String>,
+
+        /// Report: assessment type (e.g. "Automated grey-box")
+        #[arg(long)]
+        test_type: Option<String>,
+
+        /// Report: authorization reference (contract, ticket, consent)
+        #[arg(long)]
+        authorization: Option<String>,
+
+        /// Report: free-text scope notes / rules of engagement
+        #[arg(long)]
+        scope_note: Option<String>,
     },
 }
 
@@ -407,6 +447,11 @@ async fn main() -> std::result::Result<(), Box<dyn std::error::Error>> {
             max_urls,
             include_subdomains,
             lang,
+            client,
+            assessor,
+            test_type,
+            authorization,
+            scope_note,
             verbose,
         } => {
             let filter = if verbose { "argos=debug" } else { "argos=info" };
@@ -716,6 +761,13 @@ async fn main() -> std::result::Result<(), Box<dyn std::error::Error>> {
                 output_name_from_target(&scan_config.target, ext)
             });
             let output_path = Path::new(&output_file);
+            let report_meta = report::html::ReportMeta {
+                client,
+                assessor,
+                test_type,
+                authorization,
+                scope_note,
+            };
             match format.as_str() {
                 "json" => {
                     report::json::export(&result, output_path)?;
@@ -730,7 +782,7 @@ async fn main() -> std::result::Result<(), Box<dyn std::error::Error>> {
                     report::sarif::export(&result, output_path)?;
                 }
                 _ => {
-                    report::html::generate_with_lang(&result, output_path, &lang)?;
+                    report::html::generate_with_meta(&result, output_path, &lang, &report_meta)?;
                     let json_path = output_path.with_extension("json");
                     report::json::export(&result, &json_path)?;
                 }
@@ -823,6 +875,11 @@ async fn main() -> std::result::Result<(), Box<dyn std::error::Error>> {
             format,
             output,
             lang,
+            client,
+            assessor,
+            test_type,
+            authorization,
+            scope_note,
         } => {
             tracing_subscriber::fmt()
                 .with_env_filter(EnvFilter::new("argos=info"))
@@ -834,6 +891,13 @@ async fn main() -> std::result::Result<(), Box<dyn std::error::Error>> {
 
             let result = report::json::load(&input)?;
             let output_path = Path::new(&output);
+            let report_meta = report::html::ReportMeta {
+                client,
+                assessor,
+                test_type,
+                authorization,
+                scope_note,
+            };
 
             match format.as_str() {
                 "json" => {
@@ -849,7 +913,7 @@ async fn main() -> std::result::Result<(), Box<dyn std::error::Error>> {
                     report::sarif::export(&result, output_path)?;
                 }
                 _ => {
-                    report::html::generate_with_lang(&result, output_path, &lang)?;
+                    report::html::generate_with_meta(&result, output_path, &lang, &report_meta)?;
                 }
             }
 
