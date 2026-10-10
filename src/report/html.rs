@@ -119,6 +119,8 @@ struct ReportLabels {
     // Findings
     findings_title: &'static str,
     evidence: &'static str,
+    repro_label: &'static str,
+    compliance_label: &'static str,
     request_label: &'static str,
     response_label: &'static str,
     recommendation: &'static str,
@@ -179,6 +181,8 @@ impl ReportLabels {
             resolved_findings_fixed: "Resolved Findings (Fixed)",
             findings_title: "Findings",
             evidence: "Evidence",
+            repro_label: "Reproduction Steps",
+            compliance_label: "Compliance",
             request_label: "Request",
             response_label: "Response",
             recommendation: "Recommendation:",
@@ -238,6 +242,8 @@ impl ReportLabels {
             resolved_findings_fixed: "Hallazgos Resueltos (Corregidos)",
             findings_title: "Hallazgos",
             evidence: "Evidencia",
+            repro_label: "Pasos de Reproducción",
+            compliance_label: "Cumplimiento",
             request_label: "Petición",
             response_label: "Respuesta",
             recommendation: "Recomendación:",
@@ -794,6 +800,9 @@ fn default_template() -> &'static str {
         .badge-Info { background: #6b7280; }
         .confidence-badge { display: inline-block; padding: 1px 8px; border-radius: 10px; font-size: 0.7em; font-weight: 600; text-transform: uppercase; vertical-align: middle; margin-left: 5px; }
         .cvss-badge { display: inline-block; padding: 1px 8px; border-radius: 10px; font-size: 0.7em; font-weight: 700; vertical-align: middle; margin-left: 5px; background: #1e293b; color: #fff; }
+        .repro-steps { margin: 8px 0 8px 20px; color: #334155; font-size: 0.9em; line-height: 1.5; }
+        .compliance { margin: 10px 0; font-size: 0.85em; }
+        .compliance-badge { display: inline-block; padding: 2px 8px; border-radius: 6px; margin: 2px 4px 2px 0; background: #eef2ff; color: #3730a3; border: 1px solid #c7d2fe; }
         .conf-Confirmed { background: #dcfce7; color: #166534; }
         .conf-Tentative { background: #fef9c3; color: #854d0e; }
         .conf-Informational { background: #f1f5f9; color: #64748b; }
@@ -1064,7 +1073,16 @@ fn default_template() -> &'static str {
                 <pre>{{ finding.response }}</pre>
             </details>
             {% endif %}
+            {% if finding.repro_steps %}
+            <details>
+                <summary>{{ l.repro_label }}</summary>
+                <ol class="repro-steps">{% for s in finding.repro_steps %}<li>{{ s }}</li>{% endfor %}</ol>
+            </details>
+            {% endif %}
             {% if finding.recommendation %}<p><span class="label">{{ l.recommendation }}</span> {{ finding.recommendation }}</p>{% endif %}
+            {% if finding.compliance %}
+            <div class="compliance"><span class="label">{{ l.compliance_label }}:</span> {% for c in finding.compliance %}<span class="compliance-badge">{{ c.framework }} — {{ c.control }}</span>{% endfor %}</div>
+            {% endif %}
             <div class="meta-info">
                 {% if finding.cwe_id %}<span>{{ finding.cwe_id }}</span>{% endif %}
                 {% if finding.owasp_category %}<span>{{ finding.owasp_category }}</span>{% endif %}

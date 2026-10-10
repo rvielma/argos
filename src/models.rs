@@ -102,6 +102,12 @@ pub struct Finding {
     /// CVSS v3.1 base vector string the score was computed from
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub cvss_vector: Option<String>,
+    /// Compliance controls this finding is relevant to (HIPAA/ISO/PCI)
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub compliance: Vec<crate::compliance::ComplianceRef>,
+    /// Suggested reproduction steps for this finding
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub repro_steps: Vec<String>,
     /// Affected URL
     pub url: String,
     /// HTTP request that demonstrates the issue
@@ -134,6 +140,8 @@ impl Finding {
             owasp_category: None,
             cvss_score: None,
             cvss_vector: None,
+            compliance: Vec::new(),
+            repro_steps: Vec::new(),
             url: url.into(),
             request: None,
             response: None,
@@ -158,6 +166,102 @@ impl Finding {
         let vector = crate::cvss::representative_vector(self.cwe_id.as_deref(), &self.severity);
         self.cvss_score = crate::cvss::base_score(vector);
         self.cvss_vector = Some(vector.to_string());
+    }
+
+    /// Enriches the finding with CVSS, compliance mapping and reproduction steps.
+    /// Idempotent: existing values are preserved.
+    pub fn enrich(&mut self) {
+        self.ensure_cvss();
+        if self.compliance.is_empty() {
+            self.compliance = crate::compliance::controls_for(self.cwe_id.as_deref());
+        }
+        if self.repro_steps.is_empty() {
+            self.repro_steps = self.build_repro_steps();
+        }
+    }
+
+    /// Builds category-aware reproduction steps from the finding's data.
+    fn build_repro_steps(&self) -> Vec<String> {
+        let mut steps = vec![format!(
+            "Establish a benign baseline request to {} and record the normal response.",
+            self.url
+        )];
+
+        let has_request = self.request.is_some();
+        let cat = self.category.as_str();
+        match cat {
+            "SQL Injection" => {
+                steps.push("Resend the request injecting the SQL payload shown in the Evidence into the affected parameter.".into());
+                steps.push("Confirm injection: an SQL error, or a reproducible boolean/time difference versus the baseline, is observed.".into());
+            }
+            "XSS" => {
+                steps.push("Inject the XSS payload from the Evidence into the affected parameter and load the response.".into());
+                steps.push("Confirm the payload is reflected unencoded and executes in the browser (DOM or reflected context).".into());
+            }
+            "Command Injection" | "SSTI" => {
+                steps.push(
+                    "Inject the payload from the Evidence into the affected parameter.".into(),
+                );
+                steps.push("Confirm server-side evaluation in the response (e.g., command output or template arithmetic result).".into());
+            }
+            "Path Traversal" => {
+                steps.push("Request the traversal path shown in the Evidence.".into());
+                steps.push("Confirm the contents of an out-of-webroot file are returned.".into());
+            }
+            "Open Redirect" => {
+                steps.push("Set the affected redirect parameter to an external, attacker-controlled domain and send the request.".into());
+                steps.push("Confirm a 3xx redirect to that external domain is issued.".into());
+            }
+            "Security Headers" => {
+                steps.push(format!(
+                    "Inspect the HTTP response headers for {}.",
+                    self.url
+                ));
+                steps.push(
+                    "Confirm the security header named in the finding is missing or misconfigured."
+                        .into(),
+                );
+            }
+            "SSL/TLS" => {
+                steps.push(
+                    "Inspect the TLS configuration (e.g., `openssl s_client -connect host:443`)."
+                        .into(),
+                );
+                steps.push("Confirm the weak protocol, cipher or certificate issue described in the Evidence.".into());
+            }
+            "Cookies" => {
+                steps.push("Inspect the Set-Cookie response headers.".into());
+                steps.push(
+                    "Confirm the missing Secure/HttpOnly/SameSite attribute noted in the finding."
+                        .into(),
+                );
+            }
+            "CORS" => {
+                steps.push(
+                    "Send a request with an Origin header set to an untrusted domain.".into(),
+                );
+                steps.push("Confirm the response reflects that origin in Access-Control-Allow-Origin (with credentials where applicable).".into());
+            }
+            "Information Disclosure" => {
+                steps.push("Inspect the response body and headers.".into());
+                steps.push(
+                    "Confirm the disclosed information described in the Evidence is present."
+                        .into(),
+                );
+            }
+            _ => {
+                if has_request {
+                    steps.push(
+                        "Replay the request shown in the Request section against the target."
+                            .into(),
+                    );
+                }
+                steps.push(
+                    "Confirm the condition described in the finding and Evidence is met.".into(),
+                );
+            }
+        }
+        steps
     }
 
     /// Sets the confidence level for this finding

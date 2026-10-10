@@ -4,6 +4,7 @@
 //! misconfigurations, and security issues. Generates professional HTML reports
 //! with findings categorized by severity.
 
+pub mod compliance;
 pub mod config;
 pub mod crawler;
 pub mod cvss;

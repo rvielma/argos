@@ -171,7 +171,7 @@ impl ScanEngine {
         // Assign a representative CVSS v3.1 vector/score to every finding that
         // doesn't already carry one (derived from CWE or severity).
         for f in &mut result.findings {
-            f.ensure_cvss();
+            f.enrich();
         }
 
         // Sort by severity, then by CVSS score (descending) within each severity.

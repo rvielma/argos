@@ -1,4 +1,4 @@
-use argos::models::ScanResult;
+use argos::models::{Finding, ScanResult, Severity};
 use argos::report::html::{generate_with_meta, ReportMeta};
 use std::path::PathBuf;
 
@@ -52,4 +52,31 @@ fn report_without_meta_falls_back_to_not_specified() {
     // Section still renders, with unset fields marked as not specified.
     assert!(html.contains("Scope &amp; Authorization"));
     assert!(html.contains("Not specified"));
+}
+
+#[test]
+fn report_renders_cvss_compliance_and_repro_per_finding() {
+    let mut result = ScanResult::new("https://target.example.com");
+    result.finished_at = Some(result.started_at);
+    let mut f = Finding::new(
+        "SQL Injection (Error-Based) in 'id'",
+        "Parameter 'id' is vulnerable to error-based SQL injection.",
+        Severity::Critical,
+        "SQL Injection",
+        "https://target.example.com/item?id=1",
+    )
+    .with_cwe("CWE-89");
+    f.enrich();
+    result.findings.push(f);
+
+    let out = tmp_path("enriched");
+    generate_with_meta(&result, &out, "en", &ReportMeta::default())
+        .expect("report generation failed");
+    let html = std::fs::read_to_string(&out).expect("report not written");
+    let _ = std::fs::remove_file(&out);
+
+    assert!(html.contains("CVSS 9.8"), "expected computed CVSS badge");
+    assert!(html.contains("Reproduction Steps"));
+    assert!(html.contains("Compliance"));
+    assert!(html.contains("HIPAA"));
 }
