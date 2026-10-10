@@ -1,7 +1,7 @@
 class Argos < Formula
   desc "Web Security Scanner for Healthcare Environments"
   homepage "https://github.com/rvielma/argos"
-  version "2.5.0"
+  version "2.6.0"
   license "MIT"
 
   on_macos do
@@ -12,7 +12,7 @@ class Argos < Formula
 
     on_arm do
       url "https://github.com/rvielma/argos/releases/download/v#{version}/argos-v#{version}-aarch64-apple-darwin.tar.gz"
-      sha256 "9f28d120bbde43a25cdc6d37d7a3ef881570914c0f0d6b6fc4f2e9d16fc39970"
+      sha256 "d6716584d5fbca07a7055f4b68cd76b4a423b8abc593f7423b4b9c7cea49e302"
     end
   end
 
